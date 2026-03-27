@@ -69,14 +69,14 @@
 
 | Skill | Invoke | What it does |
 |---|---|---|
-| **Brainstorm** | `/ce:brainstorm` | Collaborative dialogue to explore requirements and approaches before committing to a plan. Produces a requirements document. Use when the request is vague, ambitious, or has multiple valid interpretations. |
-| **Plan** | `/ce:plan` | Transform a feature description or requirements doc into a structured implementation plan grounded in repo patterns and research. Captures approach, boundaries, files, dependencies, risks — not code. |
-| **Work** | `/ce:work` | Execute a plan efficiently. Picks up where planning left off, writes code, runs tests, and finishes features. |
-| **Work (Beta)** | `/ce:work-beta` | Same as ce:work but with experimental Codex delegation mode for token-conserving code implementation. |
-| **Review** | `/ce:review` | Multi-agent code review using tiered persona agents with confidence gating and merge/dedup. Run before creating a PR. |
-| **Compound** | `/ce:compound` | Document a recently solved problem as a categorized learning in `docs/solutions/` so future sessions can find it. |
-| **Compound Refresh** | `/ce:compound-refresh` | Audit and refresh stale learnings in `docs/solutions/`. Use after refactors, migrations, or when a retrieved learning feels outdated. |
-| **Ideate** | `/ce:ideate` | Generate and critically evaluate grounded improvement ideas for the current project. Good for "what should I work on next?" moments. |
+| **Brainstorm** | `/brainstorm` | Collaborative dialogue to explore requirements and approaches before committing to a plan. Produces a requirements document. Use when the request is vague, ambitious, or has multiple valid interpretations. |
+| **Implementation Plan** | `/implementation-plan` | Transform a feature description or requirements doc into a structured implementation plan grounded in repo patterns and research. Captures approach, boundaries, files, dependencies, risks — not code. |
+| **Work** | `/work` | Execute a plan efficiently. Picks up where planning left off, writes code, runs tests, and finishes features. |
+| **Work (Beta)** | `/work-beta` | Same as /work but with experimental Codex delegation mode for token-conserving code implementation. |
+| **Code Review** | `/code-review` | Multi-agent code review using tiered persona agents with confidence gating and merge/dedup. Run before creating a PR. |
+| **Compound** | `/compound` | Document a recently solved problem as a categorized learning in `docs/solutions/` so future sessions can find it. |
+| **Compound Refresh** | `/compound-refresh` | Audit and refresh stale learnings in `docs/solutions/`. Use after refactors, migrations, or when a retrieved learning feels outdated. |
+| **Ideate** | `/ideate` | Generate and critically evaluate grounded improvement ideas for the current project. Good for "what should I work on next?" moments. |
 | **LFG** | `/lfg` | Full autonomous engineering workflow — end-to-end from understanding to implementation. |
 | **SLFG** | `/slfg` | Same as LFG but uses swarm mode for parallel agent execution. |
 

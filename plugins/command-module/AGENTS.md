@@ -40,7 +40,7 @@ agents/
 └── docs/             # Documentation agents
 
 skills/
-├── ce-*/          # Core workflow skills (ce:plan, ce:review, etc.)
+├── ce-*/          # Core workflow skills (implementation-plan, code-review, etc.)
 └── */             # All other skills
 ```
 
@@ -51,11 +51,11 @@ skills/
 ## Command Naming Convention
 
 **Workflow commands** use `ce:` prefix to unambiguously identify them as command-module commands:
-- `/ce:brainstorm` - Explore requirements and approaches before planning
-- `/ce:plan` - Create implementation plans
-- `/ce:review` - Run comprehensive code reviews
-- `/ce:work` - Execute work items systematically
-- `/ce:compound` - Document solved problems
+- `/brainstorm` - Explore requirements and approaches before planning
+- `/implementation-plan` - Create implementation plans
+- `/code-review` - Run comprehensive code reviews
+- `/work` - Execute work items systematically
+- `/compound` - Document solved problems
 
 **Why `ce:`?** Claude Code has built-in `/plan` and `/review` commands. The `ce:` namespace (short for command-module) makes it immediately clear these commands belong to this plugin.
 
@@ -113,7 +113,7 @@ This plugin is authored once, then converted for other agent platforms. Commands
 - [ ] Because of that, slash references inside command or agent content are acceptable when they point to real published commands; target-specific conversion can remap them.
 - [ ] Inside a pass-through `SKILL.md`, do not assume slash references will be remapped for another platform. Write references according to what will still make sense after the skill is copied as-is.
 - [ ] When one skill refers to another skill, prefer semantic wording such as "load the `document-review` skill" rather than slash syntax.
-- [ ] Use slash syntax only when referring to an actual published command or workflow such as `/ce:work` or `/ce:compound`.
+- [ ] Use slash syntax only when referring to an actual published command or workflow such as `/work` or `/compound`.
 
 ### Tool Selection in Agents and Skills
 

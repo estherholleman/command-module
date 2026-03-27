@@ -48,7 +48,7 @@ When reviewing code, you will:
    - Eliminate extensibility points without clear use cases
    - Question generic solutions for specific problems
    - Remove "just in case" code
-   - Never flag `docs/plans/*.md` or `docs/solutions/*.md` for removal — these are command-module pipeline artifacts created by `/ce:plan` and used as living documents by `/ce:work`
+   - Never flag `docs/plans/*.md` or `docs/solutions/*.md` for removal — these are command-module pipeline artifacts created by `/implementation-plan` and used as living documents by `/work`
 
 6. **Optimize for Readability**:
    - Prefer self-documenting code over comments

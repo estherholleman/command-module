@@ -9,15 +9,15 @@ CRITICAL: You MUST execute every step below IN ORDER. Do NOT skip any required s
 
 1. **Optional:** If the `ralph-loop` skill is available, run `/ralph-loop:ralph-loop "finish all slash commands" --completion-promise "DONE"`. If not available or it fails, skip and continue to step 2 immediately.
 
-2. `/ce:plan $ARGUMENTS`
+2. `/implementation-plan $ARGUMENTS`
 
-   GATE: STOP. Verify that the `ce:plan` workflow produced a plan file in `docs/plans/`. If no plan file was created, run `/ce:plan $ARGUMENTS` again. Do NOT proceed to step 3 until a written plan exists.
+   GATE: STOP. Verify that the `implementation-plan` workflow produced a plan file in `docs/plans/`. If no plan file was created, run `/implementation-plan $ARGUMENTS` again. Do NOT proceed to step 3 until a written plan exists.
 
-3. `/ce:work`
+3. `/work`
 
    GATE: STOP. Verify that implementation work was performed - files were created or modified beyond the plan. Do NOT proceed to step 4 if no code changes were made.
 
-4. `/ce:review mode:autofix`
+4. `/code-review mode:autofix`
 
 5. `/command-module:todo-resolve`
 

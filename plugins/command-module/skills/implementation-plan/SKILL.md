@@ -1,6 +1,6 @@
 ---
-name: ce:plan
-description: "Transform feature descriptions or requirements into structured implementation plans grounded in repo patterns and research. Use when the user says 'plan this', 'create a plan', 'write a tech plan', 'plan the implementation', 'how should we build', 'what's the approach for', 'break this down', or when a brainstorm/requirements document is ready for technical planning. Best when requirements are at least roughly defined; for exploratory or ambiguous requests, prefer ce:brainstorm first."
+name: implementation-plan
+description: "Transform feature descriptions or requirements into structured implementation plans grounded in repo patterns and research. Use when the user says 'plan this', 'create a plan', 'write a tech plan', 'plan the implementation', 'how should we build', 'what's the approach for', 'break this down', or when a brainstorm/requirements document is ready for technical planning. Best when requirements are at least roughly defined; for exploratory or ambiguous requests, prefer brainstorm first."
 argument-hint: "[feature description, requirements doc path, or improvement idea]"
 ---
 
@@ -8,9 +8,9 @@ argument-hint: "[feature description, requirements doc path, or improvement idea
 
 **Note: The current year is 2026.** Use this when dating plans and searching for recent documentation.
 
-`ce:brainstorm` defines **WHAT** to build. `ce:plan` defines **HOW** to build it. `ce:work` executes the plan.
+`brainstorm` defines **WHAT** to build. `implementation-plan` defines **HOW** to build it. `work` executes the plan.
 
-This workflow produces a durable implementation plan. It does **not** implement code, run tests, or learn from execution-time results. If the answer depends on changing code and seeing what happens, that belongs in `ce:work`, not here.
+This workflow produces a durable implementation plan. It does **not** implement code, run tests, or learn from execution-time results. If the answer depends on changing code and seeing what happens, that belongs in `work`, not here.
 
 ## Interaction Method
 
@@ -28,7 +28,7 @@ Do not proceed until you have a clear planning input.
 
 ## Core Principles
 
-1. **Use requirements as the source of truth** - If `ce:brainstorm` produced a requirements document, planning should build from it rather than re-inventing behavior.
+1. **Use requirements as the source of truth** - If `brainstorm` produced a requirements document, planning should build from it rather than re-inventing behavior.
 2. **Decisions, not code** - Capture approach, boundaries, files, dependencies, risks, and test scenarios. Do not pre-write implementation code or shell command choreography. Pseudo-code sketches or DSL grammars that communicate high-level technical design are welcome when they help a reviewer validate direction — but they must be explicitly framed as directional guidance, not implementation specification.
 3. **Research before structuring** - Explore the codebase, institutional learnings, and external guidance when warranted before finalizing the plan.
 4. **Right-size the artifact** - Small work gets a compact plan. Large work gets more structure. The philosophy stays the same at every depth.
@@ -100,7 +100,7 @@ If no relevant requirements document exists, planning may proceed from the user'
 
 If no relevant requirements document exists:
 - Assess whether the request is already clear enough for direct technical planning
-- If the ambiguity is mainly product framing, user behavior, or scope definition, recommend `ce:brainstorm` first
+- If the ambiguity is mainly product framing, user behavior, or scope definition, recommend `brainstorm` first
 - If the user wants to continue here anyway, run a short planning bootstrap instead of refusing
 
 The planning bootstrap should establish:
@@ -113,7 +113,7 @@ The planning bootstrap should establish:
 Keep this bootstrap brief. It exists to preserve direct-entry convenience, not to replace a full brainstorm.
 
 If the bootstrap uncovers major unresolved product questions:
-- Recommend `ce:brainstorm` again
+- Recommend `brainstorm` again
 - If the user still wants to continue, require explicit assumptions before proceeding
 
 #### 0.5 Classify Outstanding Questions Before Planning
@@ -126,7 +126,7 @@ If the origin document contains `Resolve Before Planning` or similar blocking qu
 If true product blockers remain:
 - Surface them clearly
 - Ask the user, using the platform's blocking question tool when available (see Interaction Method), whether to:
-  1. Resume `ce:brainstorm` to resolve them
+  1. Resume `brainstorm` to resolve them
   2. Convert them into explicit assumptions or decisions and continue
 - Do not continue planning while true blockers remain unresolved
 
@@ -573,7 +573,7 @@ For larger `Deep` plans, extend the core template only when useful with sections
 #### 5.1 Review Before Writing
 
 Before finalizing, check:
-- The plan does not invent product behavior that should have been defined in `ce:brainstorm`
+- The plan does not invent product behavior that should have been defined in `brainstorm`
 - If there was no origin document, the bounded planning bootstrap established enough product clarity to plan responsibly
 - Every major decision is grounded in the origin document or research
 - Each implementation unit is concrete, dependency-ordered, and implementation-ready
@@ -586,7 +586,7 @@ Before finalizing, check:
 If the plan originated from a requirements document, re-read that document and verify:
 - The chosen approach still matches the product intent
 - Scope boundaries and success criteria are preserved
-- Blocking questions were either resolved, explicitly assumed, or sent back to `ce:brainstorm`
+- Blocking questions were either resolved, explicitly assumed, or sent back to `brainstorm`
 - Every section of the origin document is addressed in the plan — scan each section to confirm nothing was silently dropped
 
 #### 5.2 Write Plan File
@@ -848,7 +848,7 @@ Do **not**:
 If research reveals a product-level ambiguity that should change behavior or scope:
 - Do not silently decide it here
 - Record it under `Open Questions`
-- Recommend `ce:brainstorm` if the gap is truly product-defining
+- Recommend `brainstorm` if the gap is truly product-defining
 
 ##### 5.3.8 Final Checks and Cleanup
 
@@ -884,16 +884,16 @@ Include a recommendation explaining why:
 1. **Run `document-review` skill** - Stress-test premises and decisions through structured document review (recommended)
 2. **Open plan in editor** - Open the plan file for review
 3. **Share to Proof** - Upload the plan for collaborative review and sharing
-4. **Start `/ce:work`** - Begin implementing this plan in the current environment
-5. **Start `/ce:work` in another session** - Begin implementing in a separate agent session when the current platform supports it
+4. **Start `/work`** - Begin implementing this plan in the current environment
+5. **Start `/work` in another session** - Begin implementing in a separate agent session when the current platform supports it
 6. **Create Issue** - Create an issue in the configured tracker
 
 **Options for Standard or Lightweight plans:**
 1. **Open plan in editor** - Open the plan file for review
 2. **Run `document-review` skill** - Improve the plan through structured document review
 3. **Share to Proof** - Upload the plan for collaborative review and sharing
-4. **Start `/ce:work`** - Begin implementing this plan in the current environment
-5. **Start `/ce:work` in another session** - Begin implementing in a separate agent session when the current platform supports it
+4. **Start `/work`** - Begin implementing this plan in the current environment
+5. **Start `/work` in another session** - Begin implementing in a separate agent session when the current platform supports it
 6. **Create Issue** - Create an issue in the configured tracker
 
 Based on selection:
@@ -909,8 +909,8 @@ Based on selection:
   PROOF_URL=$(echo "$RESPONSE" | jq -r '.tokenUrl')
   ```
   Display `View & collaborate in Proof: <PROOF_URL>` if successful, then return to the options
-- **`/ce:work`** → Call `/ce:work` with the plan path
-- **`/ce:work` in another session** → If the current platform supports launching a separate agent session, start `/ce:work` with the plan path there. Otherwise, explain the limitation briefly and offer to run `/ce:work` in the current session instead.
+- **`/work`** → Call `/work` with the plan path
+- **`/work` in another session** → If the current platform supports launching a separate agent session, start `/work` with the plan path there. Otherwise, explain the limitation briefly and offer to run `/work` in the current session instead.
 - **Create Issue** → Follow the Issue Creation section below
 - **Other** → Accept free text for revisions and loop back to options
 
@@ -937,6 +937,6 @@ When the user selects "Create Issue", detect their project tracker from `AGENTS.
 
 After issue creation:
 - Display the issue URL
-- Ask whether to proceed to `/ce:work`
+- Ask whether to proceed to `/work`
 
 NEVER CODE! Research, decide, and write the plan.

@@ -1,5 +1,5 @@
 ---
-name: ce:review
+name: code-review
 description: "Structured code review using tiered persona agents, confidence-gated findings, and a merge/dedup pipeline. Use when reviewing code changes before creating a PR."
 argument-hint: "[mode:autofix|mode:report-only] [PR number, GitHub URL, or branch name]"
 ---
@@ -122,8 +122,8 @@ Every review spawns all 4 always-on personas plus the 2 CE always-on agents, the
 
 The following paths are command-module pipeline artifacts and must never be flagged for deletion, removal, or gitignore by any reviewer:
 
-- `docs/brainstorms/*` -- requirements documents created by ce:brainstorm
-- `docs/plans/*.md` -- plan files created by ce:plan (living documents with progress checkboxes)
+- `docs/brainstorms/*` -- requirements documents created by brainstorm
+- `docs/plans/*.md` -- plan files created by implementation-plan (living documents with progress checkboxes)
 - `docs/solutions/*.md` -- solution documents created during the pipeline
 
 If a reviewer flags any file in these directories for cleanup or removal, discard that finding during synthesis.

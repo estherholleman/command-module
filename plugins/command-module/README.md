@@ -18,13 +18,13 @@ The primary entry points for engineering work, invoked as slash commands:
 
 | Skill | Description |
 |-------|-------------|
-| `/ce:ideate` | Discover high-impact project improvements through divergent ideation and adversarial filtering |
-| `/ce:brainstorm` | Explore requirements and approaches before planning |
-| `/ce:plan` | Transform features into structured implementation plans grounded in repo patterns, with automatic confidence checking |
-| `/ce:review` | Structured code review with tiered persona agents, confidence gating, and dedup pipeline |
-| `/ce:work` | Execute work items systematically |
-| `/ce:compound` | Document solved problems to compound team knowledge |
-| `/ce:compound-refresh` | Refresh stale or drifting learnings and decide whether to keep, update, replace, or archive them |
+| `/ideate` | Discover high-impact project improvements through divergent ideation and adversarial filtering |
+| `/brainstorm` | Explore requirements and approaches before planning |
+| `/implementation-plan` | Transform features into structured implementation plans grounded in repo patterns, with automatic confidence checking |
+| `/code-review` | Structured code review with tiered persona agents, confidence gating, and dedup pipeline |
+| `/work` | Execute work items systematically |
+| `/compound` | Document solved problems to compound team knowledge |
+| `/compound-refresh` | Refresh stale or drifting learnings and decide whether to keep, update, replace, or archive them |
 
 ### Git Workflow
 
