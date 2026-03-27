@@ -1,0 +1,23 @@
+{
+  "name": "command-module",
+  "displayName": "Command Module",
+  "version": "0.1.0",
+  "description": "Personal development toolkit for code review, research, design, and workflow automation.",
+  "license": "MIT",
+  "keywords": [
+    "cursor",
+    "plugin",
+    "ai-powered",
+    "workflow-automation",
+    "code-review",
+    "python",
+    "typescript",
+    "react",
+    "nextjs",
+    "knowledge-management",
+    "image-generation",
+    "agent-browser",
+    "browser-automation"
+  ],
+  "mcpServers": ".mcp.json"
+}
