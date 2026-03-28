@@ -1,0 +1,58 @@
+{
+  "project": "command-module",
+  "cluster": "meta",
+  "tasks": [
+    {
+      "id": "T001",
+      "task": "Explore plugin structure — understand how agents, skills, commands, and plugin.json work together",
+      "status": "done",
+      "priority": "high",
+      "created": "2026-03-27",
+      "updated": "2026-03-28",
+      "deadline": null,
+      "tags": ["learning", "setup"],
+      "notes": "Fully explored. Skills at plugins/command-module/skills/, agents at agents/<category>/. Plugin discovered via .claude-plugin/plugin.json. Marketplace wraps the plugin with marketplace.json. Root-level symlinks added for Cursor compatibility."
+    },
+    {
+      "id": "T002",
+      "task": "Strip Ruby/Rails and team-scale review agents — remove everything not relevant to a solo Python/JS operator",
+      "status": "done",
+      "priority": "high",
+      "created": "2026-03-27",
+      "updated": "2026-03-28",
+      "deadline": null,
+      "tags": ["trimming", "setup"],
+      "notes": "Completed in prior session. Commit 02d310f: refactor: fork as command-module, strip Rails/Every/enterprise components."
+    },
+    {
+      "id": "T003",
+      "task": "Decide whether to keep the marketplace wrapper or extract just the plugin contents",
+      "status": "done",
+      "priority": "medium",
+      "created": "2026-03-27",
+      "updated": "2026-03-28",
+      "deadline": null,
+      "tags": ["architecture"],
+      "notes": "Decision: keep marketplace wrapper (needed for CLI and multi-plugin support) but add root-level plugin.json + symlinks (skills/, agents/) so Cursor can discover the plugin directly. Both paths now work."
+    },
+    {
+      "id": "T004",
+      "task": "Point Claude Code at local command-module instead of the upstream compound-engineering plugin",
+      "status": "done",
+      "priority": "high",
+      "created": "2026-03-27",
+      "updated": "2026-03-28",
+      "deadline": null,
+      "tags": ["setup"],
+      "notes": "Done. Plugin installed via Cursor Manage Plugins using GitHub URL. marketplace.json needed owner field for schema validation. Old every-marketplace and compound-engineering cache cleaned up. Plugin now loads across all repos."
+    }
+  ],
+  "milestones": {
+    "stripped-and-running": {
+      "description": "Command-module trimmed to essentials and loaded as active plugin replacing compound-engineering",
+      "status": "done",
+      "progress_pct": 100,
+      "target_date": null
+    }
+  }
+}
