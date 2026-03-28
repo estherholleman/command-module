@@ -1,10 +1,10 @@
 ---
-name: compound
-description: Document a recently solved problem to compound your team's knowledge
+name: distill
+description: Document a recently solved problem to distill your team's knowledge
 argument-hint: "[optional: brief context about the fix]"
 ---
 
-# /compound
+# /distill
 
 Coordinate multiple subagents working in parallel to document a recently solved problem.
 
@@ -12,13 +12,13 @@ Coordinate multiple subagents working in parallel to document a recently solved 
 
 Captures problem solutions while context is fresh, creating structured documentation in `docs/solutions/` with YAML frontmatter for searchability and future reference. Uses parallel subagents for maximum efficiency.
 
-**Why "compound"?** Each documented solution compounds your team's knowledge. The first time you solve a problem takes research. Document it, and the next occurrence takes minutes. Knowledge compounds.
+**Why "distill"?** Each documented solution distills raw experience into reusable knowledge. The first time you solve a problem takes research. Document it, and the next occurrence takes minutes. Knowledge accumulates.
 
 ## Usage
 
 ```bash
-/compound                    # Document the most recent fix
-/compound [brief context]    # Provide additional context hint
+/distill                    # Document the most recent fix
+/distill [brief context]    # Provide additional context hint
 ```
 
 ## Support Files
@@ -33,7 +33,7 @@ When spawning subagents, pass the relevant file contents into the task prompt so
 
 ## Execution Strategy
 
-**Always run full mode by default.** Proceed directly to Phase 1 unless the user explicitly requests compact-safe mode (e.g., `/compound --compact` or "use compact mode").
+**Always run full mode by default.** Proceed directly to Phase 1 unless the user explicitly requests compact-safe mode (e.g., `/distill --compact` or "use compact mode").
 
 Compact-safe mode exists as a lightweight alternative — see the **Compact-Safe Mode** section below. It's there if the user wants it, not something to push.
 
@@ -167,9 +167,9 @@ When creating a new doc, preserve the section order from `assets/resolution-temp
 
 After writing the new learning, decide whether this new solution is evidence that older docs should be refreshed.
 
-`compound-refresh` is **not** a default follow-up. Use it selectively when the new learning suggests an older learning or pattern doc may now be inaccurate.
+`distill-refresh` is **not** a default follow-up. Use it selectively when the new learning suggests an older learning or pattern doc may now be inaccurate.
 
-It makes sense to invoke `compound-refresh` when one or more of these are true:
+It makes sense to invoke `distill-refresh` when one or more of these are true:
 
 1. A related learning or pattern doc recommends an approach that the new fix now contradicts
 2. The new fix clearly supersedes an older documented solution
@@ -178,7 +178,7 @@ It makes sense to invoke `compound-refresh` when one or more of these are true:
 5. The Related Docs Finder surfaced high-confidence refresh candidates in the same problem space
 6. The Related Docs Finder reported **moderate overlap** with an existing doc — there may be consolidation opportunities that benefit from a focused review
 
-It does **not** make sense to invoke `compound-refresh` when:
+It does **not** make sense to invoke `distill-refresh` when:
 
 1. No related docs were found
 2. Related docs still appear consistent with the new learning
@@ -187,11 +187,11 @@ It does **not** make sense to invoke `compound-refresh` when:
 
 Use these rules:
 
-- If there is **one obvious stale candidate**, invoke `compound-refresh` with a narrow scope hint after the new learning is written
+- If there is **one obvious stale candidate**, invoke `distill-refresh` with a narrow scope hint after the new learning is written
 - If there are **multiple candidates in the same area**, ask the user whether to run a targeted refresh for that module, category, or pattern set
-- If context is already tight or you are in compact-safe mode, do not expand into a broad refresh automatically; instead recommend `compound-refresh` as the next step with a scope hint
+- If context is already tight or you are in compact-safe mode, do not expand into a broad refresh automatically; instead recommend `distill-refresh` as the next step with a scope hint
 
-When invoking or recommending `compound-refresh`, be explicit about the argument to pass. Prefer the narrowest useful scope:
+When invoking or recommending `distill-refresh`, be explicit about the argument to pass. Prefer the narrowest useful scope:
 
 - **Specific file** when one learning or pattern doc is the likely stale artifact
 - **Module or component name** when several related docs may need review
@@ -200,14 +200,14 @@ When invoking or recommending `compound-refresh`, be explicit about the argument
 
 Examples:
 
-- `/compound-refresh plugin-versioning-requirements`
-- `/compound-refresh payments`
-- `/compound-refresh performance-issues`
-- `/compound-refresh critical-patterns`
+- `/distill-refresh plugin-versioning-requirements`
+- `/distill-refresh payments`
+- `/distill-refresh performance-issues`
+- `/distill-refresh critical-patterns`
 
 A single scope hint may still expand to multiple related docs when the change is cross-cutting within one domain, category, or pattern area.
 
-Do not invoke `compound-refresh` without an argument unless the user explicitly wants a broad sweep.
+Do not invoke `distill-refresh` without an argument unless the user explicitly wants a broad sweep.
 
 Always capture the new learning first. Refresh is a targeted maintenance follow-up, not a prerequisite for documentation.
 
@@ -258,12 +258,12 @@ File created:
 
 Note: This was created in compact-safe mode. For richer documentation
 (cross-references, detailed prevention strategies, specialized reviews),
-re-run /compound in a fresh session.
+re-run /distill in a fresh session.
 ```
 
 **No subagents are launched. No parallel tasks. One file written.**
 
-In compact-safe mode, the overlap check is skipped (no Related Docs Finder subagent). This means compact-safe mode may create a doc that overlaps with an existing one. That is acceptable — `compound-refresh` will catch it later. Only suggest `compound-refresh` if there is an obvious narrow refresh target. Do not broaden into a large refresh sweep from a compact-safe session.
+In compact-safe mode, the overlap check is skipped (no Related Docs Finder subagent). This means compact-safe mode may create a doc that overlaps with an existing one. That is acceptable — `distill-refresh` will catch it later. Only suggest `distill-refresh` if there is an obvious narrow refresh target. Do not broaden into a large refresh sweep from a compact-safe session.
 
 ---
 
@@ -333,7 +333,7 @@ Specialized Agent Reviews (Auto-Triggered):
   ✓ performance-oracle: Validated query optimization approach
   ✓ kieran-rails-reviewer: Code examples meet Rails standards
   ✓ code-simplicity-reviewer: Solution is appropriately minimal
-  ✓ every-style-editor: Documentation style verified
+  ✓ writing-style-editor: Documentation style verified
 
 File created:
 - docs/solutions/performance-issues/n-plus-one-brief-generation.md
@@ -362,14 +362,14 @@ File updated:
 - docs/solutions/performance-issues/n-plus-one-queries.md (added last_updated: 2026-03-24)
 ```
 
-## The Compounding Philosophy
+## The Distilling Philosophy
 
-This creates a compounding knowledge system:
+This creates a distilled knowledge system:
 
 1. First time you solve "N+1 query in brief generation" → Research (30 min)
 2. Document the solution → docs/solutions/performance-issues/n-plus-one-briefs.md (5 min)
 3. Next time similar issue occurs → Quick lookup (2 min)
-4. Knowledge compounds → Team gets smarter
+4. Knowledge accumulates → Team gets smarter
 
 The feedback loop:
 
@@ -385,7 +385,7 @@ Build → Test → Find Issue → Research → Improve → Document → Validate
 
 <auto_invoke> <trigger_phrases> - "that worked" - "it's fixed" - "working now" - "problem solved" </trigger_phrases>
 
-<manual_override> Use /compound [context] to document immediately without waiting for auto-detection. </manual_override> </auto_invoke>
+<manual_override> Use /distill [context] to document immediately without waiting for auto-detection. </manual_override> </auto_invoke>
 
 ## Output
 
@@ -408,12 +408,12 @@ Based on problem type, these agents can enhance documentation:
 
 ### Enhancement & Documentation
 - **best-practices-researcher**: Enriches solution with industry best practices
-- **every-style-editor**: Reviews documentation style and clarity
+- **writing-style-editor** (`command-module:docs:writing-style-editor`): Reviews prose style against writing antipattern rules (English and Dutch). Loads `skills/proof/references/writing-style-*.md` for the full reference
 - **framework-docs-researcher**: Links to Rails/gem documentation references
 
 ### When to Invoke
 - **Auto-triggered** (optional): Agents can run post-documentation for enhancement
-- **Manual trigger**: User can invoke agents after /compound completes for deeper review
+- **Manual trigger**: User can invoke agents after /distill completes for deeper review
 
 ## Related Commands
 

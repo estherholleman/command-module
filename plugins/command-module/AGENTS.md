@@ -55,7 +55,7 @@ skills/
 - `/implementation-plan` - Create implementation plans
 - `/code-review` - Run comprehensive code reviews
 - `/work` - Execute work items systematically
-- `/compound` - Document solved problems
+- `/distill` - Document solved problems
 
 **Why `ce:`?** Claude Code has built-in `/plan` and `/review` commands. The `ce:` namespace (short for command-module) makes it immediately clear these commands belong to this plugin.
 
@@ -113,7 +113,7 @@ This plugin is authored once, then converted for other agent platforms. Commands
 - [ ] Because of that, slash references inside command or agent content are acceptable when they point to real published commands; target-specific conversion can remap them.
 - [ ] Inside a pass-through `SKILL.md`, do not assume slash references will be remapped for another platform. Write references according to what will still make sense after the skill is copied as-is.
 - [ ] When one skill refers to another skill, prefer semantic wording such as "load the `document-review` skill" rather than slash syntax.
-- [ ] Use slash syntax only when referring to an actual published command or workflow such as `/work` or `/compound`.
+- [ ] Use slash syntax only when referring to an actual published command or workflow such as `/work` or `/distill`.
 
 ### Tool Selection in Agents and Skills
 
@@ -157,6 +157,28 @@ Some skills are exact copies from external upstream repositories, vendored local
 ## Beta Skills
 
 Beta skills use a `-beta` suffix and `disable-model-invocation: true` to prevent accidental auto-triggering. See `docs/solutions/skill-design/beta-skills-framework.md` for naming, validation, and promotion rules.
+
+## Writing Style Standards
+
+When a conversation produces or is asked to produce long-form prose -- articles, blog posts, guides, tutorials, documentation pages, external communications -- offer to apply writing style review before finalizing.
+
+This does **not** apply to: implementation plans, brainstorm documents, commit messages, PR descriptions, code comments, changelogs, or structured skill outputs.
+
+### Recognition signals
+
+- The user asks to "write," "draft," or "author" a document that reads as continuous prose
+- The output will be read by external audiences
+- The document is primarily narrative rather than structured/templated
+
+### Reminder behavior
+
+When a prose document is being produced or has just been produced, ask whether to run `/proof` on it. If the user has already invoked `/proof` or explicitly requested writing style review, skip the reminder.
+
+### Components
+
+- Reference files: `skills/proof/references/writing-style-en.md` (English) and `skills/proof/references/writing-style-nl.md` (Dutch) contain the full antipattern rules
+- `/proof` skill: interactive review and editing of any prose document
+- `writing-style-editor` agent (under `agents/docs/`): lightweight style reviewer dispatched by prose-producing skills in parallel with other quality agents
 
 ## Documentation
 

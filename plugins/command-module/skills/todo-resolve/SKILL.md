@@ -42,11 +42,11 @@ Commit changes, mark todos resolved, push to remote.
 
 GATE: STOP. Verify todos resolved and changes committed before proceeding.
 
-### 5. Compound on Lessons Learned
+### 5. Distill Lessons Learned
 
-Load the `compound` skill to document what was learned. Todo resolutions often surface patterns and architectural insights worth capturing.
+Load the `distill` skill to document what was learned. Todo resolutions often surface patterns and architectural insights worth capturing.
 
-GATE: STOP. Verify the compound skill produced a solution document in `docs/solutions/`. If none (user declined or no learnings), continue.
+GATE: STOP. Verify the distill skill produced a solution document in `docs/solutions/`. If none (user declined or no learnings), continue.
 
 ### 6. Clean Up
 

@@ -1,11 +1,11 @@
 ---
-name: compound-refresh
+name: distill-refresh
 description: Refresh stale or drifting learnings and pattern docs in docs/solutions/ by reviewing, updating, consolidating, replacing, or deleting them against the current codebase. Use after refactors, migrations, dependency upgrades, or when a retrieved learning feels outdated or wrong. Also use when reviewing docs/solutions/ for accuracy, when a recently solved problem contradicts an existing learning, when pattern docs no longer reflect current code, or when multiple docs seem to cover the same topic and might benefit from consolidation.
 argument-hint: "[mode:autofix] [optional: scope hint]"
 disable-model-invocation: true
 ---
 
-# Compound Refresh
+# Distill Refresh
 
 Maintain the quality of `docs/solutions/` over time. This workflow reviews existing learnings against the current codebase, then refreshes any derived pattern docs that depend on them.
 
@@ -110,7 +110,7 @@ If no candidate docs are found, report:
 
 ```text
 No candidate docs found in docs/solutions/.
-Run `compound` after solving problems to start building your knowledge base.
+Run `distill` after solving problems to start building your knowledge base.
 ```
 
 ## Phase 0: Assess and Route
@@ -173,8 +173,8 @@ Match investigation depth to the learning's specificity — a learning referenci
 
 The critical distinction is whether the drift is **cosmetic** (references moved but the solution is the same) or **substantive** (the solution itself changed):
 
-- **Update territory** — file paths moved, classes renamed, links broke, metadata drifted, but the core recommended approach is still how the code works. `compound-refresh` fixes these directly.
-- **Replace territory** — the recommended solution conflicts with current code, the architectural approach changed, or the pattern is no longer the preferred way. This means a new learning needs to be written. A replacement subagent writes the successor following `compound`'s document format (frontmatter, problem, root cause, solution, prevention), using the investigation evidence already gathered. The orchestrator does not rewrite learnings inline — it delegates to a subagent for context isolation.
+- **Update territory** — file paths moved, classes renamed, links broke, metadata drifted, but the core recommended approach is still how the code works. `distill-refresh` fixes these directly.
+- **Replace territory** — the recommended solution conflicts with current code, the architectural approach changed, or the pattern is no longer the preferred way. This means a new learning needs to be written. A replacement subagent writes the successor following `distill`'s document format (frontmatter, problem, root cause, solution, prevention), using the investigation evidence already gathered. The orchestrator does not rewrite learnings inline — it delegates to a subagent for context isolation.
 
 **The boundary:** if you find yourself rewriting the solution section or changing what the learning recommends, stop — that is Replace, not Update.
 
@@ -330,7 +330,7 @@ By the time you identify a Replace candidate, Phase 1 investigation has already 
 - **Insufficient evidence** — the drift is so fundamental that you cannot confidently document the current approach. The entire subsystem was replaced, or the new architecture is too complex to understand from a file scan alone. → Mark as stale in place:
    - Add `status: stale`, `stale_reason: [what you found]`, `stale_date: YYYY-MM-DD` to the frontmatter
    - Report what evidence you found and what is missing
-   - Recommend the user run `compound` after their next encounter with that area, when they have fresh problem-solving context
+   - Recommend the user run `distill` after their next encounter with that area, when they have fresh problem-solving context
 
 ### Delete
 
@@ -526,7 +526,7 @@ Do not let replacement subagents invent frontmatter fields, enum values, or sect
 1. Mark the learning as stale in place:
    - Add to frontmatter: `status: stale`, `stale_reason: [what you found]`, `stale_date: YYYY-MM-DD`
 2. Report what evidence was found and what is missing
-3. Recommend the user run `compound` after their next encounter with that area
+3. Recommend the user run `distill` after their next encounter with that area
 
 ### Delete Flow
 
@@ -591,7 +591,7 @@ After all actions are executed and the report is generated, handle committing th
 
 Before offering options, check:
 1. Which branch is currently checked out (main/master vs feature branch)
-2. Whether the working tree has other uncommitted changes beyond what compound-refresh modified
+2. Whether the working tree has other uncommitted changes beyond what distill-refresh modified
 3. Recent commit messages to match the repo's commit style
 
 ### Autofix mode
@@ -604,15 +604,15 @@ Use sensible defaults — no user to ask:
 | On a feature branch | Commit as a separate commit on the current branch |
 | Git operations fail | Include the recommended git commands in the report and continue |
 
-Stage only the files that compound-refresh modified — not other dirty files in the working tree.
+Stage only the files that distill-refresh modified — not other dirty files in the working tree.
 
 ### Interactive mode
 
-First, run `git branch --show-current` to determine the current branch. Then present the correct options based on the result. Stage only compound-refresh files regardless of which option the user picks.
+First, run `git branch --show-current` to determine the current branch. Then present the correct options based on the result. Stage only distill-refresh files regardless of which option the user picks.
 
 **If the current branch is main, master, or the repo's default branch:**
 
-1. Create a branch, commit, and open a PR (recommended) — the branch name should be specific to what was refreshed, not generic (e.g., `docs/refresh-auth-learnings` not `docs/compound-refresh`)
+1. Create a branch, commit, and open a PR (recommended) — the branch name should be specific to what was refreshed, not generic (e.g., `docs/refresh-auth-learnings` not `docs/distill-refresh`)
 2. Commit directly to `{current branch name}`
 3. Don't commit — I'll handle it
 
@@ -624,7 +624,7 @@ First, run `git branch --show-current` to determine the current branch. Then pre
 
 **If the current branch is a feature branch, dirty working tree (other uncommitted changes):**
 
-1. Commit only the compound-refresh changes to `{current branch name}` (selective staging — other dirty files stay untouched)
+1. Commit only the distill-refresh changes to `{current branch name}` (selective staging — other dirty files stay untouched)
 2. Don't commit
 
 ### Commit message
@@ -634,11 +634,11 @@ Write a descriptive commit message that:
 - Follows the repo's existing commit conventions (check recent git log for style)
 - Is succinct — the details are in the changed files themselves
 
-## Relationship to compound
+## Relationship to distill
 
-- `compound` captures a newly solved, verified problem
-- `compound-refresh` maintains older learnings as the codebase evolves — both their individual accuracy and their collective design as a document set
+- `distill` captures a newly solved, verified problem
+- `distill-refresh` maintains older learnings as the codebase evolves — both their individual accuracy and their collective design as a document set
 
-Use **Replace** only when the refresh process has enough real evidence to write a trustworthy successor. When evidence is insufficient, mark as stale and recommend `compound` for when the user next encounters that problem area.
+Use **Replace** only when the refresh process has enough real evidence to write a trustworthy successor. When evidence is insufficient, mark as stale and recommend `distill` for when the user next encounters that problem area.
 
-Use **Consolidate** proactively when the document set has grown organically and redundancy has crept in. Every `compound` invocation adds a new doc — over time, multiple docs may cover the same problem from slightly different angles. Periodic consolidation keeps the document set lean and authoritative.
+Use **Consolidate** proactively when the document set has grown organically and redundancy has crept in. Every `distill` invocation adds a new doc — over time, multiple docs may cover the same problem from slightly different angles. Periodic consolidation keeps the document set lean and authoritative.

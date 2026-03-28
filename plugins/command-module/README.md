@@ -6,8 +6,8 @@ AI-powered development tools that get smarter with every use. Make each unit of 
 
 | Component | Count |
 |-----------|-------|
-| Agents | 35+ |
-| Skills | 40+ |
+| Agents | 35 |
+| Skills | 37 |
 | MCP Servers | 1 |
 
 ## Skills
@@ -23,8 +23,8 @@ The primary entry points for engineering work, invoked as slash commands:
 | `/implementation-plan` | Transform features into structured implementation plans grounded in repo patterns, with automatic confidence checking |
 | `/code-review` | Structured code review with tiered persona agents, confidence gating, and dedup pipeline |
 | `/work` | Execute work items systematically |
-| `/compound` | Document solved problems to compound team knowledge |
-| `/compound-refresh` | Refresh stale or drifting learnings and decide whether to keep, update, replace, or archive them |
+| `/distill` | Document solved problems to distill team knowledge |
+| `/distill-refresh` | Refresh stale or drifting learnings and decide whether to keep, update, replace, or archive them |
 
 ### Git Workflow
 
@@ -73,8 +73,8 @@ The primary entry points for engineering work, invoked as slash commands:
 
 | Skill | Description |
 |-------|-------------|
-| `every-style-editor` | Review copy for Every's style guide compliance |
-| `proof` | Create, edit, and share documents via Proof collaborative editor |
+| `/proof` | Review and edit prose for natural writing style, removing AI-typical patterns (English and Dutch) |
+| `/export-docx` | Convert markdown to DOCX with proofing reminder, discovers repo-specific conversion scripts |
 | `todo-create` | File-based todo tracking system |
 
 ### Automation & Tools
@@ -173,6 +173,7 @@ Agents are specialized subagents invoked by skills — you typically don't call 
 | Agent | Description |
 |-------|-------------|
 | `ankane-readme-writer` | Create READMEs following Ankane-style template for Ruby gems |
+| `writing-style-editor` | Edit prose to remove AI-typical writing patterns and improve naturalness (English and Dutch) |
 
 ## MCP Servers
 

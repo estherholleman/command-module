@@ -10,7 +10,7 @@ argument-hint: "[feature idea or problem to explore]"
 
 Brainstorming helps answer **WHAT** to build through collaborative dialogue. It precedes `/implementation-plan`, which answers **HOW** to build it.
 
-The durable output of this workflow is a **requirements document**. In other workflows this might be called a lightweight PRD or feature brief. In compound engineering, keep the workflow name `brainstorm`, but make the written artifact strong enough that planning does not need to invent product behavior, scope boundaries, or success criteria.
+The durable output of this workflow is a **requirements document**. In other workflows this might be called a lightweight PRD or feature brief. In this plugin, keep the workflow name `brainstorm`, but make the written artifact strong enough that planning does not need to invent product behavior, scope boundaries, or success criteria.
 
 This skill does not implement code. It explores, clarifies, and documents decisions for later planning or execution.
 

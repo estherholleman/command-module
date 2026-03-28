@@ -28,7 +28,7 @@ Wait for both to complete before continuing.
 
 ## Finalize Phase
 
-7. `/command-module:todo-resolve` — resolve findings, compound on learnings, clean up completed todos
+7. `/command-module:todo-resolve` — resolve findings, distill learnings, clean up completed todos
 8. `/command-module:feature-video` — record the final walkthrough and add to PR
 9. Output `<promise>DONE</promise>` when video is in PR
 

@@ -95,9 +95,9 @@ Your final output should be formatted as follows:
 
 </change_log>
 
-## Style Guide Review
+## Style Guide Review (Optional)
 
-Now review the changelog using the EVERY_WRITE_STYLE.md file and go one by one to make sure you are following the style guide. Use multiple agents, run in parallel to make it faster.
+If the changelog is intended for an external audience, review it against the writing style references at `skills/proof/references/writing-style-en.md` (English) or `skills/proof/references/writing-style-nl.md` (Dutch). Dispatch the `command-module:docs:writing-style-editor` agent for a parallel style review pass.
 
 Remember, your final output should only include the content within the <change_log> tags. Do not include any of your thought process or the original data in the output.
 
