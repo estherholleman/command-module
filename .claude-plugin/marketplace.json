@@ -1,5 +1,9 @@
 {
   "name": "command-module",
+  "owner": {
+    "name": "Esther Holleman",
+    "url": "https://github.com/estherholleman"
+  },
   "metadata": {
     "description": "Plugin marketplace for Claude Code extensions",
     "version": "1.0.0"
@@ -8,6 +12,11 @@
     {
       "name": "command-module",
       "description": "Personal development toolkit for code review, research, design, and workflow automation.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Esther Holleman",
+        "url": "https://github.com/estherholleman"
+      },
       "source": "./plugins/command-module"
     }
   ]
