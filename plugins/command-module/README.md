@@ -7,7 +7,7 @@ AI-powered development tools that get smarter with every use. Make each unit of 
 | Component | Count |
 |-----------|-------|
 | Agents | 35 |
-| Skills | 40 |
+| Skills | 41 |
 | MCP Servers | 1 |
 
 ## Skills
@@ -84,6 +84,7 @@ The primary entry points for engineering work, invoked as slash commands:
 | Skill | Description |
 |-------|-------------|
 | `/concept` | Conceptual thinking partner using the reframe-react-sharpen pattern for sharpening ideas and strategic concepts |
+| `/strategy` | Strategic PM for portfolio review, tension analysis, context curation, and thinking direction |
 
 ### Automation & Tools
 
