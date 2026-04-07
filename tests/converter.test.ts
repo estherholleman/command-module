@@ -238,11 +238,11 @@ describe("convertClaudeToOpenCode", () => {
         {
           name: "review",
           description: "Review command",
-          body: `Read \`compound-engineering.local.md\` in the project root.
+          body: `Read \`command-module.local.md\` in the project root.
 
 If no settings file exists, auto-detect project type.
 
-Run \`/compound-engineering-setup\` to create a settings file.`,
+Run \`/command-module-setup\` to create a settings file.`,
           sourcePath: "/tmp/plugin/commands/review.md",
         },
       ],
@@ -259,7 +259,7 @@ Run \`/compound-engineering-setup\` to create a settings file.`,
     expect(commandFile).toBeDefined()
 
     // Tool-agnostic path in project root — no rewriting needed
-    expect(commandFile!.content).toContain("compound-engineering.local.md")
+    expect(commandFile!.content).toContain("command-module.local.md")
   })
 
   test("rewrites .claude/ paths in agent bodies", () => {
@@ -270,7 +270,7 @@ Run \`/compound-engineering-setup\` to create a settings file.`,
         {
           name: "test-agent",
           description: "Test agent",
-          body: "Read `compound-engineering.local.md` for config.",
+          body: "Read `command-module.local.md` for config.",
           sourcePath: "/tmp/plugin/agents/test-agent.md",
         },
       ],
@@ -287,7 +287,7 @@ Run \`/compound-engineering-setup\` to create a settings file.`,
     const agentFile = bundle.agents.find((a) => a.name === "test-agent")
     expect(agentFile).toBeDefined()
     // Tool-agnostic path in project root — no rewriting needed
-    expect(agentFile!.content).toContain("compound-engineering.local.md")
+    expect(agentFile!.content).toContain("command-module.local.md")
   })
 
   test("command .md files include description in frontmatter", () => {

@@ -22,7 +22,7 @@ export async function syncToPi(
   config: ClaudeHomeConfig,
   outputRoot: string,
 ): Promise<void> {
-  const mcporterPath = path.join(outputRoot, "compound-engineering", "mcporter.json")
+  const mcporterPath = path.join(outputRoot, "command-module", "mcporter.json")
 
   await syncSkills(config.skills, path.join(outputRoot, "skills"))
   await syncPiCommands(config, outputRoot)

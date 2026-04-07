@@ -92,8 +92,8 @@ The grep reveals `workflows:*` is referenced in **many more places** than just `
 ### 4. Update Documentation
 
 - `CHANGELOG.md` — add new entry documenting the rename and deprecation
-- `plugins/compound-engineering/README.md` — update command table to list `ce:*` as primary, note `workflows:*` as deprecated aliases
-- `plugins/compound-engineering/CLAUDE.md` — update command listing and the "Why `workflows:`?" section
+- `plugins/command-module/README.md` — update command table to list `ce:*` as primary, note `workflows:*` as deprecated aliases
+- `plugins/command-module/CLAUDE.md` — update command listing and the "Why `workflows:`?" section
 - Root `README.md` — update the command table (lines 133–136)
 
 ### 5. Converter / bunx Install Script Considerations
@@ -152,8 +152,8 @@ Command count remains 22 (5 new `ce:*` + 5 updated `workflows:*` wrappers = net 
 - [ ] All skill `SKILL.md` files updated (document-review, git-worktree, setup, brainstorming, file-todos)
 - [ ] `commands/deepen-plan.md` and `commands/test-xcode.md` updated
 - [ ] `CHANGELOG.md` updated with deprecation notice
-- [ ] `plugins/compound-engineering/README.md` command table updated
-- [ ] `plugins/compound-engineering/CLAUDE.md` command listing updated
+- [ ] `plugins/command-module/README.md` command table updated
+- [ ] `plugins/command-module/CLAUDE.md` command listing updated
 - [ ] Root `README.md` command table updated
 - [ ] Validate: `/ce:plan "test feature"` works end-to-end
 - [ ] Validate: `/workflows:plan "test feature"` shows deprecation warning and continues
@@ -215,7 +215,7 @@ NOTE: /workflows:<command> is deprecated. Please use /ce:<command> instead. This
 
 ### Step 4: Update documentation
 
-**`plugins/compound-engineering/CHANGELOG.md`** — Add under new version section:
+**`plugins/command-module/CHANGELOG.md`** — Add under new version section:
 ```
 ### Changed
 - `workflows:plan`, `workflows:work`, `workflows:review`, `workflows:brainstorm`, `workflows:compound` renamed to `ce:plan`, `ce:work`, `ce:review`, `ce:brainstorm`, `ce:compound` for clarity
@@ -224,9 +224,9 @@ NOTE: /workflows:<command> is deprecated. Please use /ce:<command> instead. This
 - `workflows:*` commands — use `ce:*` equivalents instead. Aliases remain functional and will be removed in a future version.
 ```
 
-**`plugins/compound-engineering/README.md`** — Update the commands table to list `ce:*` as primary, show `workflows:*` as deprecated aliases.
+**`plugins/command-module/README.md`** — Update the commands table to list `ce:*` as primary, show `workflows:*` as deprecated aliases.
 
-**`plugins/compound-engineering/CLAUDE.md`** — Update command listing and the "Why `workflows:`?" section to reflect new `ce:` namespace.
+**`plugins/command-module/CLAUDE.md`** — Update command listing and the "Why `workflows:`?" section to reflect new `ce:` namespace.
 
 **Root `README.md`** — Update the commands table (lines 133–136).
 
@@ -254,8 +254,8 @@ The `workflows/` output will contain the deprecation wrapper content. The `ce/` 
 
 ## Sources & References
 
-- Existing commands: `plugins/compound-engineering/commands/workflows/*.md`
-- Orchestration commands: `plugins/compound-engineering/commands/lfg.md`, `plugins/compound-engineering/commands/slfg.md`
-- Plugin metadata: `plugins/compound-engineering/.claude-plugin/plugin.json`
-- Changelog: `plugins/compound-engineering/CHANGELOG.md`
-- README: `plugins/compound-engineering/README.md`
+- Existing commands: `plugins/command-module/commands/workflows/*.md`
+- Orchestration commands: `plugins/command-module/commands/lfg.md`, `plugins/command-module/commands/slfg.md`
+- Plugin metadata: `plugins/command-module/.claude-plugin/plugin.json`
+- Changelog: `plugins/command-module/CHANGELOG.md`
+- README: `plugins/command-module/README.md`

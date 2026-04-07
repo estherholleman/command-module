@@ -54,7 +54,7 @@ describe("writeKiroBundle", () => {
         },
       ],
       steeringFiles: [
-        { name: "compound-engineering", content: "# Steering content\n\nFollow these guidelines." },
+        { name: "command-module", content: "# Steering content\n\nFollow these guidelines." },
       ],
       mcpServers: {
         playwright: { command: "npx", args: ["-y", "@anthropic/mcp-playwright"] },
@@ -87,7 +87,7 @@ describe("writeKiroBundle", () => {
     expect(await exists(path.join(tempRoot, ".kiro", "skills", "skill-one", "SKILL.md"))).toBe(true)
 
     // Steering file
-    const steeringPath = path.join(tempRoot, ".kiro", "steering", "compound-engineering.md")
+    const steeringPath = path.join(tempRoot, ".kiro", "steering", "command-module.md")
     expect(await exists(steeringPath)).toBe(true)
     const steeringContent = await fs.readFile(steeringPath, "utf8")
     expect(steeringContent).toContain("Follow these guidelines.")
@@ -112,9 +112,9 @@ description: Planning workflow
 
 Run these research agents:
 
-- Task compound-engineering:research:repo-research-analyst(feature_description)
-- Task compound-engineering:research:learnings-researcher(feature_description)
-- Task compound-engineering:review:code-simplicity-reviewer()
+- Task command-module:research:repo-research-analyst(feature_description)
+- Task command-module:research:learnings-researcher(feature_description)
+- Task command-module:review:code-simplicity-reviewer()
 `,
     )
 
@@ -133,7 +133,7 @@ Run these research agents:
     expect(installedSkill).toContain("Use the use_subagent tool to delegate to the repo-research-analyst agent: feature_description")
     expect(installedSkill).toContain("Use the use_subagent tool to delegate to the learnings-researcher agent: feature_description")
     expect(installedSkill).toContain("Use the use_subagent tool to delegate to the code-simplicity-reviewer agent")
-    expect(installedSkill).not.toContain("Task compound-engineering:")
+    expect(installedSkill).not.toContain("Task command-module:")
   })
 
   test("does not double-nest when output root is .kiro", async () => {

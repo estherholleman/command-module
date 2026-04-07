@@ -10,10 +10,10 @@ tags:
   - session-persistence
   - lightpanda
 related_to:
-  - plugins/compound-engineering/skills/feature-video/SKILL.md
-  - plugins/compound-engineering/skills/agent-browser/SKILL.md
-  - plugins/compound-engineering/skills/agent-browser/references/authentication.md
-  - plugins/compound-engineering/skills/agent-browser/references/session-management.md
+  - plugins/command-module/skills/feature-video/SKILL.md
+  - plugins/command-module/skills/agent-browser/SKILL.md
+  - plugins/command-module/skills/agent-browser/references/authentication.md
+  - plugins/command-module/skills/agent-browser/references/session-management.md
 ---
 
 # agent-browser Chrome Authentication for GitHub

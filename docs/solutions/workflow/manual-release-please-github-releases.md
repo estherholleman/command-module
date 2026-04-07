@@ -65,7 +65,7 @@ Key decisions:
 
 The failed first live run exposed this directly:
 
-- `release-please failed: illegal pathing characters in path: plugins/compound-engineering/../../CHANGELOG.md`
+- `release-please failed: illegal pathing characters in path: plugins/command-module/../../CHANGELOG.md`
 
 That means a multi-component repo cannot force subpackage release entries back into one shared root changelog file using `changelog-path` values like:
 
@@ -99,7 +99,7 @@ After the migration:
   - `!` => major
 - File paths determine component ownership:
   - `src/**`, `package.json`, `bun.lock`, `tests/cli.test.ts` => `cli`
-  - `plugins/compound-engineering/**` => `compound-engineering`
+  - `plugins/command-module/**` => `compound-engineering`
   - `plugins/coding-tutor/**` => `coding-tutor`
   - `.claude-plugin/marketplace.json` => `marketplace`
   - `.cursor-plugin/marketplace.json` => `cursor-marketplace`
@@ -209,5 +209,5 @@ After merging a generated release PR:
 - `docs/solutions/plugin-versioning-requirements.md`
 - `docs/solutions/adding-converter-target-providers.md`
 - `AGENTS.md`
-- `plugins/compound-engineering/AGENTS.md`
+- `plugins/command-module/AGENTS.md`
 - `docs/specs/kiro.md`

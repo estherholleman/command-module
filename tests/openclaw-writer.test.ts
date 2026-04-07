@@ -10,7 +10,7 @@ describe("writeOpenClawBundle", () => {
     const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-writer-"))
     const bundle: OpenClawBundle = {
       manifest: {
-        id: "compound-engineering",
+        id: "command-module",
         name: "Compound Engineering",
         kind: "tool",
         configSchema: {
@@ -20,7 +20,7 @@ describe("writeOpenClawBundle", () => {
         skills: [],
       },
       packageJson: {
-        name: "openclaw-compound-engineering",
+        name: "openclaw-command-module",
         version: "1.0.0",
       },
       entryPoint: "export default async function register() {}",

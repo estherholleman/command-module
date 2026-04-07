@@ -29,7 +29,7 @@ Two deliverables:
 
 ### Deliverable 1: Issue Intelligence Analyst Agent
 
-**File**: `plugins/compound-engineering/agents/research/issue-intelligence-analyst.md`
+**File**: `plugins/command-module/agents/research/issue-intelligence-analyst.md`
 
 **Frontmatter:**
 ```yaml
@@ -141,7 +141,7 @@ The agent runs as a sub-agent with its own context window. Every token of fetche
 
 ### Deliverable 2: ce:ideate Skill Modifications
 
-**File**: `plugins/compound-engineering/skills/ce-ideate/SKILL.md`
+**File**: `plugins/command-module/skills/ce-ideate/SKILL.md`
 
 Four targeted modifications:
 
@@ -240,7 +240,7 @@ When checking for recent ideation documents, treat issue-grounded and non-issue 
 ## Sources & References
 
 - **Origin brainstorm:** [docs/brainstorms/2026-03-16-issue-grounded-ideation-requirements.md](docs/brainstorms/2026-03-16-issue-grounded-ideation-requirements.md) — Key decisions: pattern-first ideation, hybrid frame strategy, flexible argument detection, additive to Phase 1, standalone agent
-- **Exemplar agent:** `plugins/compound-engineering/agents/research/repo-research-analyst.md` — agent structure pattern
-- **ce:ideate skill:** `plugins/compound-engineering/skills/ce-ideate/SKILL.md` — integration target
+- **Exemplar agent:** `plugins/command-module/agents/research/repo-research-analyst.md` — agent structure pattern
+- **ce:ideate skill:** `plugins/command-module/skills/ce-ideate/SKILL.md` — integration target
 - **Institutional learning:** `docs/solutions/skill-design/compound-refresh-skill-improvements.md` — impact clustering pattern, platform-agnostic tool references, evidence-first interaction
 - **Real-world test repo:** `EveryInc/proof` (555 issues, 25+ LIVE_DOC_UNAVAILABLE duplicates, structured labels)

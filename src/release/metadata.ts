@@ -103,7 +103,7 @@ export async function countMcpServers(pluginRoot: string): Promise<number> {
 }
 
 export async function getCompoundEngineeringCounts(root: string): Promise<CompoundEngineeringCounts> {
-  const pluginRoot = path.join(root, "plugins", "compound-engineering")
+  const pluginRoot = path.join(root, "plugins", "command-module")
   const [agents, skills, mcpServers] = await Promise.all([
     countMarkdownFiles(path.join(pluginRoot, "agents")),
     countSkillDirectories(path.join(pluginRoot, "skills")),
@@ -130,8 +130,8 @@ export async function syncReleaseMetadata(options: SyncOptions = {}): Promise<Me
   const compoundDescription = await buildCompoundEngineeringDescription(root)
   const compoundMarketplaceDescription = await buildCompoundEngineeringMarketplaceDescription(root)
 
-  const compoundClaudePath = path.join(root, "plugins", "compound-engineering", ".claude-plugin", "plugin.json")
-  const compoundCursorPath = path.join(root, "plugins", "compound-engineering", ".cursor-plugin", "plugin.json")
+  const compoundClaudePath = path.join(root, "plugins", "command-module", ".claude-plugin", "plugin.json")
+  const compoundCursorPath = path.join(root, "plugins", "command-module", ".cursor-plugin", "plugin.json")
   const codingTutorClaudePath = path.join(root, "plugins", "coding-tutor", ".claude-plugin", "plugin.json")
   const codingTutorCursorPath = path.join(root, "plugins", "coding-tutor", ".cursor-plugin", "plugin.json")
   const marketplaceClaudePath = path.join(root, ".claude-plugin", "marketplace.json")
@@ -144,7 +144,7 @@ export async function syncReleaseMetadata(options: SyncOptions = {}): Promise<Me
   const marketplaceClaude = await readJson<MarketplaceManifest>(marketplaceClaudePath)
   const marketplaceCursor = await readJson<MarketplaceManifest>(marketplaceCursorPath)
   const expectedCompoundVersion = resolveExpectedVersion(
-    versions["compound-engineering"],
+    versions["command-module"],
     compoundClaude.version,
   )
   const expectedCodingTutorVersion = resolveExpectedVersion(
@@ -199,7 +199,7 @@ export async function syncReleaseMetadata(options: SyncOptions = {}): Promise<Me
   }
 
   for (const plugin of marketplaceClaude.plugins) {
-    if (plugin.name === "compound-engineering") {
+    if (plugin.name === "command-module") {
       if (plugin.description !== compoundMarketplaceDescription) {
         plugin.description = compoundMarketplaceDescription
         changed = true
@@ -220,7 +220,7 @@ export async function syncReleaseMetadata(options: SyncOptions = {}): Promise<Me
   }
 
   for (const plugin of marketplaceCursor.plugins) {
-    if (plugin.name === "compound-engineering") {
+    if (plugin.name === "command-module") {
       if (plugin.description !== compoundMarketplaceDescription) {
         plugin.description = compoundMarketplaceDescription
         changed = true

@@ -38,7 +38,7 @@ The `setup` skill uses `AskUserQuestion` at 5 decision points. On non-Claude pla
 1. **Tool-not-found error** — LLM tries to call `AskUserQuestion` as a function; platform returns an error. Setup halts.
 2. **Silent skip** — LLM reads `AskUserQuestion` as prose, ignores the decision gate, auto-configures. User never consulted. This is worse — produces a `compound-engineering.local.md` the user never approved.
 
-`plugins/compound-engineering/skills/setup/SKILL.md` has 5 `AskUserQuestion` blocks:
+`plugins/command-module/skills/setup/SKILL.md` has 5 `AskUserQuestion` blocks:
 
 | Line | Decision Point |
 |------|----------------|
@@ -48,7 +48,7 @@ The `setup` skill uses `AskUserQuestion` at 5 decision points. On non-Claude pla
 | 85 | Focus areas (multiSelect) |
 | 104 | Review depth: Thorough / Fast / Comprehensive |
 
-`plugins/compound-engineering/skills/create-agent-skills/workflows/create-new-skill.md` lines 22 and 45 also use `AskUserQuestion`.
+`plugins/command-module/skills/create-agent-skills/workflows/create-new-skill.md` lines 22 and 45 also use `AskUserQuestion`.
 
 Only the Pi converter transforms the reference (incompletely). All other converters (Codex, Gemini, Copilot, Kiro, Droid, Windsurf) pass skill content through verbatim — **skills are not converter-transformed**.
 
@@ -74,7 +74,7 @@ If not, present each question as a numbered list and wait for a reply before pro
 
 ### 2. Apply the same preamble to `create-new-skill.md`
 
-`plugins/compound-engineering/skills/create-agent-skills/workflows/create-new-skill.md` uses `AskUserQuestion` at lines 22 and 45. Apply an identical preamble at the top of that file.
+`plugins/command-module/skills/create-agent-skills/workflows/create-new-skill.md` uses `AskUserQuestion` at lines 22 and 45. Apply an identical preamble at the top of that file.
 
 ### 3. Strengthen `codex-agents.ts` AskUserQuestion mapping
 
@@ -92,7 +92,7 @@ With:
 
 ### 4. Add lint rule to CLAUDE.md skill compliance checklist
 
-Add to the "Skill Compliance Checklist" in `plugins/compound-engineering/CLAUDE.md`:
+Add to the "Skill Compliance Checklist" in `plugins/command-module/CLAUDE.md`:
 
 ```
 ### AskUserQuestion Usage
@@ -113,15 +113,15 @@ Add to the "Skill Compliance Checklist" in `plugins/compound-engineering/CLAUDE.
 - [ ] `create-new-skill.md` has the same preamble
 - [ ] The skills still use `AskUserQuestion` as primary — no change to Claude Code behavior
 - [ ] `codex-agents.ts` AskUserQuestion line updated with structured guidance
-- [ ] `plugins/compound-engineering/CLAUDE.md` skill checklist includes AskUserQuestion policy
+- [ ] `plugins/command-module/CLAUDE.md` skill checklist includes AskUserQuestion policy
 - [ ] No regression: on Claude Code, setup works exactly as before
 
 ## Files
 
-- `plugins/compound-engineering/skills/setup/SKILL.md` — Add 4-line preamble after line 8
-- `plugins/compound-engineering/skills/create-agent-skills/workflows/create-new-skill.md` — Add same preamble at top
+- `plugins/command-module/skills/setup/SKILL.md` — Add 4-line preamble after line 8
+- `plugins/command-module/skills/create-agent-skills/workflows/create-new-skill.md` — Add same preamble at top
 - `src/utils/codex-agents.ts` — Strengthen AskUserQuestion mapping (line 21)
-- `plugins/compound-engineering/CLAUDE.md` — Add AskUserQuestion policy to skill compliance checklist
+- `plugins/command-module/CLAUDE.md` — Add AskUserQuestion policy to skill compliance checklist
 
 ## Future Work (Out of Scope)
 
@@ -131,10 +131,10 @@ Add to the "Skill Compliance Checklist" in `plugins/compound-engineering/CLAUDE.
 ## Sources & References
 
 - Issue: [#204](https://github.com/EveryInc/compound-engineering-plugin/issues/204)
-- `plugins/compound-engineering/skills/setup/SKILL.md:13,44,67,85,104`
-- `plugins/compound-engineering/skills/create-agent-skills/workflows/create-new-skill.md:22,45`
+- `plugins/command-module/skills/setup/SKILL.md:13,44,67,85,104`
+- `plugins/command-module/skills/create-agent-skills/workflows/create-new-skill.md:22,45`
 - `src/utils/codex-agents.ts:21`
 - `src/converters/claude-to-pi.ts:106` — Pi converter (reference pattern)
-- `plugins/compound-engineering/skills/brainstorming/SKILL.md` — gold standard cross-platform skill (no AskUserQuestion)
-- `plugins/compound-engineering/skills/create-agent-skills/workflows/add-workflow.md:12,37` — existing "DO NOT use AskUserQuestion" policy
+- `plugins/command-module/skills/brainstorming/SKILL.md` — gold standard cross-platform skill (no AskUserQuestion)
+- `plugins/command-module/skills/create-agent-skills/workflows/add-workflow.md:12,37` — existing "DO NOT use AskUserQuestion" policy
 - `docs/solutions/adding-converter-target-providers.md`

@@ -49,7 +49,7 @@ That's it. No `conditionalAgents`, no `options`, no `customAgents` mapping. Cond
 
 ### Phase 1: Rewrite setup.md
 
-**File:** `plugins/compound-engineering/commands/setup.md`
+**File:** `plugins/command-module/commands/setup.md`
 **From:** 486 lines → **To:** ~60 lines
 
 The setup command should:
@@ -72,7 +72,7 @@ The setup command should:
 
 ### Phase 2: Update review.md
 
-**File:** `plugins/compound-engineering/commands/workflows/review.md`
+**File:** `plugins/command-module/commands/workflows/review.md`
 **Change:** Replace hardcoded agent list (lines 64-81) with config-aware section
 
 Add before the parallel agents section (~5 lines):
@@ -108,7 +108,7 @@ Run all review agents in parallel using Task tool.
 
 ### Phase 3: Update work.md
 
-**File:** `plugins/compound-engineering/commands/workflows/work.md`
+**File:** `plugins/command-module/commands/workflows/work.md`
 **Change:** Replace hardcoded agent list in "Consider Reviewer Agents" section (lines 180-193)
 
 Replace with:
@@ -120,7 +120,7 @@ If no config, use project-appropriate defaults. Run in parallel with Task tool.
 
 ### Phase 4: Update compound.md
 
-**File:** `plugins/compound-engineering/commands/workflows/compound.md`
+**File:** `plugins/command-module/commands/workflows/compound.md`
 **Change:** Update Phase 3 "Optional Enhancement" (lines 92-98) and "Applicable Specialized Agents" section (lines 214-234)
 
 The specialized agents in compound.md are problem-type-based (performance → performance-oracle, security → security-sentinel). These should stay hardcoded — they're not "review agents", they're domain experts triggered by problem category. No config needed.
@@ -146,7 +146,7 @@ The specialized agents in compound.md are problem-type-based (performance → pe
 
 `commands/technical_review.md` is a one-line command (`Have @agent-dhh-rails-reviewer @agent-kieran-rails-reviewer @agent-code-simplicity-reviewer review...`) with `disable-model-invocation: true`. It duplicates the `/plan_review` skill. Delete it.
 
-- [x] Delete `plugins/compound-engineering/commands/technical_review.md`
+- [x] Delete `plugins/command-module/commands/technical_review.md`
 
 **5b. Add `disable-model-invocation: true` to `setup.md`**
 

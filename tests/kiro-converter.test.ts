@@ -394,21 +394,21 @@ Task best-practices-researcher(topic)`
   test("transforms namespaced Task agent calls using final segment", () => {
     const input = `Run agents:
 
-- Task compound-engineering:research:repo-research-analyst(feature_description)
-- Task compound-engineering:review:security-reviewer(code_diff)`
+- Task command-module:research:repo-research-analyst(feature_description)
+- Task command-module:review:security-reviewer(code_diff)`
 
     const result = transformContentForKiro(input)
     expect(result).toContain("Use the use_subagent tool to delegate to the repo-research-analyst agent: feature_description")
     expect(result).toContain("Use the use_subagent tool to delegate to the security-reviewer agent: code_diff")
-    expect(result).not.toContain("compound-engineering:")
+    expect(result).not.toContain("command-module:")
   })
 
   test("transforms zero-argument Task calls", () => {
-    const input = `- Task compound-engineering:review:code-simplicity-reviewer()`
+    const input = `- Task command-module:review:code-simplicity-reviewer()`
 
     const result = transformContentForKiro(input)
     expect(result).toContain("Use the use_subagent tool to delegate to the code-simplicity-reviewer agent")
-    expect(result).not.toContain("compound-engineering:")
+    expect(result).not.toContain("command-module:")
     expect(result).not.toContain("code-simplicity-reviewer agent:")
   })
 

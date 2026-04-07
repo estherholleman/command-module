@@ -12,7 +12,7 @@ export default defineCommand({
     plugin: {
       type: "positional",
       required: true,
-      description: "Plugin name (e.g. compound-engineering)",
+      description: "Plugin name (e.g. command-module)",
     },
     branch: {
       type: "string",
@@ -31,7 +31,7 @@ export default defineCommand({
       .replace(/\//g, "~")
       .replace(/[^a-zA-Z0-9._~-]/g, (ch) => `%${ch.charCodeAt(0).toString(16).padStart(2, "0")}`)
     const dirName = `${pluginName}-${sanitized}`
-    const cacheRoot = path.join(os.homedir(), ".cache", "compound-engineering", "branches")
+    const cacheRoot = path.join(os.homedir(), ".cache", "command-module", "branches")
     await fs.mkdir(cacheRoot, { recursive: true })
     const targetDir = path.join(cacheRoot, dirName)
     const source = resolveGitHubSource()

@@ -13,8 +13,8 @@ on:
         type: choice
         options: [auto, patch, minor, major]
         default: auto
-      compound_engineering_bump:
-        description: "compound-engineering bump override"
+      command_module_bump:
+        description: "command-module bump override"
         required: false
         type: choice
         options: [auto, patch, minor, major]
@@ -89,7 +89,7 @@ jobs:
           done
 
           args+=(--override "cli=${{ github.event.inputs.cli_bump || 'auto' }}")
-          args+=(--override "compound-engineering=${{ github.event.inputs.compound_engineering_bump || 'auto' }}")
+          args+=(--override "command-module=${{ github.event.inputs.command_module_bump || 'auto' }}")
           args+=(--override "coding-tutor=${{ github.event.inputs.coding_tutor_bump || 'auto' }}")
           args+=(--override "marketplace=${{ github.event.inputs.marketplace_bump || 'auto' }}")
           args+=(--override "cursor-marketplace=${{ github.event.inputs.cursor_marketplace_bump || 'auto' }}")

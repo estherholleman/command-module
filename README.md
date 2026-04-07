@@ -19,7 +19,7 @@ Compound engineering inverts this. 80% is in planning and review, 20% is in exec
 
 **Learn more**
 
-- [Full component reference](plugins/compound-engineering/README.md) - all agents, commands, skills
+- [Full component reference](plugins/command-module/README.md) - all agents, commands, skills
 - [Compound engineering: how Every codes with agents](https://every.to/chain-of-thought/compound-engineering-how-every-codes-with-agents)
 - [The story behind compounding engineering](https://every.to/source-code/my-ai-had-already-fixed-the-code-before-i-saw-it)
 
@@ -54,13 +54,13 @@ Each cycle compounds: brainstorms sharpen plans, plans inform future plans, revi
 
 ```bash
 /plugin marketplace add EveryInc/compound-engineering-plugin
-/plugin install compound-engineering
+/plugin install command-module
 ```
 
 ### Cursor
 
 ```text
-/add-plugin compound-engineering
+/add-plugin command-module
 ```
 
 ### OpenCode, Codex, Droid, Pi, Gemini, Copilot, Kiro, Windsurf, OpenClaw & Qwen (experimental)
@@ -68,41 +68,41 @@ Each cycle compounds: brainstorms sharpen plans, plans inform future plans, revi
 This repo includes a Bun/TypeScript CLI that converts Claude Code plugins to OpenCode, Codex, Factory Droid, Pi, Gemini CLI, GitHub Copilot, Kiro CLI, Windsurf, OpenClaw, and Qwen Code.
 
 ```bash
-# convert the compound-engineering plugin into OpenCode format
-bunx @every-env/compound-plugin install compound-engineering --to opencode
+# convert the command-module plugin into OpenCode format
+bunx @every-env/compound-plugin install command-module --to opencode
 
 # convert to Codex format
-bunx @every-env/compound-plugin install compound-engineering --to codex
+bunx @every-env/compound-plugin install command-module --to codex
 
 # convert to Factory Droid format
-bunx @every-env/compound-plugin install compound-engineering --to droid
+bunx @every-env/compound-plugin install command-module --to droid
 
 # convert to Pi format
-bunx @every-env/compound-plugin install compound-engineering --to pi
+bunx @every-env/compound-plugin install command-module --to pi
 
 # convert to Gemini CLI format
-bunx @every-env/compound-plugin install compound-engineering --to gemini
+bunx @every-env/compound-plugin install command-module --to gemini
 
 # convert to GitHub Copilot format
-bunx @every-env/compound-plugin install compound-engineering --to copilot
+bunx @every-env/compound-plugin install command-module --to copilot
 
 # convert to Kiro CLI format
-bunx @every-env/compound-plugin install compound-engineering --to kiro
+bunx @every-env/compound-plugin install command-module --to kiro
 
 # convert to OpenClaw format
-bunx @every-env/compound-plugin install compound-engineering --to openclaw
+bunx @every-env/compound-plugin install command-module --to openclaw
 
 # convert to Windsurf format (global scope by default)
-bunx @every-env/compound-plugin install compound-engineering --to windsurf
+bunx @every-env/compound-plugin install command-module --to windsurf
 
 # convert to Windsurf workspace scope
-bunx @every-env/compound-plugin install compound-engineering --to windsurf --scope workspace
+bunx @every-env/compound-plugin install command-module --to windsurf --scope workspace
 
 # convert to Qwen Code format
-bunx @every-env/compound-plugin install compound-engineering --to qwen
+bunx @every-env/compound-plugin install command-module --to qwen
 
 # auto-detect installed tools and install to all
-bunx @every-env/compound-plugin install compound-engineering --to all
+bunx @every-env/compound-plugin install command-module --to all
 ```
 
 <details>
@@ -136,7 +136,7 @@ For active development -- edits to the plugin source are reflected immediately.
 **Claude Code** -- add a shell alias so your local copy loads alongside your normal plugins:
 
 ```bash
-alias cce='claude --plugin-dir ~/code/compound-engineering-plugin/plugins/compound-engineering'
+alias cce='claude --plugin-dir ~/code/compound-engineering-plugin/plugins/command-module'
 ```
 
 Run `cce` instead of `claude` to test your changes. Your production install stays untouched.
@@ -145,25 +145,25 @@ Run `cce` instead of `claude` to test your changes. Your production install stay
 
 ```bash
 # from the repo root
-bun run src/index.ts install ./plugins/compound-engineering --to codex
+bun run src/index.ts install ./plugins/command-module --to codex
 
 # same pattern for other targets
-bun run src/index.ts install ./plugins/compound-engineering --to opencode
+bun run src/index.ts install ./plugins/command-module --to opencode
 ```
 
 ### From a pushed branch
 
 For testing someone else's branch or your own branch from a worktree, without switching checkouts. Uses `--branch` to clone the branch to a deterministic cache directory.
 
-> **Unpushed local branches**: If the branch exists only in a local worktree and hasn't been pushed, point `--plugin-dir` directly at the worktree path instead (e.g. `claude --plugin-dir /path/to/worktree/plugins/compound-engineering`).
+> **Unpushed local branches**: If the branch exists only in a local worktree and hasn't been pushed, point `--plugin-dir` directly at the worktree path instead (e.g. `claude --plugin-dir /path/to/worktree/plugins/command-module`).
 
 **Claude Code** -- use `plugin-path` to get the cached clone path:
 
 ```bash
 # from the repo root
-bun run src/index.ts plugin-path compound-engineering --branch feat/new-agents
+bun run src/index.ts plugin-path command-module --branch feat/new-agents
 # Output:
-#   claude --plugin-dir ~/.cache/compound-engineering/branches/compound-engineering-feat~new-agents/plugins/compound-engineering
+#   claude --plugin-dir ~/.cache/command-module/branches/command-module-feat~new-agents/plugins/command-module
 ```
 
 The cache path is deterministic (same branch always maps to the same directory). Re-running updates the checkout to the latest commit on that branch.
@@ -172,13 +172,13 @@ The cache path is deterministic (same branch always maps to the same directory).
 
 ```bash
 # from the repo root
-bun run src/index.ts install compound-engineering --to codex --branch feat/new-agents
+bun run src/index.ts install command-module --to codex --branch feat/new-agents
 
 # works with any target
-bun run src/index.ts install compound-engineering --to opencode --branch feat/new-agents
+bun run src/index.ts install command-module --to opencode --branch feat/new-agents
 
 # combine with --also for multiple targets
-bun run src/index.ts install compound-engineering --to codex --also opencode --branch feat/new-agents
+bun run src/index.ts install command-module --to codex --also opencode --branch feat/new-agents
 ```
 
 Both features use the `COMPOUND_PLUGIN_GITHUB_SOURCE` env var to resolve the repository, defaulting to `https://github.com/EveryInc/compound-engineering-plugin`.
@@ -193,19 +193,19 @@ CE_REPO=~/code/compound-engineering-plugin
 ce-cli() { bun run "$CE_REPO/src/index.ts" "$@"; }
 
 # --- Local checkout (active development) ---
-alias cce='claude --plugin-dir $CE_REPO/plugins/compound-engineering'
+alias cce='claude --plugin-dir $CE_REPO/plugins/command-module'
 
 codex-ce() {
-  ce-cli install "$CE_REPO/plugins/compound-engineering" --to codex "$@"
+  ce-cli install "$CE_REPO/plugins/command-module" --to codex "$@"
 }
 
 # --- Pushed branch (testing PRs, worktree workflows) ---
 ccb() {
-  claude --plugin-dir "$(ce-cli plugin-path compound-engineering --branch "$1")" "${@:2}"
+  claude --plugin-dir "$(ce-cli plugin-path command-module --branch "$1")" "${@:2}"
 }
 
 codex-ceb() {
-  ce-cli install compound-engineering --to codex --branch "$1" "${@:2}"
+  ce-cli install command-module --to codex --branch "$1" "${@:2}"
 }
 ```
 

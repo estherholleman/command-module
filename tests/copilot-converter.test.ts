@@ -416,9 +416,9 @@ describe("convertClaudeToCopilot", () => {
 
 describe("transformContentForCopilot", () => {
   test("rewrites .claude/ paths to .github/", () => {
-    const input = "Read `.claude/compound-engineering.local.md` for config."
+    const input = "Read `.claude/command-module.local.md` for config."
     const result = transformContentForCopilot(input)
-    expect(result).toContain(".github/compound-engineering.local.md")
+    expect(result).toContain(".github/command-module.local.md")
     expect(result).not.toContain(".claude/")
   })
 
@@ -447,21 +447,21 @@ Task best-practices-researcher(topic)`
   test("transforms namespaced Task agent calls using final segment", () => {
     const input = `Run agents:
 
-- Task compound-engineering:research:repo-research-analyst(feature_description)
-- Task compound-engineering:review:security-reviewer(code_diff)`
+- Task command-module:research:repo-research-analyst(feature_description)
+- Task command-module:review:security-reviewer(code_diff)`
 
     const result = transformContentForCopilot(input)
     expect(result).toContain("Use the repo-research-analyst skill to: feature_description")
     expect(result).toContain("Use the security-reviewer skill to: code_diff")
-    expect(result).not.toContain("compound-engineering:")
+    expect(result).not.toContain("command-module:")
   })
 
   test("transforms zero-argument Task calls", () => {
-    const input = `- Task compound-engineering:review:code-simplicity-reviewer()`
+    const input = `- Task command-module:review:code-simplicity-reviewer()`
 
     const result = transformContentForCopilot(input)
     expect(result).toContain("Use the code-simplicity-reviewer skill")
-    expect(result).not.toContain("compound-engineering:")
+    expect(result).not.toContain("command-module:")
     expect(result).not.toContain("skill to:")
   })
 

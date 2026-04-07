@@ -7,14 +7,14 @@ async function readRepoFile(relativePath: string): Promise<string> {
   return readFile(path.join(process.cwd(), relativePath), "utf8")
 }
 
-describe("ce-review contract", () => {
+describe("code-review contract", () => {
   test("documents explicit modes and orchestration boundaries", async () => {
-    const content = await readRepoFile("plugins/compound-engineering/skills/ce-review/SKILL.md")
+    const content = await readRepoFile("plugins/command-module/skills/code-review/SKILL.md")
 
     expect(content).toContain("## Mode Detection")
     expect(content).toContain("mode:autofix")
     expect(content).toContain("mode:report-only")
-    expect(content).toContain(".context/compound-engineering/ce-review/<run-id>/")
+    expect(content).toContain(".context/command-module/ce-review/<run-id>/")
     expect(content).toContain("Do not create residual todos or `.context` artifacts.")
     expect(content).toContain(
       "Do not start a mutating review round concurrently with browser testing on the same checkout.",
@@ -26,7 +26,7 @@ describe("ce-review contract", () => {
   })
 
   test("documents policy-driven routing and residual handoff", async () => {
-    const content = await readRepoFile("plugins/compound-engineering/skills/ce-review/SKILL.md")
+    const content = await readRepoFile("plugins/command-module/skills/code-review/SKILL.md")
 
     expect(content).toContain("## Action Routing")
     expect(content).toContain("Only `safe_auto -> review-fixer` enters the in-skill fixer queue automatically.")
@@ -47,7 +47,7 @@ describe("ce-review contract", () => {
 
   test("keeps findings schema and downstream docs aligned", async () => {
     const rawSchema = await readRepoFile(
-      "plugins/compound-engineering/skills/ce-review/references/findings-schema.json",
+      "plugins/command-module/skills/code-review/references/findings-schema.json",
     )
     const schema = JSON.parse(rawSchema) as {
       _meta: { confidence_thresholds: { suppress: string } }
@@ -83,57 +83,49 @@ describe("ce-review contract", () => {
     expect(schema.properties.findings.items.properties.requires_verification.type).toBe("boolean")
     expect(schema._meta.confidence_thresholds.suppress).toContain("0.60")
 
-    const fileTodos = await readRepoFile("plugins/compound-engineering/skills/todo-create/SKILL.md")
-    expect(fileTodos).toContain("/ce:review mode:autofix")
+    const fileTodos = await readRepoFile("plugins/command-module/skills/todo-create/SKILL.md")
+    expect(fileTodos).toContain("/code-review mode:autofix")
     expect(fileTodos).toContain("/todo-resolve")
 
-    const resolveTodos = await readRepoFile("plugins/compound-engineering/skills/todo-resolve/SKILL.md")
-    expect(resolveTodos).toContain("ce:review mode:autofix")
+    const resolveTodos = await readRepoFile("plugins/command-module/skills/todo-resolve/SKILL.md")
+    expect(resolveTodos).toContain("code-review mode:autofix")
     expect(resolveTodos).toContain("safe_auto")
   })
 
-  test("documents stack-specific conditional reviewers for the JSON pipeline", async () => {
-    const content = await readRepoFile("plugins/compound-engineering/skills/ce-review/SKILL.md")
+  test("documents conditional reviewers for the JSON pipeline", async () => {
+    const content = await readRepoFile("plugins/command-module/skills/code-review/SKILL.md")
     const catalog = await readRepoFile(
-      "plugins/compound-engineering/skills/ce-review/references/persona-catalog.md",
+      "plugins/command-module/skills/code-review/references/persona-catalog.md",
     )
 
     for (const agent of [
-      "compound-engineering:review:dhh-rails-reviewer",
-      "compound-engineering:review:kieran-rails-reviewer",
-      "compound-engineering:review:kieran-python-reviewer",
-      "compound-engineering:review:kieran-typescript-reviewer",
-      "compound-engineering:review:julik-frontend-races-reviewer",
+      "command-module:review:security-reviewer",
+      "command-module:review:performance-reviewer",
+      "command-module:review:api-contract-reviewer",
+      "command-module:review:data-migrations-reviewer",
+      "command-module:review:reliability-reviewer",
+      "command-module:review:adversarial-reviewer",
     ]) {
       expect(content).toContain(agent)
       expect(catalog).toContain(agent)
     }
 
-    expect(content).toContain("## Language-Aware Conditionals")
-    expect(content).not.toContain("## Language-Agnostic")
+    expect(content).toContain("## Reviewers")
   })
 
-  test("stack-specific reviewer agents follow the structured findings contract", async () => {
+  test("conditional reviewer agents follow the structured findings contract", async () => {
     const reviewers = [
       {
-        path: "plugins/compound-engineering/agents/review/dhh-rails-reviewer.md",
-        reviewer: "dhh-rails",
+        path: "plugins/command-module/agents/review/security-reviewer.md",
+        reviewer: "security",
       },
       {
-        path: "plugins/compound-engineering/agents/review/kieran-rails-reviewer.md",
-        reviewer: "kieran-rails",
+        path: "plugins/command-module/agents/review/performance-reviewer.md",
+        reviewer: "performance",
       },
       {
-        path: "plugins/compound-engineering/agents/review/kieran-python-reviewer.md",
-        reviewer: "kieran-python",
-      },
-      {
-        path: "plugins/compound-engineering/agents/review/kieran-typescript-reviewer.md",
-        reviewer: "kieran-typescript",
-      },
-      {
-        path: "plugins/compound-engineering/agents/review/julik-frontend-races-reviewer.md",
-        reviewer: "julik-frontend-races",
+        path: "plugins/command-module/agents/review/adversarial-reviewer.md",
+        reviewer: "adversarial",
       },
     ]
 
@@ -154,18 +146,17 @@ describe("ce-review contract", () => {
     }
   })
 
-  test("leaves data-migration-expert as the unstructured review format", async () => {
+  test("data-migrations-reviewer uses the structured review format", async () => {
     const content = await readRepoFile(
-      "plugins/compound-engineering/agents/review/data-migration-expert.md",
+      "plugins/command-module/agents/review/data-migrations-reviewer.md",
     )
 
-    expect(content).toContain("## Reviewer Checklist")
-    expect(content).toContain("Refuse approval until there is a written verification + rollback plan.")
-    expect(content).not.toContain("Return your findings as JSON matching the findings schema.")
+    expect(content).toContain("Conditional code-review persona")
+    expect(content).toContain("Return your findings as JSON matching the findings schema.")
   })
 
   test("fails closed when merge-base is unresolved instead of falling back to git diff HEAD", async () => {
-    const content = await readRepoFile("plugins/compound-engineering/skills/ce-review/SKILL.md")
+    const content = await readRepoFile("plugins/command-module/skills/code-review/SKILL.md")
 
     // No scope path should fall back to `git diff HEAD` or `git diff --cached` — those only
     // show uncommitted changes and silently produce empty diffs on clean feature branches.
@@ -179,13 +170,13 @@ describe("ce-review contract", () => {
   })
 
   test("orchestration callers pass explicit mode flags", async () => {
-    const lfg = await readRepoFile("plugins/compound-engineering/skills/lfg/SKILL.md")
-    expect(lfg).toContain("/ce:review mode:autofix")
+    const lfg = await readRepoFile("plugins/command-module/skills/lfg/SKILL.md")
+    expect(lfg).toContain("/code-review mode:autofix")
 
-    const slfg = await readRepoFile("plugins/compound-engineering/skills/slfg/SKILL.md")
+    const slfg = await readRepoFile("plugins/command-module/skills/slfg/SKILL.md")
     // slfg uses report-only for the parallel phase (safe with browser testing)
     // then autofix sequentially after to emit fixes and todos
-    expect(slfg).toContain("/ce:review mode:report-only")
-    expect(slfg).toContain("/ce:review mode:autofix")
+    expect(slfg).toContain("/code-review mode:report-only")
+    expect(slfg).toContain("/code-review mode:autofix")
   })
 })

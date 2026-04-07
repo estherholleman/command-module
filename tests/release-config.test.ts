@@ -8,14 +8,14 @@ describe("release-please config validation", () => {
         ".": {
           "changelog-path": "CHANGELOG.md",
         },
-        "plugins/compound-engineering": {
+        "plugins/command-module": {
           "changelog-path": "../../CHANGELOG.md",
         },
       },
     })
 
     expect(errors).toHaveLength(1)
-    expect(errors[0]).toContain('Package "plugins/compound-engineering"')
+    expect(errors[0]).toContain('Package "plugins/command-module"')
     expect(errors[0]).toContain("../../CHANGELOG.md")
   })
 
@@ -25,7 +25,7 @@ describe("release-please config validation", () => {
         ".": {
           "changelog-path": "CHANGELOG.md",
         },
-        "plugins/compound-engineering": {
+        "plugins/command-module": {
           "skip-changelog": true,
         },
         ".claude-plugin": {

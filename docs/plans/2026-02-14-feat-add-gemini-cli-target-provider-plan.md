@@ -94,7 +94,7 @@ Identical to Claude Code's format. The `description` field is critical -- Gemini
 
 ## Acceptance Criteria
 
-- [x] `bun run src/index.ts convert --to gemini ./plugins/compound-engineering` produces valid Gemini config
+- [x] `bun run src/index.ts convert --to gemini ./plugins/command-module` produces valid Gemini config
 - [x] Agents convert to `.gemini/skills/*/SKILL.md` with populated `description` in frontmatter
 - [x] Commands convert to `.gemini/commands/*.toml` with `prompt` and `description` fields
 - [x] Namespaced commands create directory structure (`workflows:plan` -> `commands/workflows/plan.toml`)

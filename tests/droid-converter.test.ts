@@ -157,8 +157,8 @@ Task best-practices-researcher(topic)`,
           description: "Planning with namespaced agents",
           body: `Run agents:
 
-- Task compound-engineering:research:repo-research-analyst(feature_description)
-- Task compound-engineering:review:security-reviewer(code_diff)`,
+- Task command-module:research:repo-research-analyst(feature_description)
+- Task command-module:review:security-reviewer(code_diff)`,
           sourcePath: "/tmp/plugin/commands/plan.md",
         },
       ],
@@ -175,7 +175,7 @@ Task best-practices-researcher(topic)`,
     const parsed = parseFrontmatter(bundle.commands[0].content)
     expect(parsed.body).toContain("Task repo-research-analyst: feature_description")
     expect(parsed.body).toContain("Task security-reviewer: code_diff")
-    expect(parsed.body).not.toContain("compound-engineering:")
+    expect(parsed.body).not.toContain("command-module:")
   })
 
   test("transforms zero-argument Task calls", () => {
@@ -185,7 +185,7 @@ Task best-practices-researcher(topic)`,
         {
           name: "review",
           description: "Review code",
-          body: `- Task compound-engineering:review:code-simplicity-reviewer()`,
+          body: `- Task command-module:review:code-simplicity-reviewer()`,
           sourcePath: "/tmp/plugin/commands/review.md",
         },
       ],
@@ -201,7 +201,7 @@ Task best-practices-researcher(topic)`,
 
     const parsed = parseFrontmatter(bundle.commands[0].content)
     expect(parsed.body).toContain("Task code-simplicity-reviewer")
-    expect(parsed.body).not.toContain("compound-engineering:")
+    expect(parsed.body).not.toContain("command-module:")
     expect(parsed.body).not.toContain("()")
   })
 

@@ -5,7 +5,7 @@ import type { ClaudePlugin } from "../src/types/claude"
 
 const fixturePlugin: ClaudePlugin = {
   root: "/tmp/plugin",
-  manifest: { name: "compound-engineering", version: "1.0.0", description: "A plugin" },
+  manifest: { name: "command-module", version: "1.0.0", description: "A plugin" },
   agents: [
     {
       name: "security-reviewer",
@@ -105,8 +105,8 @@ describe("convertClaudeToOpenClaw", () => {
   test("manifest includes plugin id, display name, and skills list", () => {
     const bundle = convertClaudeToOpenClaw(fixturePlugin, defaultOptions)
 
-    expect(bundle.manifest.id).toBe("compound-engineering")
-    expect(bundle.manifest.name).toBe("Compound Engineering")
+    expect(bundle.manifest.id).toBe("command-module")
+    expect(bundle.manifest.name).toBe("Command Module")
     expect(bundle.manifest.kind).toBe("tool")
     expect(bundle.manifest.configSchema).toEqual({
       type: "object",
@@ -120,7 +120,7 @@ describe("convertClaudeToOpenClaw", () => {
   test("package.json uses plugin name and version", () => {
     const bundle = convertClaudeToOpenClaw(fixturePlugin, defaultOptions)
 
-    expect(bundle.packageJson.name).toBe("openclaw-compound-engineering")
+    expect(bundle.packageJson.name).toBe("openclaw-command-module")
     expect(bundle.packageJson.version).toBe("1.0.0")
     expect(bundle.packageJson.type).toBe("module")
   })

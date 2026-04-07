@@ -52,7 +52,7 @@ Both `todos/` and `.context/` are gitignored. The `git add todos/` command in `c
 
 ### Phase 1: Update `file-todos` (Foundation)
 
-**File:** `plugins/compound-engineering/skills/file-todos/SKILL.md`
+**File:** `plugins/command-module/skills/file-todos/SKILL.md`
 
 This is the authoritative skill -- all other changes depend on getting this right first.
 
@@ -76,7 +76,7 @@ These 4 skills only **create** todos. They should delegate to `file-todos` rathe
 
 #### 2a. `ce-review` skill
 
-**File:** `plugins/compound-engineering/skills/ce-review/SKILL.md`
+**File:** `plugins/command-module/skills/ce-review/SKILL.md`
 
 Changes:
 1. **Line 244** (`<critical_requirement>`): Replace `todos/ directory` with `the todo directory defined by the file-todos skill`
@@ -86,7 +86,7 @@ Changes:
 
 #### 2b. `ce-review-beta` skill
 
-**File:** `plugins/compound-engineering/skills/ce-review-beta/SKILL.md`
+**File:** `plugins/command-module/skills/ce-review-beta/SKILL.md`
 
 Changes:
 1. **Line 35**: Change `todos/` items to reference file-todos skill conventions
@@ -95,7 +95,7 @@ Changes:
 
 #### 2c. `test-browser` skill
 
-**File:** `plugins/compound-engineering/skills/test-browser/SKILL.md`
+**File:** `plugins/command-module/skills/test-browser/SKILL.md`
 
 Changes:
 1. **Line 228**: Change `Add to todos/ for later` to `Create a todo using the file-todos skill conventions`
@@ -103,7 +103,7 @@ Changes:
 
 #### 2d. `test-xcode` skill
 
-**File:** `plugins/compound-engineering/skills/test-xcode/SKILL.md`
+**File:** `plugins/command-module/skills/test-xcode/SKILL.md`
 
 Changes:
 1. **Line 142**: Change `Add to todos/ for later` to `Create a todo using the file-todos skill conventions`
@@ -115,7 +115,7 @@ These skills **read and operate on** existing todos. They need dual-path support
 
 #### 3a. `triage` skill
 
-**File:** `plugins/compound-engineering/skills/triage/SKILL.md`
+**File:** `plugins/command-module/skills/triage/SKILL.md`
 
 Changes:
 1. **Line 9**: Update `todos/ directory` to reference both paths
@@ -126,7 +126,7 @@ Changes:
 
 #### 3b. `resolve-todo-parallel` skill
 
-**File:** `plugins/compound-engineering/skills/resolve-todo-parallel/SKILL.md`
+**File:** `plugins/command-module/skills/resolve-todo-parallel/SKILL.md`
 
 Changes:
 1. **Line 13**: Change `Get all unresolved TODOs from the /todos/*.md directory` to scan both `.context/compound-engineering/todos/*.md` and `todos/*.md`
@@ -145,7 +145,7 @@ Changes:
 
 ### Internal References
 
-- `plugins/compound-engineering/skills/file-todos/SKILL.md` -- canonical todo system definition
-- `plugins/compound-engineering/skills/file-todos/assets/todo-template.md` -- todo file template
+- `plugins/command-module/skills/file-todos/SKILL.md` -- canonical todo system definition
+- `plugins/command-module/skills/file-todos/assets/todo-template.md` -- todo file template
 - `AGENTS.md:27` -- `.context/compound-engineering/` scratch space convention
 - `.gitignore` -- confirms both `todos/` and `.context/` are already ignored

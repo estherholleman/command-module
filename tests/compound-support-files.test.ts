@@ -2,18 +2,18 @@ import { readFile } from "fs/promises"
 import path from "path"
 import { describe, expect, test } from "bun:test"
 
-const PLUGIN_ROOT = path.join(process.cwd(), "plugins", "compound-engineering", "skills")
+const PLUGIN_ROOT = path.join(process.cwd(), "plugins", "command-module", "skills")
 
-/** Canonical copies live in ce-compound; mirrors must stay identical. */
+/** Canonical copies live in distill; mirrors must stay identical. */
 const SHARED_SUPPORT_FILES = [
   "references/schema.yaml",
   "references/yaml-schema.md",
   "assets/resolution-template.md",
 ]
 
-const SKILLS_WITH_COPIES = ["ce-compound", "ce-compound-refresh"]
+const SKILLS_WITH_COPIES = ["distill", "distill-refresh"]
 
-describe("ce:compound support file drift", () => {
+describe("distill support file drift", () => {
   for (const file of SHARED_SUPPORT_FILES) {
     test(`${file} is identical across ${SKILLS_WITH_COPIES.join(", ")}`, async () => {
       const contents = await Promise.all(

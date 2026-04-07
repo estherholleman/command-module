@@ -42,7 +42,7 @@ The primary audience is human developers. A document that works for human compre
 
 ### Relevant Code and Patterns
 
-- Skills live in `plugins/compound-engineering/skills/<name>/SKILL.md` with optional `scripts/`, `references/`, `assets/` directories
+- Skills live in `plugins/command-module/skills/<name>/SKILL.md` with optional `scripts/`, `references/`, `assets/` directories
 - Skills are auto-discovered from directory structure -- no registration in `plugin.json`
 - SKILL.md requires YAML frontmatter with `name` and `description` fields
 - Arguments received via `#$ARGUMENTS` interpolation in an XML tag
@@ -53,7 +53,7 @@ The primary audience is human developers. A document that works for human compre
 
 - **Script-first skill architecture** (`docs/solutions/skill-design/script-first-skill-architecture.md`): Move deterministic processing into bundled scripts; model does judgment work only. 60-75% token reduction. Applies here as a hybrid -- script gathers structural inventory, model reads key files and writes prose.
 - **Compound-refresh skill improvements** (`docs/solutions/skill-design/compound-refresh-skill-improvements.md`): Triage before asking (don't ask users what to document); platform-agnostic tool references; subagents should use file tools not shell; no contradictory rules across phases.
-- Skill compliance checklist in `plugins/compound-engineering/AGENTS.md`: imperative voice, no second person, cross-platform question tool patterns, markdown-linked references.
+- Skill compliance checklist in `plugins/command-module/AGENTS.md`: imperative voice, no second person, cross-platform question tool patterns, markdown-linked references.
 
 ## Key Technical Decisions
 
@@ -93,7 +93,7 @@ The primary audience is human developers. A document that works for human compre
   **Dependencies:** None
 
   **Files:**
-  - Create: `plugins/compound-engineering/skills/onboarding/scripts/inventory.mjs`
+  - Create: `plugins/command-module/skills/onboarding/scripts/inventory.mjs`
   - Test: `tests/onboarding-inventory.test.ts`
 
   **Approach:**
@@ -163,7 +163,7 @@ The primary audience is human developers. A document that works for human compre
   **Dependencies:** Unit 1
 
   **Files:**
-  - Create: `plugins/compound-engineering/skills/onboarding/SKILL.md`
+  - Create: `plugins/command-module/skills/onboarding/SKILL.md`
 
   **Approach:**
 
@@ -211,7 +211,7 @@ The primary audience is human developers. A document that works for human compre
   **Patterns to follow:**
   - `skills/ce-plan/SKILL.md` -- research-then-write orchestration, platform-agnostic tool references
   - `skills/claude-permissions-optimizer/SKILL.md` -- script-first execution pattern
-  - Skill compliance checklist in `plugins/compound-engineering/AGENTS.md`
+  - Skill compliance checklist in `plugins/command-module/AGENTS.md`
 
   **Test scenarios:**
   - The skill description triggers on "generate onboarding", "onboard new contributor", "create ONBOARDING.md", "document this codebase for new developers"
@@ -235,7 +235,7 @@ The primary audience is human developers. A document that works for human compre
   **Dependencies:** Unit 2
 
   **Files:**
-  - Modify: `plugins/compound-engineering/README.md`
+  - Modify: `plugins/command-module/README.md`
 
   **Approach:**
 
@@ -277,5 +277,5 @@ The primary audience is human developers. A document that works for human compre
 - **Origin document:** [docs/brainstorms/2026-03-25-vonboarding-skill-requirements.md](../brainstorms/2026-03-25-vonboarding-skill-requirements.md)
 - Script-first architecture: [docs/solutions/skill-design/script-first-skill-architecture.md](../solutions/skill-design/script-first-skill-architecture.md)
 - Compound-refresh learnings: [docs/solutions/skill-design/compound-refresh-skill-improvements.md](../solutions/skill-design/compound-refresh-skill-improvements.md)
-- Repo-research-analyst agent: `plugins/compound-engineering/agents/research/repo-research-analyst.md`
-- Skill compliance checklist: `plugins/compound-engineering/AGENTS.md`
+- Repo-research-analyst agent: `plugins/command-module/agents/research/repo-research-analyst.md`
+- Skill compliance checklist: `plugins/command-module/AGENTS.md`

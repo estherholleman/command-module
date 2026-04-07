@@ -20,16 +20,16 @@ async function makeFixtureRoot(): Promise<string> {
   const root = await mkdtemp(path.join(os.tmpdir(), "release-metadata-"))
   tempRoots.push(root)
 
-  await mkdir(path.join(root, "plugins", "compound-engineering", "agents", "review"), {
+  await mkdir(path.join(root, "plugins", "command-module", "agents", "review"), {
     recursive: true,
   })
-  await mkdir(path.join(root, "plugins", "compound-engineering", "skills", "ce-plan"), {
+  await mkdir(path.join(root, "plugins", "command-module", "skills", "ce-plan"), {
     recursive: true,
   })
-  await mkdir(path.join(root, "plugins", "compound-engineering", ".claude-plugin"), {
+  await mkdir(path.join(root, "plugins", "command-module", ".claude-plugin"), {
     recursive: true,
   })
-  await mkdir(path.join(root, "plugins", "compound-engineering", ".cursor-plugin"), {
+  await mkdir(path.join(root, "plugins", "command-module", ".cursor-plugin"), {
     recursive: true,
   })
   await mkdir(path.join(root, "plugins", "coding-tutor", ".claude-plugin"), {
@@ -42,23 +42,23 @@ async function makeFixtureRoot(): Promise<string> {
   await mkdir(path.join(root, ".cursor-plugin"), { recursive: true })
 
   await writeFile(
-    path.join(root, "plugins", "compound-engineering", "agents", "review", "agent.md"),
+    path.join(root, "plugins", "command-module", "agents", "review", "agent.md"),
     "# Review Agent\n",
   )
   await writeFile(
-    path.join(root, "plugins", "compound-engineering", "skills", "ce-plan", "SKILL.md"),
+    path.join(root, "plugins", "command-module", "skills", "ce-plan", "SKILL.md"),
     "# ce:plan\n",
   )
   await writeFile(
-    path.join(root, "plugins", "compound-engineering", ".mcp.json"),
+    path.join(root, "plugins", "command-module", ".mcp.json"),
     JSON.stringify({ mcpServers: { context7: { command: "ctx7" } } }, null, 2),
   )
   await writeFile(
-    path.join(root, "plugins", "compound-engineering", ".claude-plugin", "plugin.json"),
+    path.join(root, "plugins", "command-module", ".claude-plugin", "plugin.json"),
     JSON.stringify({ version: "2.42.0", description: "old" }, null, 2),
   )
   await writeFile(
-    path.join(root, "plugins", "compound-engineering", ".cursor-plugin", "plugin.json"),
+    path.join(root, "plugins", "command-module", ".cursor-plugin", "plugin.json"),
     JSON.stringify({ version: "2.33.0", description: "old" }, null, 2),
   )
   await writeFile(
@@ -75,7 +75,7 @@ async function makeFixtureRoot(): Promise<string> {
       {
         metadata: { version: "1.0.0", description: "marketplace" },
         plugins: [
-          { name: "compound-engineering", version: "2.41.0", description: "old" },
+          { name: "command-module", version: "2.41.0", description: "old" },
           { name: "coding-tutor", version: "1.2.0", description: "old" },
         ],
       },
@@ -89,7 +89,7 @@ async function makeFixtureRoot(): Promise<string> {
       {
         metadata: { version: "1.0.0", description: "marketplace" },
         plugins: [
-          { name: "compound-engineering", version: "2.41.0", description: "old" },
+          { name: "command-module", version: "2.41.0", description: "old" },
           { name: "coding-tutor", version: "1.2.0", description: "old" },
         ],
       },
@@ -102,7 +102,7 @@ async function makeFixtureRoot(): Promise<string> {
 }
 
 describe("release metadata", () => {
-  test("reports current compound-engineering counts from the repo", async () => {
+  test("reports current command-module counts from the repo", async () => {
     const counts = await getCompoundEngineeringCounts(process.cwd())
 
     expect(counts).toEqual({
@@ -115,7 +115,7 @@ describe("release metadata", () => {
     expect(counts.mcpServers).toBeGreaterThanOrEqual(0)
   })
 
-  test("builds a stable compound-engineering manifest description", async () => {
+  test("builds a stable command-module manifest description", async () => {
     const description = await buildCompoundEngineeringDescription(process.cwd())
 
     expect(description).toBe(
@@ -128,7 +128,7 @@ describe("release metadata", () => {
     const result = await syncReleaseMetadata({ root, write: false })
     const changedPaths = result.updates.filter((update) => update.changed).map((update) => update.path)
 
-    expect(changedPaths).toContain(path.join(root, "plugins", "compound-engineering", ".cursor-plugin", "plugin.json"))
+    expect(changedPaths).toContain(path.join(root, "plugins", "command-module", ".cursor-plugin", "plugin.json"))
     expect(changedPaths).toContain(path.join(root, ".claude-plugin", "marketplace.json"))
     expect(changedPaths).toContain(path.join(root, ".cursor-plugin", "marketplace.json"))
   })

@@ -54,23 +54,23 @@ The result is a workflow that is hard to promote safely: it can be interactive, 
 
 ### Relevant Code and Patterns
 
-- `plugins/compound-engineering/skills/ce-review-beta/SKILL.md`
+- `plugins/command-module/skills/ce-review-beta/SKILL.md`
   - Current staged review pipeline with interactive severity acceptance, inline fixer, re-review offer, and post-fix push/PR actions
-- `plugins/compound-engineering/skills/ce-review-beta/references/findings-schema.json`
+- `plugins/command-module/skills/ce-review-beta/references/findings-schema.json`
   - Structured persona finding contract today; currently missing routing metadata for autonomous handling
-- `plugins/compound-engineering/skills/ce-review/SKILL.md`
+- `plugins/command-module/skills/ce-review/SKILL.md`
   - Current stable review workflow; creates durable `todos/` artifacts rather than fixing findings inline
-- `plugins/compound-engineering/skills/resolve-todo-parallel/SKILL.md`
+- `plugins/command-module/skills/resolve-todo-parallel/SKILL.md`
   - Existing residual-work resolver; parallelizes item handling once work has already been externalized
-- `plugins/compound-engineering/skills/file-todos/SKILL.md`
+- `plugins/command-module/skills/file-todos/SKILL.md`
   - Existing review -> triage -> todo -> resolve integration contract
-- `plugins/compound-engineering/skills/lfg/SKILL.md`
+- `plugins/command-module/skills/lfg/SKILL.md`
   - Sequential orchestrator whose future cutover constraints should inform the beta contract, even though this plan does not modify it
-- `plugins/compound-engineering/skills/slfg/SKILL.md`
+- `plugins/command-module/skills/slfg/SKILL.md`
   - Swarm orchestrator whose current review/browser parallelism defines an important future integration constraint, even though this plan does not modify it
-- `plugins/compound-engineering/skills/ce-compound-refresh/SKILL.md`
+- `plugins/command-module/skills/ce-compound-refresh/SKILL.md`
   - Strong repo precedent for explicit `mode:autonomous` argument handling and conservative non-interactive behavior
-- `plugins/compound-engineering/skills/ce-plan/SKILL.md`
+- `plugins/command-module/skills/ce-plan/SKILL.md`
   - Strong repo precedent for pipeline mode skipping interactive questions
 
 ### Institutional Learnings
@@ -144,10 +144,10 @@ review stages -> synthesize -> classify outputs by autofix_class/owner
 **Dependencies:** None
 
 **Files:**
-- Modify: `plugins/compound-engineering/skills/ce-review-beta/SKILL.md`
-- Modify: `plugins/compound-engineering/skills/ce-review-beta/references/findings-schema.json`
-- Modify: `plugins/compound-engineering/skills/ce-review-beta/references/review-output-template.md`
-- Modify: `plugins/compound-engineering/skills/ce-review-beta/references/subagent-template.md` (if routing metadata needs to be spelled out in spawn prompts)
+- Modify: `plugins/command-module/skills/ce-review-beta/SKILL.md`
+- Modify: `plugins/command-module/skills/ce-review-beta/references/findings-schema.json`
+- Modify: `plugins/command-module/skills/ce-review-beta/references/review-output-template.md`
+- Modify: `plugins/command-module/skills/ce-review-beta/references/subagent-template.md` (if routing metadata needs to be spelled out in spawn prompts)
 
 **Approach:**
 - Add a Mode Detection section near the top of `SKILL.md` using the established `mode:autonomous` argument pattern from `ce:compound-refresh`
@@ -163,8 +163,8 @@ review stages -> synthesize -> classify outputs by autofix_class/owner
   - advisory / operational notes
 
 **Patterns to follow:**
-- `plugins/compound-engineering/skills/ce-compound-refresh/SKILL.md` explicit autonomous mode structure
-- `plugins/compound-engineering/skills/ce-plan/SKILL.md` pipeline-mode question skipping
+- `plugins/command-module/skills/ce-compound-refresh/SKILL.md` explicit autonomous mode structure
+- `plugins/command-module/skills/ce-plan/SKILL.md` pipeline-mode question skipping
 
 **Test scenarios:**
 - Interactive mode still presents questions and next-step prompts
@@ -185,9 +185,9 @@ review stages -> synthesize -> classify outputs by autofix_class/owner
 **Dependencies:** Unit 1
 
 **Files:**
-- Modify: `plugins/compound-engineering/skills/ce-review-beta/SKILL.md`
-- Add: `plugins/compound-engineering/skills/ce-review-beta/references/fix-policy.md` (if the classification and policy table becomes too large for `SKILL.md`)
-- Modify: `plugins/compound-engineering/skills/ce-review-beta/references/review-output-template.md`
+- Modify: `plugins/command-module/skills/ce-review-beta/SKILL.md`
+- Add: `plugins/command-module/skills/ce-review-beta/references/fix-policy.md` (if the classification and policy table becomes too large for `SKILL.md`)
+- Modify: `plugins/command-module/skills/ce-review-beta/references/review-output-template.md`
 
 **Approach:**
 - Replace "Severity Acceptance" as the primary decision point with a classification stage that groups synthesized findings by `autofix_class`
@@ -223,10 +223,10 @@ review stages -> synthesize -> classify outputs by autofix_class/owner
 **Dependencies:** Unit 2
 
 **Files:**
-- Modify: `plugins/compound-engineering/skills/ce-review-beta/SKILL.md`
-- Modify: `plugins/compound-engineering/skills/resolve-todo-parallel/SKILL.md`
-- Modify: `plugins/compound-engineering/skills/file-todos/SKILL.md`
-- Add: `plugins/compound-engineering/skills/ce-review-beta/references/residual-work-template.md` (if a dedicated durable-work shape helps keep review prose smaller)
+- Modify: `plugins/command-module/skills/ce-review-beta/SKILL.md`
+- Modify: `plugins/command-module/skills/resolve-todo-parallel/SKILL.md`
+- Modify: `plugins/command-module/skills/file-todos/SKILL.md`
+- Add: `plugins/command-module/skills/ce-review-beta/references/residual-work-template.md` (if a dedicated durable-work shape helps keep review prose smaller)
 
 **Approach:**
 - Write a per-run review artifact under `.context/compound-engineering/ce-review-beta/<run-id>/` containing:
@@ -302,15 +302,15 @@ review stages -> synthesize -> classify outputs by autofix_class/owner
 ## Sources & References
 
 - Related skills:
-  - `plugins/compound-engineering/skills/ce-review-beta/SKILL.md`
-  - `plugins/compound-engineering/skills/ce-review/SKILL.md`
-  - `plugins/compound-engineering/skills/resolve-todo-parallel/SKILL.md`
-  - `plugins/compound-engineering/skills/file-todos/SKILL.md`
-  - `plugins/compound-engineering/skills/lfg/SKILL.md`
-  - `plugins/compound-engineering/skills/slfg/SKILL.md`
+  - `plugins/command-module/skills/ce-review-beta/SKILL.md`
+  - `plugins/command-module/skills/ce-review/SKILL.md`
+  - `plugins/command-module/skills/resolve-todo-parallel/SKILL.md`
+  - `plugins/command-module/skills/file-todos/SKILL.md`
+  - `plugins/command-module/skills/lfg/SKILL.md`
+  - `plugins/command-module/skills/slfg/SKILL.md`
 - Institutional learnings:
   - `docs/solutions/skill-design/compound-refresh-skill-improvements.md`
   - `docs/solutions/skill-design/beta-skills-framework.md`
 - Supporting pattern reference:
-  - `plugins/compound-engineering/skills/ce-compound-refresh/SKILL.md`
-  - `plugins/compound-engineering/skills/ce-plan/SKILL.md`
+  - `plugins/command-module/skills/ce-compound-refresh/SKILL.md`
+  - `plugins/command-module/skills/ce-plan/SKILL.md`

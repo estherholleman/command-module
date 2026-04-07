@@ -1,7 +1,7 @@
 # Privacy & Data Handling
 
 This repository contains:
-- a plugin package (`plugins/compound-engineering`) made of markdown/config content
+- a plugin package (`plugins/command-module`) made of markdown/config content
 - a CLI (`@every-env/compound-plugin`) that converts and installs plugin content for different AI coding tools
 
 ## Summary

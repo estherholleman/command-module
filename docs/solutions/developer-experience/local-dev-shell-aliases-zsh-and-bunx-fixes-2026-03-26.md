@@ -56,10 +56,10 @@ CE_REPO=~/code/compound-engineering-plugin
 ce-cli() { bun run "$CE_REPO/src/index.ts" "$@"; }
 
 # --- Local checkout (active development) ---
-alias cce='claude --plugin-dir $CE_REPO/plugins/compound-engineering'
+alias cce='claude --plugin-dir $CE_REPO/plugins/command-module'
 
 codex-ce() {
-  ce-cli install "$CE_REPO/plugins/compound-engineering" --to codex "$@"
+  ce-cli install "$CE_REPO/plugins/command-module" --to codex "$@"
 }
 
 # --- Pushed branch (testing PRs, worktree workflows) ---

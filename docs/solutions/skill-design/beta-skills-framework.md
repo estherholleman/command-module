@@ -2,7 +2,7 @@
 title: "Beta skills framework: parallel skills with -beta suffix for safe rollouts"
 category: skill-design
 date: 2026-03-17
-module: plugins/compound-engineering/skills
+module: plugins/command-module/skills
 component: SKILL.md
 tags:
   - skill-design

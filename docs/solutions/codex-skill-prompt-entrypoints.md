@@ -147,6 +147,6 @@ Before changing the Codex converter again:
 - `tests/codex-converter.test.ts`
 - `tests/codex-writer.test.ts`
 - `README.md`
-- `plugins/compound-engineering/skills/ce-brainstorm/SKILL.md`
-- `plugins/compound-engineering/skills/ce-plan/SKILL.md`
+- `plugins/command-module/skills/ce-brainstorm/SKILL.md`
+- `plugins/command-module/skills/ce-plan/SKILL.md`
 - `docs/solutions/adding-converter-target-providers.md`

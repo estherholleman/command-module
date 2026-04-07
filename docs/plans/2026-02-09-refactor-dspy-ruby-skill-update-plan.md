@@ -70,19 +70,19 @@ Use the engineering skill as base (already has correct API), enhance with offici
 
 ```bash
 # No old API patterns
-grep -n '\.forward(\|result\[:\|T\.enum(\[\|DSPy::Tool[^s]' plugins/compound-engineering/skills/dspy-ruby/SKILL.md
+grep -n '\.forward(\|result\[:\|T\.enum(\[\|DSPy::Tool[^s]' plugins/command-module/skills/dspy-ruby/SKILL.md
 
 # No backtick references
-grep -E '`(references|assets|scripts)/' plugins/compound-engineering/skills/dspy-ruby/SKILL.md
+grep -E '`(references|assets|scripts)/' plugins/command-module/skills/dspy-ruby/SKILL.md
 
 # Frontmatter correct
-head -4 plugins/compound-engineering/skills/dspy-ruby/SKILL.md
+head -4 plugins/command-module/skills/dspy-ruby/SKILL.md
 
 # JSON valid
-cat plugins/compound-engineering/.claude-plugin/plugin.json | jq .
+cat plugins/command-module/.claude-plugin/plugin.json | jq .
 
 # All files exist
-ls plugins/compound-engineering/skills/dspy-ruby/{references,assets}/
+ls plugins/command-module/skills/dspy-ruby/{references,assets}/
 ```
 
 ## Success Criteria

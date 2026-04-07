@@ -42,12 +42,12 @@ related_docs:
 
 The compound-engineering plugin CLI's `install` command always cloned the default branch from GitHub, and Claude Code's `--plugin-dir` flag only accepts local filesystem paths. Developers who wanted to test a plugin from a specific git branch had to manually check out that branch in their local repo, disrupting their working tree.
 
-This is especially painful in worktree-based workflows where `./plugins/compound-engineering` always points to whatever branch the main checkout is on. Two concrete scenarios:
+This is especially painful in worktree-based workflows where `./plugins/command-module` always points to whatever branch the main checkout is on. Two concrete scenarios:
 
 - **Cross-repo**: You're working in a different project and want to use a CE branch as your plugin. Without this, you'd have to switch the CE repo's checkout — which is likely WIP on something else.
 - **Same-repo**: You're working on CE itself — `feat/feature-2` in your main checkout, `feat/feature-1` in a worktree. You want to test feature-1's plugin while continuing to develop feature-2. The main checkout can't serve both purposes.
 
-Note: the `--branch` flag works with pushed branches (those available on the remote). For unpushed local worktree branches, developers can point `--plugin-dir` directly at the worktree path (e.g., `claude --plugin-dir /path/to/worktree/plugins/compound-engineering`).
+Note: the `--branch` flag works with pushed branches (those available on the remote). For unpushed local worktree branches, developers can point `--plugin-dir` directly at the worktree path (e.g., `claude --plugin-dir /path/to/worktree/plugins/command-module`).
 
 ---
 
@@ -56,7 +56,7 @@ Note: the `--branch` flag works with pushed branches (those available on the rem
 - Running `bunx compound-engineering install <plugin>` always fetched the default branch regardless of what branch contained the changes under review.
 - `claude --plugin-dir` required a local path, so there was no way to point it at a remote branch without a manual `git clone` or `git checkout`.
 - Developers testing PR branches had to stash or commit their local work, switch branches, test, then switch back -- a disruptive and error-prone workflow.
-- In worktree-based workflows, `./plugins/compound-engineering` in the repo root always points to the main checkout's branch, not the worktree branch being developed. Developers working on multiple branches simultaneously had no ergonomic way to install from a specific worktree's branch.
+- In worktree-based workflows, `./plugins/command-module` in the repo root always points to the main checkout's branch, not the worktree branch being developed. Developers working on multiple branches simultaneously had no ergonomic way to install from a specific worktree's branch.
 - No scripting path existed to spin up a branch-specific plugin directory for automated testing.
 
 ---
@@ -81,7 +81,7 @@ Clones a branch to a deterministic cache directory and prints the path for use w
 
 ```bash
 bun run src/index.ts plugin-path compound-engineering --branch feat/new-agents
-# Output: claude --plugin-dir ~/.cache/compound-engineering/branches/compound-engineering-feat~new-agents/plugins/compound-engineering
+# Output: claude --plugin-dir ~/.cache/compound-engineering/branches/compound-engineering-feat~new-agents/plugins/command-module
 ```
 
 Key implementation details in `src/commands/plugin-path.ts`:

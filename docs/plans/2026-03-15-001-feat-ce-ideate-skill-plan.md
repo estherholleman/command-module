@@ -19,7 +19,7 @@ The ce:* workflow pipeline has a gap at the very beginning. `ce:brainstorm` requ
 
 ## Requirements Trace
 
-- R1. Standalone skill in `plugins/compound-engineering/skills/ce-ideate/`
+- R1. Standalone skill in `plugins/command-module/skills/ce-ideate/`
 - R2. Optional freeform argument as focus hint (concept, path, constraint, or empty)
 - R3. Deep codebase scan via research agents before generating ideas
 - R4. Preserve the proven prompt mechanism: many ideas first, then brutal filtering, then detailed survivors
@@ -57,12 +57,12 @@ The ce:* workflow pipeline has a gap at the very beginning. `ce:brainstorm` requ
 
 ### Relevant Code and Patterns
 
-- `plugins/compound-engineering/skills/ce-brainstorm/SKILL.md` — Closest sibling. Mirror: resume behavior (Phase 0.1), artifact frontmatter (date + topic), handoff options via platform question tool, document-review integration, Proof sharing
-- `plugins/compound-engineering/skills/ce-plan/SKILL.md` — Agent dispatch pattern: `Task compound-engineering:research:repo-research-analyst(context)` running in parallel. Phase 0.2 upstream document detection
-- `plugins/compound-engineering/skills/ce-work/SKILL.md` — Session completion: incremental commit pattern, staging specific files, conventional commit format
-- `plugins/compound-engineering/skills/ce-compound/SKILL.md` — Parallel research assembly: subagents return text only, orchestrator writes the single file
-- `plugins/compound-engineering/skills/document-review/SKILL.md` — Utility invocation: "Load the `document-review` skill and apply it to..." Returns "Review complete" signal
-- `plugins/compound-engineering/skills/deepen-plan/SKILL.md` — Broad parallel agent dispatch pattern
+- `plugins/command-module/skills/ce-brainstorm/SKILL.md` — Closest sibling. Mirror: resume behavior (Phase 0.1), artifact frontmatter (date + topic), handoff options via platform question tool, document-review integration, Proof sharing
+- `plugins/command-module/skills/ce-plan/SKILL.md` — Agent dispatch pattern: `Task compound-engineering:research:repo-research-analyst(context)` running in parallel. Phase 0.2 upstream document detection
+- `plugins/command-module/skills/ce-work/SKILL.md` — Session completion: incremental commit pattern, staging specific files, conventional commit format
+- `plugins/command-module/skills/ce-compound/SKILL.md` — Parallel research assembly: subagents return text only, orchestrator writes the single file
+- `plugins/command-module/skills/document-review/SKILL.md` — Utility invocation: "Load the `document-review` skill and apply it to..." Returns "Review complete" signal
+- `plugins/command-module/skills/deepen-plan/SKILL.md` — Broad parallel agent dispatch pattern
 - PR #277 (`fix: codex workflow conversion for compound-engineering`) — establishes the Codex model for canonical `ce:*` workflows: prompt wrappers for canonical entrypoints, transformed intra-workflow handoffs, and omission of deprecated `workflows:*` aliases
 
 ### Institutional Learnings
@@ -94,7 +94,7 @@ The ce:* workflow pipeline has a gap at the very beginning. `ce:brainstorm` requ
 - **Need references/ split?** → No. Estimated ~300 lines, under the 500-line threshold.
 - **Need deprecated alias?** → No. `workflows:*` is deprecated; new skills go straight to `ce:*`.
 - **How should docs regeneration be represented in the plan?** → The checked-in tree does not currently contain the previously assumed generated files (`docs/index.html`, `docs/pages/skills.html`). Treat `/release-docs` as a repo-maintenance validation step that may update tracked generated artifacts, not as a guaranteed edit to predetermined file paths.
-- **How should skill counts be validated across artifacts?** → Do not force one unified count across every surface. The plugin manifests should reflect parser-discovered skill directories, while `plugins/compound-engineering/README.md` should preserve its human-facing taxonomy of workflow commands vs. standalone skills.
+- **How should skill counts be validated across artifacts?** → Do not force one unified count across every surface. The plugin manifests should reflect parser-discovered skill directories, while `plugins/command-module/README.md` should preserve its human-facing taxonomy of workflow commands vs. standalone skills.
 - **What is the dependency on PR #277?** → Treat #277 as an upstream prerequisite for Codex correctness. If it merges first, `ce:ideate` should slot into its canonical `ce:*` workflow model. If it does not merge first, equivalent Codex workflow behavior must be included before `ce:ideate` is considered complete.
 - **How should agent intelligence be applied?** → Research agents are used for grounding, prompt-defined sub-agents are used to widen the candidate pool and critique it, and the orchestrator remains the final judge.
 - **Who should score the ideas?** → The orchestrator, not the ideation sub-agents and not a separate scoring sub-agent by default.
@@ -116,7 +116,7 @@ The ce:* workflow pipeline has a gap at the very beginning. `ce:brainstorm` requ
 **Dependencies:** None
 
 **Files:**
-- Create: `plugins/compound-engineering/skills/ce-ideate/SKILL.md`
+- Create: `plugins/command-module/skills/ce-ideate/SKILL.md`
 - Test (conditional): `tests/claude-parser.test.ts`, `tests/cli.test.ts`
 
 **Approach:**
@@ -260,7 +260,7 @@ focus: <focus area if provided, omit if open>
 **Test scenarios:**
 - Invoke with no arguments → fully open ideation, generates ideas, presents survivors, then writes artifact when preserving results
 - Invoke with focus area (`/ce:ideate DX improvements`) → weighted ideation toward focus
-- Invoke with path (`/ce:ideate plugins/compound-engineering/skills/`) → scoped scan
+- Invoke with path (`/ce:ideate plugins/command-module/skills/`) → scoped scan
 - Invoke with volume override (`/ce:ideate give me your top 3`) → adjusted volume
 - Resume: invoke when recent ideation doc exists → offers to continue or start fresh
 - Resume + refine loop: revisit an existing ideation doc, add more ideas, then re-run critique without creating a duplicate artifact
@@ -295,9 +295,9 @@ focus: <focus area if provided, omit if open>
 **Dependencies:** Unit 1
 
 **Files:**
-- Modify: `plugins/compound-engineering/.claude-plugin/plugin.json` — update description with new skill count
+- Modify: `plugins/command-module/.claude-plugin/plugin.json` — update description with new skill count
 - Modify: `.claude-plugin/marketplace.json` — update plugin description with new skill count
-- Modify: `plugins/compound-engineering/README.md` — add ce:ideate to skills table/list, update count
+- Modify: `plugins/command-module/README.md` — add ce:ideate to skills table/list, update count
 
 **Approach:**
 - Count actual skill directories after adding ce:ideate for manifest-facing descriptions (`plugin.json`, `.claude-plugin/marketplace.json`)
@@ -318,11 +318,11 @@ focus: <focus area if provided, omit if open>
 - README skill listing includes ce:ideate
 
 **Verification:**
-- `grep -o "Includes [0-9]* specialized agents" plugins/compound-engineering/.claude-plugin/plugin.json` matches actual agent count
-- Manifest-facing skill count matches the number of skill directories under `plugins/compound-engineering/skills/`
+- `grep -o "Includes [0-9]* specialized agents" plugins/command-module/.claude-plugin/plugin.json` matches actual agent count
+- Manifest-facing skill count matches the number of skill directories under `plugins/command-module/skills/`
 - README counts and tables are internally consistent, even if they intentionally differ from manifest-facing skill-directory totals
 - `jq . < .claude-plugin/marketplace.json` succeeds
-- `jq . < plugins/compound-engineering/.claude-plugin/plugin.json` succeeds
+- `jq . < plugins/command-module/.claude-plugin/plugin.json` succeeds
 
 ---
 
@@ -381,7 +381,7 @@ focus: <focus area if provided, omit if open>
 ## Sources & References
 
 - **Origin document:** [docs/brainstorms/2026-03-15-ce-ideate-skill-requirements.md](docs/brainstorms/2026-03-15-ce-ideate-skill-requirements.md)
-- Related code: `plugins/compound-engineering/skills/ce-brainstorm/SKILL.md`, `plugins/compound-engineering/skills/ce-plan/SKILL.md`, `plugins/compound-engineering/skills/ce-work/SKILL.md`
+- Related code: `plugins/command-module/skills/ce-brainstorm/SKILL.md`, `plugins/command-module/skills/ce-plan/SKILL.md`, `plugins/command-module/skills/ce-work/SKILL.md`
 - Related institutional learning: `docs/solutions/plugin-versioning-requirements.md`
 - Related PR: #277 (`fix: codex workflow conversion for compound-engineering`) — upstream Codex workflow model this plan now depends on
 - Related institutional learning: `docs/solutions/codex-skill-prompt-entrypoints.md`

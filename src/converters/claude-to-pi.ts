@@ -28,7 +28,7 @@ export function convertClaudeToPi(
 
   const extensions = [
     {
-      name: "compound-engineering-compat.ts",
+      name: "command-module-compat.ts",
       content: PI_COMPAT_EXTENSION_SOURCE,
     },
   ]
@@ -93,7 +93,7 @@ function convertAgent(agent: ClaudeAgent, usedNames: Set<string>): PiGeneratedSk
 export function transformContentForPi(body: string): string {
   let result = body
 
-  // Task repo-research-analyst(feature_description) or Task compound-engineering:research:repo-research-analyst(args)
+  // Task repo-research-analyst(feature_description) or Task command-module:research:repo-research-analyst(args)
   // -> Run subagent with agent="repo-research-analyst" and task="feature_description"
   const taskPattern = /^(\s*-?\s*)Task\s+([a-z][a-z0-9:-]*)\(([^)]*)\)/gm
   result = result.replace(taskPattern, (_match, prefix: string, agentName: string, args: string) => {

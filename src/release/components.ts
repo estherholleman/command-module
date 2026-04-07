@@ -10,7 +10,7 @@ import type {
 
 const RELEASE_COMPONENTS: ReleaseComponent[] = [
   "cli",
-  "compound-engineering",
+  "command-module",
   "coding-tutor",
   "marketplace",
   "cursor-marketplace",
@@ -22,8 +22,8 @@ const FILE_COMPONENT_MAP: Array<{ component: ReleaseComponent; prefixes: string[
     prefixes: ["src/", "package.json", "bun.lock", "tests/cli.test.ts"],
   },
   {
-    component: "compound-engineering",
-    prefixes: ["plugins/compound-engineering/"],
+    component: "command-module",
+    prefixes: ["plugins/command-module/"],
   },
   {
     component: "coding-tutor",
@@ -41,8 +41,8 @@ const FILE_COMPONENT_MAP: Array<{ component: ReleaseComponent; prefixes: string[
 
 const SCOPES_TO_COMPONENTS: Record<string, ReleaseComponent> = {
   cli: "cli",
-  compound: "compound-engineering",
-  "compound-engineering": "compound-engineering",
+  compound: "command-module",
+  "command-module": "command-module",
   "coding-tutor": "coding-tutor",
   marketplace: "marketplace",
   "cursor-marketplace": "cursor-marketplace",
@@ -182,14 +182,14 @@ export function bumpVersion(version: string, bump: BumpLevel | null): string | n
 
 export async function loadCurrentVersions(cwd = process.cwd()): Promise<VersionSources> {
   const root = await readJson<RootPackageJson>(`${cwd}/package.json`)
-  const ce = await readJson<PluginManifest>(`${cwd}/plugins/compound-engineering/.claude-plugin/plugin.json`)
+  const ce = await readJson<PluginManifest>(`${cwd}/plugins/command-module/.claude-plugin/plugin.json`)
   const codingTutor = await readJson<PluginManifest>(`${cwd}/plugins/coding-tutor/.claude-plugin/plugin.json`)
   const marketplace = await readJson<MarketplaceManifest>(`${cwd}/.claude-plugin/marketplace.json`)
   const cursorMarketplace = await readJson<MarketplaceManifest>(`${cwd}/.cursor-plugin/marketplace.json`)
 
   return {
     cli: root.version,
-    "compound-engineering": ce.version,
+    "command-module": ce.version,
     "coding-tutor": codingTutor.version,
     marketplace: marketplace.metadata.version,
     "cursor-marketplace": cursorMarketplace.metadata.version,

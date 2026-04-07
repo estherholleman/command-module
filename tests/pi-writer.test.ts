@@ -28,7 +28,7 @@ describe("writePiBundle", () => {
         },
       ],
       generatedSkills: [{ name: "repo-research-analyst", content: "---\nname: repo-research-analyst\n---\n\nBody" }],
-      extensions: [{ name: "compound-engineering-compat.ts", content: "export default function () {}" }],
+      extensions: [{ name: "command-module-compat.ts", content: "export default function () {}" }],
       mcporterConfig: {
         mcpServers: {
           context7: { baseUrl: "https://mcp.context7.com/mcp" },
@@ -41,8 +41,8 @@ describe("writePiBundle", () => {
     expect(await exists(path.join(outputRoot, "prompts", "workflows-plan.md"))).toBe(true)
     expect(await exists(path.join(outputRoot, "skills", "skill-one", "SKILL.md"))).toBe(true)
     expect(await exists(path.join(outputRoot, "skills", "repo-research-analyst", "SKILL.md"))).toBe(true)
-    expect(await exists(path.join(outputRoot, "extensions", "compound-engineering-compat.ts"))).toBe(true)
-    expect(await exists(path.join(outputRoot, "compound-engineering", "mcporter.json"))).toBe(true)
+    expect(await exists(path.join(outputRoot, "extensions", "command-module-compat.ts"))).toBe(true)
+    expect(await exists(path.join(outputRoot, "command-module", "mcporter.json"))).toBe(true)
 
     const agentsPath = path.join(outputRoot, "AGENTS.md")
     const agentsContent = await fs.readFile(agentsPath, "utf8")
@@ -64,9 +64,9 @@ description: Planning workflow
 
 Run these research agents:
 
-- Task compound-engineering:research:repo-research-analyst(feature_description)
-- Task compound-engineering:research:learnings-researcher(feature_description)
-- Task compound-engineering:review:code-simplicity-reviewer()
+- Task command-module:research:repo-research-analyst(feature_description)
+- Task command-module:research:learnings-researcher(feature_description)
+- Task command-module:review:code-simplicity-reviewer()
 `,
     )
 
@@ -87,7 +87,7 @@ Run these research agents:
     expect(installedSkill).toContain('Run subagent with agent="repo-research-analyst" and task="feature_description".')
     expect(installedSkill).toContain('Run subagent with agent="learnings-researcher" and task="feature_description".')
     expect(installedSkill).toContain('Run subagent with agent="code-simplicity-reviewer".')
-    expect(installedSkill).not.toContain("Task compound-engineering:")
+    expect(installedSkill).not.toContain("Task command-module:")
   })
 
   test("writes to ~/.pi/agent style roots without nesting under .pi", async () => {
@@ -110,7 +110,7 @@ Run these research agents:
   test("backs up existing mcporter config before overwriting", async () => {
     const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "pi-backup-"))
     const outputRoot = path.join(tempRoot, ".pi")
-    const configPath = path.join(outputRoot, "compound-engineering", "mcporter.json")
+    const configPath = path.join(outputRoot, "command-module", "mcporter.json")
 
     await fs.mkdir(path.dirname(configPath), { recursive: true })
     await fs.writeFile(configPath, JSON.stringify({ previous: true }, null, 2))

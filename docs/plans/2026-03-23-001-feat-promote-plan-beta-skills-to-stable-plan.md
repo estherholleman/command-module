@@ -70,7 +70,7 @@ Follow the beta-skills-framework promotion checklist exactly, applied to both sk
 
 ### Phase 6: Update README.md
 
-**In `plugins/compound-engineering/README.md`:**
+**In `plugins/command-module/README.md`:**
 
 1. **Update `ce:plan` description** in the Workflow Commands table (line 81): Change from `Create implementation plans` to `Transform features into structured implementation plans grounded in repo patterns`
 2. **Update `deepen-plan` description** in the Utility Commands table (line 93): Description already says `Stress-test plans and deepen weak sections with targeted research` which matches the beta -- verify and keep
@@ -79,7 +79,7 @@ Follow the beta-skills-framework promotion checklist exactly, applied to both sk
 
 ### Phase 7: Validation
 
-1. **Search for remaining `-beta` references**: Grep all files under `plugins/compound-engineering/` for leftover `plan-beta` strings -- every hit is a bug, except historical entries in `CHANGELOG.md` which are expected and must not be modified
+1. **Search for remaining `-beta` references**: Grep all files under `plugins/command-module/` for leftover `plan-beta` strings -- every hit is a bug, except historical entries in `CHANGELOG.md` which are expected and must not be modified
 2. **Run `bun run release:validate`**: Check plugin/marketplace consistency, skill counts
 3. **Run `bun test`**: Ensure converter tests still pass (they use skill names as fixtures)
 4. **Verify `lfg`/`slfg` references**: Confirm they reference stable `/ce:plan` and `/deepen-plan` (they already do -- no change needed)
@@ -120,7 +120,7 @@ These files reference stable `ce:plan` or `deepen-plan` and require **no changes
 - [ ] `skills/deepen-plan/SKILL.md` contains the beta deepening approach (selective stress-test, risk-weighted)
 - [ ] No `disable-model-invocation` in either promoted skill
 - [ ] No `[BETA]` prefix in either description
-- [ ] No remaining `-beta` references in any file under `plugins/compound-engineering/`
+- [ ] No remaining `-beta` references in any file under `plugins/command-module/`
 - [ ] `skills/ce-plan-beta/` and `skills/deepen-plan-beta/` directories deleted
 - [ ] README Beta Skills section removed
 - [ ] `bun run release:validate` passes

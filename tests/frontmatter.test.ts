@@ -59,7 +59,7 @@ function collectFrontmatterFiles(pluginRoot: string): [string, string][] {
 
 describe("frontmatter YAML validity", () => {
   const pluginRoots = [
-    "plugins/compound-engineering",
+    "plugins/command-module",
     "plugins/coding-tutor",
   ]
 

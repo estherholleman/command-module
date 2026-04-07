@@ -15,9 +15,9 @@
         }
       ]
     },
-    "plugins/compound-engineering": {
+    "plugins/command-module": {
       "release-type": "simple",
-      "package-name": "compound-engineering",
+      "package-name": "command-module",
       "extra-files": [
         {
           "type": "json",

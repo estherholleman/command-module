@@ -171,13 +171,13 @@ description: Planning workflow
 
 Run these research agents:
 
-- Task compound-engineering:research:repo-research-analyst(feature_description)
-- Task compound-engineering:research:learnings-researcher(feature_description)
+- Task command-module:research:repo-research-analyst(feature_description)
+- Task command-module:research:learnings-researcher(feature_description)
 
 Also run bare agents:
 
 - Task best-practices-researcher(topic)
-- Task compound-engineering:review:code-simplicity-reviewer()
+- Task command-module:review:code-simplicity-reviewer()
 `,
     )
 
@@ -201,7 +201,7 @@ Also run bare agents:
     // Namespaced Task calls should be rewritten using the final segment
     expect(installedSkill).toContain("Use the $repo-research-analyst skill to: feature_description")
     expect(installedSkill).toContain("Use the $learnings-researcher skill to: feature_description")
-    expect(installedSkill).not.toContain("Task compound-engineering:")
+    expect(installedSkill).not.toContain("Task command-module:")
 
     // Bare Task calls should still be rewritten
     expect(installedSkill).toContain("Use the $best-practices-researcher skill to: topic")

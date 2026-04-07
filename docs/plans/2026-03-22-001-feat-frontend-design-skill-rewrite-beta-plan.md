@@ -44,13 +44,13 @@ Two external sources informed the redesign: Anthropic's official frontend-design
 
 ### Relevant Code and Patterns
 
-- `plugins/compound-engineering/skills/frontend-design/SKILL.md` -- target for full rewrite (43 lines currently)
-- `plugins/compound-engineering/skills/ce-work-beta/SKILL.md` -- target for surgical Phase 2 addition (lines 210-219, between Figma Design Sync and Track Progress)
-- `plugins/compound-engineering/skills/ce-plan-beta/SKILL.md` -- reference for cross-agent interaction patterns (Pattern A: platform's blocking question tool with named equivalents)
-- `plugins/compound-engineering/skills/reproduce-bug/SKILL.md` -- reference for cross-agent patterns
-- `plugins/compound-engineering/skills/agent-browser/SKILL.md` -- upstream-vendored, reference for browser automation CLI
-- `plugins/compound-engineering/agents/design/design-iterator.md` -- contains `<frontend_aesthetics>` block that overlaps with current skill; new skill will supersede this when both are loaded
-- `plugins/compound-engineering/AGENTS.md` -- skill compliance checklist (cross-platform interaction, tool selection, reference rules)
+- `plugins/command-module/skills/frontend-design/SKILL.md` -- target for full rewrite (43 lines currently)
+- `plugins/command-module/skills/ce-work-beta/SKILL.md` -- target for surgical Phase 2 addition (lines 210-219, between Figma Design Sync and Track Progress)
+- `plugins/command-module/skills/ce-plan-beta/SKILL.md` -- reference for cross-agent interaction patterns (Pattern A: platform's blocking question tool with named equivalents)
+- `plugins/command-module/skills/reproduce-bug/SKILL.md` -- reference for cross-agent patterns
+- `plugins/command-module/skills/agent-browser/SKILL.md` -- upstream-vendored, reference for browser automation CLI
+- `plugins/command-module/agents/design/design-iterator.md` -- contains `<frontend_aesthetics>` block that overlaps with current skill; new skill will supersede this when both are loaded
+- `plugins/command-module/AGENTS.md` -- skill compliance checklist (cross-platform interaction, tool selection, reference rules)
 
 ### Institutional Learnings
 
@@ -93,7 +93,7 @@ Two external sources informed the redesign: Anthropic's official frontend-design
   **Dependencies:** None
 
   **Files:**
-  - Modify: `plugins/compound-engineering/skills/frontend-design/SKILL.md`
+  - Modify: `plugins/command-module/skills/frontend-design/SKILL.md`
 
   **Approach:**
   - Full rewrite preserving only the `name` field from current frontmatter
@@ -109,9 +109,9 @@ Two external sources informed the redesign: Anthropic's official frontend-design
   - Note relationship to design-iterator: "For iterative refinement beyond a single pass, see the `design-iterator` agent"
 
   **Patterns to follow:**
-  - `plugins/compound-engineering/skills/ce-plan-beta/SKILL.md` -- cross-agent interaction pattern (Pattern A)
-  - `plugins/compound-engineering/skills/reproduce-bug/SKILL.md` -- cross-agent tool reference pattern
-  - `plugins/compound-engineering/AGENTS.md` -- skill compliance checklist
+  - `plugins/command-module/skills/ce-plan-beta/SKILL.md` -- cross-agent interaction pattern (Pattern A)
+  - `plugins/command-module/skills/reproduce-bug/SKILL.md` -- cross-agent tool reference pattern
+  - `plugins/command-module/AGENTS.md` -- skill compliance checklist
   - `docs/solutions/skill-design/compound-refresh-skill-improvements.md` -- anti-pattern table for tool references
 
   **Test scenarios:**
@@ -128,8 +128,8 @@ Two external sources informed the redesign: Anthropic's official frontend-design
   - Visual verification section references agent-browser semantically ("load the `agent-browser` skill")
 
   **Verification:**
-  - `grep -E 'description:' plugins/compound-engineering/skills/frontend-design/SKILL.md` returns the optimized description
-  - `grep -E '^\`(references|assets|scripts)/[^\`]+\`' plugins/compound-engineering/skills/frontend-design/SKILL.md` returns nothing (no unlinked references)
+  - `grep -E 'description:' plugins/command-module/skills/frontend-design/SKILL.md` returns the optimized description
+  - `grep -E '^\`(references|assets|scripts)/[^\`]+\`' plugins/command-module/skills/frontend-design/SKILL.md` returns nothing (no unlinked references)
   - Manual review confirms the layered structure matches the brainstorm doc's "Skill Structure" outline
   - `bun run release:validate` passes
 
@@ -142,7 +142,7 @@ Two external sources informed the redesign: Anthropic's official frontend-design
   **Dependencies:** Unit 1 (the skill must exist in its new form for the reference to be meaningful)
 
   **Files:**
-  - Modify: `plugins/compound-engineering/skills/ce-work-beta/SKILL.md`
+  - Modify: `plugins/command-module/skills/ce-work-beta/SKILL.md`
 
   **Approach:**
   - Insert new section after Figma Design Sync (line 217) and before Track Progress (line 219)
@@ -185,6 +185,6 @@ Two external sources informed the redesign: Anthropic's official frontend-design
 ## Sources & References
 
 - **Origin document:** [docs/brainstorms/2026-03-22-frontend-design-skill-improvement.md](docs/brainstorms/2026-03-22-frontend-design-skill-improvement.md)
-- Related code: `plugins/compound-engineering/skills/frontend-design/SKILL.md`, `plugins/compound-engineering/skills/ce-work-beta/SKILL.md`
+- Related code: `plugins/command-module/skills/frontend-design/SKILL.md`, `plugins/command-module/skills/ce-work-beta/SKILL.md`
 - External inspiration: Anthropic official frontend-design skill, OpenAI "Designing Delightful Frontends with GPT-5.4" skill (March 2026)
 - Institutional learnings: `docs/solutions/skill-design/compound-refresh-skill-improvements.md`, `docs/solutions/skill-design/beta-skills-framework.md`, `docs/solutions/codex-skill-prompt-entrypoints.md`

@@ -191,7 +191,7 @@ function toCanonicalWorkflowSkillName(name: string): string | null {
 }
 
 function shouldApplyCompoundWorkflowModel(plugin: ClaudePlugin): boolean {
-  return plugin.manifest.name === "compound-engineering"
+  return plugin.manifest.name === "command-module"
 }
 
 function sanitizeDescription(value: string, maxLength = CODEX_DESCRIPTION_MAX_LENGTH): string {

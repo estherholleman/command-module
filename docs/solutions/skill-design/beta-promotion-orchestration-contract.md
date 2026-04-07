@@ -2,7 +2,7 @@
 title: “Beta-to-stable promotions must update orchestration callers atomically”
 category: skill-design
 date: 2026-03-23
-module: plugins/compound-engineering/skills
+module: plugins/command-module/skills
 component: SKILL.md
 tags:
   - skill-design

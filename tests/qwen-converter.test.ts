@@ -5,7 +5,7 @@ import type { ClaudePlugin } from "../src/types/claude"
 
 const fixturePlugin: ClaudePlugin = {
   root: "/tmp/plugin",
-  manifest: { name: "compound-engineering", version: "1.2.0", description: "A plugin for engineers" },
+  manifest: { name: "command-module", version: "1.2.0", description: "A plugin for engineers" },
   agents: [
     {
       name: "security-sentinel",
@@ -123,7 +123,7 @@ describe("convertClaudeToQwen", () => {
 
   test("config uses plugin manifest name and version", () => {
     const bundle = convertClaudeToQwen(fixturePlugin, defaultOptions)
-    expect(bundle.config.name).toBe("compound-engineering")
+    expect(bundle.config.name).toBe("command-module")
     expect(bundle.config.version).toBe("1.2.0")
     expect(bundle.config.commands).toBe("commands")
     expect(bundle.config.skills).toBe("skills")
@@ -165,7 +165,7 @@ describe("convertClaudeToQwen", () => {
 
   test("context file uses plugin.manifest.name and manifest.description", () => {
     const bundle = convertClaudeToQwen(fixturePlugin, defaultOptions)
-    expect(bundle.contextFile).toContain("# compound-engineering")
+    expect(bundle.contextFile).toContain("# command-module")
     expect(bundle.contextFile).toContain("A plugin for engineers")
     expect(bundle.contextFile).toContain("## Agents")
     expect(bundle.contextFile).toContain("security-sentinel")

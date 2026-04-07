@@ -249,7 +249,7 @@ Follow `docs/specs/cursor.md` format:
 **File:** `README.md`
 
 - Add "copilot" to the list of supported targets
-- Add usage example: `compound convert --to copilot ./plugins/compound-engineering`
+- Add usage example: `compound convert --to copilot ./plugins/command-module`
 - Add sync example: `compound sync copilot`
 
 ## Acceptance Criteria

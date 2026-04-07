@@ -69,7 +69,7 @@ Supports both local (command-based) and remote (url-based) servers. Pass through
 
 ## Acceptance Criteria
 
-- [x] `bun run src/index.ts convert --to cursor ./plugins/compound-engineering` produces valid Cursor config
+- [x] `bun run src/index.ts convert --to cursor ./plugins/command-module` produces valid Cursor config
 - [x] Agents convert to `.cursor/rules/*.mdc` with `alwaysApply: false` and populated `description`
 - [x] Commands convert to `.cursor/commands/*.md` as plain markdown (no frontmatter)
 - [x] Flattened command names that collide are deduplicated (`plan`, `plan-2`, etc.)

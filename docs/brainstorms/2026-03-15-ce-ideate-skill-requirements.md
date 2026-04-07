@@ -11,8 +11,8 @@ The ce:brainstorm skill is reactive — the user brings an idea, and the skill h
 
 ## Requirements
 
-- R1. ce:ideate is a standalone skill, separate from ce:brainstorm, with its own SKILL.md in `plugins/compound-engineering/skills/ce-ideate/`
-- R2. Accepts an optional freeform argument that serves as a focus hint — can be a concept ("DX improvements"), a path ("plugins/compound-engineering/skills/"), a constraint ("low-complexity quick wins"), or empty for fully open ideation
+- R1. ce:ideate is a standalone skill, separate from ce:brainstorm, with its own SKILL.md in `plugins/command-module/skills/ce-ideate/`
+- R2. Accepts an optional freeform argument that serves as a focus hint — can be a concept ("DX improvements"), a path ("plugins/command-module/skills/"), a constraint ("low-complexity quick wins"), or empty for fully open ideation
 - R3. Performs a deep codebase scan before generating ideas, grounding ideation in the actual project state rather than abstract speculation
 - R4. Preserves the user's proven prompt mechanism as the core workflow: generate many ideas first, then systematically and critically reject weak ones, then explain only the surviving ideas in detail
 - R5. Self-critiques the full list, rejecting weak ideas with explicit reasoning — the adversarial filtering step is the core quality mechanism

@@ -25,7 +25,7 @@ const changed = result.updates.filter((update) => update.changed)
 
 if (configErrors.length === 0 && changed.length === 0) {
   console.log(
-    `Release metadata is in sync. compound-engineering currently has ${counts.agents} agents, ${counts.skills} skills, and ${counts.mcpServers} MCP server${counts.mcpServers === 1 ? "" : "s"}.`,
+    `Release metadata is in sync. command-module currently has ${counts.agents} agents, ${counts.skills} skills, and ${counts.mcpServers} MCP server${counts.mcpServers === 1 ? "" : "s"}.`,
   )
   process.exit(0)
 }
@@ -43,7 +43,7 @@ if (changed.length > 0) {
     console.error(`- ${update.path}`)
   }
   console.error(
-    `Current compound-engineering counts: ${counts.agents} agents, ${counts.skills} skills, ${counts.mcpServers} MCP server${counts.mcpServers === 1 ? "" : "s"}.`,
+    `Current command-module counts: ${counts.agents} agents, ${counts.skills} skills, ${counts.mcpServers} MCP server${counts.mcpServers === 1 ? "" : "s"}.`,
   )
 }
 process.exit(1)

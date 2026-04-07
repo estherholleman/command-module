@@ -30,7 +30,7 @@ describe("syncToPi", () => {
     const linkedStat = await fs.lstat(linkedSkillPath)
     expect(linkedStat.isSymbolicLink()).toBe(true)
 
-    const mcporterPath = path.join(tempRoot, "compound-engineering", "mcporter.json")
+    const mcporterPath = path.join(tempRoot, "command-module", "mcporter.json")
     const mcporterConfig = JSON.parse(await fs.readFile(mcporterPath, "utf8")) as {
       mcpServers: Record<string, { baseUrl?: string; command?: string }>
     }
@@ -41,7 +41,7 @@ describe("syncToPi", () => {
 
   test("merges existing MCPorter config", async () => {
     const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "sync-pi-merge-"))
-    const mcporterPath = path.join(tempRoot, "compound-engineering", "mcporter.json")
+    const mcporterPath = path.join(tempRoot, "command-module", "mcporter.json")
     await fs.mkdir(path.dirname(mcporterPath), { recursive: true })
 
     await fs.writeFile(

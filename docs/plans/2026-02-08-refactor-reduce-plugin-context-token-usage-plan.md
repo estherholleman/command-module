@@ -202,7 +202,7 @@ From 316% of budget (components silently dropped) to 65% of budget (room for gro
 - Agent examples should use `<examples><example>...</example></examples>` tags in the body — Claude understands these natively
 - Description format: "[What it does]. Use [when/trigger condition]." — two sentences max
 - The `lint` agent at 115 words shows compact agents work great
-- Test with `claude --plugin-dir ./plugins/compound-engineering` after changes
+- Test with `claude --plugin-dir ./plugins/command-module` after changes
 - The `SLASH_COMMAND_TOOL_CHAR_BUDGET` env var can override the default budget for testing
 
 ## References

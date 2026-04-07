@@ -33,7 +33,7 @@ describe("convertClaudeToPi", () => {
     expect(bundle.generatedSkills.some((skill) => skill.name === "repo-research-analyst")).toBe(true)
 
     // Pi compatibility extension is included (with subagent + MCPorter tools)
-    const compatExtension = bundle.extensions.find((extension) => extension.name === "compound-engineering-compat.ts")
+    const compatExtension = bundle.extensions.find((extension) => extension.name === "command-module-compat.ts")
     expect(compatExtension).toBeDefined()
     expect(compatExtension!.content).toContain('name: "subagent"')
     expect(compatExtension!.content).toContain('name: "mcporter_call"')
@@ -96,8 +96,8 @@ describe("convertClaudeToPi", () => {
           description: "Planning with namespaced agents",
           body: [
             "Run agents:",
-            "- Task compound-engineering:research:repo-research-analyst(feature_description)",
-            "- Task compound-engineering:review:security-reviewer(code_diff)",
+            "- Task command-module:research:repo-research-analyst(feature_description)",
+            "- Task command-module:review:security-reviewer(code_diff)",
           ].join("\n"),
           sourcePath: "/tmp/plugin/commands/plan.md",
         },
@@ -116,7 +116,7 @@ describe("convertClaudeToPi", () => {
     const parsedPrompt = parseFrontmatter(bundle.prompts[0].content)
     expect(parsedPrompt.body).toContain('Run subagent with agent="repo-research-analyst" and task="feature_description".')
     expect(parsedPrompt.body).toContain('Run subagent with agent="security-reviewer" and task="code_diff".')
-    expect(parsedPrompt.body).not.toContain("compound-engineering:")
+    expect(parsedPrompt.body).not.toContain("command-module:")
   })
 
   test("transforms zero-argument Task calls", () => {
@@ -128,7 +128,7 @@ describe("convertClaudeToPi", () => {
         {
           name: "review",
           description: "Review code",
-          body: "- Task compound-engineering:review:code-simplicity-reviewer()",
+          body: "- Task command-module:review:code-simplicity-reviewer()",
           sourcePath: "/tmp/plugin/commands/review.md",
         },
       ],
@@ -145,7 +145,7 @@ describe("convertClaudeToPi", () => {
 
     const parsedPrompt = parseFrontmatter(bundle.prompts[0].content)
     expect(parsedPrompt.body).toContain('Run subagent with agent="code-simplicity-reviewer".')
-    expect(parsedPrompt.body).not.toContain("compound-engineering:")
+    expect(parsedPrompt.body).not.toContain("command-module:")
     expect(parsedPrompt.body).not.toContain("()")
   })
 

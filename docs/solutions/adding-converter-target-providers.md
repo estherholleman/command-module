@@ -645,7 +645,7 @@ Use this checklist when adding a new target provider:
 - [ ] Create `tests/{target}-writer.test.ts` with writer tests
 - [ ] (Optional) Create `tests/sync-{target}.test.ts` with sync tests
 - [ ] Run full test suite: `bun test`
-- [ ] Manual test: `bun run src/index.ts convert --to {target} ./plugins/compound-engineering`
+- [ ] Manual test: `bun run src/index.ts convert --to {target} ./plugins/command-module`
 
 ### Documentation
 - [ ] Create `docs/specs/{target}.md` with format specification
@@ -685,7 +685,7 @@ Use this checklist when adding a new target provider:
 
 ## Related Files
 
-- `plugins/compound-engineering/.claude-plugin/plugin.json` — Version and component counts
+- `plugins/command-module/.claude-plugin/plugin.json` — Version and component counts
 - `CHANGELOG.md` — Pointer to canonical GitHub release history
 - `README.md` — Usage examples for all targets
 - `docs/solutions/plugin-versioning-requirements.md` — Checklist for releases

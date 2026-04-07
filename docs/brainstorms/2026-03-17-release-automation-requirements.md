@@ -19,7 +19,7 @@ The repository currently has one automated release flow for the npm CLI, but the
 - R6. The release system must preserve one centralized root `CHANGELOG.md` as the canonical changelog for the repository.
 - R7. The root changelog must record releases as top-level entries per component version, rather than requiring separate changelog files per plugin.
 - R8. Existing root changelog history must be preserved during the migration; the new release model must not discard or rewrite historical entries in a way that loses continuity.
-- R9. `plugins/compound-engineering/CHANGELOG.md` must no longer be treated as the canonical changelog after the migration.
+- R9. `plugins/command-module/CHANGELOG.md` must no longer be treated as the canonical changelog after the migration.
 - R10. The release process must replace the current `release-docs` workflow; `release-docs` must no longer act as a release authority or required release step.
 - R11. Narrow scripts must replace `release-docs` responsibilities, including metadata synchronization, count calculation, docs generation where still needed, and validation.
 - R12. Release automation must be the sole authority for version bumps, changelog writes, and computed metadata updates such as counts of agents, skills, commands, or similar release-owned descriptions.
@@ -80,7 +80,7 @@ The repository currently has one automated release flow for the npm CLI, but the
 - [Affects R7][Technical] What exact root changelog format best balances readability and automation for multiple component-version entries in one file?
 - [Affects R11][Technical] Which responsibilities should become distinct scripts versus steps embedded directly in the CI workflow?
 - [Affects R12][Technical] Which release-owned metadata fields should be computed automatically versus validated and left untouched when no count change is needed?
-- [Affects R9][Technical] Should `plugins/compound-engineering/CHANGELOG.md` be deleted, frozen, or replaced with a short pointer note after the migration?
+- [Affects R9][Technical] Should `plugins/command-module/CHANGELOG.md` be deleted, frozen, or replaced with a short pointer note after the migration?
 - [Affects R21][Technical] Should conventional-format enforcement happen on PR titles, squash-merge titles, commits, or some combination of them?
 - [Affects R24][Technical] Should manual bump overrides be implemented as workflow inputs that shape the generated release PR directly, or as an internal generated release-control commit on the release branch only?
 

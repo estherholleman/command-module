@@ -82,7 +82,7 @@ describe("convertClaudeToCodex", () => {
   test("generates prompt wrappers for canonical ce workflow skills and omits workflows aliases", () => {
     const plugin: ClaudePlugin = {
       ...fixturePlugin,
-      manifest: { name: "compound-engineering", version: "1.0.0" },
+      manifest: { name: "command-module", version: "1.0.0" },
       commands: [],
       agents: [],
       skills: [
@@ -216,12 +216,12 @@ Task best-practices-researcher(topic)`,
           description: "Planning with namespaced agents",
           body: `Run these agents in parallel:
 
-- Task compound-engineering:research:repo-research-analyst(feature_description)
-- Task compound-engineering:research:learnings-researcher(feature_description)
+- Task command-module:research:repo-research-analyst(feature_description)
+- Task command-module:research:learnings-researcher(feature_description)
 
 Then consolidate findings.
 
-Task compound-engineering:review:security-reviewer(code_diff)`,
+Task command-module:review:security-reviewer(code_diff)`,
           sourcePath: "/tmp/plugin/commands/plan.md",
         },
       ],
@@ -245,7 +245,7 @@ Task compound-engineering:review:security-reviewer(code_diff)`,
     expect(parsed.body).toContain("Use the $security-reviewer skill to: code_diff")
 
     // Original namespaced Task syntax should not remain
-    expect(parsed.body).not.toContain("Task compound-engineering:")
+    expect(parsed.body).not.toContain("Task command-module:")
   })
 
   test("transforms zero-argument Task calls", () => {
@@ -255,7 +255,7 @@ Task compound-engineering:review:security-reviewer(code_diff)`,
         {
           name: "review",
           description: "Review code",
-          body: `- Task compound-engineering:review:code-simplicity-reviewer()`,
+          body: `- Task command-module:review:code-simplicity-reviewer()`,
           sourcePath: "/tmp/plugin/commands/review.md",
         },
       ],
@@ -273,7 +273,7 @@ Task compound-engineering:review:security-reviewer(code_diff)`,
     expect(commandSkill).toBeDefined()
     const parsed = parseFrontmatter(commandSkill!.content)
     expect(parsed.body).toContain("Use the $code-simplicity-reviewer skill")
-    expect(parsed.body).not.toContain("compound-engineering:")
+    expect(parsed.body).not.toContain("command-module:")
     expect(parsed.body).not.toContain("skill to:")
   })
 
@@ -321,7 +321,7 @@ Don't confuse with file paths like /tmp/output.md or /dev/null.`,
   test("transforms canonical workflow slash commands to Codex prompt references", () => {
     const plugin: ClaudePlugin = {
       ...fixturePlugin,
-      manifest: { name: "compound-engineering", version: "1.0.0" },
+      manifest: { name: "command-module", version: "1.0.0" },
       commands: [
         {
           name: "review",
@@ -418,11 +418,11 @@ If planning is complete, continue with /ce:work.`,
         {
           name: "review",
           description: "Review command",
-          body: `Read \`compound-engineering.local.md\` in the project root.
+          body: `Read \`command-module.local.md\` in the project root.
 
 If no settings file exists, auto-detect project type.
 
-Run \`/compound-engineering-setup\` to create a settings file.`,
+Run \`/command-module-setup\` to create a settings file.`,
           sourcePath: "/tmp/plugin/commands/review.md",
         },
       ],
@@ -441,7 +441,7 @@ Run \`/compound-engineering-setup\` to create a settings file.`,
     const parsed = parseFrontmatter(commandSkill!.content)
 
     // Tool-agnostic path in project root — no rewriting needed
-    expect(parsed.body).toContain("compound-engineering.local.md")
+    expect(parsed.body).toContain("command-module.local.md")
   })
 
   test("rewrites .claude/ paths in agent skill bodies", () => {
@@ -453,7 +453,7 @@ Run \`/compound-engineering-setup\` to create a settings file.`,
         {
           name: "config-reader",
           description: "Reads config",
-          body: "Read `compound-engineering.local.md` for config.",
+          body: "Read `command-module.local.md` for config.",
           sourcePath: "/tmp/plugin/agents/config-reader.md",
         },
       ],
@@ -470,7 +470,7 @@ Run \`/compound-engineering-setup\` to create a settings file.`,
     const parsed = parseFrontmatter(agentSkill!.content)
 
     // Tool-agnostic path in project root — no rewriting needed
-    expect(parsed.body).toContain("compound-engineering.local.md")
+    expect(parsed.body).toContain("command-module.local.md")
   })
 
   test("truncates generated skill descriptions to Codex limits and single line", () => {

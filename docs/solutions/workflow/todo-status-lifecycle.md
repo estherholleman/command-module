@@ -9,10 +9,10 @@ tags:
   - triage
   - safety-gate
 related_components:
-  - plugins/compound-engineering/skills/todo-resolve/
-  - plugins/compound-engineering/skills/ce-review/
-  - plugins/compound-engineering/skills/todo-triage/
-  - plugins/compound-engineering/skills/todo-create/
+  - plugins/command-module/skills/todo-resolve/
+  - plugins/command-module/skills/ce-review/
+  - plugins/command-module/skills/todo-triage/
+  - plugins/command-module/skills/todo-create/
 problem_type: correctness-gap
 ---
 

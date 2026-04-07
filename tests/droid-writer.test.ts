@@ -60,9 +60,9 @@ description: Planning workflow
 
 Run these research agents:
 
-- Task compound-engineering:research:repo-research-analyst(feature_description)
-- Task compound-engineering:research:learnings-researcher(feature_description)
-- Task compound-engineering:review:code-simplicity-reviewer()
+- Task command-module:research:repo-research-analyst(feature_description)
+- Task command-module:research:learnings-researcher(feature_description)
+- Task command-module:review:code-simplicity-reviewer()
 `,
     )
 
@@ -82,7 +82,7 @@ Run these research agents:
     expect(installedSkill).toContain("Task repo-research-analyst: feature_description")
     expect(installedSkill).toContain("Task learnings-researcher: feature_description")
     expect(installedSkill).toContain("Task code-simplicity-reviewer")
-    expect(installedSkill).not.toContain("Task compound-engineering:")
+    expect(installedSkill).not.toContain("Task command-module:")
   })
 
   test("writes directly into a .factory output root", async () => {

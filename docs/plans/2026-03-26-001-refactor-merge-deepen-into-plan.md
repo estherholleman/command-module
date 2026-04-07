@@ -39,10 +39,10 @@ The ce:plan and deepen-plan skills form a sequential workflow where the user is 
 
 ### Relevant Code and Patterns
 
-- `plugins/compound-engineering/skills/ce-plan/SKILL.md` — 6 phases (0-5). Phase 5 has sub-phases: 5.1 (Review), 5.2 (Write), 5.3 (Post-gen options). The new confidence check inserts between 5.2 and 5.3
-- `plugins/compound-engineering/skills/deepen-plan/SKILL.md` — 409 lines, 7 phases (0-6). Phases 0-5 contain the logic to absorb; Phase 6 and Post-Enhancement Options are replaced by ce:plan's own post-gen flow
-- `plugins/compound-engineering/skills/lfg/SKILL.md` — Step 3 conditionally invokes deepen-plan. Must be removed
-- `plugins/compound-engineering/skills/slfg/SKILL.md` — Step 3 conditionally invokes deepen-plan. Must be removed
+- `plugins/command-module/skills/ce-plan/SKILL.md` — 6 phases (0-5). Phase 5 has sub-phases: 5.1 (Review), 5.2 (Write), 5.3 (Post-gen options). The new confidence check inserts between 5.2 and 5.3
+- `plugins/command-module/skills/deepen-plan/SKILL.md` — 409 lines, 7 phases (0-6). Phases 0-5 contain the logic to absorb; Phase 6 and Post-Enhancement Options are replaced by ce:plan's own post-gen flow
+- `plugins/command-module/skills/lfg/SKILL.md` — Step 3 conditionally invokes deepen-plan. Must be removed
+- `plugins/command-module/skills/slfg/SKILL.md` — Step 3 conditionally invokes deepen-plan. Must be removed
 - Skills are auto-discovered from filesystem (no registry in plugin.json). Deleting the directory removes the skill
 - The `deepened: YYYY-MM-DD` frontmatter field in plan templates signals that a plan was substantively strengthened
 
@@ -86,7 +86,7 @@ The ce:plan and deepen-plan skills form a sequential workflow where the user is 
   **Dependencies:** None
 
   **Files:**
-  - Modify: `plugins/compound-engineering/skills/ce-plan/SKILL.md`
+  - Modify: `plugins/command-module/skills/ce-plan/SKILL.md`
 
   **Approach:**
 
@@ -155,14 +155,14 @@ The ce:plan and deepen-plan skills form a sequential workflow where the user is 
   **Dependencies:** Unit 1 (ce:plan must absorb the logic before it's deleted)
 
   **Files:**
-  - Delete: `plugins/compound-engineering/skills/deepen-plan/SKILL.md` (entire `deepen-plan/` directory)
+  - Delete: `plugins/command-module/skills/deepen-plan/SKILL.md` (entire `deepen-plan/` directory)
 
   **Approach:**
-  - Delete the directory `plugins/compound-engineering/skills/deepen-plan/`
+  - Delete the directory `plugins/command-module/skills/deepen-plan/`
   - Skills are auto-discovered from filesystem, so no registry update needed
 
   **Verification:**
-  - `plugins/compound-engineering/skills/deepen-plan/` no longer exists
+  - `plugins/command-module/skills/deepen-plan/` no longer exists
   - No `deepen-plan` skill appears when listing skills
 
 ---
@@ -176,8 +176,8 @@ The ce:plan and deepen-plan skills form a sequential workflow where the user is 
   **Dependencies:** Unit 1
 
   **Files:**
-  - Modify: `plugins/compound-engineering/skills/lfg/SKILL.md`
-  - Modify: `plugins/compound-engineering/skills/slfg/SKILL.md`
+  - Modify: `plugins/command-module/skills/lfg/SKILL.md`
+  - Modify: `plugins/command-module/skills/slfg/SKILL.md`
 
   **Approach:**
 
@@ -214,10 +214,10 @@ The ce:plan and deepen-plan skills form a sequential workflow where the user is 
   **Dependencies:** Unit 2
 
   **Files:**
-  - Modify: `plugins/compound-engineering/README.md`
-  - Modify: `plugins/compound-engineering/AGENTS.md`
-  - Modify: `plugins/compound-engineering/agents/research/learnings-researcher.md`
-  - Modify: `plugins/compound-engineering/skills/document-review/SKILL.md`
+  - Modify: `plugins/command-module/README.md`
+  - Modify: `plugins/command-module/AGENTS.md`
+  - Modify: `plugins/command-module/agents/research/learnings-researcher.md`
+  - Modify: `plugins/command-module/skills/document-review/SKILL.md`
 
   **Approach:**
 
@@ -286,7 +286,7 @@ The ce:plan and deepen-plan skills form a sequential workflow where the user is 
   **Dependencies:** Units 1-5
 
   **Files:**
-  - Read (validation only): `plugins/compound-engineering/.claude-plugin/plugin.json`
+  - Read (validation only): `plugins/command-module/.claude-plugin/plugin.json`
   - Read (validation only): `.claude-plugin/marketplace.json`
 
   **Approach:**
@@ -297,9 +297,9 @@ The ce:plan and deepen-plan skills form a sequential workflow where the user is 
   **Verification:**
   - `bun run release:validate` passes
   - `bun test` passes
-  - `grep -r "deepen-plan" plugins/compound-engineering/skills/` returns no results
-  - `grep -r "deepen-plan" plugins/compound-engineering/agents/` returns no results
-  - `grep -r "deepen-plan" plugins/compound-engineering/README.md` returns no results
+  - `grep -r "deepen-plan" plugins/command-module/skills/` returns no results
+  - `grep -r "deepen-plan" plugins/command-module/agents/` returns no results
+  - `grep -r "deepen-plan" plugins/command-module/README.md` returns no results
   - Note: CHANGELOG.md and historical docs in `docs/plans/`, `docs/brainstorms/`, `docs/solutions/` will still contain deepen-plan references — these are historical records and should not be updated
 
 ## System-Wide Impact
@@ -319,6 +319,6 @@ The ce:plan and deepen-plan skills form a sequential workflow where the user is 
 ## Sources & References
 
 - **Origin document:** [docs/brainstorms/2026-03-26-merge-deepen-into-plan-requirements.md](docs/brainstorms/2026-03-26-merge-deepen-into-plan-requirements.md)
-- Deepen-plan source: `plugins/compound-engineering/skills/deepen-plan/SKILL.md`
-- Ce:plan source: `plugins/compound-engineering/skills/ce-plan/SKILL.md`
+- Deepen-plan source: `plugins/command-module/skills/deepen-plan/SKILL.md`
+- Ce:plan source: `plugins/command-module/skills/ce-plan/SKILL.md`
 - Learnings: `docs/solutions/skill-design/beta-skills-framework.md`, `docs/solutions/skill-design/beta-promotion-orchestration-contract.md`, `docs/solutions/plugin-versioning-requirements.md`

@@ -34,8 +34,8 @@ Auto memory passively captures debugging insights, fix patterns, and preferences
 
 ### Relevant Code and Patterns
 
-- `plugins/compound-engineering/skills/ce-compound/SKILL.md` -- Phase 1 subagents receive implicit context (conversation history); orchestrator coordinates launch and assembly
-- `plugins/compound-engineering/skills/ce-compound-refresh/SKILL.md` -- investigation subagents receive explicit task prompts with tool guidance; each returns evidence + recommended action
+- `plugins/command-module/skills/ce-compound/SKILL.md` -- Phase 1 subagents receive implicit context (conversation history); orchestrator coordinates launch and assembly
+- `plugins/command-module/skills/ce-compound-refresh/SKILL.md` -- investigation subagents receive explicit task prompts with tool guidance; each returns evidence + recommended action
 - ce:compound-refresh already has an explicit "When spawning any subagent, include this instruction" block that can be extended naturally
 - ce:plan has a precedent pattern: orchestrator pre-reads source documents before launching agents (Phase 0 requirements doc scan)
 
@@ -79,7 +79,7 @@ Auto memory passively captures debugging insights, fix patterns, and preferences
 **Dependencies:** None
 
 **Files:**
-- Modify: `plugins/compound-engineering/skills/ce-compound/SKILL.md`
+- Modify: `plugins/command-module/skills/ce-compound/SKILL.md`
 
 **Approach:**
 - Insert a new "Phase 0.5: Auto Memory Scan" section between the Full Mode critical requirement block and Phase 1. This section instructs the orchestrator to:
@@ -122,7 +122,7 @@ Auto memory passively captures debugging insights, fix patterns, and preferences
 **Dependencies:** None (can be done in parallel with Unit 1)
 
 **Files:**
-- Modify: `plugins/compound-engineering/skills/ce-compound-refresh/SKILL.md`
+- Modify: `plugins/command-module/skills/ce-compound-refresh/SKILL.md`
 
 **Approach:**
 - Add "Auto memory" as a fifth investigation dimension in Phase 1 (after References, Recommended solution, Code examples, Related docs). Instruct: check MEMORY.md from the auto memory directory for notes in the same problem domain. A memory note describing a different approach is a supplementary drift signal. If MEMORY.md doesn't exist or is empty, skip this dimension.
@@ -158,6 +158,6 @@ Auto memory passively captures debugging insights, fix patterns, and preferences
 ## Sources & References
 
 - **Origin document:** [docs/brainstorms/2026-03-18-auto-memory-integration-requirements.md](docs/brainstorms/2026-03-18-auto-memory-integration-requirements.md) -- Key decisions: augment existing subagents, read-only, graceful absence, orchestrator pre-read for ce:compound
-- Related code: `plugins/compound-engineering/skills/ce-compound/SKILL.md`, `plugins/compound-engineering/skills/ce-compound-refresh/SKILL.md`
+- Related code: `plugins/command-module/skills/ce-compound/SKILL.md`, `plugins/command-module/skills/ce-compound-refresh/SKILL.md`
 - Institutional learning: `docs/solutions/skill-design/compound-refresh-skill-improvements.md`
 - External docs: https://code.claude.com/docs/en/memory#auto-memory
