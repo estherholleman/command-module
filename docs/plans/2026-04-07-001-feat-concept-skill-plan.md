@@ -1,7 +1,7 @@
 ---
 title: "feat(strategy): Add /concept skill for conceptual thinking partnerships"
 type: feat
-status: active
+status: completed
 date: 2026-04-07
 origin: docs/brainstorms/2026-04-06-strategy-toolkit-requirements.md
 ---
@@ -106,7 +106,7 @@ From R1-R14 and R27-R33 of the origin document:
 
 ## Implementation Units
 
-- [ ] **Unit 1: Create interaction principles reference file**
+- [x] **Unit 1: Create interaction principles reference file**
 
   **Goal:** Distill the research findings into a compact reference that the SKILL.md can load on demand, capturing how to be a good conceptual thinking partner.
 
@@ -137,7 +137,7 @@ From R1-R14 and R27-R33 of the origin document:
   - Examples from the research are preserved as concrete illustrations
   - The file can be referenced from SKILL.md via backtick path: `` `references/interaction-principles.md` ``
 
-- [ ] **Unit 2: Create SKILL.md with interaction pattern and output conventions**
+- [x] **Unit 2: Create SKILL.md with interaction pattern and output conventions**
 
   **Goal:** Define the complete skill: frontmatter, interaction states, context.md loading, knowledge artifact writing, and context.md updating.
 
@@ -204,7 +204,7 @@ From R1-R14 and R27-R33 of the origin document:
   - Knowledge artifact format is defined with frontmatter and all required sections
   - The skill description includes trigger phrases for model invocation
 
-- [ ] **Unit 3: Update README.md with new skill**
+- [x] **Unit 3: Update README.md with new skill**
 
   **Goal:** Add /concept to the plugin's skill inventory so it's discoverable and the counts stay accurate.
 

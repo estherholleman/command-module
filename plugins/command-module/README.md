@@ -7,7 +7,7 @@ AI-powered development tools that get smarter with every use. Make each unit of 
 | Component | Count |
 |-----------|-------|
 | Agents | 35 |
-| Skills | 39 |
+| Skills | 40 |
 | MCP Servers | 1 |
 
 ## Skills
@@ -78,6 +78,12 @@ The primary entry points for engineering work, invoked as slash commands:
 | `design-foundations` | Graphic design fundamentals (typography, color, composition, hierarchy) -- medium-agnostic visual knowledge base and critic |
 | `writing-foundations` | Writing craft fundamentals (clarity, structure, voice, persuasion, audience) -- medium-agnostic writing knowledge base and critic |
 | `/proof` | Review and edit prose for natural writing style, removing AI-typical patterns (English and Dutch) |
+
+### Strategy
+
+| Skill | Description |
+|-------|-------------|
+| `/concept` | Conceptual thinking partner using the reframe-react-sharpen pattern for sharpening ideas and strategic concepts |
 
 ### Automation & Tools
 
