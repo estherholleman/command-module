@@ -7,7 +7,7 @@ AI-powered development tools that get smarter with every use. Make each unit of 
 | Component | Count |
 |-----------|-------|
 | Agents | 35 |
-| Skills | 37 |
+| Skills | 39 |
 | MCP Servers | 1 |
 
 ## Skills
@@ -50,6 +50,8 @@ The primary entry points for engineering work, invoked as slash commands:
 | `/onboarding` | Generate `ONBOARDING.md` to help new contributors understand the codebase |
 | `/todo-resolve` | Resolve todos in parallel |
 | `/todo-triage` | Triage and prioritize pending todos |
+| `/export-docx` | Convert markdown to DOCX with proofing reminder, discovers repo-specific conversion scripts |
+| `todo-create` | File-based todo tracking system |
 
 ### Development Frameworks
 
@@ -69,13 +71,13 @@ The primary entry points for engineering work, invoked as slash commands:
 | `document-review` | Review documents using parallel persona agents for role-specific feedback |
 | `setup` | Reserved for future project-level workflow configuration; code review agent selection is automatic |
 
-### Content & Collaboration
+### Style
 
 | Skill | Description |
 |-------|-------------|
+| `design-foundations` | Graphic design fundamentals (typography, color, composition, hierarchy) -- medium-agnostic visual knowledge base and critic |
+| `writing-foundations` | Writing craft fundamentals (clarity, structure, voice, persuasion, audience) -- medium-agnostic writing knowledge base and critic |
 | `/proof` | Review and edit prose for natural writing style, removing AI-typical patterns (English and Dutch) |
-| `/export-docx` | Convert markdown to DOCX with proofing reminder, discovers repo-specific conversion scripts |
-| `todo-create` | File-based todo tracking system |
 
 ### Automation & Tools
 

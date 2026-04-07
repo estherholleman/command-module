@@ -1,9 +1,0 @@
-{"type": "task_created", "task_id": "T001", "task": "Explore plugin structure", "date": "2026-03-27", "timestamp": "2026-03-27T14:35:00"}
-{"type": "task_created", "task_id": "T002", "task": "Strip Ruby/Rails and team-scale review agents", "date": "2026-03-27", "timestamp": "2026-03-27T14:35:00"}
-{"type": "task_created", "task_id": "T003", "task": "Decide whether to keep marketplace wrapper or extract plugin contents", "date": "2026-03-27", "timestamp": "2026-03-27T14:35:00"}
-{"type": "task_created", "task_id": "T004", "task": "Point Claude Code at local command-module", "date": "2026-03-27", "timestamp": "2026-03-27T14:35:00"}
-{"type": "session", "date": "2026-03-28", "summary": "Built writing style review system (proof skill, writing-style-editor agent, EN/NL references, export-docx skill). Renamed compound->distill, every-style-editor->writing-style-editor. Fixed plugin installation for Cursor: added owner field to marketplace.json, root-level plugin.json + symlinks. Cleaned up old Every marketplace. Plugin now loads across all repos.", "commits": ["18d9b66", "a2567cf", "b354a46"]}
-{"type": "status_change", "task_id": "T001", "from": "next", "to": "done", "date": "2026-03-28"}
-{"type": "status_change", "task_id": "T002", "from": "next", "to": "done", "date": "2026-03-28"}
-{"type": "status_change", "task_id": "T003", "from": "todo", "to": "done", "date": "2026-03-28"}
-{"type": "status_change", "task_id": "T004", "from": "todo", "to": "done", "date": "2026-03-28"}
