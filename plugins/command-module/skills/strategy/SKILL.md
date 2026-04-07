@@ -120,7 +120,7 @@ Open threads: [what remains for next session]
 
 **Option B: One more /concept dive.** If a specific tension or gap emerged that needs deep thinking, invoke /concept (loop back to Phase 2 via /concept return).
 
-**Option C: Hand off to execution.** When strategic thinking is complete and the user is ready to move to implementation. Note: the `/whats-next` skill is planned but not yet available. For now, summarize the strategic decisions and open questions that execution should account for, and suggest the user starts a new conversation with the relevant context for implementation planning.
+**Option C: Hand off to execution.** When strategic thinking is complete and the user is ready to move to implementation. Load the `whats-next` skill to translate strategic decisions into opinionated task recommendations and self-contained prompt files. The strategic context is already warm from this session, so /whats-next can build on it directly.
 
 ### Context.md Curation
 
