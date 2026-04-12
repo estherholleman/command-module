@@ -101,16 +101,18 @@ The section headers above are Dutch examples — adapt to the stakeholder's lang
 
 ## Phase 3: Save & Log
 
-1. **Write the report** to `missioncontrol/reports/stakeholders/{stakeholder}-{YYYY-MM-DD}.md`
+1. **Write the markdown report** to `missioncontrol/reports/stakeholders/{stakeholder}-{YYYY-MM-DD}.md`
 
-2. **Append to the report log** at `missioncontrol/reports/stakeholders/report-log.csv`:
+2. **Generate a .docx version** using python-docx. Use proper heading sizes (title 20pt, project names 16pt, section labels 11pt bold grey) and list bullets. Name the docx for SharePoint: `update{D}{month}{YYYY}.docx` (e.g. `update12april2026.docx`) — no stakeholder prefix, since these go into per-stakeholder folders on SharePoint.
+
+3. **Append to the report log** at `missioncontrol/reports/stakeholders/report-log.csv`:
    ```
    stakeholder,date,period_start,period_end,report_file
    wolter,2026-04-12,2026-04-01,2026-04-12,wolter-2026-04-12.md
    ```
    If the CSV doesn't exist yet, create it with the header row first.
 
-3. **Show the report** to the user in the conversation. They may want to copy-paste it into an email or adjust before sending.
+4. **Show the report** to the user in the conversation. They may want to adjust before sending.
 
 ## Guardrails
 
@@ -119,3 +121,5 @@ The section headers above are Dutch examples — adapt to the stakeholder's lang
 - **Don't editorialize beyond the data.** Observations like "great progress this week" are fine if earned. Don't add filler praise.
 - **If no work was done** in the time range for a project, say so in one line. Don't generate an empty report structure.
 - **Respect stakeholder boundaries.** Only report on projects listed in their profile, even if other projects had activity.
+- **Never guess what route codes, airport codes, or destination names mean.** Use abbreviations exactly as they appear in the data. If a stakeholder's profile has `route_naming: abbreviations_only`, use codes without translating them to city or country names.
+- **Respect `section_headers`** from the stakeholder profile. If configured, use those exact headers instead of the defaults.
