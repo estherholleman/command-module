@@ -19,7 +19,19 @@ Read these in parallel:
 
 - `missioncontrol/tracking/{repo}/tasks/index.json` -- current task state
 - `missioncontrol/tracking/{repo}/status.json` -- current briefing
+- `missioncontrol/tracking/.active-clock.json` -- check for active time clock
 - Run `git status` -- check for uncommitted changes
+
+### Step 1.5: Clock check
+
+If `.active-clock.json` exists (a time clock is running):
+
+- Calculate elapsed minutes from the start timestamp to now
+- Tell the user: "You have a clock running on **{repo}** since {start_time} ({X} minutes). Want to clock out?"
+- **If yes**: run the `/co` flow — derive session_type from conversation context, propose title and details, write CSV row to `missioncontrol/reports/timesheet.csv`, append to history.jsonl, and delete the state file
+- **If no**: proceed with the rest of wrap-up without clocking out (the user may keep working after wrap-up)
+
+Do NOT auto-close the clock. Always ask first.
 
 ### Step 2: Identify changes
 
