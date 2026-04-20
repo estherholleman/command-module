@@ -370,6 +370,8 @@ Classify each deferred item into one of three flavors and record it in that flav
 
 For complex changes affecting external consumers (public APIs, library-level renames, schema changes), also do a **dependent scan** before finalizing: enumerate every external file / repo that uses the API surface being changed, so the deferred-work plan is complete rather than surfacing gaps mid-implementation.
 
+**After the plan is written, surface every deferred item back to the user** in the plan's final presentation: what was captured, where it lives (code-level marker / task ID / doc entry), and why. One or two sentences per item. This creates a mental bookmark so the user doesn't have to remember to check the deferred-cleanup doc or task tracker to believe the work is tracked.
+
 Full pattern, decision table, and template for the cross-repo executable prompt: see `docs/solutions/skill-design/deferring-work-three-flavors-*.md`.
 
 ### Phase 4: Write the Plan

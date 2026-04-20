@@ -387,6 +387,7 @@ This command takes a work document (plan, specification, or todo file) and execu
    - Summarize what was completed
    - Link to PR
    - Note any follow-up work needed
+   - **For each deferred item captured during this session** (code-level marker, task created, doc entry), tell the user what was captured, where it lives, and why — one or two sentences per item. This creates a mental bookmark so the user doesn't have to remember to check the deferred-cleanup doc or task tracker to believe the work is tracked. Without this step, the capture is technically complete but practically invisible.
    - Suggest next steps if applicable
 
 ---

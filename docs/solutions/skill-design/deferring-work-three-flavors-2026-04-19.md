@@ -185,6 +185,15 @@ When any skill (plan, review, work session) defers an item:
 3. **Add a pointer from the originating repo's
    `docs/deferred-cleanup.md`** so the repo itself carries the
    breadcrumb.
+4. **Surface the capture back to the user.** At the end of the
+   session (or inline as each capture happens, if they're spaced out),
+   tell the user what was captured, where it lives, and why, in one
+   or two sentences per item. This creates a mental bookmark ("we're
+   good, it's tracked") so the user doesn't have to remember to check
+   a doc or task tracker to believe the work is recorded. Without the
+   surface step, the capture might as well not have happened — the
+   three-layer storage system only pays off if the user trusts the
+   capture, and trust requires visibility the first time.
 
 **For complex changes affecting external consumers**: consider a
 **dependent scan** before finalizing the plan — enumerate every
