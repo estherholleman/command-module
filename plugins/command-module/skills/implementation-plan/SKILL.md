@@ -358,6 +358,20 @@ Examples:
 - Runtime behavior that depends on seeing actual test failures
 - Refactors that may become unnecessary once implementation starts
 
+#### 3.7 Classify Deferred Work by Flavor, Not Just Timing
+
+Some deferred items aren't implementation-time unknowns — they're real work that has to happen later (in a future version, a dependent repo, or after a specific trigger). Treating them all as "deferred to implementation" loses the signal about *where* they should be recorded.
+
+Classify each deferred item into one of three flavors and record it in that flavor's primary home:
+
+- **Same-repo, code-triggered cleanup** (e.g., remove a DeprecationWarning in the next major version) → code-level grep-findable marker + `docs/deferred-cleanup.md` entry
+- **Same-repo, condition-triggered work** (e.g., regenerate fixtures after a data-source switch) → task with trigger condition + `docs/deferred-cleanup.md` pointer
+- **Cross-repo follow-up** (e.g., update a consumer repo after this package ships) → task whose body is a self-contained execution prompt (trigger conditions, exact edits, verification, scope boundaries) so a fresh agent can execute it without the originating conversation
+
+For complex changes affecting external consumers (public APIs, library-level renames, schema changes), also do a **dependent scan** before finalizing: enumerate every external file / repo that uses the API surface being changed, so the deferred-work plan is complete rather than surfacing gaps mid-implementation.
+
+Full pattern, decision table, and template for the cross-repo executable prompt: see `docs/solutions/skill-design/deferring-work-three-flavors-*.md`.
+
 ### Phase 4: Write the Plan
 
 Use one planning philosophy across all depths. Change the amount of detail, not the boundary between planning and execution.
