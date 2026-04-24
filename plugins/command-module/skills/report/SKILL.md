@@ -52,6 +52,8 @@ For each project the stakeholder cares about (from their profile in `stakeholder
 
 ## Phase 2: Write Report
 
+Before drafting, load the `writing-foundations` skill as a writing knowledge base. Apply its build-mode principles (lead with the point, match register to audience, cut aggressively, vary rhythm, be concrete) and its antipattern rules throughout the report. For Dutch reports, use the Dutch antipattern reference.
+
 Generate a markdown report following these rules:
 
 ### Language & Tone
