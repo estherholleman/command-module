@@ -61,13 +61,13 @@ Explicit non-goals:
 
 ### Relevant Code and Patterns
 
-- Current hook: `~/.claude/hooks/auto-clock-in.py` (140 lines; UserPromptSubmit; single-file state; 30-min dedupe). Port `load_repo_cluster_map`, `parse_projects_simple`, `detect_repo_from_cwd` as-is into the new SessionStart hook.
+- Current hook: `~/.claude/hooks/auto-clock-in.py` (140 lines; UserPromptSubmit; single-file state; 30-min dedupe). Port `load_repo_cluster_map`, `parse_projects_simple`, `detect_repo_from_cwd` as-is into the new SessionStart hook. **Semantic note:** old hook fires per-prompt (tracks cwd each turn); new hook fires once at SessionStart (freezes repo attribution to startup cwd). Mid-conversation `cd` to a different repo mis-attributes. Acceptable for current usage; a SessionStart + per-turn refresh hybrid is a future option if needed.
 - Current sweep: `~/.claude/hooks/auto-close-clock.py` (164 lines; cron-scheduled 20:00 daily). Existing `close_clock`, `write_csv_row`, `write_history_entry` are reusable with minor refactor.
 - Current reminder: `~/.claude/hooks/clock-reminder.sh` (22 lines; redundant with SessionStart — to be deleted).
 - Skills: `plugins/command-module/skills/{ci,co,wrap-up}/SKILL.md` — all three embed the relative path to `.active-clock.json` that causes the silent-miss bug.
 - CSV schema: `missioncontrol/reports/timesheet.csv` header `date,start,end,repo,cluster,session_type,minutes,title,details,source` — to be extended with `session_id` as the 11th column.
 - Settings: `~/.claude/settings.json` `hooks.UserPromptSubmit` currently registers both `auto-clock-in.py` and `clock-reminder.sh`; will migrate to `SessionStart` + `SessionEnd`.
-- Hook path convention: all existing hooks live at `~/.claude/hooks/` and are NOT versioned in this repo. Kept at the same location for this work.
+- Hook path convention: all existing hooks live at `~/.claude/hooks/` and are NOT versioned in this repo. Kept at the same location for this work. **Deployment implication:** hooks and settings.json live outside the repo, so "merging the PR" alone does not deploy them. The Phase 2 install script (Unit 5) is the actual deployment mechanism — see D5. Versioning the hooks into the repo is captured as deferred work.
 
 ### Institutional Learnings
 
@@ -79,6 +79,7 @@ Explicit non-goals:
 - **Claude Code hook docs** (`code.claude.com/docs/en/hooks`, consulted 2026-04-24). SessionStart stdin includes `session_id`, `transcript_path`, `cwd`, `hook_event_name`, `source` (`startup|resume|clear|compact`), `model`. SessionEnd stdin includes `session_id`, `hook_event_name`, `reason` (`clear|resume|logout|prompt_input_exit|bypass_permissions_disabled|other`).
 - **Claude Code env vars** (`code.claude.com/docs/en/env-vars`). SessionStart hooks get a `CLAUDE_ENV_FILE` path in the hook's environment. Hook appends `KEY=VALUE` lines to that file and those vars are exported into subsequent Bash tool calls for the same session. `CLAUDE_SESSION_ID` is NOT set natively in Bash tool calls (verified: `echo $CLAUDE_SESSION_ID` returns empty).
 - **Open issues on SessionEnd reliability:** anthropics/claude-code #20197 (doesn't fire on API 500), #41577 (async work killed before completion), #17885 (doesn't fire on some `/exit` paths). SessionEnd cannot be the sole reliability mechanism.
+- **SessionStart reliability:** Not deeply researched; no known open issues, but treated as best-effort. The launchd sweep (Phase 3) is also the safety net for any "SessionStart silently didn't fire" path — if no clock file is ever written, no sweep action, no harm. The user-visible symptom would be `/ci`/`/co`/`/wrap-up` failing loud with "CLAUDE_SESSION_ID not set" — acceptable compared to silent time loss.
 - **Open issues on `CLAUDE_SESSION_ID` env var:** anthropics/claude-code #25642, #13733, #17188, #44607 — all open, none implemented. CLAUDE_ENV_FILE is the currently documented workaround.
 - **Apple `launchd.plist(5)` man page.** "Unlike cron which skips job invocations when the computer is asleep, launchd will start the job the next time the computer wakes up." Multiple missed intervals coalesce into one event on wake. LaunchAgent in `~/Library/LaunchAgents/` runs in user's GUI session (right tool for this job, not LaunchDaemon).
 - **launchctl commands** — `bootstrap`/`bootout` are current (since macOS 10.11); `load`/`unload` are deprecated. Common silent failures: wrong plist ownership/permissions, non-absolute paths in ProgramArguments, in-place edits without `bootout` + `bootstrap`, System Settings → General → Login Items & Extensions toggle (Sonoma+).
@@ -120,11 +121,24 @@ Research-surfaced reality: SessionEnd does not fire on process kill, API 500, OS
 
 ### D4. Migrate on first SessionStart run (lazy, not a separate script)
 
-Per brainstorm D4. SessionStart hook, on every invocation, checks whether legacy `.active-clock.json` exists; if so, moves it to `.active-clocks/legacy.json` with `session_id: "legacy-pre-migration"` patched into the JSON payload, then proceeds to create the current session's clock file. Atomic (`shutil.move`). Tolerant of racing (`FileNotFoundError` → skip).
+Per brainstorm D4. SessionStart hook, on every invocation, checks whether legacy `.active-clock.json` exists; if so, **discards it** (logs a one-line stderr record of the legacy payload, then unlinks). No CSV row is written for the legacy clock — the start timestamp is potentially days old and would produce a garbage-duration entry. If that day's work mattered, the user can manually enter time via `/ci` manual-entry mode. Tolerant of racing (`FileNotFoundError` → skip).
 
-### D5. Hooks and skills ship atomically (Phase 2 is a single-commit boundary)
+This is a simpler revision of the original "move to `.active-clocks/legacy.json` with synthetic session_id" plan — writing a synthetic row adds noise and a permanent magic-string sentinel to the CSV schema without adding value.
 
-The half-shipped case — SessionStart writes per-session but skills still read legacy single-file — silently loses time for every session. There is no safe intermediate state. **Decision:** ship SessionStart + SessionEnd hooks + `/ci` + `/co` + `/wrap-up` skills + settings.json changes as one atomic Phase 2. Orphan-sweep (Phase 3) ships after; the old 20:00 sweep sitting on the legacy path between Phase 2 and Phase 3 just harmlessly finds no `.active-clock.json` and exits.
+### D5. Hooks, skills, and settings ship together as one install sequence
+
+The half-shipped case — SessionStart writes per-session but skills still read legacy single-file — silently loses time for every session. There is no safe intermediate state.
+
+**Decision:** Phase 2 ships as one PR *plus* one install step. Because `~/.claude/hooks/*.py` and `~/.claude/settings.json` are not versioned in this repo, "merge" alone doesn't deploy anything. The install sequence (documented in the PR description) is:
+
+1. Merge the Phase 2 PR (skills updated in repo; plugin cache refreshed).
+2. Copy the two new hook files into `~/.claude/hooks/` (`session-start-clock.py`, `session-end-clock.py`).
+3. Edit `~/.claude/settings.json` to swap the hook registrations (`UserPromptSubmit` → `SessionStart` + `SessionEnd`).
+4. Delete the two old hook files (`auto-clock-in.py`, `clock-reminder.sh`).
+
+Between steps 1 and 3 the user is in the half-shipped state. The window must be minutes, not hours. A small install script (Unit 5) automates steps 2–4 so the sequence is one command at the end of the merge.
+
+Orphan-sweep (Phase 3) ships after; the old 20:00 sweep sitting on the legacy path between Phase 2 and Phase 3 harmlessly finds no `.active-clock.json` and exits.
 
 ### D6. Rename `auto-clock-in.py` → `session-start-clock.py`
 
@@ -142,9 +156,11 @@ Add `session_id` as the 11th column; backfill existing rows with empty strings v
 
 Skills must explicitly surface when `$CLAUDE_SESSION_ID` is empty OR the clock file at `/Users/esther/prog/missioncontrol/tracking/.active-clocks/{session_id}.json` doesn't exist. Error messages name both the expected absolute path and the current session_id. No more silent "no clock" responses that turn out to be path-resolution bugs.
 
-### D10. Skill-to-session_id resolution via a tiny co-located helper script
+### D10. Skills resolve the clock-file path inline — no helper script
 
-Skill Markdown instructs the model to invoke a helper script rather than relying on multi-step env-var expansion inside the model's Bash tool calls. Each of the three skills gets a `scripts/clock-path.sh` that echoes the resolved absolute path (using `$CLAUDE_SESSION_ID` already exported via CLAUDE_ENV_FILE). Follows the plugin's "prefer co-located helper scripts over shell recipe embedding" convention (see `plugins/command-module/AGENTS.md`, "Script Path References in Skills").
+Skill Markdown expands `$CLAUDE_SESSION_ID` inline when issuing the Bash tool call (e.g., `cat "/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json"`). Before reading, the skill asserts `$CLAUDE_SESSION_ID` is non-empty with an explicit error message naming the missing variable and the likely cause (SessionStart hook didn't run or CLAUDE_ENV_FILE wasn't set).
+
+A helper script was considered and rejected as speculative complexity: three skills copying six lines of bash, or a shared helper that centralizes only a hardcoded path. Inline expansion is simpler with no functional loss.
 
 ## Open Questions
 
@@ -185,9 +201,9 @@ Claude Code fires SessionStart                Claude Code fires SessionStart
        ├─ append CLAUDE_SESSION_ID=A                 ├─ append CLAUDE_SESSION_ID=B
        │  to $CLAUDE_ENV_FILE                        │  to $CLAUDE_ENV_FILE
        │                                             │
-       ├─ (if legacy .active-clock.json              ├─ (no legacy — already migrated
-       │   exists, move to .active-clocks/            │   by conversation A)
-       │   legacy.json once)                         │
+       ├─ (if legacy .active-clock.json              ├─ (no legacy — already discarded
+       │   exists, log payload, unlink once)         │   by conversation A)
+       │                                             │
        │                                             │
        ├─ write                                      ├─ write
        │  .active-clocks/A.json                      │  .active-clocks/B.json
@@ -235,11 +251,12 @@ If conversation A is closed WITHOUT /co or /wrap-up
 /Users/esther/prog/missioncontrol/tracking/
 ├── .active-clocks/                    ← NEW directory
 │   ├── <session_A_uuid>.json          ← per-session clock files
-│   ├── <session_B_uuid>.json
-│   └── legacy.json                    ← migrated from .active-clock.json (session_id="legacy-pre-migration")
-├── .active-clock.json                 ← DELETED after first SessionStart runs
+│   └── <session_B_uuid>.json
+├── .active-clock.json                 ← DELETED on first SessionStart after install
 └── <repo>/history.jsonl               ← unchanged
 ```
+
+Legacy `.active-clock.json` is discarded on migration (not converted to a synthetic row) — see D4.
 
 ### Clock file schema
 
@@ -259,7 +276,23 @@ If conversation A is closed WITHOUT /co or /wrap-up
 
 ## Implementation Units
 
-Four phases. Phases 1 and 2 are dependency-ordered; Phase 3 can lag Phase 2 briefly without breaking anything; Phase 4 runs verification.
+Four phases plus a pre-flight check. Phases 1 and 2 are dependency-ordered; Phase 3 can lag Phase 2 briefly without breaking anything; Phase 4 runs verification.
+
+### Phase 0 — Pre-flight: verify CLAUDE_ENV_FILE propagation
+
+- [ ] **Unit 0: Smoke-test CLAUDE_ENV_FILE → Bash tool call propagation**
+
+  **Goal:** Before committing Phase 2's atomic rewrite, verify empirically that writing `KEY=value` to `$CLAUDE_ENV_FILE` from a SessionStart hook actually causes subsequent model-issued Bash tool calls in the same session to see `$KEY`. The entire design rests on this mechanism — a 10-minute test prevents a failed rollout.
+
+  **Approach:**
+  - Write a throwaway SessionStart hook that appends `CLAUDE_SMOKE_TEST=ok` to `$CLAUDE_ENV_FILE`.
+  - Register it in `~/.claude/settings.json`.
+  - Open a fresh Claude Code conversation.
+  - In a Bash tool call: `echo "$CLAUDE_SMOKE_TEST"`. Expect `ok`.
+  - If it returns empty, STOP. The design premise is wrong; revisit D1.
+  - Remove the throwaway hook + registration.
+
+  **Verification:** documented result (pass/fail) in the PR that opens Phase 1.
 
 ### Phase 1 — CSV schema expansion (ship standalone)
 
@@ -294,8 +327,9 @@ Four phases. Phases 1 and 2 are dependency-ordered; Phase 3 can lag Phase 2 brie
 
   **Verification:**
   - `head -1 timesheet.csv` shows 11 fields ending in `session_id`.
-  - `awk -F, '{print NF}' timesheet.csv | sort -u` returns only `11`.
+  - `awk -F, '{print NF}' timesheet.csv | sort -u` returns only `11` (accounting for quoted-field edge cases — use a proper CSV reader if awk counts mislead).
   - `auto-close-clock.py --dry-run` (or equivalent manual invocation) writes an 11-column row.
+  - **Consumer check (gates Phase 1 completion):** open `/morning` and `/evening` reports against the migrated CSV. Confirm they load without errors and produce correct output. If either fails, fix before proceeding to Phase 2.
 
 ### Phase 2 — Core rewrite, atomic
 
@@ -317,7 +351,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
   **Approach:**
   - Parse JSON from stdin; extract `session_id`, `cwd`, `source`.
   - Read `$CLAUDE_ENV_FILE` env var. If set, append `CLAUDE_SESSION_ID=<id>\n` to that file (idempotent — dedupe the line if already present). If unset, log a warning to stderr (skill-level lookups will fail loud; this is visible, not silent).
-  - **Lazy migration:** if `/Users/esther/prog/missioncontrol/tracking/.active-clock.json` exists, load it, patch in `session_id: "legacy-pre-migration"`, write to `.active-clocks/legacy.json`, then `unlink` the original. Tolerate `FileNotFoundError` (another concurrent hook already migrated).
+  - **Lazy migration:** if `/Users/esther/prog/missioncontrol/tracking/.active-clock.json` exists, log the payload to stderr as a single line (for archival visibility), then `unlink` the file. No CSV row written — see D4. Tolerate `FileNotFoundError` (another concurrent hook already migrated).
   - Compute clock file path: `/Users/esther/prog/missioncontrol/tracking/.active-clocks/{session_id}.json` (absolute).
   - If clock file for this session_id already exists → idempotent no-op (covers `source=resume|clear|compact`).
   - Otherwise resolve repo and cluster from `cwd` using the existing `load_repo_cluster_map` / `parse_projects_simple` / `detect_repo_from_cwd` logic (port as-is).
@@ -333,7 +367,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
 
   **Test scenarios:**
   - Fresh `startup`: no legacy, no existing clock → writes clock + env line + message.
-  - Legacy `.active-clock.json` present: moves to `.active-clocks/legacy.json`, writes current session's file, deletes legacy path.
+  - Legacy `.active-clock.json` present: logs payload to stderr, deletes legacy path, writes current session's file. No CSV row from the discarded legacy.
   - Same `session_id` fires twice (`source=clear`): idempotent — clock file unchanged, env line deduped, no duplicate CSV effect.
   - Unknown cwd (not under `/Users/esther/prog`): writes clock with `repo=<basename>`, `cluster="unassigned"`.
   - Missing `CLAUDE_ENV_FILE`: writes clock, stderr warning; does not crash.
@@ -343,7 +377,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
   **Verification:**
   - Open a Claude Code conversation. `ls /Users/esther/prog/missioncontrol/tracking/.active-clocks/` lists the new session's file.
   - In a Bash tool call: `echo $CLAUDE_SESSION_ID` returns the id.
-  - `.active-clock.json` no longer exists; `.active-clocks/legacy.json` exists with the old payload + session_id="legacy-pre-migration".
+  - `.active-clock.json` no longer exists; stderr of the hook run shows the discarded legacy payload (check `~/.claude/hooks/*.log` or Claude Code's hook-error output).
 
 - [ ] **Unit 3: SessionEnd hook — `session-end-clock.py`**
 
@@ -392,29 +426,26 @@ All four units in this phase ship together in one PR. No safe intermediate state
   - Modify: `plugins/command-module/skills/ci/SKILL.md`
   - Modify: `plugins/command-module/skills/co/SKILL.md`
   - Modify: `plugins/command-module/skills/wrap-up/SKILL.md`
-  - Create: `plugins/command-module/skills/ci/scripts/clock-path.sh` (and same for `co`, `wrap-up`, OR one shared script — implementer picks per D10)
 
   **Approach:**
-  - Replace every `missioncontrol/tracking/.active-clock.json` reference with a resolved absolute path of the form `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json`.
-  - Add a helper script (`scripts/clock-path.sh`) that echoes the resolved path, so skill Markdown instructs `PATH=$(bash scripts/clock-path.sh)` rather than relying on the model to chain env expansion across steps.
-  - The helper exits 1 with an explicit error if `$CLAUDE_SESSION_ID` is empty, naming the missing variable. Skill handles this by displaying the error to the user and stopping.
+  - Replace every `missioncontrol/tracking/.active-clock.json` reference with the inline-expanded absolute path `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json` in each Bash tool call (see D10 — no helper script).
+  - Before any clock read, the skill instructs the model to assert `$CLAUDE_SESSION_ID` is non-empty; if empty, display a specific error (naming the missing var and that SessionStart is the expected setter) and stop.
   - **`/ci` Normal Clock-In mode:**
-    - Step 3 "Check for existing clock" now checks the per-session file (from `clock-path.sh`). "Clock already running" only fires if THIS session has a clock.
-    - Write clock file with `session_id` field populated.
-    - `--force` closes the current session's clock (rare path; SessionStart normally pre-populates).
+    - Because SessionStart auto-creates a clock on every session, bare `/ci` will almost always hit the "already running" branch. **New UX:** bare `/ci` becomes an informational no-op — prints `"Clock running for this session since HH:MM ({repo}, {cluster}). Use /ci --force to reset or /ci <range> for manual entry."` Exits successfully.
+    - Write clock file with `session_id` field populated (used when SessionStart didn't fire, e.g., bare `/ci` after hook failure).
+    - `--force` closes the current session's clock and opens a fresh one.
   - **`/ci` Manual Entry mode:** unchanged (no state file involved; explicitly in scope per brainstorm "out of scope" list).
   - **`/co`:**
-    - Step 1: read the per-session clock file. If `$CLAUDE_SESSION_ID` empty → error message names the missing var and instructs user to check SessionStart/hook state. If file missing → error names the expected absolute path and the session_id. No silent "no clock" response.
+    - Step 1: read the per-session clock file via inline `$CLAUDE_SESSION_ID` expansion. If `$CLAUDE_SESSION_ID` empty → error message names the missing var and instructs user to check SessionStart/hook state. If file missing → error names the expected absolute path and the session_id. No silent "no clock" response.
     - Step 5: CSV row includes `session_id` as 11th field.
-    - **New step** (from brainstorm D5): if clock's `cluster == "unassigned"`, prompt user to pick a cluster before writing the CSV row — use the platform's question tool (AskUserQuestion / request_user_input / ask_user), with fallback of presenting numbered options. Offer existing clusters from `projects.yaml` as options.
+    - **New step** (from brainstorm D5): if clock's `cluster == "unassigned"`, prompt user to pick a cluster before writing the CSV row — use the platform's question tool (AskUserQuestion / request_user_input / ask_user), with fallback of presenting numbered options. Offer existing clusters from `projects.yaml` as options. In non-interactive contexts (no question tool available AND no user response), write the row with `cluster="unassigned"` and exit — user can correct manually later.
     - Step 6: delete only the per-session clock file.
   - **`/wrap-up`:**
-    - Step 1: read `missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json` via the helper.
+    - Step 1: read `missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json` via inline expansion.
     - Step 1.5: clock-check only surfaces THIS session's clock. Prompt and `/co` flow unchanged otherwise.
   - Update all prose in the three SKILL.md files to say "this session's clock" rather than "the active clock" wherever the distinction matters.
 
   **Patterns to follow:**
-  - Plugin `AGENTS.md` — "Script Path References in Skills": backtick path for helper script, simple one-command invocations, no shell chaining.
   - Cross-platform user-interaction rule: name platform-specific question-tool equivalents in the skill prose.
   - Frontmatter rules (names match dir names, descriptions quoted if they contain colons) — run `bun test tests/frontmatter.test.ts` after editing.
 
@@ -431,26 +462,29 @@ All four units in this phase ship together in one PR. No safe intermediate state
   - `bun test` passes (frontmatter harness unchanged).
   - Manual two-conversation scenario (Unit 9 checklist) shows per-session independence.
 
-- [ ] **Unit 5: `settings.json` hook registration + cleanup**
+- [ ] **Unit 5: Install script — `install-phase2.sh`**
 
-  **Goal:** Register new `SessionStart` / `SessionEnd` hooks; remove `UserPromptSubmit` registrations for the old auto-clock-in + reminder; delete the obsolete hook files.
+  **Goal:** One command that copies the new hooks into `~/.claude/hooks/`, updates `~/.claude/settings.json` to register `SessionStart`/`SessionEnd` and remove the old `UserPromptSubmit` entries, and deletes the obsolete hook files. Operationally the "deploy" step of Phase 2.
 
   **Requirements:** R1, R3, R5
 
-  **Dependencies:** Units 2, 3 (new hooks must exist before registration is flipped)
+  **Dependencies:** Units 2, 3, 4 (all hook and skill components must exist before settings.json is flipped — per D5, no safe intermediate state)
 
   **Files:**
-  - Modify: `~/.claude/settings.json`
-  - Delete: `~/.claude/hooks/auto-clock-in.py`
-  - Delete: `~/.claude/hooks/clock-reminder.sh`
-  - Delete (optional): `/tmp/claude-clock-reminded` residual file (no-op if absent)
+  - Create: `plugins/command-module/scripts/install-phase2.sh`
+  - (Script operates on:) `~/.claude/hooks/session-start-clock.py`, `~/.claude/hooks/session-end-clock.py`, `~/.claude/settings.json`, `~/.claude/hooks/auto-clock-in.py` (delete), `~/.claude/hooks/clock-reminder.sh` (delete), `/tmp/claude-clock-reminded` (delete if present).
 
   **Approach:**
-  - Add under `hooks.SessionStart`: matcher `startup|resume|clear|compact`, command `/usr/bin/python3 /Users/esther/.claude/hooks/session-start-clock.py`.
-  - Add under `hooks.SessionEnd`: matcher `clear|resume|logout|prompt_input_exit|bypass_permissions_disabled|other` (the hook itself filters — register for all reasons so we can log lifecycle events even when not finalizing), command `/usr/bin/python3 /Users/esther/.claude/hooks/session-end-clock.py`.
-  - Remove any `UserPromptSubmit` entries that point at `auto-clock-in.py` or `clock-reminder.sh`.
-  - Delete the two old hook files.
-  - Edit settings.json carefully (JSON, not Markdown) — preserve other hook and permission entries exactly.
+  - Copy hook files from the repo (source location decided when hooks get versioned — for now, script accepts `--hook-source <dir>` or reads from a hand-provided staging dir).
+  - JSON-patch `~/.claude/settings.json`:
+    - Add `hooks.SessionStart`: matcher `startup|resume|clear|compact`, command `/usr/bin/python3 /Users/esther/.claude/hooks/session-start-clock.py`.
+    - Add `hooks.SessionEnd`: no matcher (the hook itself filters by `reason` — SessionEnd matchers filter on tool-name in current Claude Code, which is meaningless here). Command `/usr/bin/python3 /Users/esther/.claude/hooks/session-end-clock.py`.
+    - Remove `UserPromptSubmit` entries pointing at `auto-clock-in.py` or `clock-reminder.sh`.
+    - Preserve all other hook and permission entries exactly (use `jq` or a small Python patcher — do not hand-edit).
+  - Back up settings.json to `~/.claude/settings.json.bak.YYYYMMDDHHMMSS` before editing.
+  - Delete the two old hook files + the residual `/tmp` file.
+  - Print a post-install checklist (open a fresh conversation, verify hooks fired, etc.).
+  - Idempotent: re-running does nothing harmful.
 
   **Test scenarios:**
   - Start a fresh Claude Code conversation → SessionStart hook fires (per-session clock file created).
@@ -482,9 +516,9 @@ All four units in this phase ship together in one PR. No safe intermediate state
   - `main()` iterates `CLOCKS_DIR.glob("*.json")`; for each, calls refactored `close_clock(path)` that takes a file path.
   - Keep existing policies: `start_date == today and now < 20:00 → cap at 20:00`; `start_date < today → end at 20:00 of start_date (or +30min fallback for late-night starts)`.
   - `source` values unchanged: `auto-close-20h` for today, `auto-close-stale` for prior days.
-  - CSV row writes `session_id` from clock payload (or `"legacy-pre-migration"` for legacy.json).
+  - CSV row writes `session_id` from clock payload.
   - Delete each clock file only after its CSV row and history entry are written successfully.
-  - Empty directory → no-op, clean exit (existing contract preserved).
+  - Empty or missing directory → no-op, clean exit (tolerate `FileNotFoundError` on the glob).
 
   **Patterns to follow:**
   - Existing `close_clock` / `write_csv_row` / `write_history_entry` — refactor `close_clock` to take a path and extract clock payload inside.
@@ -495,8 +529,8 @@ All four units in this phase ship together in one PR. No safe intermediate state
   - Multiple clocks from today (parallel sessions both left open): all closed independently, each CSV row has its own session_id.
   - Stale clock from yesterday with start before 20:00: closed at yesterday's 20:00, source=auto-close-stale.
   - Stale clock from yesterday with start after 20:00: +30min fallback duration.
-  - `legacy.json` with session_id=legacy-pre-migration: closed, CSV row preserves that id.
   - Mix of today + stale clocks: all handled correctly in one pass.
+  - Missing `.active-clocks/` directory: clean exit, no crash.
   - Partial-write failure (disk full simulation): clock file NOT deleted on exception; re-run resumes.
 
   **Verification:**
@@ -560,7 +594,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
 
   **Goal:** Human-run ordered checklist to verify the six success criteria end-to-end. Automated parallel-conversation testing isn't feasible — this is the pragmatic substitute.
 
-  **Requirements:** R1, R2, R3, R5, R6, R7, R8
+  **Requirements:** R1, R2, R3, R4, R5, R6, R7, R8
 
   **Dependencies:** Phase 2 complete (Unit 9 steps 3-9); Phase 3 complete (steps 10-11)
 
@@ -572,7 +606,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
   **Checklist content (summary; full version in the checklist file):**
   1. **Pre-migration baseline.** Record current state of `.active-clock.json` and `.active-clocks/` if present.
   2. **Deploy Phase 2** (merge + hook files installed).
-  3. **Fresh conversation.** Open one Claude Code conversation. Verify: (a) `.active-clocks/<session_id>.json` created; (b) `.active-clock.json` no longer exists; (c) `.active-clocks/legacy.json` exists with `session_id="legacy-pre-migration"` (if legacy file had existed).
+  3. **Fresh conversation.** Open one Claude Code conversation. Verify: (a) `.active-clocks/<session_id>.json` created; (b) `.active-clock.json` no longer exists (discarded on migration); (c) stderr log of the hook run contains the discarded legacy payload if a legacy file had existed.
   4. **Env var propagation.** In the same conversation's Bash tool: `echo $CLAUDE_SESSION_ID` returns a uuid.
   5. **Parallel start.** Open a second conversation in the same repo. Verify: two distinct files in `.active-clocks/`; each conversation's `$CLAUDE_SESSION_ID` matches its own file.
   6. **Independent `/co`.** In conversation 1, run `/co`. Verify: only conversation 1's clock file deleted; conversation 2's untouched; CSV row has session_id matching conversation 1.
@@ -595,8 +629,8 @@ All four units in this phase ship together in one PR. No safe intermediate state
   - Create: `docs/solutions/skill-design/single-file-to-per-session-state-migration-2026-04-24.md`
 
   **Approach:**
-  - First doc: describe the silent-miss failure mode (relative paths in skill markdown resolve against the current conversation's CWD, not the skill's intended base), the fix (absolute paths + fail-loud), and the helper-script pattern used here.
-  - Second doc: describe the migration pattern (single-slot state file → directory-of-files keyed by identity), the `CLAUDE_ENV_FILE` trick for session_id propagation, and why lazy in-hook migration is preferable to a scripted one-shot migration (idempotent, tolerates concurrent hooks, self-heals on re-deploy).
+  - First doc: describe the silent-miss failure mode (relative paths in skill markdown resolve against the current conversation's CWD, not the skill's intended base), the fix (absolute paths + inline `$CLAUDE_SESSION_ID` expansion + fail-loud on missing var).
+  - Second doc: describe the migration pattern (single-slot state file → directory-of-files keyed by identity), the `CLAUDE_ENV_FILE` mechanism for session_id propagation, and why the legacy state is discarded on migration rather than synthetically finalized (avoids permanent magic-string sentinels in output data and garbage-duration CSV rows).
 
 - [ ] **Unit 11: Mark T015 complete**
 
@@ -628,7 +662,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
 - **R-M2 (medium): SessionEnd finalizes on a `reason` value we didn't anticipate.** Mitigation: explicit whitelist of terminate-eligible reasons; any unexpected value triggers finalization (`other` catch-all) — failure mode is an auto-closed row the user corrects later, not data loss.
 - **R-M3 (medium): launchd install requires interactive `crontab` edit.** Mitigation: install script prompts yes/no before editing. User can skip and remove cron manually.
 - **R-M4 (medium): macOS System Settings → General → Login Items & Extensions can silently disable the LaunchAgent** (Sonoma+). Mitigation: Unit 8 solution doc calls this out as a top silent-failure cause with verification steps.
-- **R-L1 (low): CSV consumers can't handle 11-column rows.** Mitigation: manual spot-check of `/morning` and `/evening` after Phase 1 ships, before Phase 2 starts populating non-empty session_ids. Most CSV readers ignore extra columns.
+- **R-L1 (low): CSV consumers can't handle 11-column rows.** Mitigation: `/morning` and `/evening` compatibility is now a Phase 1 verification gate (Unit 1), not a post-ship follow-up. Phase 2 does not begin until they load the migrated CSV cleanly.
 - **R-L2 (low): Test harness drift — hooks live outside repo so tests may not be run as part of standard `bun test`.** Mitigation: add a `make test-hooks` or `bun run test:hooks` equivalent that invokes pytest against the hook tests. Docs Plan item below.
 - **R-L3 (low): User forgets to re-run install script after receiving plan.** Mitigation: Unit 7 install script is self-documenting (prints next steps on completion); Unit 8 solution doc anchors the procedure for future reference.
 
@@ -639,11 +673,20 @@ All four units in this phase ship together in one PR. No safe intermediate state
 - **Shippable state:** CSV has 11 columns; all writers (old and new) write 11 columns; session_id field empty for now.
 - **Rollback:** revert one PR; schema expansion is harmless even if unused.
 
-### Phase 2 — Hooks + skills rewrite (atomic)
+### Phase 2 — Hooks + skills + install (sequenced)
 - **Units:** 2, 3, 4, 5
 - **Shippable state:** Per-session clocks fully operational. Parallel conversations tracked independently. Old single-file path gone.
-- **Intermediate states are unsafe** — must ship as one PR.
-- **Rollback:** revert the PR. Legacy `.active-clock.json` has already been migrated to `.active-clocks/legacy.json`; rolling back would require one manual move-back step. Document in PR description.
+- **Ship sequence (one short session — minutes, not hours):**
+  1. Merge the PR (skills + install script land in repo; plugin cache refreshes).
+  2. Run the install script: copies new hook files into `~/.claude/hooks/`, edits `settings.json` to register `SessionStart`/`SessionEnd` and remove `UserPromptSubmit` entries, deletes `auto-clock-in.py` + `clock-reminder.sh`.
+  3. Open a fresh conversation to verify (`ls .active-clocks/`, `echo $CLAUDE_SESSION_ID`).
+- **Rollback (if verification fails):** Concrete steps:
+  1. `git revert` the PR — skills return to legacy path.
+  2. Restore `~/.claude/hooks/auto-clock-in.py` and `clock-reminder.sh` from git history of their original location (or re-create from the ports in the reverted PR).
+  3. Edit `~/.claude/settings.json` to remove `SessionStart`/`SessionEnd` entries and restore `UserPromptSubmit` registrations.
+  4. If a legacy `.active-clock.json` was discarded by SessionStart, it's gone. Minor data loss — at most one in-flight clock. Manually recreate via `/ci` if the session's time matters.
+  5. Delete any files already written to `.active-clocks/` — they would be orphaned by the reverted code.
+  This is documented in the PR description. Rollback is destructive; use only if Phase 2 verification reveals a fundamental problem.
 
 ### Phase 3 — Orphan sweep + launchd (ship after Phase 2)
 - **Units:** 6, 7, 8
@@ -673,7 +716,7 @@ Three tiers; pragmatic given the Markdown-skill + external-hook mix:
 - `docs/solutions/developer-experience/launchd-replaces-cron-for-sleep-aware-scheduling-2026-04-24.md` — Unit 8
 - `docs/plans/2026-04-24-001-test-checklist-per-session-clocks.md` — Unit 9
 - `plugins/command-module/README.md` — update if skill descriptions change (they shouldn't; verify).
-- `plugins/command-module/AGENTS.md` — no update needed; existing guidance on absolute paths / fail-loud / helper-script patterns already covers the design.
+- `plugins/command-module/AGENTS.md` — no update needed; existing guidance on absolute paths / fail-loud covers the design.
 - T015 task file — closure note (Unit 11).
 
 ## Deferred Work (captured for later)
@@ -682,7 +725,7 @@ Per the three-flavor deferred-work pattern (see `docs/solutions/skill-design/def
 
 1. **Same-repo, condition-triggered** — **Version-control the `~/.claude/hooks/*.py` files.** Currently authored in-place; no git history. Move under `plugins/command-module/hooks/` or similar and wire into `install.sh`. Trigger: after this plan ships and is verified stable. Captured as a task in missioncontrol tracking (to be created on ship).
 2. **Same-repo, condition-triggered** — **Add `bun run test:hooks` script.** Currently `bun test` doesn't invoke the new pytest suite. Trigger: when Phase 2 lands (Unit 2/3 tests exist). Captured as a TODO comment in the test directory's README.
-3. **Cross-repo follow-up** — **Confirm `/morning` and `/evening` tolerate 11-column CSV.** These live in missioncontrol, not command-module. Trigger: immediately after Phase 1 ships. Captured as a missioncontrol task with self-contained prompt (path to test CSV + expected behavior).
+3. ~~**Cross-repo follow-up** — Confirm `/morning` and `/evening` tolerate 11-column CSV.~~ **Promoted to a Phase 1 verification gate** (see Unit 1). Must pass before Phase 2 begins.
 
 All three surface back to the user in the post-plan summary (see Phase 5 handoff).
 
