@@ -157,6 +157,67 @@ Demote any `auto` finding that lacks a `suggested_fix` to `batch_confirm`. Demot
 
 Sort findings for presentation: P0 -> P1 -> P2 -> P3, then by finding type (errors before omissions), then by confidence (descending), then by document order (section position).
 
+### 3.8 Synthesize Decision Summary
+
+After sorting, synthesize the findings into a decision-oriented summary. This is an interpretive layer over the sorted findings -- the goal is to translate the raw output into "here is what you actually need to decide" so the user can act fast and only drill into the detailed tables when something looks off.
+
+This synthesis runs in the orchestrator, not a sub-agent. All findings are already in context from the previous steps.
+
+Skip this step entirely if there are zero findings of any class (auto, batch_confirm, present) and zero residual concerns. With nothing to synthesize, jump straight to Phase 4 with the standard "no issues found" output.
+
+#### Bundle findings into decisions
+
+Group findings that collapse into a single underlying decision. Multiple findings often arise from the same tension and should be presented as one decision rather than three separate items the user has to mentally merge.
+
+Bundling signals:
+- Two or more findings target the same section and recommend related changes
+- Findings reference the same architectural choice, scope tier, or design tradeoff from different angles (e.g., feasibility flags it as risky, scope-guardian flags it as out-of-scope)
+- A residual concern reinforces an above-threshold finding on the same topic
+- A contradiction (combined finding from step 3.5) is by definition already a decision -- preserve it as one
+
+Do not bundle findings that touch unrelated sections or address genuinely different concerns just because they have similar severity.
+
+#### Separate real decisions from mechanical fixes
+
+A **real decision** is one where reasonable people could disagree. Real decisions get full treatment: plain-English framing, options with tradeoffs, recommendation, citation back to source findings.
+
+A **mechanical fix** has one obvious right answer and only needs user awareness or batch approval (e.g., "fix typo in Section 4", "update count from 6 to 7", "add missing cross-reference"). All `auto` and `batch_confirm` findings are mechanical by routing. A `present` finding can also be mechanical if reading it makes the right answer obvious.
+
+Mechanical fixes appear as a single one-line-each list under "Mechanical fixes" -- do not generate options/tradeoffs/recommendations for them.
+
+#### Translate jargon to plain English
+
+Frame each decision the way the user would explain it to a non-expert stakeholder. Drop technical shorthand, internal naming, and persona labels. The detailed findings table preserves the technical specifics; the decision summary is the human-readable lens.
+
+Example translation:
+- Raw finding: "P1 error: Auth middleware CSRF token regeneration conflicts with Phase 2 SSO session handoff (feasibility, security-lens, conf 0.88)"
+- Decision framing: "How should single sign-on coexist with the existing CSRF protection? They both want control of the session at different points, and the current plan does not say which wins."
+
+#### Generate options with tradeoffs
+
+For each real decision, list 2-3 options. Each option is a one-line description plus the tradeoff it accepts. Do not invent options the findings do not support -- stick to alternatives the reviewers raised or that follow directly from the document. If the findings only suggest one viable path, frame it as "do this, accepting tradeoff X" with one option rather than fabricating a contrast.
+
+#### Recommend with one-sentence why
+
+Pick one option (or an explicit hybrid) per decision. The recommendation must be backed by one sentence of reasoning grounded in the findings -- typically citing severity, confidence, cross-persona corroboration, or evidence weight. If no option clearly leads, say so explicitly: "No clear recommendation -- both options have legitimate tradeoffs. Lean Option X if Y matters more; lean Option Y otherwise."
+
+#### Cite source findings
+
+After each decision's recommendation, add a one-line citation pointing back to the detailed findings: `*Drawn from: P1 #2, P1 #3, P2 #5, residual #1*`. This lets the user verify quickly when a synthesized framing looks off.
+
+#### Compose "what I need from you"
+
+End the summary with a numbered list of explicit, concrete user actions:
+- One item per real decision: "Decide A: keep admin work or cut Units 5-9"
+- Plus any explicit user inputs the findings ask for (e.g., "Pick a webhook rate-limit value")
+- If there are `batch_confirm` findings, include "Approve the M batched mechanical fixes (yes/no/select)" as an item -- this previews the batch_confirm prompt that runs in Phase 4
+
+#### Disclaimer
+
+Always close the Decision Summary with: `*If anything in the decision summary seems off, the detailed findings below are the source of truth -- check them.*`
+
+This is non-optional. Synthesis is interpretive and can be wrong (miss findings, over-bundle, give a bad recommendation). The disclaimer keeps the user oriented to ground truth.
+
 ## Phase 4: Apply and Present
 
 ### Apply Auto-fixes
@@ -179,13 +240,18 @@ This turns N obvious-but-meaning-touching fixes into 1 interaction instead of N.
 
 ### Present Remaining Findings
 
-Present `present` findings using the review output template included below. Within each severity level, separate findings by type:
-- **Errors** (design tensions, contradictions, incorrect statements) first -- these need resolution
-- **Omissions** (missing steps, absent details, forgotten entries) second -- these need additions
+Compose a single output block in this order:
 
-Brief summary at the top: "Applied N auto-fixes. Batched M fixes for approval. K findings to consider (X errors, Y omissions)."
+1. **Brief summary line:** "Applied N auto-fixes. Batched M fixes for approval. K findings to consider (X errors, Y omissions)."
+2. **Decision Summary** (from Phase 3.8) -- the synthesized decisions, mechanical fixes list, and "what I need from you" block. Skip this section only if Phase 3.8 was skipped (zero findings).
+3. **Detailed Findings** -- the existing P0-P3 tables, separated within each severity by type:
+   - **Errors** (design tensions, contradictions, incorrect statements) first -- these need resolution
+   - **Omissions** (missing steps, absent details, forgotten entries) second -- these need additions
+4. **Coverage table, auto-fixes applied, residual concerns, deferred questions.**
 
-Include the Coverage table, auto-fixes applied, residual concerns, and deferred questions.
+The Decision Summary sits above the Detailed Findings on purpose -- the user reads the synthesized layer to act, then drills into the tables only when something looks off. The detailed tables are not redundant -- they are the ground truth the synthesis is verified against.
+
+Use the review output template included below for the full structure and exact section ordering.
 
 ### Protected Artifacts
 
