@@ -9,7 +9,9 @@ Finalize the current session by updating tracking files and committing changes.
 
 ## Context
 
-Tracking data lives in `missioncontrol/tracking/{repo-name}/` -- determine the repo name from the current working directory.
+Tracking data lives in `/Users/esther/prog/missioncontrol/tracking/{repo-name}/` -- determine the repo name from the current working directory.
+
+This session's clock (if any) lives at `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json`. Other conversations have their own clocks in the same directory; do not touch them.
 
 ## Workflow
 
@@ -17,21 +19,27 @@ Tracking data lives in `missioncontrol/tracking/{repo-name}/` -- determine the r
 
 Read these in parallel:
 
-- `missioncontrol/tracking/{repo}/tasks/index.json` -- current task state
-- `missioncontrol/tracking/{repo}/status.json` -- current briefing
-- `missioncontrol/tracking/.active-clock.json` -- check for active time clock
+- `/Users/esther/prog/missioncontrol/tracking/{repo}/tasks/index.json` -- current task state
+- `/Users/esther/prog/missioncontrol/tracking/{repo}/status.json` -- current briefing
+- `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json` -- this session's clock (if any)
 - Run `git status` -- check for uncommitted changes
 
-### Step 1.5: Clock check
+If `$CLAUDE_SESSION_ID` is empty, surface a specific error and stop:
 
-If `.active-clock.json` exists (a time clock is running):
+> ERROR: `CLAUDE_SESSION_ID` is empty. SessionStart hook did not set it (CLAUDE_ENV_FILE mechanism). Cannot identify this conversation's clock. Aborting.
+
+### Step 1.5: Clock check (this session only)
+
+If `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json` exists:
 
 - Calculate elapsed minutes from the start timestamp to now
 - Tell the user: "You have a clock running on **{repo}** since {start_time} ({X} minutes). Want to clock out?"
-- **If yes**: run the `/co` flow — derive session_type from conversation context, propose title and details, write CSV row to `missioncontrol/reports/timesheet.csv`, append to history.jsonl, and delete the state file
+- **If yes**: run the `/co` flow — derive session_type from conversation context, propose title and details, write the CSV row (with `session_id` populated), append to `history.jsonl`, and delete only this session's clock file
 - **If no**: proceed with the rest of wrap-up without clocking out (the user may keep working after wrap-up)
 
 Do NOT auto-close the clock. Always ask first.
+
+If the file does not exist, no other conversation's clock is shown and no prompt is issued — wrap-up proceeds.
 
 ### Step 2: Identify changes
 
@@ -53,3 +61,8 @@ If there are uncommitted changes in the current repo, stage and commit with a cl
 ### Step 5: Report
 
 Show a brief summary of what was updated.
+
+## Rules
+
+- **Only this conversation's clock is in scope.** Sibling sessions' clock files in `.active-clocks/` are owned by their conversations.
+- **Fail loud on missing `$CLAUDE_SESSION_ID`.** Do not silently treat the absence as "no clock" — that was the silent-miss bug.
