@@ -499,7 +499,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
 
 ### Phase 3 — Orphan-sweep reliability
 
-- [ ] **Unit 6: Update `auto-close-clock.py` for multi-file layout**
+- [x] **Unit 6: Update `auto-close-clock.py` for multi-file layout**
 
   **Goal:** Sweep iterates `.active-clocks/*.json` instead of a single file; writes CSV rows with session_id populated.
 
@@ -536,7 +536,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
   **Verification:**
   - Manual: create two test clock files under `.active-clocks/` with known timestamps, run `python3 auto-close-clock.py`, confirm both CSV rows and both files deleted.
 
-- [ ] **Unit 7: launchd plist replaces cron**
+- [x] **Unit 7: launchd plist replaces cron**
 
   **Goal:** Install `~/Library/LaunchAgents/com.esther.auto-close-clock.plist` that runs the sweep at 20:00 daily with on-wake catch-up; remove the cron entry.
 
@@ -571,7 +571,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
   - `crontab -l | grep auto-close-clock.py` returns nothing (after user confirms removal).
   - One manual sleep-wake cycle: `sudo pmset sleepnow` after 20:00 with a test clock present, wake, confirm sweep ran.
 
-- [ ] **Unit 8: Document launchd install + pattern in solutions doc**
+- [x] **Unit 8: Document launchd install + pattern in solutions doc**
 
   **Goal:** Capture institutional knowledge — future-me (or another contributor) hits a similar "cron doesn't catch up on sleep" problem and finds the answer.
 
