@@ -6,7 +6,7 @@ AI-powered development tools that get smarter with every use. Make each unit of 
 
 | Component | Count |
 |-----------|-------|
-| Agents | 35 |
+| Agents | 36 |
 | Skills | 43 |
 | MCP Servers | 1 |
 
@@ -146,6 +146,7 @@ Agents are specialized subagents invoked by skills — you typically don't call 
 | `coherence-reviewer` | Review documents for internal consistency, contradictions, and terminology drift |
 | `design-lens-reviewer` | Review plans for missing design decisions, interaction states, and AI slop risk |
 | `feasibility-reviewer` | Evaluate whether proposed technical approaches will survive contact with reality |
+| `grounding-check` | Mechanically verify code-level claims in plans (file paths, function names, libraries) against the actual repo |
 | `product-lens-reviewer` | Challenge problem framing, evaluate scope decisions, surface goal misalignment |
 | `scope-guardian-reviewer` | Challenge unjustified complexity, scope creep, and premature abstractions |
 | `security-lens-reviewer` | Evaluate plans for security gaps at the plan level (auth, data, APIs) |
