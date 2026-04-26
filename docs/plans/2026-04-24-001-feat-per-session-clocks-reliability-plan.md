@@ -296,7 +296,7 @@ Four phases plus a pre-flight check. Phases 1 and 2 are dependency-ordered; Phas
 
 ### Phase 1 — CSV schema expansion (ship standalone)
 
-- [ ] **Unit 1: Add `session_id` column to timesheet.csv**
+- [x] **Unit 1: Add `session_id` column to timesheet.csv**
 
   **Goal:** Extend CSV schema so new rows can reference session_id without breaking existing consumers. Zero behavior change; pure schema expansion.
 
