@@ -590,7 +590,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
 
 ### Phase 4 — Verification and knowledge capture
 
-- [ ] **Unit 9: Manual parallel-sessions test checklist**
+- [x] **Unit 9: Manual parallel-sessions test checklist**
 
   **Goal:** Human-run ordered checklist to verify the six success criteria end-to-end. Automated parallel-conversation testing isn't feasible — this is the pragmatic substitute.
 
@@ -618,7 +618,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
   12. **Silent-miss regression check.** In a conversation where `CLAUDE_SESSION_ID` is somehow unset (simulate by `unset CLAUDE_SESSION_ID` in a Bash call), run `/co`. Verify: explicit error message names the missing var — no silent success or silent "no clock".
   13. **Cluster-unassigned prompting.** Manually write a test clock with `cluster="unassigned"`, run `/co`. Verify: prompts for cluster choice before writing CSV.
 
-- [ ] **Unit 10: Write two solution docs capturing the CWD and migration patterns**
+- [x] **Unit 10: Write two solution docs capturing the CWD and migration patterns**
 
   **Goal:** Fill the two institutional-knowledge gaps the research surfaced.
 
@@ -632,7 +632,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
   - First doc: describe the silent-miss failure mode (relative paths in skill markdown resolve against the current conversation's CWD, not the skill's intended base), the fix (absolute paths + inline `$CLAUDE_SESSION_ID` expansion + fail-loud on missing var).
   - Second doc: describe the migration pattern (single-slot state file → directory-of-files keyed by identity), the `CLAUDE_ENV_FILE` mechanism for session_id propagation, and why the legacy state is discarded on migration rather than synthetically finalized (avoids permanent magic-string sentinels in output data and garbage-duration CSV rows).
 
-- [ ] **Unit 11: Mark T015 complete**
+- [~] **Unit 11: Mark T015 complete** *(T015 set to `in-progress` with a closure-on-deploy block; final `done` flip is conditional on Phase 0 smoke test + manual checklist passing post-deploy)*
 
   **Goal:** Reflect work completion in missioncontrol tracking.
 
