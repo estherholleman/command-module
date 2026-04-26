@@ -280,7 +280,7 @@ Four phases plus a pre-flight check. Phases 1 and 2 are dependency-ordered; Phas
 
 ### Phase 0 — Pre-flight: verify CLAUDE_ENV_FILE propagation
 
-- [ ] **Unit 0: Smoke-test CLAUDE_ENV_FILE → Bash tool call propagation**
+- [ ] **Unit 0: Smoke-test CLAUDE_ENV_FILE → Bash tool call propagation** *(throwaway hook + checklist staged at `plugins/command-module/staging/smoke-test/`; user runs before merging Phase 2)*
 
   **Goal:** Before committing Phase 2's atomic rewrite, verify empirically that writing `KEY=value` to `$CLAUDE_ENV_FILE` from a SessionStart hook actually causes subsequent model-issued Bash tool calls in the same session to see `$KEY`. The entire design rests on this mechanism — a 10-minute test prevents a failed rollout.
 
@@ -335,7 +335,7 @@ Four phases plus a pre-flight check. Phases 1 and 2 are dependency-ordered; Phas
 
 All four units in this phase ship together in one PR. No safe intermediate state exists.
 
-- [ ] **Unit 2: SessionStart hook — `session-start-clock.py`**
+- [x] **Unit 2: SessionStart hook — `session-start-clock.py`**
 
   **Goal:** Replace `UserPromptSubmit` auto-clock-in with `SessionStart`-driven per-session clock creation. Sets up `CLAUDE_SESSION_ID` for subsequent skill invocations.
 
@@ -379,7 +379,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
   - In a Bash tool call: `echo $CLAUDE_SESSION_ID` returns the id.
   - `.active-clock.json` no longer exists; stderr of the hook run shows the discarded legacy payload (check `~/.claude/hooks/*.log` or Claude Code's hook-error output).
 
-- [ ] **Unit 3: SessionEnd hook — `session-end-clock.py`**
+- [x] **Unit 3: SessionEnd hook — `session-end-clock.py`**
 
   **Goal:** Best-effort finalize-on-conversation-end for reasons that represent true termination. Skip lifecycle-only reasons.
 
@@ -414,7 +414,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
 
   **Verification:** close a conversation via `/exit` — CSV shows row with `source=auto-session-end`, `session_id` matches that conversation.
 
-- [ ] **Unit 4: Update `/ci`, `/co`, `/wrap-up` skills for per-session keying**
+- [x] **Unit 4: Update `/ci`, `/co`, `/wrap-up` skills for per-session keying**
 
   **Goal:** All three skills key on `$CLAUDE_SESSION_ID`, use absolute paths, fail loud on missing clock or missing session id.
 
@@ -462,7 +462,7 @@ All four units in this phase ship together in one PR. No safe intermediate state
   - `bun test` passes (frontmatter harness unchanged).
   - Manual two-conversation scenario (Unit 9 checklist) shows per-session independence.
 
-- [ ] **Unit 5: Install script — `install-phase2.sh`**
+- [x] **Unit 5: Install script — `install-phase2.sh`**
 
   **Goal:** One command that copies the new hooks into `~/.claude/hooks/`, updates `~/.claude/settings.json` to register `SessionStart`/`SessionEnd` and remove the old `UserPromptSubmit` entries, and deletes the obsolete hook files. Operationally the "deploy" step of Phase 2.
 
