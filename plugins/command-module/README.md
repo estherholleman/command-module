@@ -7,7 +7,7 @@ AI-powered development tools that get smarter with every use. Make each unit of 
 | Component | Count |
 |-----------|-------|
 | Agents | 35 |
-| Skills | 42 |
+| Skills | 43 |
 | MCP Servers | 1 |
 
 ## Skills
@@ -48,6 +48,7 @@ The primary entry points for engineering work, invoked as slash commands:
 | `/test-browser` | Run browser tests on PR-affected pages |
 | `/test-xcode` | Build and test iOS apps on simulator |
 | `/onboarding` | Generate `ONBOARDING.md` to help new contributors understand the codebase |
+| `/explain-pipeline` | Generate a grounded Markdown draft explaining how a data pipeline behaves (entry points, branches, fallbacks, gates), with file:line citations |
 | `/todo-resolve` | Resolve todos in parallel |
 | `/todo-triage` | Triage and prioritize pending todos |
 | `/export-docx` | Convert markdown to DOCX with proofing reminder, discovers repo-specific conversion scripts |
