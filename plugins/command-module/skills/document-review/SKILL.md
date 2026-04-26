@@ -64,6 +64,7 @@ Tell the user which personas will review and why. For conditional personas, incl
 Reviewing with:
 - coherence-reviewer (always-on)
 - feasibility-reviewer (always-on)
+- grounding-check (plan-only mechanical fact-checker)
 - scope-guardian-reviewer -- plan has 12 requirements across 3 priority levels
 - security-lens-reviewer -- plan adds API endpoints with auth flow
 ```
@@ -73,6 +74,9 @@ Reviewing with:
 Always include:
 - `command-module:document-review:coherence-reviewer`
 - `command-module:document-review:feasibility-reviewer`
+
+For `plan` documents only, also include:
+- `command-module:document-review:grounding-check` -- mechanical fact-checker for code-level claims (file paths, function names, libraries, imports). Skip for `requirements` documents -- they describe intended state, not current code reality, so mechanical verification has nothing to anchor against.
 
 Add activated conditional personas:
 - `command-module:document-review:product-lens-reviewer`
@@ -101,7 +105,9 @@ Pass each agent the **full document** -- do not split into sections.
 
 ## Phase 3: Synthesize Findings
 
-Process findings from all agents through this pipeline. **Order matters** -- each step depends on the previous.
+Process findings from all persona agents through this pipeline. **Order matters** -- each step depends on the previous.
+
+**Grounding-check findings bypass synthesis.** Hold them aside as `grounding_findings`. Do not deduplicate, merge, or auto-fix them via this pipeline. They are presented separately in Phase 4 because mechanical verification has a different epistemic basis than persona judgement -- a grounding finding ("this file does not exist") and a persona finding ("this section is unclear") about the same passage carry different weight and should not collapse together.
 
 ### 3.1 Validate
 
@@ -242,12 +248,13 @@ This turns N obvious-but-meaning-touching fixes into 1 interaction instead of N.
 
 Compose a single output block in this order:
 
-1. **Brief summary line:** "Applied N auto-fixes. Batched M fixes for approval. K findings to consider (X errors, Y omissions)."
-2. **Decision Summary** (from Phase 3.8) -- the synthesized decisions, mechanical fixes list, and "what I need from you" block. Skip this section only if Phase 3.8 was skipped (zero findings).
-3. **Detailed Findings** -- the existing P0-P3 tables, separated within each severity by type:
+1. **Brief summary line:** "Applied N auto-fixes. Batched M fixes for approval. K findings to consider (X errors, Y omissions). G grounding issues." (Drop the grounding count when zero.)
+2. **Grounding (mechanical)** -- if grounding-check produced findings, present them first under a separate heading, before persona findings. These are not synthesized into the persona pipeline -- mechanical verification has a different epistemic basis than persona judgement and merging would obscure that. Each grounding finding shows the section, the document quote, and the verification that failed.
+3. **Decision Summary** (from Phase 3.8) -- the synthesized decisions, mechanical fixes list, and "what I need from you" block. Skip this section only if Phase 3.8 was skipped (zero findings).
+4. **Detailed Findings** -- the existing P0-P3 tables, separated within each severity by type:
    - **Errors** (design tensions, contradictions, incorrect statements) first -- these need resolution
    - **Omissions** (missing steps, absent details, forgotten entries) second -- these need additions
-4. **Coverage table, auto-fixes applied, residual concerns, deferred questions.**
+5. **Coverage table, auto-fixes applied, residual concerns, deferred questions.**
 
 The Decision Summary sits above the Detailed Findings on purpose -- the user reads the synthesized layer to act, then drills into the tables only when something looks off. The detailed tables are not redundant -- they are the ground truth the synthesis is verified against.
 
