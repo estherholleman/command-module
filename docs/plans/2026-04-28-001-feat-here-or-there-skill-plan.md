@@ -1,7 +1,7 @@
 ---
 title: "feat: /here-or-there skill — transition decision point that routes to inline or /handoff"
 type: feat
-status: active
+status: completed
 date: 2026-04-28
 origin: /Users/esther/prog/missioncontrol/tracking/command-module/tasks/T011.md
 ---
