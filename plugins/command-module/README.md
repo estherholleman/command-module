@@ -7,7 +7,7 @@ AI-powered development tools that get smarter with every use. Make each unit of 
 | Component | Count |
 |-----------|-------|
 | Agents | 36 |
-| Skills | 44 |
+| Skills | 45 |
 | MCP Servers | 1 |
 
 ## Skills
@@ -42,6 +42,7 @@ The primary entry points for engineering work, invoked as slash commands:
 | `/changelog` | Create engaging changelogs for recent merges |
 | `/feature-video` | Record video walkthroughs and add to PR description |
 | `/handoff` | Generate a self-contained starter prompt for a fresh conversation at workflow transition points |
+| `/here-or-there` | Decide whether to continue inline or hand off; auto-routes to /handoff when a fresh conversation will help |
 | `/reproduce-bug` | Reproduce bugs using logs and console |
 | `/report-bug-ce` | Report a bug in the command-module plugin |
 | `/resolve-pr-feedback` | Resolve PR review feedback in parallel |
