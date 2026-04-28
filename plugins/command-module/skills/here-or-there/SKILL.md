@@ -49,7 +49,7 @@ Most of what is loaded into the current conversation (file reads, plan content, 
 
 ### Decision rule
 
-Recommend `there` when **at least two** signals point that way with material strength. Otherwise recommend `here`. Signal 4 (explicit transition language) is strong enough on its own that paired with even one weak corroborating signal (commonly Signal 3) it tips toward `there`.
+Recommend `there` when at least two signals fire with material strength. Signal 4 (explicit transition language) is uniquely strong: when it fires verbatim it counts as the materially-strong half of the pair, so any other firing signal -- even at moderate strength -- tips toward `there`. For Signals 1, 2, 3, and 5, both signals in the pair must fire with material strength.
 
 On weak or contradictory signals, default to `here`. The user can always invoke `/handoff` directly if they disagree -- forcing fresh starts the user did not ask for is the worse error.
 
@@ -73,7 +73,12 @@ Output a 1-3 line rationale naming the firing signals. Then **infer `<topic>` an
 
 State the inferred values in chat in one short line: *"Invoking /handoff with topic=`<X>` next-action=`<Y>`."* Then proceed to Phase 3.
 
-**Inference-failure fallback.** If either `<topic>` or `<next-action>` cannot be inferred with even minimal confidence (the transcript names no clear subject, or the next phase is genuinely unclear), do **not** route. Fall back to Phase 2a with rationale: *"leaning fresh start, but cannot infer the next phase confidently -- invoke /handoff directly with your own topic and next-action if you want to proceed."* Passing garbage args to `handoff` is worse than declining to route.
+**Inference-failure fallback.** Before passing args to `handoff`, verify the inferred values pass two shape checks:
+
+1. `<topic>` is a single kebab-case token: no whitespace, no quotes, no `/` prefix.
+2. `<next-action>` is a single non-stopword token (a verb or a known skill name like `plan`, `build`, `review`, `concept`).
+
+If either check fails, or if either value cannot be inferred from the transcript with even minimal confidence (the transcript names no clear subject, or the next phase is genuinely unclear), do **not** route. Fall back to Phase 2a with rationale: *"leaning fresh start, but cannot infer the next phase confidently -- invoke /handoff directly with your own topic and next-action if you want to proceed."* Passing garbage args to `handoff` is worse than declining to route -- once `handoff` sees `$ARGUMENTS` of any shape, it skips its own Phase 1.5 confirmation, so the shape check here is the last guard before the file is written.
 
 ## Phase 3 -- Auto-invoke
 
@@ -85,7 +90,7 @@ Done. No follow-up question, no further branching.
 
 ## State machine summary
 
-The skill has three terminal states. They are explicit so edge cases do not invent a fourth path:
+The skill has three terminal paths. They are explicit so edge cases do not invent a fourth path:
 
 ```
         +------------------+
