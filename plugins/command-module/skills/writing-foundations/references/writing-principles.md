@@ -108,6 +108,118 @@ Sentences are the building blocks. Variety in their length, structure, and rhyth
 - **Front-load important information.** "Despite the three-week delay, the project launched on time" puts the surprise (on time) at the end, which is the power position. "The project launched on time despite the three-week delay" buries the interesting part.
 - **The power positions are the beginning and end of a sentence.** Weak words in those positions ("There is," "It is," "however") waste prime real estate.
 
+### Match Sentence Length to Medium
+
+Short, punchy sentences are a stylistic default for web copy, headlines, ad text, and social posts — places where readers scan fast and the visual rhythm needs to carry. They are the *wrong* default for long-form prose: essays, narrative documents, strategy memos, internal artifacts meant to be read carefully. There, three- and four-word sentences in a row read as choppy, fragmented thinking — the prose equivalent of a slide deck.
+
+In long-form prose, prefer sentences that complete a thought rather than splinter it across staccato fragments. A complete thought often needs a subordinate clause, a contrast, a "because"/"although"/"while," or a "and as a result" before it earns its period. Short sentences still belong — for landing a point, for emphasis, for a deliberate pause — but they should be the exception that punctuates flowing prose, not the default rhythm.
+
+A common failure mode: opposing claims split into two short sentences ("This is not a bug. This is the point.") That cadence reads as dramatic in web copy and as fragmented in prose. Combine into one flowing sentence ("...and that is precisely the working principle of the instrument") — the contrast still lands, but the thought stays whole.
+
+### "It's not X — it's Y" and the splinter contrast
+
+A close cousin to the staccato-sentence problem: the rhetorical move where a claim is staged as a denial followed by a reveal ("Not a bug. The point." / "Not a ladder. A division of craft."). One or two of these in a long piece can land. A pattern of them across paragraphs is an AI-typical signature and reads as performative rather than thought-through. Default to integrating the contrast into a single sentence with a "rather than," "in plaats van," "but," "while," or a colon, and preserve the contrast while dropping the staging.
+
+### Em-dashes — use sparingly, especially in Dutch
+
+LLMs reach for the em-dash 5-10× more often than human writers, and the pattern is recognizable enough that a reader who has read any AI prose will spot it within a paragraph or two. The problem is not the em-dash itself but the volume; even a well-placed em-dash loses its force when it appears two or three times in the same paragraph.
+
+Default cap for long-form prose: 2-3 em-dashes per 1.000 words. Anything beyond that should be reviewed and converted. Each em-dash has at least three less-flagged alternatives:
+
+- A pair of commas, when the interrupted thought is short and stays close to the main clause
+- A colon, when what follows the dash is a definition, list, or specification
+- Parentheses, when the aside is a true digression that the reader could skip
+- A new sentence, when the thought after the dash is large enough to stand alone
+
+Keep especially watchful in Dutch prose, where the em-dash is far less idiomatic than in English (English-trained models import the punctuation habit literally). In Dutch headings, replace " — " with a colon; in citation attributions after block quotes, use parentheses ("(Gharajedaghi)") rather than the English-style "— Gharajedaghi"; in prose, fold the dashed-off thought into a clause connected by "en", "maar", "want", "namelijk", or a colon.
+
+The same applies to bullet labels: prefer "Term: definition" over "Term — definition", because the em-dash there is functioning as a colon anyway.
+
+### The "introductory clause + colon + bare label" tic
+
+Another short-fragment pattern that hides inside otherwise flowing prose: a clause that introduces a concept, followed by a colon, followed by a bare noun-phrase that names it. Example: *"Een tweede framing die hetzelfde verschijnsel raakt: kennisactivatie-laag."* The colon is doing the work of "is", and the bare noun afterwards reads as a label rather than as part of a thought. In long-form prose this lands as fragmented; the natural Dutch is to integrate the term with the connecting verb: *"Een tweede framing die hetzelfde verschijnsel raakt is de kennisactivatie-laag."*
+
+The same fix applies to: *"De dominante werkmodus heeft een naam: Warwick-mode."* → *"De dominante werkmodus heeft een naam uit de Britse strategie-traditie en heet Warwick-mode."* And to *"Wat in inkt staat: structuur."* → *"Wat in inkt staat is de structuur."*
+
+When this construction is appropriate: structured field labels in worked examples ("**Vraag binnen**: ...", "**Eruit**: ..."), bullet-list items, definition lists, and any context where the colon is explicitly setting up a labelled value. When it is not appropriate: prose paragraphs where the surrounding sentences are flowing, because the colon-fragment then breaks the rhythm and reads as an AI-style headline insertion.
+
+A useful test: read the sentence aloud. If you instinctively say "is" or "heet" or "namelijk" between the clause and the term, the colon should be replaced by that word and the term integrated into the sentence.
+
+### Warm, conversational register over crisp slogan-prose
+
+Default mode for internal narrative documents (companion docs, internal explainers, narrative-backbones, anything that someone will read carefully rather than scan): write as if you are explaining the thing to a colleague over coffee, in spoken language, with complete thoughts. The piece should sound like a real person who actually knows the material and is talking it through, not a polished marketing voice.
+
+What that means concretely:
+
+- Use first-person plural where natural ("wat we hier doen", "wij gebruiken het zo") instead of agentless declarations ("het wordt gebruikt om").
+- Soften crisp slogan-cadence ("Geen X. Geen Y. Wel Z.") into one connected sentence that walks the reader through the thought.
+- Allow small textures of spoken speech — "eigenlijk", "eerlijk gezegd, voor zover dat zonder ironie kan", "dat klinkt misschien zwak, maar...", "voor ons werkt dit zo" — when they help the reader feel a person behind the writing. Don't sprinkle them everywhere; use them where the thought genuinely benefits.
+- Quotable lines (Citeerbare kernzinnen, lift-out quotes for slides or social) belong in this same register, not in a separate billboard voice. A line worth quoting is a line that sounds like something a real person said in conversation. Marketing-style three-word taglines read as slogans and as AI-typical when the surrounding prose is warm.
+
+Word count is not the constraint here; if a longer sentence makes the thought feel more human and more complete, it earns its length. The failure mode to avoid is the opposite: short fragments that read as efficient on a slide but cold on a page.
+
+### Stiff vocabulary: prefer the word you would use in conversation
+
+Dutch (and English) writing often imports adjectives that exist in dictionaries but rarely appear in actual speech: *distinctiefste*, *singularitair*, *perfectioneren*, *verveelvoudigen*. They feel precise but sound stilted, especially in warm prose. When you reach for an unusual superlative or noun, ask whether you would actually say it out loud to a colleague. If not, replace with the gangbare alternative:
+
+- *distinctiefste* → *meest typerende*, *meest onderscheidende*, *scherpste*
+- *paramount* → *het belangrijkste*
+- *perfectioneren* → *verfijnen*, *aanscherpen*
+- *bewerkstelligen* → *voor elkaar krijgen*, *zorgen dat*
+- *dekkend* (in abstracte zin) → *volledig*, *compleet*
+
+A useful test: would you say this word in a one-on-one meeting? If the honest answer is "no, but it sounds smart in writing," that is the signal to swap it.
+
+### Don't let metaphors overclaim
+
+Metaphors are powerful precisely because they smuggle in connotations the literal description doesn't have. That smuggling becomes a problem when the connotation overclaims. *"Ink versus pencil"* is a vivid way to describe what is permanent vs. what is provisional, but if the thing you call "ink" is also being revised over a longer cycle, the metaphor lies — quietly, but consistently. A reader who understands the system more deeply than you might at the moment of writing will notice, and the document loses credibility.
+
+Two repairs:
+
+- Replace the metaphor with a more honest framing ("relatively stable underlayer" vs. "actively in interpretation"), and acknowledge the iteration explicitly.
+- Keep the metaphor where it accurately describes a *visual* or *concrete* artifact (a UI that literally dims provisional values), but drop it for the abstract claim about permanence.
+
+A useful test: ask whether the metaphor is true under all the conditions the document covers. If it is true *for the next six months* but breaks under "what about when we improve the framework itself", the metaphor is doing more work than the underlying claim supports, and it should either be qualified or replaced.
+
+### Don't claim virtues the reader is already extending to you
+
+Words like *honest, eerlijk, transparent, sincere, candid, openhartig* are virtue-claims about the writing itself. The reader is already extending you the assumption that what you are saying is honest; saying so out loud reverses that assumption (the moment a writer announces honesty, the reader starts wondering why it needed announcing). The same applies to "to be frank", "let me be honest", "om eerlijk te zijn", "een eerlijke kanttekening".
+
+The repair is almost always: drop the word. *"Een eerlijke kanttekening hoort er meteen bij"* → *"Een kanttekening hoort er meteen bij"*. *"De tool is eerlijk over wat klopt en wat schatting is"* → *"In de tool is zichtbaar wat klopt en wat schatting is"*. The content carries; the meta-claim was doing nothing.
+
+The exception: when honesty is genuinely surprising or contested in the context — for example, in a sales document admitting a real limitation. There the word does meaningful work because it signals that the writer is breaking the expected register.
+
+### Don't personify tools and systems
+
+Verbs that describe mental states (*weet, denkt, gelooft, begrijpt, voelt, wil*) attach human qualities to whatever you assign them to. When you write that "the tool knows what it doesn't know" or "het framework denkt over X", readers (especially in product- and AI-adjacent contexts) start treating the system as if it had agency, intention, or beliefs. That is almost never the message you want to send, and in domains where misplaced confidence in AI is already a problem, it is actively harmful.
+
+The principle: prefer constructions that put the human in the agentive role and the tool in the passive/instrumental role.
+
+- *"De tool weet wat steekhoudend is en wat schatting"* → *"In de tool is zichtbaar wat steekhoudend is en wat schatting"*
+- *"Het framework denkt in scenario's"* → *"Het framework structureert het denken in scenario's"*
+- *"De vragen die de tool stelt"* → *"De vragen die in de tool staan"*
+- *"De tool toont waar zekerheid zit"* → *"In de tool is visueel zichtbaar waar zekerheid zit"* (or accept "toont" as standard UI vocabulary; this one is borderline rather than off-limits)
+
+Standard interface verbs (*toont, laat zien, markeert, activeert, registreert*) sit in a grey zone. They are common in software-vocabulary and rarely read as personifying, so they don't need wholesale removal. Mental verbs (*weet, denkt, voelt, begrijpt, vindt, beweert*) are the off-limits category.
+
+### Pronouns for objects in Dutch: when grammar and feel disagree
+
+Dutch grammar assigns gender (de/het) to nouns, and the matching pronoun follows: de-woorden take "die/zij/ze" (formally "hij" for personifiable de-words), het-woorden take "dat/het". For abstract objects like *de tool*, *de site* or *de app*, applying the rule literally produces sentences that read oddly: "de tool weet wat ze denkt" treats the tool as if she were a person, while "de tool weet wat het denkt" violates the de-word agreement.
+
+Three usable strategies, in order of preference for warm prose:
+
+1. **Repeat the noun.** "De tool weet wat de tool denkt." Slightly redundant on the page, but unambiguous and natural in spoken Dutch. The repetition is invisible because readers are already used to it.
+2. **Restructure to avoid the pronoun.** "De tool laat zien wat klopt en wat schatting is" sidesteps the issue.
+3. **Use "het" for object-feel.** Many Dutch speakers reach for "het" with depersonalised de-words ("de auto, het rijdt prettig"); accepted in casual register, but flags as colloquial.
+
+The grammar-strict "ze/zij" feels personifying for non-human de-words and rarely belongs in product- or tool-prose unless the personification is intentional. When in doubt, repeat the noun.
+
+### Translating "leadership" into Dutch
+
+"Leiderschap" is a literal translation that often reads as too abstract or too soft for the working register inside Dutch organizations. In most company contexts, the actual referent is a specific group with a name: the directie (board / executive team), het LT (leadership team / management team), het MT (management team), het bestuur, or the CEO specifically. Pick the group the sentence actually means and use that name.
+
+Reserve "leiderschap" for genuinely abstract usages where the noun refers to the *quality* or *practice* of leading rather than to a body of people ("zijn stijl van leiderschap", "leiderschap als vaardigheid"). When the sentence means "the people at the top who receive this output and decide", write directie, LT, MT, or bestuur.
+
 ### Sentence Patterns
 
 - **Simple:** Subject-verb-object. The workhorse. "The parser failed."
