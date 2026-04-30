@@ -50,18 +50,26 @@ For each project the stakeholder cares about (from their profile in `stakeholder
 
 4. For completed tasks that need more context, read individual task files (`tasks/T00N.md`) to get the notes body.
 
-## Phase 2: Write Report
+## Phase 2: Write Draft
 
-Before drafting, load the `writing-foundations` skill as a writing knowledge base. Apply its build-mode principles (lead with the point, match register to audience, cut aggressively, vary rhythm, be concrete) and its antipattern rules throughout the report. For Dutch reports, use the Dutch antipattern reference.
+Before drafting, load the `writing-foundations` skill as a writing knowledge base. Apply its build-mode principles (lead with the point, match register to audience, vary rhythm, be concrete) and its antipattern rules throughout the report. For Dutch reports, use the Dutch antipattern reference.
 
-Generate a markdown report following these rules:
+Generate a markdown draft following these rules:
 
 ### Language & Tone
 - Write the **entire report** in the stakeholder's configured language (e.g., Dutch for Wolter).
 - Match the configured tone (e.g., direct and concrete for Wolter).
 - **No technical jargon.** No git terminology, no function names, no architecture references.
 - Frame everything in terms of **business value and user impact**.
-- Use natural, professional language — not AI-formal. Write like a colleague updating another colleague.
+- Use natural, professional language — write like a colleague updating another colleague over coffee, not like notes to self.
+
+### Sentence Craft
+- **Write full conversational sentences, not fragments.** A bullet point should read as a complete thought, often two short sentences instead of one telegraphic one. The lead clause states what happened, then a follow-up sentence explains the consequence or context in plain language.
+  - Avoid (notes-to-self): "Validatie afgerond. Geen problemen. ~55 functies gedocumenteerd."
+  - Prefer (conversational): "De validatie is afgerond zonder problemen. Het document beschrijft inmiddels ongeveer 55 functies en dient als naslag voor toekomstige vragen."
+- **Connect ideas with transitions.** When two facts belong together, link them with words like "waardoor", "zodat", "omdat", "dit betekent dat" — don't strand them as bare clauses separated by periods or semicolons.
+- **No em dashes (`—`) in the output.** Use commas for parenthetical asides, periods for hard stops, colons before lists or explanations, and parentheses for genuine parentheticals. Em dashes are an AI-writing tell and the stakeholder has flagged them as cluttering.
+- **Avoid bold-first bullets that swallow the sentence.** A bold lead phrase is fine when it is a true topic label followed by an explanatory sentence; it is not fine when the entire bullet is bolded summary with the explanation appended as a fragment.
 
 ### Structure
 
@@ -97,24 +105,90 @@ The section headers above are Dutch examples — adapt to the stakeholder's lang
 - **Consolidate related work.** Five commits on the same feature = one bullet point about the feature, not five bullet points about commits.
 - **Respect the `skip` list** from the stakeholder profile. If it says skip technical details, do not mention implementation specifics even if they were the bulk of the work — translate to what it means for the user/business.
 
+### Writing for the Reader's Domain (not ours)
+
+Assume the reader knows their own domain (revenue management, port logistics, cycling sponsorship, whatever the stakeholder's profile says) but does **not** know how we work or what our internal vocabulary means. Detail is welcome — but only when it is explained in their language, not ours.
+
+Two distinct kinds of jargon to watch for, and both must go:
+
+1. **Technical jargon** (already covered in the rules above): git terms, function names, architecture words, code references.
+
+2. **Process and tooling jargon from how we work** — equally invisible to the stakeholder, equally exclusionary. Examples to translate or rewrite, not just delete:
+   - Workflow names: "implementation-plan", "brainstorm", "distill", "code-review", "/work", "ce:", "skill", "agent", "command-module" — never use these in the report. Rewrite as what the work actually was: "een plan geschreven voor X", "we hebben X uitgewerkt en de aanpak gekozen", "de aanpak is gevalideerd", etc.
+   - Repository and tooling words: "PR", "merge", "branch", "main", "deploy" (use "in productie gezet" or "uitgebracht" instead), "commit", "push", "issue", "ticket", "backlog", "sprint", "Linear", "GitHub" — replace with what the activity meant for the work itself.
+   - Internal artifact types: "brainstormdocument", "tech plan", "review pass", "iteratie n", "v0.6.1" without context — name *what was decided or shipped*, not the artifact format. A version number is fine when paired with what is in it.
+   - Method-internal shorthand: "growth_blend", "fallback pool", "donor-route", "warping" — these *can* appear if explained the first time they show up in the report. Treat the first mention as if writing for someone smart who has not seen the term before: define it in one short clause, then use it.
+
+**The test:** if a sentence uses a word or short phrase that only makes sense to someone who has worked inside this codebase or this team, it is shorthand and needs to be unpacked. Detail is good; assumed knowledge is not. Imagine the reader pausing on a word and asking "what does that mean here?" — every such word should already be answered in the surrounding sentence.
+
+Example transformations:
+- Avoid: "Plan klaar voor unified cross-route reference pool. Vier review-passes doorlopen."
+- Prefer: "Het plan voor de volgende grote stap is klaar. In plaats van twee aparte voorspellingen mengen, gebruiken we straks één gezamenlijke referentiepool, wat de kwaliteit stabieler en inzichtelijker zou moeten maken. Het plan is in vier rondes kritisch tegen het licht gehouden en alle openstaande vragen zijn beantwoord, dus we kunnen beginnen met bouwen."
+- Avoid: "Run-to-API script omzetten naar revintel."
+- Prefer: "De volgende stap is om MLtours over te laten lopen via revintel, ons centrale forecastsysteem, in plaats van het losstaande script dat het nu nog gebruikt."
+
 ### Length
 - Aim for brevity. A typical report should be 10-25 lines of content.
 - The stakeholder should be able to read it in under 2 minutes.
 
-## Phase 3: Save & Log
+## Phase 3: Style Pass
 
-1. **Write the markdown report** to `missioncontrol/reports/stakeholders/{stakeholder}-{YYYY-MM-DD}.md`
+Once the draft markdown is written to a temp location (or the final path), run a style pass against it before generating downstream formats.
 
-2. **Generate a .docx version** using python-docx. Use proper heading sizes (title 20pt, project names 16pt, section labels 11pt bold grey) and list bullets. Name the docx for SharePoint: `update{D}{month}{YYYY}.docx` (e.g. `update12april2026.docx`) — no stakeholder prefix, since these go into per-stakeholder folders on SharePoint.
+1. **Write the draft to its final markdown path** at `missioncontrol/reports/stakeholders/{stakeholder}-{YYYY-MM-DD}.md` so the proof skill can edit it in place.
 
-3. **Append to the report log** at `missioncontrol/reports/stakeholders/report-log.csv`:
+2. **Invoke the `proof` skill on the draft.** Pass the file path as the argument. Proof will scan for AI-typical patterns, auto-fix tier 1 items (banned words, filler phrases), and generate a tier 2 findings document for items that need judgment (em dashes, structural rewrites). For Dutch reports, proof loads `references/writing-style-nl.md` automatically.
+
+3. **Wait for the user's tier 2 choices**, then apply them. The skill should not proceed to format generation until the user has resolved the findings (or explicitly skipped them).
+
+4. **Em dash spot-check.** After proof applies fixes, do a final grep for `—` in the markdown. If any remain, replace them with commas, periods, colons, or parentheses based on the surrounding clause — em dashes should never appear in the final output for stakeholders who have flagged them.
+
+## Phase 4: Generate Outputs
+
+Always generate three artifacts: markdown (already saved), HTML, and DOCX.
+
+### HTML output
+
+1. **Always generate an HTML version** to `missioncontrol/reports/stakeholders/{stakeholder}-{YYYY-MM-DD}.html`.
+
+2. Convert the polished markdown to HTML using this template (matches the April 12 reference report — clean, readable, suitable for pasting into email or viewing in a browser):
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="{lang}">
+   <head>
+   <meta charset="utf-8">
+   <style>
+     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 680px; margin: 40px auto; padding: 0 20px; color: #333; line-height: 1.5; font-size: 15px; }
+     ul { padding-left: 20px; margin: 0; }
+     li { margin-bottom: 4px; }
+     hr { border: none; border-top: 1px solid #ccc; margin: 20px 0 8px 0; }
+   </style>
+   </head>
+   <body>
+   {content}
+   </body>
+   </html>
+   ```
+
+3. Inside the body, render the markdown structure with `<h1>` for the report title, `<h2>` for each project, `<p><strong>...</strong></p>` for "Wat er is gedaan" / "Wat eraan komt" labels, `<ul><li>` for bullets, and `<hr>` between projects. Use `<em>` for the period line.
+
+4. Set `lang` to match the stakeholder's configured language (`nl`, `en`, etc.).
+
+### DOCX output
+
+5. **Generate a .docx version** using python-docx. Use proper heading sizes (title 20pt, project names 16pt, section labels 11pt bold grey) and list bullets. Name the docx for SharePoint: `update{D}{month}{YYYY}.docx` (e.g. `update12april2026.docx`) — no stakeholder prefix, since these go into per-stakeholder folders on SharePoint.
+
+## Phase 5: Log & Show
+
+1. **Append to the report log** at `missioncontrol/reports/stakeholders/report-log.csv`:
    ```
    stakeholder,date,period_start,period_end,report_file
    wolter,2026-04-12,2026-04-01,2026-04-12,wolter-2026-04-12.md
    ```
    If the CSV doesn't exist yet, create it with the header row first.
 
-4. **Show the report** to the user in the conversation. They may want to adjust before sending.
+2. **Show the report** to the user in the conversation, along with the paths to all three artifacts. They may want to adjust before sending.
 
 ## Guardrails
 
@@ -125,3 +199,4 @@ The section headers above are Dutch examples — adapt to the stakeholder's lang
 - **Respect stakeholder boundaries.** Only report on projects listed in their profile, even if other projects had activity.
 - **Never guess what route codes, airport codes, or destination names mean.** Use abbreviations exactly as they appear in the data. If a stakeholder's profile has `route_naming: abbreviations_only`, use codes without translating them to city or country names.
 - **Respect `section_headers`** from the stakeholder profile. If configured, use those exact headers instead of the defaults.
+- **Never assume the reader knows our jargon.** This is broader than the `skip` list: even if a stakeholder is comfortable with their own domain (e.g. revenue management for Wolter), they do not know our process or tooling vocabulary. Words like "implementation-plan", "brainstorm", "skill", "PR", "deploy", "branch", "ticket", "backlog", or any internal method shorthand ("growth_blend", "fallback pool") must be either translated into plain language or, if kept, defined in one short clause on first use. Detail is welcome; shorthand is not.
