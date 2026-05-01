@@ -138,9 +138,17 @@ Two distinct kinds of jargon to watch for, and both must go:
 
 **The test:** if a sentence uses a word or short phrase that only makes sense to someone who has worked inside this codebase or this team, it is shorthand and needs to be unpacked. Detail is good; assumed knowledge is not. Imagine the reader pausing on a word and asking "what does that mean here?" — every such word should already be answered in the surrounding sentence.
 
+**Refer to the substance, not the artifact.** When the work in the period included producing an internal artifact (plan, brainstorm, review, design doc, requirements doc, audit), the bullet must convey *what is in it* — the cause that was identified, the options on the table, the decision made, the findings — not the fact that the artifact exists. Phrasings like "we hebben een brainstorm gedaan" / "het plan is uitgewerkt" / "een review is afgerond" are still process jargon even when the technical term is removed, because they describe activity instead of outcome. The reader does not know what a brainstorm or plan or review *is* in our process and does not care; they care about what we now know or have decided that we did not before.
+
+The test for this rule: after writing a bullet that references work-on-an-artifact, ask "if I struck the artifact word out entirely, would the bullet still tell the reader something concrete about the *content* of the work?" If not, rewrite the bullet around the content. Producing the artifact is our internal milestone; the substance inside it is the only thing that crosses to the stakeholder.
+
 Example transformations:
 - Avoid: "Plan klaar voor unified cross-route reference pool. Vier review-passes doorlopen."
 - Prefer: "Het plan voor de volgende grote stap is klaar. In plaats van twee aparte voorspellingen mengen, gebruiken we straks één gezamenlijke referentiepool, wat de kwaliteit stabieler en inzichtelijker zou moeten maken. Het plan is in vier rondes kritisch tegen het licht gehouden en alle openstaande vragen zijn beantwoord, dus we kunnen beginnen met bouwen."
+- Avoid (uses jargon term): "De brainstorm voor de growth_blend fix is uitgewerkt."
+- Avoid (jargon removed but still about the artifact, not the substance): "Het plan voor de growth_blend fix is uitgewerkt."
+- Prefer: "De oorzaak van de oversprongen op MLTours is gevonden: een onbegrensde rate die te lang dominant blijft in de blend. We hebben zes oplossingsrichtingen op een rij gezet met afwegingen per richting; welke we kiezen hangt af van een paar data-experimenten die we eerst draaien."
+  - The first two skip the substance entirely. Only the third tells the reader what we now know, what options exist, and how the choice will be made.
 - Avoid: "Run-to-API script omzetten naar revintel."
 - Prefer: "De volgende stap is om MLtours over te laten lopen via revintel, ons centrale forecastsysteem, in plaats van het losstaande script dat het nu nog gebruikt."
 
