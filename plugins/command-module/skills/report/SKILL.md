@@ -48,7 +48,9 @@ For each project the stakeholder cares about (from their profile in `stakeholder
 
 3. **Read `missioncontrol/tracking/{project}/status.json`** — for editorial context and highlights.
 
-4. For completed tasks that need more context, read individual task files (`tasks/T00N.md`) to get the notes body.
+4. **For every completed, in_progress, or next task in scope, read its `tasks/T00N.md` and capture the `origin` field.** Origin is the trigger/context the task was created from; it is what makes accurate, non-misleading framing possible. If origin is missing or generic on a task that will appear in the report, **pause and ask the user** for the actual trigger before drafting — do not paper over it with a generic phrasing.
+
+5. **Read the stakeholder context file** at `missioncontrol/reports/stakeholders/{stakeholder}-context.md` if it exists. This holds prior framings, what the stakeholder has been told, and which clients / pipelines they associate with what behaviour. Treat it as load-bearing: the report must not contradict it without explicit acknowledgement.
 
 ## Phase 2: Write Draft
 
@@ -104,6 +106,21 @@ The section headers above are Dutch examples — adapt to the stakeholder's lang
 - **Skip empty sections.** If there are no blockers, don't include an empty "Aandachtspunten" section.
 - **Consolidate related work.** Five commits on the same feature = one bullet point about the feature, not five bullet points about commits.
 - **Respect the `skip` list** from the stakeholder profile. If it says skip technical details, do not mention implementation specifics even if they were the bulk of the work — translate to what it means for the user/business.
+
+### Framing Rule: never imply prior suboptimal behaviour for the reader
+
+Capability changes ("now X is possible", "each direction can now have its own pool") read by default as if the system did not previously have X. For a stakeholder whose pipeline already had X, that framing is misleading — and worse, can contradict things they've previously been told.
+
+For every item that describes a new capability, generalisation, or configurability:
+
+1. Look at the task's `origin` field. It should tell you which client / pipeline / situation triggered the change.
+2. Cross-reference the stakeholder context file: did the stakeholder's pipeline already have this behaviour? Were they previously told it did?
+3. If the change was triggered by a *different* client or context than the reader's, **make that scope explicit** in the bullet. Name the client / pipeline the change was for, so the reader does not infer that their own setup was previously broken.
+4. If origin is missing and you cannot determine scope, ask the user before drafting that bullet. Do not guess.
+
+Example:
+- Misleading: "Each direction on a route can now have its own reference pool." (Reads as: previously it couldn't, for everyone.)
+- Accurate: "For MLtours specifically, each flight direction on a route can now use its own reference pool. For ES this was already the case via the Market column; the change makes the same behaviour available to clients where Market does not encode direction."
 
 ### Writing for the Reader's Domain (not ours)
 
@@ -200,3 +217,4 @@ Always generate three artifacts: markdown (already saved), HTML, and DOCX.
 - **Never guess what route codes, airport codes, or destination names mean.** Use abbreviations exactly as they appear in the data. If a stakeholder's profile has `route_naming: abbreviations_only`, use codes without translating them to city or country names.
 - **Respect `section_headers`** from the stakeholder profile. If configured, use those exact headers instead of the defaults.
 - **Never assume the reader knows our jargon.** This is broader than the `skip` list: even if a stakeholder is comfortable with their own domain (e.g. revenue management for Wolter), they do not know our process or tooling vocabulary. Words like "implementation-plan", "brainstorm", "skill", "PR", "deploy", "branch", "ticket", "backlog", or any internal method shorthand ("growth_blend", "fallback pool") must be either translated into plain language or, if kept, defined in one short clause on first use. Detail is welcome; shorthand is not.
+- **Never describe a capability change in a way that implies the reader's pipeline was previously broken.** See the "Framing Rule" in Phase 2. Use the task's `origin` field and the stakeholder context file to scope each change to the client / pipeline it was actually for. If origin is missing on a task that needs framing, ask the user before writing the bullet — do not paper over the gap with a generic phrasing.
