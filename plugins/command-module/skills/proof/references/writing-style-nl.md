@@ -171,6 +171,22 @@ De Oxford-komma (komma voor "en" in een opsomming) is in het Nederlands niet geb
 **Schrijf niet:** "snelheid, kwaliteit, en betrouwbaarheid"
 **Schrijf wel:** "snelheid, kwaliteit en betrouwbaarheid"
 
+### 4.6 Dubbele punten en puntkomma's als zinslijm
+
+AI gebruikt `:` en `;` vaak om twee onafhankelijke zinnen aan elkaar te lijmen, waarbij de tweede zin de eerste uitlegt of preciseert. Dit leest stroef en maakt zinnen onnodig lang. In stakeholder-rapporten en verzorgde prose is dit zelden de juiste keuze. Begin gewoon een nieuwe zin, of gebruik een komma als de grammatica dat toelaat.
+
+Voorbeelden:
+- "Jouw vraag bleek geen structureel modelprobleem: één enkele overlevende donor-vlucht doordat de meeste juli-2025-kandidaten niet door de kwaliteitseisen kwamen." -> beter: "Jouw vraag bleek geen structureel modelprobleem. Dit kwam doordat er maar één enkele overlevende donor-vlucht was — de meeste juli-2025-kandidaten kwamen niet door de kwaliteitseisen."
+- "We hebben de schatting verlaagd; de oorspronkelijke was te hoog." -> beter: "We hebben de schatting verlaagd. De oorspronkelijke was te hoog." of "We hebben de schatting verlaagd, want de oorspronkelijke was te hoog."
+- "De fix werkt: alle 23 routes geven nu plausibele waardes." -> beter: "De fix werkt. Alle 23 routes geven nu plausibele waardes."
+
+Wel toegestaan (geen dwang om weg te schrijven):
+- Voor een echte opsomming: "We hebben drie dingen gedaan: A, B en C."
+- Na een label of kop: "Periode: 1 mei – 5 mei", "Status: in productie".
+- In tijd-aanduidingen, paden, en code: "om 14:30", `path/to/file:42`.
+
+De test: als de tekst voor en na de `:` of `;` zelfstandig leesbaar is als losse zin, gebruik dan een punt en begin een nieuwe zin. Puntkomma's hebben in moderne Nederlandse zakelijke prose vrijwel nooit een plek — schrap ze standaard.
+
 ---
 
 ## 5. Toonpatronen om te vermijden
