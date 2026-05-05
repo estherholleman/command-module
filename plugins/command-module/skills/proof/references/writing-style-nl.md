@@ -257,11 +257,15 @@ Een vervolg dat begint met "wat ..." of "consistent met ..." en geen hoofdwerkwo
 - "..., consistent met onze verwachting." -> beter: "Dit komt overeen met onze verwachting."
 
 **Patroon b: streepjes-stapelnomen.**
-Het aaneenrijgen van drie of meer concepten met streepjes ("defecte-rijtuig-incidentperiode", "post-implementatie-evaluatie-bespreking", "pre-deploy-test-checklist") perst veel betekenis in één onleesbare bouw. Pak het uit in een bijzin die zegt wat er feitelijk gebeurde.
+Twee of meer concepten met streepjes aan een zelfstandig naamwoord vastlijmen ("vorig-jaar-data", "defecte-rijtuig-incidentperiode", "post-implementatie-evaluatie-bespreking", "pre-deploy-test-checklist") perst betekenis in één onleesbare bouw. Het Nederlands gebruikt hier doorgaans een voorzetsel (van, voor, in, tijdens, na) of een bijzin. Pak het uit.
 
+- "vorig-jaar-data" -> beter: "data van vorig jaar"
 - "de defecte-rijtuig-incidentperiode" -> beter: "de periode waarin er een defect rijtuig was"
 - "post-implementatie-evaluatie-bespreking" -> beter: "het overleg na oplevering om te evalueren"
 - "pre-deploy-test-checklist" -> beter: "de checklist die we doorlopen voordat we naar productie gaan"
+- "klant-feedback-overzicht" -> beter: "het overzicht van klantfeedback" (één samengesteld zelfstandig naamwoord is prima; de stapel wordt fout vanaf het tweede streepje)
+
+Vuistregel: één samengesteld zelfstandig naamwoord ("klantfeedback", "voorraadbeheer", "Wolter-rapport") is normaal Nederlands. Vanaf het tweede streepje is de samenstelling bijna altijd te dicht en moet de schrijver er één of meer onderdelen uithalen en met een voorzetsel of bijzin terugplaatsen.
 
 De test: als een lezer mentaal een werkwoord moet aanvullen of een zelfstandig naamwoord moet uitpakken om de zin te begrijpen, moet de schrijver dat werk doen — niet de lezer.
 
