@@ -84,7 +84,7 @@ Generate a markdown draft following these rules:
 The report should follow this structure (section headers in the stakeholder's language):
 
 ```markdown
-# [Project Name] — Voortgangsrapport [Date]
+# Update [day] [month] [year]
 
 *Periode: [start date] – [end date]*
 
@@ -103,7 +103,9 @@ The report should follow this structure (section headers in the stakeholder's la
 - Skip this section entirely if there's nothing to flag
 ```
 
-The section headers above are Dutch examples — adapt to the stakeholder's language. Keep the structure but adjust the headers.
+The title and section headers above are Dutch examples — adapt to the stakeholder's language. Keep the structure but adjust the wording.
+
+The title is always `Update [day] [month] [year]` in the stakeholder's language — examples in Dutch: "Update 12 april 2026", "Update 5 mei 2026". Use the lowercased Dutch month name (januari, februari, ..., december) and the day without leading zero. No project name in the title; no "Voortgangsrapport" or "Progress Report" suffix.
 
 ### Content Rules
 - **Lead with impact, not activity.** "Gebruikers kunnen nu X" not "We hebben Y geïmplementeerd".
