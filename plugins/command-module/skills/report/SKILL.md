@@ -141,7 +141,22 @@ Two distinct kinds of jargon to watch for, and both must go:
 
 1. **Technical jargon** (already covered in the rules above): git terms, function names, architecture words, code references.
 
-2. **Process and tooling jargon from how we work** — equally invisible to the stakeholder, equally exclusionary. Examples to translate or rewrite, not just delete:
+2. **Statistical and methodological vocabulary from data science** — terms that are standard in stats/ML/data-science literature but invisible to a non-technical stakeholder. These look "professional" and tempt the writer to keep them as-is, but they read as jargon to a revenue manager, a port logistics director, or any business reader. Always rewrite in plain language describing the role or effect, not just the term. The category is universal across stakeholders and is not stakeholder-specific avoid-list material — every stakeholder gets the plain-language version unless their `known_vocabulary` list explicitly says otherwise.
+   - "covariaat" / "als covariaat" → describe the role: "als input voor het model", "het model laat X meewegen", "X meenemen in de voorspelling". Example: "capaciteit als covariaat" → "capaciteit meenemen als input voor het model" of "het model rekening laten houden met capaciteit".
+   - "regressor" / "feature" / "predictor" → "input voor het model", "wat we het model meegeven"
+   - "outlier" → "uitschieter", "een uitzondering die ver buiten het normale bereik valt"
+   - "hyperparameter" → describe what it controls, e.g. "een instelling die we vooraf kiezen"
+   - "kruisvalidatie / cross-validation" → "we hebben getest op data die het model nog niet had gezien"
+   - "confidence interval / betrouwbaarheidsinterval" → "een onzekerheidsmarge rond de schatting"
+   - "p-waarde" → almost never appropriate in a stakeholder report; describe the actual conclusion (significant or not, what direction) instead
+   - "bias / variance" → "systematische afwijking" / "spreiding"
+   - "prior / posterior" (Bayesian) → "wat we vooraf aannemen" / "wat we na de data weten" — though for individual stakeholders these may be on the `known_vocabulary` list
+   - "MSE / RMSE / MAE" → describe what was measured, e.g. "de gemiddelde fout in de voorspelling"
+   - "residue / residual" → "het verschil tussen voorspelling en werkelijkheid"
+
+   The test: would a smart business reader who has never read a stats textbook know what this means and what to do with it? If not, unpack it.
+
+3. **Process and tooling jargon from how we work** — equally invisible to the stakeholder, equally exclusionary. Examples to translate or rewrite, not just delete:
    - Workflow names: "implementation-plan", "brainstorm", "distill", "code-review", "/work", "ce:", "skill", "agent", "command-module" — never use these in the report. Rewrite as what the work actually was: "een plan geschreven voor X", "we hebben X uitgewerkt en de aanpak gekozen", "de aanpak is gevalideerd", etc.
    - Repository and tooling words: "PR", "merge", "branch", "main", "deploy" (use "in productie gezet" or "uitgebracht" instead), "commit", "push", "issue", "ticket", "backlog", "sprint", "Linear", "GitHub" — replace with what the activity meant for the work itself.
    - Internal artifact types: "brainstormdocument", "tech plan", "review pass", "iteratie n", "v0.6.1" without context — name *what was decided or shipped*, not the artifact format. A version number is fine when paired with what is in it.
