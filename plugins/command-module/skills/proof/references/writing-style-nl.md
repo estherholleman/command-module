@@ -249,12 +249,15 @@ AI maakt van alles een lijstje. Soms is een opsomming het juiste middel, maar al
 
 AI comprimeert informatie graag in één zin op twee manieren: (a) door een toelichting als zinsfragment achter een komma te plakken zonder hoofdwerkwoord, en (b) door meerdere concepten op te stapelen tot één lang samengesteld zelfstandig naamwoord met streepjes. Beide maken de tekst dichter en abstracter dan nodig. Pak los — schrijf een echte zin met een werkwoord, of gebruik een bijzin die expliciet maakt wat in het stapelnomen verstopt zit.
 
-**Patroon a: zinsfragmenten met "wat" of een ander voegwoord zonder werkwoord.**
-Een vervolg dat begint met "wat ..." of "consistent met ..." en geen hoofdwerkwoord meer krijgt, is een fragment. Schrijf het uit als een nieuwe zin die begint met "Dit ...", of zet er een werkwoord in.
+**Patroon a: zinsfragmenten met "wat", "wanneer", "indien" of een ander voegwoord zonder werkwoord.**
+Een vervolg dat begint met "wat ...", "wanneer ...", "indien ...", "zodra ...", "consistent met ..." enzovoort en geen vervoegd werkwoord meer krijgt, is een fragment. Schrijf het uit als een echte zin met een werkwoord, of begin een nieuwe zin met "Dit ...".
 
 - "..., wat consistent met de defecte-rijtuig-incidentperiode." -> beter: "Dit kwam overeen met de periode waarin er een defect rijtuig was en de cabin gecancelled was."
 - "..., wat in lijn met de eerdere observaties." -> beter: "Dit ligt in lijn met wat we eerder zagen."
 - "..., consistent met onze verwachting." -> beter: "Dit komt overeen met onze verwachting."
+- "... wanneer beschikbaar." -> beter: "... wanneer deze beschikbaar is."
+- "... indien nodig." (in lopende prose) -> beter: "... als dat nodig is." of "... indien dat nodig is."
+- "... zodra klaar." -> beter: "... zodra dit af is."
 
 **Patroon b: streepjes-stapelnomen.**
 Twee of meer concepten met streepjes aan een zelfstandig naamwoord vastlijmen ("vorig-jaar-data", "defecte-rijtuig-incidentperiode", "post-implementatie-evaluatie-bespreking", "pre-deploy-test-checklist") perst betekenis in één onleesbare bouw. Het Nederlands gebruikt hier doorgaans een voorzetsel (van, voor, in, tijdens, na) of een bijzin. Pak het uit.
@@ -269,7 +272,18 @@ Vuistregel: één samengesteld zelfstandig naamwoord ("klantfeedback", "voorraad
 
 De test: als een lezer mentaal een werkwoord moet aanvullen of een zelfstandig naamwoord moet uitpakken om de zin te begrijpen, moet de schrijver dat werk doen — niet de lezer.
 
-### 6.6 Zinnen die eindigen op een kaal hulpwerkwoord
+### 6.6 Infinitief-koppen in plaats van zinnen met een vervoegd werkwoord
+
+AI schrijft Nederlandse bullets en zinnen vaak als infinitief-koppen ("X verbeteren", "Y inbouwen", "het algoritme overstappen op Z") in plaats van als volledige zinnen met een vervoegd werkwoord. Dit leest als een takenlijst, niet als een rapport. In stakeholder-rapporten en verzorgde prose moet elke bullet of zin een onderwerp en een vervoegd werkwoord hebben.
+
+Voorbeelden:
+- "Het algoritme overstappen op 2026-data wanneer beschikbaar in plaats van standaard vorig jaar." -> beter: "Het algoritme stapt over op data uit 2026 wanneer deze beschikbaar is, en geeft daar de voorkeur aan boven de data van vorig jaar." (Hier zaten drie tics in één zin: infinitief-kop, streepjes-stapel `2026-data`, en "wanneer beschikbaar" zonder werkwoord.)
+- "Voorspellingen verbeteren door de blend te herzien." -> beter: "We hebben de voorspellingen verbeterd door de blend te herzien." of "De voorspellingen worden beter door de blend te herzien."
+- "Volgende stap: rapport opleveren." -> beter: "Volgende stap: we leveren het rapport op." of in lopende tekst: "De volgende stap is dat we het rapport opleveren."
+
+De test: kan een lezer de zin lezen zonder mentaal "we ...", "het ...", of "wordt ..." aan te vullen om er een echte zin van te maken? Zo niet, vervoeg het werkwoord en geef de zin een onderwerp.
+
+### 6.7 Zinnen die eindigen op een kaal hulpwerkwoord
 
 Een Nederlandse zin die eindigt op een hulpwerkwoord (`kan`, `wil`, `zal`, `mag`, `moet`, `gaat`, `ga`) zonder bijbehorend hoofdwerkwoord voelt grammaticaal afgekapt. AI doet dit vaak in compressed schrijfstijl, vooral in opsommingen en korte zinnen. Vul het hoofdwerkwoord aan, of herstructureer de zin zodat hij op een volwaardige werkwoordsvorm of zelfstandig naamwoord eindigt.
 
