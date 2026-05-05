@@ -229,6 +229,18 @@ AI schrijft Nederlands vaak formeler dan de context rechtvaardigt. Een blogpost 
 
 AI maakt van alles een lijstje. Soms is een opsomming het juiste middel, maar als elke alinea een opsomming bevat, verdwijnt het effect. Gebruik opsommingen spaarzaam, en schrijf de rest als lopende tekst.
 
+### 6.5 Zinnen die eindigen op een kaal hulpwerkwoord
+
+Een Nederlandse zin die eindigt op een hulpwerkwoord (`kan`, `wil`, `zal`, `mag`, `moet`, `gaat`, `ga`) zonder bijbehorend hoofdwerkwoord voelt grammaticaal afgekapt. AI doet dit vaak in compressed schrijfstijl, vooral in opsommingen en korte zinnen. Vul het hoofdwerkwoord aan, of herstructureer de zin zodat hij op een volwaardige werkwoordsvorm of zelfstandig naamwoord eindigt.
+
+Voorbeelden:
+- "Geautomatiseerde Azure-trigger voor MLTours: nog tussenstappen voordat activatie kan." -> beter: "Geautomatiseerde Azure-trigger voor MLTours: er zijn nog tussenstappen nodig voordat we deze kunnen aanzetten." of "...voordat activatie kan plaatsvinden."
+- "We hebben gekeken of het anders kan." -> in geïsoleerde context vaak beter: "We hebben gekeken of het anders kan worden ingericht." of "...of er een alternatief is."
+- "Het systeem moet, maar er ontbreken nog stappen." -> beter: "Het systeem moet draaien, maar er ontbreken nog stappen."
+- "Ferry zou nog, maar het wachten is op input." -> beter: "Ferry zou de volgende stap zetten, maar het wachten is op input."
+
+Niet elk gebruik is fout: in lange zinnen waar het hoofdwerkwoord eerder is genoemd ("hij wil dat wel, maar mag niet") is dit prima. De valkuil zit in *korte, op zichzelf staande clausules* — vooral aan het einde van een opsomming-bullet — waar het hulpwerkwoord zonder anker blijft staan.
+
 ---
 
 ## 7. Algemene principes
