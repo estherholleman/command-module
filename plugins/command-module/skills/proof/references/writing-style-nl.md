@@ -245,7 +245,27 @@ AI schrijft Nederlands vaak formeler dan de context rechtvaardigt. Een blogpost 
 
 AI maakt van alles een lijstje. Soms is een opsomming het juiste middel, maar als elke alinea een opsomming bevat, verdwijnt het effect. Gebruik opsommingen spaarzaam, en schrijf de rest als lopende tekst.
 
-### 6.5 Zinnen die eindigen op een kaal hulpwerkwoord
+### 6.5 Verkapte zinnen: zinsfragmenten en streepjes-stapelnomen
+
+AI comprimeert informatie graag in één zin op twee manieren: (a) door een toelichting als zinsfragment achter een komma te plakken zonder hoofdwerkwoord, en (b) door meerdere concepten op te stapelen tot één lang samengesteld zelfstandig naamwoord met streepjes. Beide maken de tekst dichter en abstracter dan nodig. Pak los — schrijf een echte zin met een werkwoord, of gebruik een bijzin die expliciet maakt wat in het stapelnomen verstopt zit.
+
+**Patroon a: zinsfragmenten met "wat" of een ander voegwoord zonder werkwoord.**
+Een vervolg dat begint met "wat ..." of "consistent met ..." en geen hoofdwerkwoord meer krijgt, is een fragment. Schrijf het uit als een nieuwe zin die begint met "Dit ...", of zet er een werkwoord in.
+
+- "..., wat consistent met de defecte-rijtuig-incidentperiode." -> beter: "Dit kwam overeen met de periode waarin er een defect rijtuig was en de cabin gecancelled was."
+- "..., wat in lijn met de eerdere observaties." -> beter: "Dit ligt in lijn met wat we eerder zagen."
+- "..., consistent met onze verwachting." -> beter: "Dit komt overeen met onze verwachting."
+
+**Patroon b: streepjes-stapelnomen.**
+Het aaneenrijgen van drie of meer concepten met streepjes ("defecte-rijtuig-incidentperiode", "post-implementatie-evaluatie-bespreking", "pre-deploy-test-checklist") perst veel betekenis in één onleesbare bouw. Pak het uit in een bijzin die zegt wat er feitelijk gebeurde.
+
+- "de defecte-rijtuig-incidentperiode" -> beter: "de periode waarin er een defect rijtuig was"
+- "post-implementatie-evaluatie-bespreking" -> beter: "het overleg na oplevering om te evalueren"
+- "pre-deploy-test-checklist" -> beter: "de checklist die we doorlopen voordat we naar productie gaan"
+
+De test: als een lezer mentaal een werkwoord moet aanvullen of een zelfstandig naamwoord moet uitpakken om de zin te begrijpen, moet de schrijver dat werk doen — niet de lezer.
+
+### 6.6 Zinnen die eindigen op een kaal hulpwerkwoord
 
 Een Nederlandse zin die eindigt op een hulpwerkwoord (`kan`, `wil`, `zal`, `mag`, `moet`, `gaat`, `ga`) zonder bijbehorend hoofdwerkwoord voelt grammaticaal afgekapt. AI doet dit vaak in compressed schrijfstijl, vooral in opsommingen en korte zinnen. Vul het hoofdwerkwoord aan, of herstructureer de zin zodat hij op een volwaardige werkwoordsvorm of zelfstandig naamwoord eindigt.
 
