@@ -38,6 +38,8 @@ To tell a real pain from a nice-to-have, look for evidence they are **already in
 
 A pain with active, costly workarounds is real. A pain nobody has lifted a finger about is probably not worth building for, however loudly it is complained about.
 
+**This applies doubly to willingness-to-pay — the usual load-bearing question.** A *stated* price tolerance ("I'd pay anything for...") is the weakest possible WTP evidence, no matter how many quotes you collect. The real signal is **behavioral**: what they *already buy*, at what price, and what paid alternatives they hire (marketplace sales counts and reviews, live competitor/product prices, paid services). For any WTP or pricing conclusion, **lead with behavioral/market evidence and treat stated-WTP quotes as supporting color only.** Ten "I'd buy that!" comments do not settle WTP; one Etsy listing with 400 sales at $90 nearly does.
+
 ## 5. Non-leading questions (and non-leading reading)
 
 Most audience research mines existing public voice (forums, comments, reviews) rather than running interviews, but the same discipline governs how you read and, when you do reach out, ask:
