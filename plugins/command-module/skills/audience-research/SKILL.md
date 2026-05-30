@@ -50,7 +50,8 @@ Read `references/brief-template.md` and fill the four `<<FILL-IN>>` blocks from 
 ### Phase 2: Run the research (if mode (a))
 
 Execute the brief with discipline:
-- **Neutral discovery first** (Sections A-D). Mine real communities. For each buyer quote, fetch the exact page and **verify the link is live** (for Reddit, append `.json` to the permalink). Apply the saturation stopping rule.
+- **Source discovery first.** Before hunting quotes, work out where *this* segment's voice actually concentrates (YouTube, niche forums, FB groups, Reddit, Discord, magazines, blog comments, marketplace reviews...) and rank sources by quotable voice for this segment. Weight the safari toward the richest ones you can access. **No single source is load-bearing** -- if one platform is blocked or thin, note it and route to the others; only the verification standard is non-negotiable, not any one platform (a blocked Reddit is not a blocked report).
+- **Neutral discovery** (Sections A-D). Mine the real communities. For each buyer quote, fetch the exact page and **verify the link is live** (platform-agnostic; for Reddit, appending `.json` to the permalink is one tactic). Apply the saturation stopping rule.
 - Keep the four discovery buckets (pain · wants · current solutions · willingness to pay) neutral -- do not steer toward the priors.
 - **Then** score the FILL-IN 3 hypotheses against what discovery independently surfaced, seeking disconfirming evidence.
 - For wide sweeps (channel map, sizing), web search/fetch is fine; for buyer voice, exact-page fetch + verification is mandatory.
