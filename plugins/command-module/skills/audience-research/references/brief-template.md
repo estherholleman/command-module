@@ -21,7 +21,8 @@ You are a market & audience researcher. Go wide, then deep — real depth, not a
 > 2. **No single source is load-bearing.** If a platform is unreachable (bot-blocked, IP-blocked, paywalled, host-refused) or simply isn't where this segment talks, that's a *coverage note*, not a reason to stall — say so, and route to the sources you *can* verify. What's non-negotiable is the **verification**, not any one platform.
 > 3. **No quote without a working link.** If you cannot produce a direct, openable URL, do not include the quote — or, if it is too good to drop, list it in a clearly separated `UNLINKED — do not rely` bucket. Never let an unlinked quote sit in the main quote bank.
 > 4. **Never fabricate, paraphrase-as-quote, or reconstruct from memory.** Every quote must be a verbatim string that actually exists at the URL given. If synthesizing a theme rather than quoting, say "paraphrase" explicitly.
-> 5. **Each quote carries metadata:** verbatim text · handle/username · community/platform · **direct URL** · date (if available) · one line of context.
+> 5. **Verify verbatim against the RAW page — extractors paraphrase and stitch.** WebFetch and reader proxies interpose a small summarizing model that can silently reword a quote or splice two fragments into one (watch ellipsis-joined or multi-clause quotes especially). Their output is a *lead, not proof*. Before any quote enters the bank or the database, confirm a distinctive substring of it appears in the **raw page text** (a real browser / raw HTML is the truth source), and confirm it is a single contiguous utterance unless you explicitly mark it as joined. Set `verbatim_verified: true` only after this check.
+> 6. **Each quote carries metadata:** verbatim text · `verbatim_verified` · handle/username · community/platform · **direct URL** · date (if available) · one line of context. (These map 1:1 to the quote-database row schema below.)
 
 ---
 
@@ -101,6 +102,18 @@ Cite sources with links throughout. Quote real people. Be explicit about confide
 
 ## Output & filing
 
-- File the report under `docs/strategy/research/audiences/<segment-slug>/`.
-- One safari per segment, kept separate — never pooled. Once two or more segments are researched, a separate cross-segment overlap pass can compare buckets (shared pains, vocabulary, channels). That comparison is its own step.
-- Harvest findings back into `docs/strategy/audiences.md` (the living segment reference), promoting the segment's confidence tag where evidence supports it — and downgrading any prior the research disproves.
+Produce **both** — the report is the *read*, the database is the *record*:
+
+1. **Prose report** — filed under `docs/strategy/research/audiences/<segment-slug>/`. Quote banks stay **per-segment** here; don't blend segments' narratives.
+2. **Quote database (the durable store)** — append every **verified** quote as one JSON object per line to the project-wide `docs/strategy/research/audiences/quotes.jsonl` (create it if absent). This single file pools all segments, keyed by a `segment` field, so the raw data survives in structured form — far less is lost than in a prose distillation, and it's directly queryable for later analyses (cross-segment overlap, copy mining, WTP patterns).
+
+**JSONL row schema** — one object per quote, **append-only** (never rewrite or reorder existing lines):
+
+```json
+{"segment":"<slug>","bucket":"pain|want|current_solution|willingness_to_pay|vocabulary|other","quote":"<verbatim>","verbatim_verified":true,"speaker":"<handle/name or anon>","platform":"<youtube-transcript|youtube-comment|forum|blog-post|blog-comment|reddit|facebook|review|magazine|...>","community":"<specific site/channel/subreddit>","url":"<direct deep link>","date":"<YYYY-MM-DD or null>","context":"<one line: what they were responding to>","captured":"<run date YYYY-MM-DD>","tags":[],"notes":"<caveats, e.g. 'single sentence, not stitched'>"}
+```
+
+- Only rows with `verbatim_verified: true` are trusted data. If you must store an unverified one, set it `false` and explain in `notes` (mirrors the `UNLINKED` bucket).
+- The `segment` field is the cross-segment key — it is what later makes the pooled overlap analysis possible. Per-segment *reports* stay separate; the *database* is the one deliberately-pooled, segment-tagged store.
+
+Then harvest the headline findings back into `docs/strategy/audiences.md` (the living segment reference), promoting the segment's confidence tag where evidence supports it — and downgrading any prior the research disproves.

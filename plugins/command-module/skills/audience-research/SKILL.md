@@ -12,11 +12,12 @@ A deep-dive on one audience segment that comes back knowing them well enough to 
 
 ## Core Principles
 
-1. **Traceability is pass/fail.** Every buyer quote gets its own direct, clickable deep link to the exact comment/post/timestamp, verified live. Never fabricate or paraphrase-as-quote. This is the single most important constraint -- see `references/brief-template.md`.
+1. **Traceability is pass/fail.** Every buyer quote gets its own direct, clickable deep link to the exact comment/post/timestamp, verified live. Never fabricate or paraphrase-as-quote. Verify the verbatim text against the **raw page** -- extractor tools (WebFetch, reader proxies) interpose a small model that can reword or stitch fragments, so their output is a lead, not proof. This is the single most important constraint -- see `references/brief-template.md`.
 2. **Discover neutrally, then test priors.** Run the discovery buckets blind first; only afterward score the hypotheses against what was independently found, actively seeking disconfirming evidence. Never hunt to confirm a prior. A disproved prior is a win.
 3. **Define by identity + job, not by "who'd buy."** Frame the segment around who they *are* and the job they hire things to do (Jobs-to-be-Done), not around the product.
 4. **Desire is not a problem worth solving.** Trust pains people already spend time or money on, not ones they merely endorse.
-5. **One segment per run, kept separate.** Never pool quote banks across segments; cross-segment overlap is its own later step.
+5. **One segment per run, kept separate.** Per-segment *reports* stay separate (don't blend narratives); cross-segment overlap is its own later step.
+6. **Persist to the database, not just the report.** Every verified quote is appended (with its `segment`) to the project-wide `docs/strategy/research/audiences/quotes.jsonl` -- the durable, queryable, append-only store across all segments. The prose report is the read; the database is the record. (This pooled-but-segment-tagged store is what *enables* the cross-segment overlap pass.)
 
 ## Support Files
 
@@ -59,6 +60,8 @@ Execute the brief with discipline:
 ### Phase 3: Synthesize & file
 
 Don't just dump the quote bank -- make sense of it (`research-method.md` §6): tag -> cluster -> count frequency (soft quant) -> surface tensions -> for each significant pain give a **problem-worth-solving verdict**. Assemble the full cited report per the brief's "Deliver as" section. Write it to `docs/strategy/research/audiences/<segment-slug>/` (create dirs as needed).
+
+**Also persist the data:** append every verified quote (with its `segment`) as a JSONL row to `docs/strategy/research/audiences/quotes.jsonl` per the schema in `references/brief-template.md` -- append-only, never rewrite existing lines. This is the durable cross-segment record; the report is the read.
 
 ### Phase 4: Harvest into the living audiences doc
 
