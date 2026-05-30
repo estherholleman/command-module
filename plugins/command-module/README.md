@@ -89,6 +89,7 @@ The primary entry points for engineering work, invoked as slash commands:
 | `/concept` | Conceptual thinking partner using the reframe-react-sharpen pattern for sharpening ideas and strategic concepts |
 | `/strategy` | Strategic PM for portfolio review, tension analysis, context curation, and thinking direction |
 | `/whats-next` | Strategic execution advisor that translates concepts and decisions into task recommendations and prompt files |
+| `/audience-research` | Deep, citable research on a customer/audience segment -- channel map, purchase behavior, traceable buyer-voice quote bank, and a confirmation-bias-guarded hypothesis scorecard; harvests into a living audiences doc |
 
 ### Automation & Tools
 
