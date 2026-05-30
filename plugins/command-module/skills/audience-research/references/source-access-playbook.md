@@ -58,7 +58,21 @@ Read this **before the safari**. It's the operational layer beneath the brief: w
 - **Reddit was fully IP-blocked on the first run's machine** (curl, WebFetch, Jina, mirrors, *and* a real browser → "You've been blocked by network security"). That is a property of that IP, **not** a permanent truth about Reddit. On an unblocked/logged-in path Reddit is a rich source — try it (last) before assuming it's gone.
 - Per-site WAF 403s (e.g. some Cloudflare blogs) and transient 500s are site/time-specific, not universal.
 
-## Recommended future helper scripts (not yet built)
+## Helper scripts (`assets/`)
 
-- A **self-verifying `quotes.jsonl` writer**: rejects any row whose `quote` isn't an exact substring of the cited raw source (makes `verbatim_verified` mechanical, not trust-based).
-- A **reusable YouTube-comment extractor** (the `scrollIntoView` + `a[href*="lc="]` + double-`json.loads` recipe) as an `assets/` script.
+Two stdlib-only Python helpers ship with the skill. Prefer them over hand-rolling the same logic.
+
+**`assets/verify_and_append_quote.py` — self-verifying database writer.** Appends a row to `quotes.jsonl` *only if* the quote is provably present in the raw source (exact match, then a length-tolerant normalized match for curly quotes / dashes / nbsp / collapsed whitespace), and stores the **byte-exact raw slice** so the saved quote equals the page. Rejects unverifiable quotes (exit 2) unless `--allow-unverified`. This makes `verbatim_verified` mechanical, not trust-based.
+```
+python assets/verify_and_append_quote.py --db docs/strategy/research/audiences/quotes.jsonl \
+  --raw raw_page.txt --segment <slug> --bucket pain --platform blog-post \
+  --url "<deep link>" --speaker "<handle>" --quote "<their words>"
+# --raw -  reads raw text from stdin;  --check  verifies without appending
+```
+Tested against the real drift cases (curly vs straight quotes, em-dashes, double spaces, nbsp).
+
+**`assets/youtube_comments.py` — YouTube comment extractor.** Encodes the working recipe (scrollIntoView hydration, `a[href*="lc="]` permalinks, double-`json.loads` decode) over `agent-browser`. Prints a JSON array of `{author,text,likes,lc,permalink,url}`. The DOM text is the raw page, so pipe each comment's text straight into the writer as its own `--raw`.
+```
+python assets/youtube_comments.py --url "https://www.youtube.com/watch?v=VIDEOID" [--scrolls 8] [--auto-connect]
+```
+Requires the `agent-browser` CLI and a live browser (logic mirrors the first-run recipe; run it against a real video to exercise it).

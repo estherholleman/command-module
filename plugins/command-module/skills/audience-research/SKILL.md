@@ -53,7 +53,7 @@ Read `references/brief-template.md` and fill the four `<<FILL-IN>>` blocks from 
 
 Execute the brief with discipline:
 - **Source discovery first.** Before hunting quotes, work out where *this* segment's voice actually concentrates (YouTube, niche forums, FB groups, Reddit, Discord, magazines, blog comments, marketplace reviews...) and rank sources by quotable voice for this segment. Weight the safari toward the richest ones you can access. **No single source is load-bearing** -- if one platform is blocked or thin, note it and route to the others; only the verification standard is non-negotiable, not any one platform (a blocked Reddit is not a blocked report).
-- **Follow the fetch-&-verify ladder** in `references/source-access-playbook.md`: WebSearch (discovery only -- never quote its summaries) -> WebFetch static prose (candidates, strict-verbatim prompt) -> agent-browser to byte-verify every quote and mine JS pages (YouTube/WordPress comments) -> competitor pricing -> Reddit last, only if reachable. First-person blogs + problem-topic YouTube comments are the high-yield veins; glossy tour videos and magazines are not.
+- **Follow the fetch-&-verify ladder** in `references/source-access-playbook.md`: WebSearch (discovery only -- never quote its summaries) -> WebFetch static prose (candidates, strict-verbatim prompt) -> agent-browser to byte-verify every quote and mine JS pages (YouTube/WordPress comments) -> competitor pricing -> Reddit last, only if reachable. First-person blogs + problem-topic YouTube comments are the high-yield veins; glossy tour videos and magazines are not. (`assets/youtube_comments.py` automates the YouTube-comment extraction.)
 - **Neutral discovery** (Sections A-D). Mine the real communities. For each buyer quote, fetch the exact page and **byte-verify** the quote against the raw page before it's trusted. Apply the saturation stopping rule.
 - Keep the four discovery buckets (pain · wants · current solutions · willingness to pay) neutral -- do not steer toward the priors.
 - **Then** score the FILL-IN 3 hypotheses against what discovery independently surfaced, seeking disconfirming evidence.
@@ -63,7 +63,7 @@ Execute the brief with discipline:
 
 Don't just dump the quote bank -- make sense of it (`research-method.md` §6): tag -> cluster -> count frequency (soft quant) -> surface tensions -> for each significant pain give a **problem-worth-solving verdict**. Assemble the full cited report per the brief's "Deliver as" section. Write it to `docs/strategy/research/audiences/<segment-slug>/` (create dirs as needed).
 
-**Also persist the data:** append every verified quote (with its `segment`) as a JSONL row to `docs/strategy/research/audiences/quotes.jsonl` per the schema in `references/brief-template.md` -- append-only, never rewrite existing lines. This is the durable cross-segment record; the report is the read.
+**Also persist the data:** append every verified quote (with its `segment`) as a JSONL row to `docs/strategy/research/audiences/quotes.jsonl` per the schema in `references/brief-template.md` -- append-only, never rewrite existing lines. Use `assets/verify_and_append_quote.py` -- it re-checks the quote against the raw source and stores the byte-exact slice, so `verbatim_verified` is mechanical, not trust-based. This is the durable cross-segment record; the report is the read.
 
 ### Phase 4: Harvest into the living audiences doc
 
@@ -85,5 +85,4 @@ Summarize: which hypotheses held up vs. were disconfirmed, the sharpest real pai
 
 ## Open questions (still live)
 
-- **Self-verifying writer + YouTube-comment extractor** -- worth shipping as `assets/` helper scripts (see `source-access-playbook.md`)? Would make `verbatim_verified` mechanical rather than trust-based.
-- **Cross-segment overlap pass** -- a second skill/mode that reads the pooled `quotes.jsonl` once 2+ segments exist.
+- **Cross-segment overlap pass** -- a second skill/mode that reads the pooled `quotes.jsonl` once 2+ segments exist (shared pains, vocabulary, channels).
