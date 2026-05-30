@@ -8,7 +8,7 @@ argument-hint: "[segment to research, e.g. 'tiny house community']"
 
 A deep-dive on one audience segment that comes back knowing them well enough to **find them, talk to them in their own words, and sell to them**. The output is a cited report (channel map, purchase behavior, a traceable buyer-voice quote bank, and an honest hypothesis scorecard) plus an update to the project's living `docs/strategy/audiences.md`.
 
-> **STATUS: v0 (draft).** This skill's *scaffolding and reference files are stable*, but its execution flow has not yet been hardened against a live run. Treat the flow below as a strong first draft. After the first real run, revisit the **Open questions** at the bottom. (Skills are living — update freely.)
+> **STATUS: v1 — validated against one live run** (tiny-house, 2026-05-30). The flow, sourcing standard, and reference files survived a real run that hit (and routed around) hard blockers; defaults below are now evidence-based, not guesses. Still living — update as more runs teach more.
 
 ## Core Principles
 
@@ -25,6 +25,7 @@ Read on-demand at the step that needs them; do not bulk-load at skill start. Whe
 
 - `references/brief-template.md` -- the constant research-brief scaffolding (sourcing standard, four FILL-IN blocks, Sections A-E, deliverable). The skill fills this.
 - `references/research-method.md` -- the methodology backbone (Jobs-to-be-Done, problems-worth-solving test, hypothesis criteria, non-leading questions, sensemaking, saturation), distilled from *The Customer-Driven Playbook*. Internalize it; do not dump it as a checklist.
+- `references/source-access-playbook.md` -- the operational layer: which tool reaches which platform, the fetch-&-verify ladder, mini-recipes (YouTube comments, blog/WP comments), where the voice actually is, and dead ends. **Read before any buyer-voice mining.**
 
 ## Execution Flow
 
@@ -52,7 +53,8 @@ Read `references/brief-template.md` and fill the four `<<FILL-IN>>` blocks from 
 
 Execute the brief with discipline:
 - **Source discovery first.** Before hunting quotes, work out where *this* segment's voice actually concentrates (YouTube, niche forums, FB groups, Reddit, Discord, magazines, blog comments, marketplace reviews...) and rank sources by quotable voice for this segment. Weight the safari toward the richest ones you can access. **No single source is load-bearing** -- if one platform is blocked or thin, note it and route to the others; only the verification standard is non-negotiable, not any one platform (a blocked Reddit is not a blocked report).
-- **Neutral discovery** (Sections A-D). Mine the real communities. For each buyer quote, fetch the exact page and **verify the link is live** (platform-agnostic; for Reddit, appending `.json` to the permalink is one tactic). Apply the saturation stopping rule.
+- **Follow the fetch-&-verify ladder** in `references/source-access-playbook.md`: WebSearch (discovery only -- never quote its summaries) -> WebFetch static prose (candidates, strict-verbatim prompt) -> agent-browser to byte-verify every quote and mine JS pages (YouTube/WordPress comments) -> competitor pricing -> Reddit last, only if reachable. First-person blogs + problem-topic YouTube comments are the high-yield veins; glossy tour videos and magazines are not.
+- **Neutral discovery** (Sections A-D). Mine the real communities. For each buyer quote, fetch the exact page and **byte-verify** the quote against the raw page before it's trusted. Apply the saturation stopping rule.
 - Keep the four discovery buckets (pain · wants · current solutions · willingness to pay) neutral -- do not steer toward the priors.
 - **Then** score the FILL-IN 3 hypotheses against what discovery independently surfaced, seeking disconfirming evidence.
 - For wide sweeps (channel map, sizing), web search/fetch is fine; for buyer voice, exact-page fetch + verification is mandatory.
@@ -74,9 +76,14 @@ Offer to update `docs/strategy/audiences.md`:
 
 Summarize: which hypotheses held up vs. were disconfirmed, the sharpest real pains (with verdicts), the top 3-5 go-to-market channels, an honest fit read, and the report path. Note any segments worth researching next (for a future cross-segment overlap pass).
 
-## Open questions (resolve after the first live run)
+## Validated defaults (from the first live run -- tiny-house, 2026-05-30)
 
-- **Run vs. emit default** -- does running in-agent reliably produce verified per-quote links at scale, or is emit-then-run-with-discipline the safer default?
-- **Quote volume per bucket** -- what's the realistic saturation point before diminishing returns?
-- **Subagent fan-out** -- should Sections A-E be split across parallel subagents (channel map / purchase / buyer-voice), or run single-threaded for quote-link discipline?
-- **audiences.md schema** -- does the harvest step need a fixed per-segment template, or is prose fine?
+- **Run vs. emit:** **run in-agent** when the agent has WebFetch + a real browser (Claude Code). The run produced ~13 byte-verified, deep-linked quotes and correctly routed around a hard Reddit block -- local fetch + browser verification is exactly what the sourcing standard needs. Emit-only is the fallback for thin-tooled environments.
+- **Quote volume:** expect **low-double-digits of byte-verified quotes** per run, not dozens. Verification + exact-slice storage is the cost; quality over volume. Saturation (sources stop surprising) hit well before any quota.
+- **Fan-out:** keep **buyer-voice mining single-threaded** (verification discipline + the quotes.jsonl append are easier to keep honest serially). Parallelizing wide sweeps (channel map, sizing) is fine if needed.
+- **audiences.md harvest:** prose is fine; the structured record lives in `quotes.jsonl`. Don't over-template the prose entry.
+
+## Open questions (still live)
+
+- **Self-verifying writer + YouTube-comment extractor** -- worth shipping as `assets/` helper scripts (see `source-access-playbook.md`)? Would make `verbatim_verified` mechanical rather than trust-based.
+- **Cross-segment overlap pass** -- a second skill/mode that reads the pooled `quotes.jsonl` once 2+ segments exist.
