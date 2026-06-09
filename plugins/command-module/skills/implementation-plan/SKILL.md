@@ -885,6 +885,8 @@ After the confidence check completes (or is skipped), present the options using 
 
 **Question:** "Plan ready at `docs/plans/YYYY-MM-DD-NNN-<type>-<name>-plan.md`. What would you like to do next?"
 
+**Mission-control session-decompose offer (conditional).** If the current repo uses mission-control tracking (a resolvable `missioncontrol/tracking/{repo}/tasks/` for this project) **and** the plan plausibly spans **more than one focused work session**, add **Decompose into session subtasks** as the **lead** next-step option (option 1). It runs `/decompose <plan-path>`, which captures one tracked `type: subtask` per session-sized chunk under the task being planned, so multi-session progress rolls up on the dashboard. Skip this option entirely when the repo has no mission-control tracking or the plan fits a single session — `/decompose` makes its own single-session check, so this step only surfaces it at plan time. (Sub-session micro-todos stay ephemeral in `/work`; do not capture them.)
+
 **Option ordering depends on plan characteristics.** Lead with document-review when any of these conditions are met:
 
 - **Deep** plan
@@ -927,6 +929,7 @@ Based on selection:
   Display `View & collaborate in Proof: <PROOF_URL>` if successful, then return to the options
 - **`/work`** → Call `/work` with the plan path
 - **`/work` in another session** → If the current platform supports launching a separate agent session, start `/work` with the plan path there. Otherwise, explain the limitation briefly and offer to run `/work` in the current session instead.
+- **Decompose into session subtasks** → Call `/decompose` with the plan path (mission-control session-decompose offer above)
 - **Create Issue** → Follow the Issue Creation section below
 - **Other** → Accept free text for revisions and loop back to options
 
