@@ -1,9 +1,11 @@
 ---
 title: "fix: Setup skill fails silently on non-Claude LLMs due to AskUserQuestion dependency"
 type: fix
-status: active
+status: completed
 date: 2026-03-01
 ---
+
+> **RESOLVED 2026-06-09 (no code change needed in this fork).** This shipped upstream (compound-engineering v2.38.1, issue #204) and was inherited here. Deliverables 3 (CLAUDE.md/AGENTS.md AskUserQuestion policy) and 4 (`codex-agents.ts` mapping) are already present; deliverables 1–2 target the `setup` / `create-new-skill` skills this stripped fork doesn't carry (placeholder / removed), so there's nothing to gate. The broader gap — ~28 other skills use `AskUserQuestion` without a fallback — is captured as a backlog item for **converter-level** handling (command-module tracking **T024**), to revisit if/when running skills outside Claude Code.
 
 ## Enhancement Summary
 
