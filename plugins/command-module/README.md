@@ -7,7 +7,7 @@ AI-powered development tools that get smarter with every use. Make each unit of 
 | Component | Count |
 |-----------|-------|
 | Agents | 36 |
-| Skills | 46 |
+| Skills | 47 |
 | MCP Servers | 1 |
 
 ## Skills
@@ -86,6 +86,7 @@ The primary entry points for engineering work, invoked as slash commands:
 
 | Skill | Description |
 |-------|-------------|
+| `/advisor` | Honest personal and business advice grounded in the user's own plan, principles, and accumulated learnings; runs a self-check before advising and stress-tests high-stakes calls |
 | `/concept` | Conceptual thinking partner using the reframe-react-sharpen pattern for sharpening ideas and strategic concepts |
 | `/strategy` | Strategic PM for portfolio review, tension analysis, context curation, and thinking direction |
 | `/whats-next` | Strategic execution advisor that translates concepts and decisions into task recommendations and prompt files |
