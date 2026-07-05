@@ -7,7 +7,7 @@ AI-powered development tools that get smarter with every use. Make each unit of 
 | Component | Count |
 |-----------|-------|
 | Agents | 36 |
-| Skills | 45 |
+| Skills | 46 |
 | MCP Servers | 1 |
 
 ## Skills
@@ -96,6 +96,7 @@ The primary entry points for engineering work, invoked as slash commands:
 | Skill | Description |
 |-------|-------------|
 | `agent-browser` | CLI-based browser automation using Vercel's agent-browser |
+| `deep-research-panel` | Run one question through Claude, Gemini, and ChatGPT deep research and save all three cited reports to research/ (Deep Research APIs when keys are set, else browser automation on free accounts) |
 | `gemini-imagegen` | Generate and edit images using Google's Gemini API |
 | `orchestrating-swarms` | Comprehensive guide to multi-agent swarm orchestration |
 | `rclone` | Upload files to S3, Cloudflare R2, Backblaze B2, and cloud storage |
