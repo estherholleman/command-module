@@ -27,7 +27,12 @@ Manual Entry mode never reads or writes the per-session clock file — it logs s
 
 ## Normal Clock-In
 
-The SessionStart hook auto-creates a per-session clock at the beginning of every conversation. Bare `/ci` with no arguments is therefore an informational no-op in nearly all cases. The exceptions: SessionStart didn't fire, the user explicitly cleared the clock file, or the user wants to reset (`/ci --force`).
+The SessionStart hook **arms** a per-session clock at the beginning of every conversation (it writes
+`start: null` + `opened_at`); the `work-heartbeat` PostToolUse hook then **starts** it — stamps
+`start` — at your first substantive action, and the session auto-wraps at completion. So bare `/ci`
+with no arguments is an informational no-op in nearly all cases. The exceptions: SessionStart didn't
+fire, the user explicitly cleared the clock file, or the user wants to reset (`/ci --force`). Timing
+is honest by construction: a tab that never does work never bills time.
 
 ### Preamble: assert session id
 
@@ -64,17 +69,25 @@ From the matched entry in `projects.yaml`, resolve the cluster name. If unmatche
 
 ### Step 4: Write per-session clock
 
-Get the current local time. Write `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json`:
+Get the current local time. A manual `/ci` is an explicit "start timing now", so write the new
+honest-clock schema with `start` set to now (already started), `opened_at` present (so finalizers
+treat it as a first-class, non-legacy clock). Write
+`/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json`:
 
 ```json
 {
   "session_id": "${CLAUDE_SESSION_ID}",
   "repo": "{repo_name}",
   "cluster": "{cluster_name}",
+  "opened_at": "{ISO 8601 local datetime}",
   "start": "{ISO 8601 local datetime}",
+  "last_activity": "{ISO 8601 local datetime}",
   "date": "{YYYY-MM-DD}",
   "cwd": "{current working directory}",
-  "source_at_start": "manual-ci"
+  "source_at_start": "manual-ci",
+  "tool_count": 0,
+  "wrapped_at": null,
+  "last_nudge_at": null
 }
 ```
 

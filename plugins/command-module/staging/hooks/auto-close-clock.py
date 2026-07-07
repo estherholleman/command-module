@@ -1,81 +1,66 @@
 #!/usr/bin/env python3
 """
-Auto close-clock — runs daily at 20:00 via launchd LaunchAgent (Phase 3).
+Auto close-clock — launchd sweep, reliability backstop (honest-clock rewrite 2026-07-07).
 
-Iterates every file in /Users/esther/prog/missioncontrol/tracking/.active-clocks/
-and closes each one independently with the same time-cap policy as the legacy
-single-file sweep:
+Runs daily via the com.esther.auto-close-clock LaunchAgent. Iterates every file
+in /Users/esther/prog/missioncontrol/tracking/.active-clocks/ and finalizes each
+independently, using the HONEST span rather than the old 20:00 wall-clock cap.
 
-- start_date == today and now < 20:00 → end at 20:00 (cap), source=auto-close-20h.
-- start_date == today and now >= 20:00 → end at now, source=auto-close-20h.
-- start_date < today and start_dt < 20:00 of start_date → end at 20:00 of start_date,
-  source=auto-close-stale.
-- start_date < today and start_dt >= 20:00 of start_date → end at start + 30min
-  (LATE_START_FALLBACK_MIN), source=auto-close-stale.
+Per clock:
+  - legacy (no `opened_at`)      -> DRAIN, write no row (unrecoverable ghost —
+                                    this is what cleanly retires the pre-rewrite
+                                    orphan backlog to zero ghost rows).
+  - armed but never STARTED      -> DRAIN, write no row (tab opened, no work).
+  - STARTED, not yet wrapped     -> write an HONEST row [start, last_activity],
+                                    source=auto-close-unwrapped, then unlink.
 
-Each clock is finalized to a CSV row + history.jsonl entry, then the clock file
-is unlinked. Failures on one clock do not abort the others.
+No more 20:00 cap and no more "407 min" inflation: last_activity is the real end.
+A clock still armed (start=null) from a live session is harmless to leave — it
+carries no time — but the sweep drains it too, and the live session re-arms on its
+next SessionStart / first tool. Failures on one clock never abort the others.
 
-CSV row's session_id is taken from the clock payload.
+Empty or missing .active-clocks/ -> no-op, clean exit.
 
-Empty or missing .active-clocks/ directory → no-op, clean exit.
-
-Replaces the legacy ~/.claude/hooks/auto-close-clock.py wholesale. The Phase 3
-install script copies this file in and switches the trigger from cron to a
-launchd LaunchAgent so missed 20:00 firings catch up on wake.
-
-See plan: docs/plans/2026-04-24-001-feat-per-session-clocks-reliability-plan.md
-(D3, Unit 6).
+See docs/tracking-protocol.md ("The honest clock" + "Reconciliation").
 """
 
 import json
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import _clock_shared as shared
 
-LATE_START_FALLBACK_MIN = 30
 DEFAULT_SESSION_TYPE = "execution"
-CAP_HOUR = 20
 
 
 def close_one(clock_path: Path) -> dict:
-    """Finalize a single clock file. Returns a result dict, or raises on error."""
+    """Finalize a single clock file. Returns a result dict (drained or written)."""
     clock = json.loads(clock_path.read_text())
+    now = datetime.now()
 
-    start_iso = clock["start"]
-    start_dt = datetime.fromisoformat(start_iso)
-    start_date = start_dt.date()
+    span = shared.honest_span(clock, now=now)
+    if span is None:
+        drain_reason = "legacy" if shared.is_legacy(clock) else "armed-only"
+        clock_path.unlink()
+        return {"drained": True, "reason": drain_reason,
+                "session_id": clock.get("session_id", ""),
+                "repo": clock.get("repo", "unknown")}
+
+    start_dt, end_dt, minutes = span
     repo = clock.get("repo", "unknown")
     cluster = clock.get("cluster", "unassigned")
     session_id = clock.get("session_id", "")
-    now = datetime.now()
-    today = now.date()
-
-    cap_same_day = datetime.combine(start_date, datetime.min.time()).replace(hour=CAP_HOUR)
-
-    if start_date == today:
-        end_dt = cap_same_day if now >= cap_same_day else now
-        source = "auto-close-20h"
-    else:
-        if start_dt < cap_same_day:
-            end_dt = cap_same_day
-        else:
-            end_dt = start_dt + timedelta(minutes=LATE_START_FALLBACK_MIN)
-        source = "auto-close-stale"
-
-    minutes = max(1, int((end_dt - start_dt).total_seconds() / 60))
-    title = f"Auto-closed at {end_dt.strftime('%H:%M')}"
+    title = "Unwrapped session (auto-finalized by sweep)"
     details = (
-        f"Clock opened {start_dt.strftime('%Y-%m-%d %H:%M')}, "
-        f"auto-closed by launchd at {now.strftime('%Y-%m-%d %H:%M')}. "
-        f"Correct manually if session_type/title are wrong."
+        f"Work {start_dt.strftime('%Y-%m-%d %H:%M')}-{end_dt.strftime('%H:%M')} "
+        f"({minutes} min, honest span). Never auto-wrapped; finalized by the launchd "
+        f"sweep at {now.strftime('%Y-%m-%d %H:%M')}. Refine title/type in /evening reconcile."
     )
 
     shared.write_csv_row(
-        date=start_date.isoformat(),
+        date=start_dt.date().isoformat(),
         start_hm=start_dt.strftime("%H:%M"),
         end_hm=end_dt.strftime("%H:%M"),
         repo=repo,
@@ -84,26 +69,26 @@ def close_one(clock_path: Path) -> dict:
         minutes=minutes,
         title=title,
         details=details,
-        source=source,
+        source="auto-close-unwrapped",
         session_id=session_id,
     )
     shared.write_history_entry(
         repo=repo,
-        date=start_date.isoformat(),
+        date=start_dt.date().isoformat(),
         start_iso=start_dt.isoformat(timespec="seconds"),
         session_type=DEFAULT_SESSION_TYPE,
         title=title,
         details=details,
         minutes=minutes,
     )
-    # Delete only after successful writes — re-run resumes on partial failure.
+    # Delete only after successful writes — a re-run resumes on partial failure.
     clock_path.unlink()
 
     return {
+        "drained": False,
         "session_id": session_id,
         "repo": repo,
         "minutes": minutes,
-        "source": source,
         "start": start_dt.isoformat(timespec="seconds"),
         "end": end_dt.isoformat(timespec="seconds"),
     }
@@ -136,12 +121,16 @@ def main() -> None:
         return
 
     for r in closed:
-        sid_short = r['session_id'][:8] if r['session_id'] else "<none>"
-        print(
-            f"[auto-close-clock] {stamp} — closed {r['repo']} "
-            f"({r['minutes']} min, {r['source']}, session={sid_short}). "
-            f"start={r['start']} end={r['end']}"
-        )
+        sid_short = r["session_id"][:8] if r.get("session_id") else "<none>"
+        if r.get("drained"):
+            print(f"[auto-close-clock] {stamp} — drained {r['repo']} "
+                  f"({r['reason']}, no row, session={sid_short}).")
+        else:
+            print(
+                f"[auto-close-clock] {stamp} — closed {r['repo']} "
+                f"({r['minutes']} min, auto-close-unwrapped, session={sid_short}). "
+                f"start={r['start']} end={r['end']}"
+            )
     for path, exc in failed:
         print(
             f"[auto-close-clock] {stamp} — ERROR closing {path.name}: {exc!r}",

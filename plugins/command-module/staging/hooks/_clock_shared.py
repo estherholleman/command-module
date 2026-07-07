@@ -2,17 +2,39 @@
 Shared helpers for the per-session clock hooks.
 
 This module lives at ~/.claude/hooks/_clock_shared.py once installed.
-It is staged in this repo for review; the actual deployment is performed
-by `plugins/command-module/scripts/install-phase2.sh`.
+It is staged in command-module (plugins/command-module/staging/hooks/) for
+review; the actual deployment is performed by
+`plugins/command-module/scripts/install-phase2.sh`.
 
 Used by:
-- session-start-clock.py (Phase 2)
-- session-end-clock.py (Phase 2)
-- auto-close-clock.py (Phase 3 — once refactored to share)
+- session-start-clock.py   (SessionStart — ARM the clock)
+- work-heartbeat.py        (PostToolUse — START the clock on first real action)
+- auto-wrap-gate.py        (Stop — nudge the agent to auto-wrap)
+- session-end-clock.py     (SessionEnd — honest finalize / drain)
+- auto-close-clock.py      (launchd sweep — honest finalize / drain)
+
+Honest-clock model (2026-07-07 rewrite — see docs/tracking-protocol.md):
+A clock has three phases.
+  1. ARMED   — SessionStart wrote it with `opened_at` set and `start: null`.
+               No timesheet consequence yet.
+  2. STARTED — the first substantive tool (Edit/Write/Bash/NotebookEdit) fired;
+               work-heartbeat set `start` = that moment and bumps `last_activity`.
+  3. WRAPPED — /wrap-up (auto or manual) wrote the entry for [start, last_activity]
+               and RESET the clock (`start: null`, `wrapped_at` = now) so the next
+               burst of work opens a fresh honest span in the same session.
+
+Truthful duration = last_activity - start (real work span), NOT
+tab-open -> tab-close. A clock that never STARTED (armed only) writes NO row —
+that is what kills the ghost/phantom entries.
+
+Legacy clocks (pre-rewrite: have `start` but no `opened_at`) can't be recovered
+into an honest span, so finalizers DRAIN them without writing a row.
 """
 
 import csv
 import json
+import os
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
@@ -29,10 +51,70 @@ CSV_HEADER = [
     "session_id",
 ]
 
+# Minimum honest work span (minutes) worth writing a row for. Below this a
+# finalizer drains the clock silently — a 30-second accidental tool call is
+# not a work session.
+MIN_ROW_MINUTES = 1
+
+# A gap between consecutive actions longer than this means the previous burst
+# ended — the intervening time is idle, not work, and must not be billed.
+# The heartbeat RESETS `start` to now on such a gap (a fresh honest span), and
+# the Stop gate refuses to advance `last_activity` across it. This is the hard
+# anti-inflation guard: no single span can contain more than IDLE_GAP of idle.
+IDLE_GAP_SECONDS = 30 * 60
+
 
 def clock_path_for(session_id: str) -> Path:
     return CLOCKS_DIR / f"{session_id}.json"
 
+
+# ---------------------------------------------------------------------------
+# Honest-clock lifecycle helpers
+# ---------------------------------------------------------------------------
+
+def is_legacy(clock: dict) -> bool:
+    """True for a pre-rewrite clock (has `start` but was never armed).
+
+    New clocks always carry `opened_at`. Its absence means the `start` field
+    holds a tab-open time, not a real work-start — unrecoverable, so drain.
+    """
+    return "opened_at" not in clock
+
+
+def has_started(clock: dict) -> bool:
+    """True once real work began (first substantive tool set `start`)."""
+    return bool(clock.get("start"))
+
+
+def honest_span(clock: dict, now: Optional[datetime] = None):
+    """Return (start_dt, end_dt, minutes) for a STARTED, non-legacy clock.
+
+    Returns None when there is nothing honest to write (legacy, or armed but
+    never started). `end` is `last_activity` when present, else `start`
+    (a started-but-idle clock -> ~MIN_ROW_MINUTES).
+    """
+    if is_legacy(clock) or not has_started(clock):
+        return None
+    start_dt = datetime.fromisoformat(clock["start"])
+    la = clock.get("last_activity")
+    end_dt = datetime.fromisoformat(la) if la else start_dt
+    if now is not None and end_dt > now:
+        end_dt = now
+    minutes = max(MIN_ROW_MINUTES, int((end_dt - start_dt).total_seconds() / 60))
+    return start_dt, end_dt, minutes
+
+
+def write_clock_atomic(clock_path: Path, clock: dict) -> None:
+    """Atomically (tmp + os.replace) write a clock file."""
+    clock_path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = clock_path.with_suffix(".json.tmp")
+    tmp_path.write_text(json.dumps(clock, indent=2) + "\n")
+    os.replace(tmp_path, clock_path)
+
+
+# ---------------------------------------------------------------------------
+# projects.yaml -> repo/cluster resolution (unchanged)
+# ---------------------------------------------------------------------------
 
 def load_repo_cluster_map() -> dict:
     """Build repo_name -> cluster_name mapping from projects.yaml."""
@@ -100,6 +182,10 @@ def resolve_repo_and_cluster(cwd: str) -> tuple[str, str]:
     fallback_repo = Path(cwd).name or "unknown"
     return fallback_repo, "unassigned"
 
+
+# ---------------------------------------------------------------------------
+# Row / history writers (unchanged shape)
+# ---------------------------------------------------------------------------
 
 def write_csv_row(*, date, start_hm, end_hm, repo, cluster, session_type,
                   minutes, title, details, source, session_id=""):

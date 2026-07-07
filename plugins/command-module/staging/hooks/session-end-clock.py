@@ -1,24 +1,30 @@
 #!/usr/bin/env python3
 """
-SessionEnd hook — opportunistic clock finalize.
+SessionEnd hook — honest finalize / drain (honest-clock rewrite 2026-07-07).
 
-Best-effort finalize-on-end. The launchd orphan sweep (Phase 3) is the
-actual reliability mechanism — SessionEnd misses on API 500, OS reboot,
-process kill, and some /exit paths.
+Best-effort finalize-on-end. The launchd sweep (auto-close-clock.py) is the
+reliability backstop — SessionEnd misses on API 500, OS reboot, process kill,
+and some /exit paths.
 
 Stdin JSON: {session_id, hook_event_name, reason}
-  reason ∈ {clear, resume, logout, prompt_input_exit,
-            bypass_permissions_disabled, other}
+  reason in {clear, resume, logout, prompt_input_exit,
+             bypass_permissions_disabled, other}
 
 Behavior:
-- reason ∈ {clear, resume} → exit 0 (lifecycle event, not termination).
-  Log diagnostic to stderr; do not finalize.
-- reason ∈ {logout, prompt_input_exit, bypass_permissions_disabled, other}
-  → finalize: read clock, write CSV row + history entry, delete clock file.
-- Missing clock for session_id → exit 0 (already finalized by /co or /wrap-up).
-- Malformed stdin → exit 1 with stderr error.
+- reason in {clear, resume} -> lifecycle event, do NOT finalize (exit 0).
+- Otherwise, load this session's clock and:
+    * legacy (no `opened_at`)      -> DRAIN, write no row (unrecoverable ghost).
+    * armed but never STARTED      -> DRAIN, write no row (no work happened).
+    * STARTED, not yet wrapped     -> write an HONEST row [start, last_activity],
+                                      source=auto-session-end-unwrapped, flagged for
+                                      reconciliation, then delete the clock.
+    * missing clock file           -> exit 0 (already wrapped by /co or /wrap-up).
 
-See plan: docs/plans/2026-04-24-001-feat-per-session-clocks-reliability-plan.md (D2)
+The honest span (last_activity - start) means these fallback rows carry a real
+work duration, not tab-open->tab-close. session_type stays a guess (a hook can't
+reason) — the title says so, and /evening's reconcile can refine it.
+
+See docs/tracking-protocol.md ("The honest clock" + "Reconciliation").
 """
 
 import json
@@ -30,41 +36,46 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import _clock_shared as shared
 
 LIFECYCLE_REASONS = {"clear", "resume"}
-TERMINAL_REASONS = {"logout", "prompt_input_exit", "bypass_permissions_disabled", "other"}
 DEFAULT_SESSION_TYPE = "execution"
 
 
 def _finalize(session_id: str, reason: str) -> None:
     clock_path = shared.clock_path_for(session_id)
     if not clock_path.exists():
-        # Already finalized by /co or /wrap-up — nothing to do.
-        return
+        return  # already finalized by /co or /wrap-up
 
     clock = json.loads(clock_path.read_text())
-    start_dt = datetime.fromisoformat(clock["start"])
-    now = datetime.now()
-    minutes = max(1, int((now - start_dt).total_seconds() / 60))
 
+    # Legacy or armed-but-never-started -> DRAIN without a row (kills ghosts).
+    span = shared.honest_span(clock, now=datetime.now())
+    if span is None:
+        reason_txt = "legacy" if shared.is_legacy(clock) else "no work (armed only)"
+        print(f"[session-end-clock] drained {clock_path.name} without a row ({reason_txt}).",
+              file=sys.stderr)
+        clock_path.unlink()
+        return
+
+    start_dt, end_dt, minutes = span
     repo = clock.get("repo", "unknown")
     cluster = clock.get("cluster", "unassigned")
-    title = f"Auto-closed at SessionEnd ({reason})"
+    title = "Unwrapped session (auto-finalized at SessionEnd)"
     details = (
-        f"Clock opened {start_dt.strftime('%Y-%m-%d %H:%M')}, "
-        f"auto-closed by SessionEnd at {now.strftime('%Y-%m-%d %H:%M')} "
-        f"with reason={reason}. Correct manually if session_type/title are wrong."
+        f"Work {start_dt.strftime('%Y-%m-%d %H:%M')}-{end_dt.strftime('%H:%M')} "
+        f"({minutes} min, honest span). Session ended (reason={reason}) before an "
+        f"auto-wrap ran. session_type is a guess; refine title/type in /evening reconcile."
     )
 
     shared.write_csv_row(
         date=start_dt.date().isoformat(),
         start_hm=start_dt.strftime("%H:%M"),
-        end_hm=now.strftime("%H:%M"),
+        end_hm=end_dt.strftime("%H:%M"),
         repo=repo,
         cluster=cluster,
         session_type=DEFAULT_SESSION_TYPE,
         minutes=minutes,
         title=title,
         details=details,
-        source="auto-session-end",
+        source="auto-session-end-unwrapped",
         session_id=session_id,
     )
     shared.write_history_entry(
@@ -104,8 +115,6 @@ def main() -> None:
         )
         return
 
-    # Anything else (including unknown values) treated as terminal —
-    # better an over-finalized row the user corrects than a lost session.
     try:
         _finalize(session_id, reason)
     except Exception as exc:

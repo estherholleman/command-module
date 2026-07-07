@@ -33,9 +33,22 @@ cat "/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_
 
 - **If the file does not exist**: tell the user verbatim:
   > No clock file at `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json` for this session. Either it was already closed by `/co`, finalized by SessionEnd, or the SessionStart hook never wrote one. Run `/ci` to start a new clock if you want to log this session.
-  
+
   Then stop.
-- **If it exists**: extract `repo`, `cluster`, `start`, `date`, `session_id`. Calculate elapsed minutes (current time minus start).
+- **If it exists**: extract `repo`, `cluster`, `start`, `last_activity`, `date`, `session_id`.
+  - **If `start` is `null`** (the honest clock is *armed* but never *started* — no substantive
+    tool ran this session): there is no tracked work to log. Tell the user:
+    > This session's clock is armed but never started (no code/file/command work happened), so
+    > there's nothing to clock out. Nothing written.
+
+    Then stop — unless the user insists this was real work, in which case fall back to asking them
+    for the time span and title (manual entry).
+  - **Otherwise** compute the **honest span**: `end = last_activity` (fall back to now if
+    `last_activity` is missing); `minutes = end − start`. This bills first-real-action →
+    last-real-action, **not** tab-open → now — do not use "now − start".
+  - **Legacy clock** (has `start` but no `opened_at` field): `start` is a tab-open time, so the
+    span may over-count. Use `end = now`, note "legacy clock — duration may include idle" in the
+    details, and proceed.
 
 ### Step 1.5: Resolve cluster if "unassigned"
 
@@ -83,9 +96,9 @@ Append an 11-column row to `/Users/esther/prog/missioncontrol/reports/timesheet.
 
 Where:
 - `date` is from the clock file
-- `start_HH:MM` is extracted from the clock's `start` timestamp
-- `end_HH:MM` is the current local time
-- `minutes` is the calculated elapsed time
+- `start_HH:MM` is extracted from the clock's `start` timestamp (the honest work-start)
+- `end_HH:MM` is from the clock's `last_activity` (the honest work-end), or now if absent
+- `minutes` is the honest span `last_activity − start` (see Step 1), not `now − start`
 - `session_id` is `$CLAUDE_SESSION_ID`
 
 **If the CSV does not exist**, create it with the 11-column header first:

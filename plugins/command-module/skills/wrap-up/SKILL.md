@@ -32,12 +32,19 @@ If `$CLAUDE_SESSION_ID` is empty, surface a specific error and stop:
 
 If `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json` exists:
 
-- Calculate elapsed minutes from the start timestamp to now
-- Tell the user: "You have a clock running on **{repo}** since {start_time} ({X} minutes). Want to clock out?"
-- **If yes**: run the `/co` flow — derive session_type from conversation context, propose title and details, write the CSV row (with `session_id` populated), append to `history.jsonl`, and delete only this session's clock file
-- **If no**: proceed with the rest of wrap-up without clocking out (the user may keep working after wrap-up)
-
-Do NOT auto-close the clock. Always ask first.
+- If its `start` is `null` (armed but never started — no substantive work), there is nothing to
+  clock out. Skip clock handling and proceed with the rest of wrap-up.
+- Otherwise compute the **honest span**: `end = last_activity` (fall back to now), `minutes = end −
+  start`. This is first-real-action → last-real-action, **not** tab-open → now.
+- **Interactive wrap-up**: tell the user "You have ~{X} min of tracked work on **{repo}** (since
+  {start}). Clock out?"
+  - **If yes**: run the `/co` flow — derive session_type from context, propose title and details,
+    write the CSV row (`source=clock`, `session_id` populated), append to `history.jsonl`, and
+    delete only this session's clock file.
+  - **If no**: proceed without clocking out.
+- **Automatic mode** (invoked by the Stop-hook auto-wrap gate — see the section below): do NOT ask;
+  finalize the honest span, write the entry with `source=auto-wrap`, then RESET the clock instead of
+  deleting it.
 
 If the file does not exist, no other conversation's clock is shown and no prompt is issued — wrap-up proceeds.
 
@@ -63,6 +70,49 @@ If there are uncommitted changes in the current repo, stage and commit with a cl
 ### Step 5: Report
 
 Show a brief summary of what was updated.
+
+---
+
+## Automatic mode (hook-triggered)
+
+The **Stop-hook auto-wrap gate** (`~/.claude/hooks/auto-wrap-gate.py`) injects an instruction that
+brings you here **without the user asking**, at a natural completion point (real tracked work +
+uncommitted artifacts + past the cooldown). When you arrive that way, run wrap-up in **automatic
+mode** — the whole point is that Esther never has to babysit tracking or git:
+
+1. **Self-assess first.** Only proceed if your last response *completed a coherent piece of work*
+   and the user's request is fully satisfied. If you are mid-task, or you just asked the user a
+   question and are awaiting their answer, do **not** wrap — reply exactly
+   `(auto-wrap deferred — work in progress)` and stop. The gate will nudge again later; it will not
+   loop (the `stop_hook_active` guard and a cooldown prevent nagging).
+
+2. **Finalize the honest clock.** Read `.active-clocks/${CLAUDE_SESSION_ID}.json`. Use the honest
+   span: `end = last_activity`, `minutes = last_activity − start` (**never** tab-open → now). Skip
+   if `start` is `null`.
+
+3. **Write the entry — with real quality, not a hook's guess.** This is why a shell hook can't do
+   this itself. Derive a **specific title**, the **correct `session_type`** (execution / review /
+   planning / design / maintenance — see `/co`), and a **one-line real summary** of what was
+   accomplished. Append the CSV row to `reports/timesheet.csv` with `source = auto-wrap` and
+   `session_id` populated, and the matching `session` entry to `history.jsonl`.
+
+4. **Update tracking** for anything that changed this burst: task `T0NN.md` frontmatter + matching
+   `index.json` entries, `status.json` (respect the caps), and any `status_change` / `task_created`
+   history entries. (Steps 2–3 of the standard flow.)
+
+5. **Commit + push** exactly per Step 4 above (commit this repo's changes with a clear message;
+   commit **and push** missioncontrol tracking; never push other repos).
+
+6. **RESET the clock, don't delete it** — so continued work in the same session opens a *fresh*
+   honest span rather than re-billing what was just wrapped. Write back the same file with:
+   `start = null`, `last_activity = null`, `wrapped_at = <now ISO>`, and keep `opened_at` / `repo` /
+   `cluster` / `cwd`. The next substantive tool re-arms `start` via the heartbeat.
+
+7. **Confirm in one line**, e.g. `🔄 auto-wrapped: 42 min on portbase (execution) — "…"; committed + pushed.`
+   Then stop.
+
+Automatic mode is unattended: never block on a question. If something is ambiguous (e.g. cluster is
+`unassigned`), make the safest choice, note it in the details, and continue.
 
 ## Rules
 
