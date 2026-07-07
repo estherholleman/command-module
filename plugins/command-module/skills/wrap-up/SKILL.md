@@ -54,9 +54,11 @@ Write these in parallel:
 - Append to `history.jsonl`: session entry + `status_change` entries + `task_created` entries
 - Write `status.json`: curated briefing with summary, highlights, active/blocked/upcoming tasks
 
-### Step 4: Commit
+### Step 4: Commit and push
 
 If there are uncommitted changes in the current repo, stage and commit with a clear message. Commit tracking file changes in missioncontrol separately if needed.
+
+**Always push missioncontrol after its tracking commit:** `git -C /Users/esther/prog/missioncontrol push`. The private GitHub remote is what the cloud Flight Director reads — tracking that isn't pushed is invisible to it. If the push fails (offline, auth), mention it in the report and continue; never block wrap-up on a push. This applies ONLY to missioncontrol — never push any other repo unless the user asks.
 
 ### Step 5: Report
 
