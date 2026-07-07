@@ -15,7 +15,7 @@ The full role prompt lives at `/Users/esther/prog/missioncontrol/docs/prompts/di
 
 - **Absolute paths.** The skill may be invoked from any repo. Every read and write in the prompt resolves under `/Users/esther/prog/missioncontrol/`: `tracking/*/`, `docs/constitution.md`, `friction.md`, `reports/dispatch/`.
 - **Interactive mode.** The prompt's headless note (Read/Write/Glob/Grep only, no Bash) applies to scheduled runs. Invoked as a skill, Bash is fine -- `date +%F` for today's date, `grep`/`tail` for history.jsonl filtering (never read history.jsonl whole).
-- **Same-day re-run = re-aiming.** If `reports/dispatch/<today>.md` already exists, this is a re-aim, not a fresh day: read **today's** state file `reports/dispatch/<today>.state.json` (not just the previous day's), keep the ids of still-running cards stable so the dashboard's per-card state stays attached, and overwrite today's `.md` + `.json`.
+- **Same-day re-run = re-aiming.** If `reports/dispatch/<today>.md` already exists, this is a re-aim, not a fresh day: read **today's** state file `reports/dispatch/<today>.state.json` (not just the previous day's), keep the ids of still-running cards stable so the dashboard's per-card state stays attached, and overwrite today's `.md` + `.json`. And check the prompt's short-circuit first: if nothing has moved in any `history.jsonl` since today's dispatch was written, it's a one-line continuity confirmation -- no new files.
 
 ## Do-not-skip checkpoints
 
