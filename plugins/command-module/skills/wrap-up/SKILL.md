@@ -67,6 +67,8 @@ If there are uncommitted changes in the current repo, stage and commit with a cl
 
 **Always push missioncontrol after its tracking commit:** `git -C /Users/esther/prog/missioncontrol push`. The private GitHub remote is what the cloud Flight Director reads — tracking that isn't pushed is invisible to it. If the push fails (offline, auth), mention it in the report and continue; never block wrap-up on a push. This applies ONLY to missioncontrol — never push any other repo unless the user asks.
 
+**Parallel wrap-ups collide:** several conversations can wrap up at once in the same missioncontrol clone. If a commit fails with `Unable to create '.git/index.lock'`, wait ~3 seconds and retry once (the other wrap-up finishes fast). If the push is rejected because another session just pushed, `git -C /Users/esther/prog/missioncontrol pull --rebase` then push once more — never force-push, and never block the wrap-up on it.
+
 ### Step 5: Report
 
 Show a brief summary of what was updated.
