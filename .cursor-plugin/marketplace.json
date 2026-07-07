@@ -2,14 +2,14 @@
   "name": "command-module",
   "metadata": {
     "description": "Cursor plugin marketplace",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "pluginRoot": "plugins"
   },
   "plugins": [
     {
       "name": "command-module",
       "source": "command-module",
-      "description": "Personal development toolkit for code review, research, design, and workflow automation."
+      "description": "AI-powered development tools that get smarter with every use. Make each unit of engineering work easier than the last."
     }
   ]
 }
