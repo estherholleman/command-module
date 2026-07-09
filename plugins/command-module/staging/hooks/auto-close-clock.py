@@ -40,22 +40,27 @@ def close_one(clock_path: Path) -> dict:
     clock = json.loads(clock_path.read_text())
     now = datetime.now()
 
-    span = shared.honest_span(clock, now=now)
-    if span is None:
+    result = shared.finalize_row(clock, now=now)
+    if result is None:
         drain_reason = "legacy" if shared.is_legacy(clock) else "armed-only"
         clock_path.unlink()
         return {"drained": True, "reason": drain_reason,
                 "session_id": clock.get("session_id", ""),
                 "repo": clock.get("repo", "unknown")}
 
-    start_dt, end_dt, minutes = span
+    start_dt, end_dt, minutes, method = result
+    method_note = {
+        "clock": "honest span",
+        "reconciled": "reconciled from transcript",
+        "reconstructed": "reconstructed from transcript",
+    }.get(method, "honest span")
     repo = clock.get("repo", "unknown")
     cluster = clock.get("cluster", "unassigned")
     session_id = clock.get("session_id", "")
     title = "Unwrapped session (auto-finalized by sweep)"
     details = (
         f"Work {start_dt.strftime('%Y-%m-%d %H:%M')}-{end_dt.strftime('%H:%M')} "
-        f"({minutes} min, honest span). Never auto-wrapped; finalized by the launchd "
+        f"({minutes} min, {method_note}). Never auto-wrapped; finalized by the launchd "
         f"sweep at {now.strftime('%Y-%m-%d %H:%M')}. Refine title/type in /evening reconcile."
     )
 

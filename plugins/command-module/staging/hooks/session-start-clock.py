@@ -125,12 +125,17 @@ def main() -> None:
         "repo": repo,
         "cluster": cluster,
         "opened_at": now.strftime("%Y-%m-%dT%H:%M:%S"),
-        "start": None,           # set by work-heartbeat on first substantive tool
+        "start": None,           # set by first substantive tool OR the 2nd turn
+        "work_start": None,      # window start = first sub-span since last wrap
         "last_activity": None,   # bumped by work-heartbeat + auto-wrap-gate
+        "accrued_seconds": 0,    # closed sub-spans since last wrap (idle-split)
         "date": now.strftime("%Y-%m-%d"),
         "cwd": cwd,
         "source_at_start": source,
         "tool_count": 0,
+        "turn_count": 0,         # engaged turns (drives the turn-based clock-in)
+        "first_turn_at": None,   # backdate anchor for the turn-based start
+        "transcript_path": data.get("transcript_path"),  # finalizer backstop
         "wrapped_at": None,      # set by /wrap-up after it writes an entry
         "last_nudge_at": None,   # auto-wrap-gate cooldown
     }

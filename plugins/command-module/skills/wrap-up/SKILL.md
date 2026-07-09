@@ -34,8 +34,11 @@ If `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_I
 
 - If its `start` is `null` (armed but never started — no substantive work), there is nothing to
   clock out. Skip clock handling and proceed with the rest of wrap-up.
-- Otherwise compute the **honest span**: `end = last_activity` (fall back to now), `minutes = end −
-  start`. This is first-real-action → last-real-action, **not** tab-open → now.
+- Otherwise compute the **honest engaged minutes**: `end = last_activity` (fall back to now),
+  `minutes = accrued_seconds/60 + (end − start)` — i.e. the closed sub-spans (`accrued_seconds`,
+  default 0 when absent) plus the current open span. Idle gaps > 30 min were already excluded by the
+  clock (they seal a sub-span). Use `work_start` (fall back to `start`) as the row's start time so the
+  window brackets the whole session. This is first-real-action → last-real-action, **not** tab-open → now.
 - **Interactive wrap-up**: tell the user "You have ~{X} min of tracked work on **{repo}** (since
   {start}). Clock out?"
   - **If yes**: run the `/co` flow — derive session_type from context, propose title and details,
@@ -88,9 +91,10 @@ mode** — the whole point is that Esther never has to babysit tracking or git:
    `(auto-wrap deferred — work in progress)` and stop. The gate will nudge again later; it will not
    loop (the `stop_hook_active` guard and a cooldown prevent nagging).
 
-2. **Finalize the honest clock.** Read `.active-clocks/${CLAUDE_SESSION_ID}.json`. Use the honest
-   span: `end = last_activity`, `minutes = last_activity − start` (**never** tab-open → now). Skip
-   if `start` is `null`.
+2. **Finalize the honest clock.** Read `.active-clocks/${CLAUDE_SESSION_ID}.json`. Honest engaged
+   minutes = `accrued_seconds/60 + (last_activity − start)` (closed sub-spans + the open one; idle
+   gaps already excluded). Row start = `work_start` (fall back to `start`), end = `last_activity`
+   (**never** tab-open → now). Skip if `start` is `null`.
 
 3. **Write the entry — with real quality, not a hook's guess.** This is why a shell hook can't do
    this itself. Derive a **specific title**, the **correct `session_type`** (execution / review /
@@ -107,8 +111,10 @@ mode** — the whole point is that Esther never has to babysit tracking or git:
 
 6. **RESET the clock, don't delete it** — so continued work in the same session opens a *fresh*
    honest span rather than re-billing what was just wrapped. Write back the same file with:
-   `start = null`, `last_activity = null`, `wrapped_at = <now ISO>`, and keep `opened_at` / `repo` /
-   `cluster` / `cwd`. The next substantive tool re-arms `start` via the heartbeat.
+   `start = null`, `work_start = null`, `last_activity = null`, `accrued_seconds = 0`,
+   `first_turn_at = null`, `turn_count = 0`, `wrapped_at = <now ISO>`, and keep `opened_at` / `repo` /
+   `cluster` / `cwd` / `transcript_path`. The next substantive tool or the 2nd turn re-starts the clock.
+   (If you forget a field, the clock self-heals: the next clock-in resets `work_start`/`accrued_seconds`.)
 
 7. **Confirm in one line**, e.g. `🔄 auto-wrapped: 42 min on portbase (execution) — "…"; committed + pushed.`
    Then stop.

@@ -72,25 +72,15 @@ def main() -> None:
                 "last_nudge_at": None,
             }
 
-        prev_la = clock.get("last_activity")
-        if not clock.get("start"):
-            # Honest clock-in: first substantive action starts the span.
-            clock["start"] = now_iso
+        was_started = shared.has_started(clock)
+        # A real action is an immediate, unambiguous clock-in; the engagement
+        # model also handles the idle-gap sub-span roll (non-lossy).
+        shared.register_engagement(clock, now, is_tool=True)
+        if not was_started:
             clock["date"] = now.strftime("%Y-%m-%d")
-        elif prev_la:
-            # Anti-inflation guard: a long idle since the last action means the
-            # previous burst ended (and was never wrapped). Start a fresh span
-            # so the idle gap is not billed as work.
-            try:
-                gap = (now - datetime.fromisoformat(prev_la)).total_seconds()
-            except Exception:
-                gap = 0
-            if gap > shared.IDLE_GAP_SECONDS:
-                clock["start"] = now_iso
-                clock["date"] = now.strftime("%Y-%m-%d")
-
-        clock["last_activity"] = now_iso
-        clock["tool_count"] = int(clock.get("tool_count", 0)) + 1
+        tp = data.get("transcript_path")
+        if tp:
+            clock["transcript_path"] = tp  # enables the finalizer transcript backstop
 
         shared.write_clock_atomic(clock_path, clock)
     except Exception:

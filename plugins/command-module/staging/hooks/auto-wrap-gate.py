@@ -110,25 +110,20 @@ def main() -> None:
 
     now = datetime.now()
 
-    # Keep the tail honest even when the last action was a read (unmatched by
-    # the heartbeat): a STARTED clock's last_activity advances to turn-end —
-    # but only across a SMALL gap. A large gap since the last action is idle
-    # (e.g. a deferred wrap then a long-open tab); never advance into it.
-    if shared.has_started(clock) and not shared.is_legacy(clock):
-        prev_la = _load("last_activity", clock)
-        advance = True
-        if prev_la:
-            try:
-                gap = (now - datetime.fromisoformat(prev_la)).total_seconds()
-                advance = gap <= shared.IDLE_GAP_SECONDS
-            except Exception:
-                advance = True
-        if advance:
-            clock["last_activity"] = now.strftime("%Y-%m-%dT%H:%M:%S")
-            try:
-                shared.write_clock_atomic(clock_path, clock)
-            except Exception:
-                pass
+    # A turn-end IS engaged time: count it. On a not-yet-started clock this is the
+    # turn-based clock-in (design/discussion/reading that never edits a file still
+    # bills); on a started clock it advances the tail and rolls the idle sub-span
+    # (register_engagement handles the > IDLE_GAP split, non-lossy). Legacy clocks
+    # still drain without a row via honest_span below.
+    if not shared.is_legacy(clock):
+        try:
+            shared.register_engagement(clock, now, is_tool=False)
+            tp = data.get("transcript_path")
+            if tp:
+                clock["transcript_path"] = tp
+            shared.write_clock_atomic(clock_path, clock)
+        except Exception:
+            pass
 
     span = shared.honest_span(clock, now=now)
     if span is None:

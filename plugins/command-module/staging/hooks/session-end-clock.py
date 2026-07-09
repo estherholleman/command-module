@@ -46,22 +46,29 @@ def _finalize(session_id: str, reason: str) -> None:
 
     clock = json.loads(clock_path.read_text())
 
-    # Legacy or armed-but-never-started -> DRAIN without a row (kills ghosts).
-    span = shared.honest_span(clock, now=datetime.now())
-    if span is None:
+    # Blend the live honest span with a transcript reconstruction of the unwrapped
+    # tail (finalize_row). Legacy or armed-but-never-started with no transcript
+    # engagement -> DRAIN without a row (kills ghosts).
+    result = shared.finalize_row(clock, now=datetime.now())
+    if result is None:
         reason_txt = "legacy" if shared.is_legacy(clock) else "no work (armed only)"
         print(f"[session-end-clock] drained {clock_path.name} without a row ({reason_txt}).",
               file=sys.stderr)
         clock_path.unlink()
         return
 
-    start_dt, end_dt, minutes = span
+    start_dt, end_dt, minutes, method = result
+    method_note = {
+        "clock": "honest span",
+        "reconciled": "reconciled from transcript",
+        "reconstructed": "reconstructed from transcript",
+    }.get(method, "honest span")
     repo = clock.get("repo", "unknown")
     cluster = clock.get("cluster", "unassigned")
     title = "Unwrapped session (auto-finalized at SessionEnd)"
     details = (
         f"Work {start_dt.strftime('%Y-%m-%d %H:%M')}-{end_dt.strftime('%H:%M')} "
-        f"({minutes} min, honest span). Session ended (reason={reason}) before an "
+        f"({minutes} min, {method_note}). Session ended (reason={reason}) before an "
         f"auto-wrap ran. session_type is a guess; refine title/type in /evening reconcile."
     )
 
