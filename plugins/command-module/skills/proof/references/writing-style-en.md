@@ -10,7 +10,7 @@ The following words and phrases have become so strongly associated with AI outpu
 
 **Verbs to avoid:** delve, leverage (as verb), utilize, harness, streamline, underscore, bolster, embark, navigate (as metaphor), unveil, unlock, unleash, foster, elevate, pioneer, showcase, captivate, revolutionize, democratize, spearhead.
 
-**Adjectives to avoid:** pivotal, robust, innovative, seamless, cutting-edge, groundbreaking, transformative, holistic, multifaceted, comprehensive, meticulous, commendable, invaluable, unwavering, compelling, vibrant, noteworthy.
+**Adjectives to avoid:** pivotal, robust, innovative, seamless, cutting-edge, groundbreaking, transformative, holistic, multifaceted, comprehensive, meticulous, commendable, invaluable, unwavering, compelling, vibrant, noteworthy, load-bearing (as metaphor).
 
 **Nouns to avoid:** tapestry, landscape (as metaphor for a field/domain), realm, synergy, paradigm, ecosystem (outside biology), testament, endeavor, beacon, intersection (as metaphor), underpinnings.
 
@@ -23,6 +23,7 @@ The following words and phrases have become so strongly associated with AI outpu
 - "Here's the thing:" / "Here's the kicker:" / "Here's where it gets interesting:"
 - "Think of it as..." / "Think of it like..."
 - "Imagine a world where..."
+- "Honestly, ..." / "To be honest, ..." / "Let's be honest, ..." / "I'll be honest:" (false-candor openers -- the word "honest" as a credibility prop is itself a tell)
 
 **Use instead:** everyday equivalents. "Explore" instead of "delve." "Use" instead of "utilize." "Complex" instead of "multifaceted." "Important" instead of "pivotal." If reaching for a fancy synonym, default to the plainer word.
 
@@ -152,16 +153,13 @@ Do not rapid-fire list historical companies or technologies to build false autho
 
 ## 4. Punctuation and Formatting Patterns to Avoid
 
-### 4.1 Em Dash Overuse
+### 4.1 Em Dashes: Never Use Them
 
-The em dash is not forbidden. It is a legitimate punctuation mark. But AI uses it at 5-10x the rate of human writers. Limit to 2-3 em dashes per 1,000 words maximum. If about to use one, ask if a comma, period, colon, or parenthetical would work just as well. Usually it will.
-
-Do not use em dashes for:
-- The "not X -- it's Y" construction
-- Dramatic parenthetical asides in every other sentence
-- Every pivot point or contrast in the text
+Do not use the em dash (the `—` character). It is the single most recognizable signal of AI-generated text: AI reaches for it at many times the rate of human writers. Whatever an em dash would do, another mark does more cleanly, so use that instead. Treat every `—` as something to remove.
 
 **Instead:** use commas for soft asides, colons for explanations, periods for hard pivots, and parentheses for genuine tangents. Each has a different rhythm. Pick the one that matches the weight of what is being said.
+
+This rule is about the em dash (`—`) specifically. The hyphen (`-`) in compound words and the en dash (`–`) in number ranges are fine.
 
 ### 4.2 Colon as Dramatic Pause
 
@@ -186,6 +184,14 @@ Do not use bold emphasis on every key term. Do not use headers for every sub-poi
 
 Be consistent with quotation marks throughout. Do not mix curly and straight quotes in the same document.
 
+### 4.6 Semicolons as Sentence Glue
+
+AI uses the semicolon to glue two independent clauses together, where the second explains or refines the first. It reads stiff and makes sentences needlessly long. In most prose, start a new sentence instead, or use a comma if the grammar allows. Semicolons are acceptable only for separating items in a genuinely complex list. Everywhere else, default to a period and cut them.
+
+### 4.7 Inline Bold and Italic for Emphasis
+
+Do not bold or italicize individual words inside a sentence for emphasis ("their **own** screens," "this is *not* optional"). AI leans on inline emphasis to inject drama the sentence should carry on its own. Let word choice and sentence structure do the work. Reserve bold for genuine labels or headings, and avoid italics for emphasis entirely in stakeholder-facing prose.
+
 ---
 
 ## 5. Tone Patterns to Avoid
@@ -202,7 +208,7 @@ Not everything is "fundamentally reshaping how we think about X." Not everything
 
 ### 5.3 False Vulnerability
 
-Do not insert fake admissions of bias or simulated self-awareness for authenticity points. ("And yes, I'm openly biased toward..." / "This is not a rant; it's a diagnosis.") Real honesty is specific and sometimes uncomfortable. Fake honesty is polished and risk-free.
+Do not insert fake admissions of bias or simulated self-awareness for authenticity points. ("And yes, I'm openly biased toward..." / "This is not a rant; it's a diagnosis.") Real honesty is specific and sometimes uncomfortable. Fake honesty is polished and risk-free. The word "honest" (and "honestly") is a specific tell here: announcing candor ("Honestly," "To be honest," "I'll be honest") almost always precedes something that is neither uncomfortable nor risky. Cut the announcement and let the point stand on its own.
 
 ### 5.4 Vague Attributions
 
