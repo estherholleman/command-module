@@ -22,7 +22,7 @@ Detect the document language from its content. If mixed, load both.
 
 The full rules are in the reference files. These are the highest-signal patterns to prioritize:
 
-- Banned vocabulary: words like "delve," "leverage," "pivotal," "robust," "seamless," "tapestry," "landscape" (as metaphor). In Dutch: "benutten," "cruciaal," "baanbrekend," "landschap" (as metaphor), "ecosysteem" (outside biology)
+- Banned vocabulary: words like "delve," "leverage," "pivotal," "robust," "seamless," "load-bearing" (as metaphor), "tapestry," "landscape" (as metaphor). In Dutch: "benutten," "cruciaal," "baanbrekend," "landschap" (as metaphor), "ecosysteem" (outside biology)
 - The "not X -- it's Y" construction: the single most recognizable AI pattern. Flag every instance
 - Participial phrase tacking: sentences ending with "-ing" phrases that add no information ("Revenue grew 40%, highlighting the company's strong market position.")
 - Tricolon abuse: groups of three used mechanically. One per piece is fine; more is a pattern
@@ -61,7 +61,7 @@ Flag with **high confidence** when the text matches a specific banned pattern fr
 
 Flag with **moderate confidence** when the text shows a structural pattern (uniform paragraphs, stakes inflation) that requires judgment about whether the content justifies the style.
 
-Do **not** flag cases where the "AI pattern" is genuinely the best way to express the idea. The reference files explicitly note exceptions (e.g., one tricolon per piece is fine, em dashes are not banned just overused).
+Do **not** flag cases where the "AI pattern" is genuinely the best way to express the idea. The reference files explicitly note exceptions (e.g., one tricolon per piece is fine). Note the hard bans that have no exception: em dashes (the `—` character) are never allowed, and semicolons as sentence glue, inline bold/italic for emphasis, and nadruk-accents on vowels (except "één") should always be flagged.
 
 ## What not to flag
 

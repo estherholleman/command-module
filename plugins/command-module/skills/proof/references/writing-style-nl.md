@@ -18,7 +18,7 @@ Vermijd: duiken (in een onderwerp), benutten, faciliteren, optimaliseren, stroom
 
 ### Bijvoeglijke naamwoorden
 
-Vermijd: cruciaal, essentieel, diepgaand, baanbrekend, innovatief, robuust, naadloos, veelzijdig, veelomvattend, waardevol, onmisbaar, indrukwekkend, toonaangevend, state-of-the-art, uitgebreid, uniek (als versterker), geavanceerd, gedegen, solide, inspirerend, opmerkelijk.
+Vermijd: cruciaal, essentieel, diepgaand, baanbrekend, innovatief, robuust, naadloos, veelzijdig, veelomvattend, waardevol, onmisbaar, indrukwekkend, toonaangevend, state-of-the-art, uitgebreid, uniek (als versterker), geavanceerd, gedegen, solide, inspirerend, opmerkelijk, lastdragend/load-bearing (als metafoor voor een afhankelijkheid).
 
 **Gebruik in plaats daarvan** het eenvoudigste woord dat klopt. "Belangrijk" in plaats van "cruciaal." "Grondig" in plaats van "diepgaand." "Nieuw" in plaats van "innovatief." Als je merkt dat je naar een indrukwekkend synoniem grijpt, kies dan het gewonere woord.
 
@@ -40,6 +40,8 @@ Vermijd:
 - "Stel je voor dat..." / "Denk eens aan..."
 - "Maar wat betekent dit precies?" (retorische vraag gevolgd door uitleg)
 - "Van [X] tot [Y]" (als er geen echt spectrum is)
+- "Eerlijk gezegd, ..." / "Laten we eerlijk zijn, ..." / "Om eerlijk te zijn, ..." (het woord "eerlijk" als geloofwaardigheidsopstapje is zelf een tell; zie 5.3)
+- "honest" / "honestly" (Engels anglicisme dat in AI-Nederlands opduikt; gebruik überhaupt geen aankondiging van eerlijkheid)
 
 ---
 
@@ -136,11 +138,13 @@ De starre formule: problemen erkennen -> meteen wegwuiven -> optimistische afslu
 
 ## 4. Interpunctie en opmaakpatronen om te vermijden
 
-### 4.1 Overmatig gebruik van het gedachtestreepje
+### 4.1 Het gedachtestreepje: nooit gebruiken
 
-Het gedachtestreepje is niet verboden, maar AI gebruikt het 5-10x zo vaak als menselijke schrijvers. Beperk tot 2-3 per 1.000 woorden.
+Gebruik het gedachtestreepje (het teken `—`) niet. Het is het meest herkenbare signaal van AI-tekst: AI gebruikt het vele malen vaker dan menselijke schrijvers. Wat een gedachtestreepje ook zou doen, een ander leesteken doet het schoner. Behandel elke `—` als iets dat weg moet.
 
 **Schrijf in plaats daarvan:** gebruik komma's voor zachte terzijdes, dubbele punten voor uitleg, punten voor harde overgangen, en haakjes voor echte zijsprongen. Elk heeft een eigen ritme. Kies het ritme dat past bij het gewicht van wat er gezegd wordt.
+
+Deze regel gaat specifiek over het gedachtestreepje (`—`). Het koppelteken (`-`) in samenstellingen en het half-kastje (`–`) in getalbereiken (1–5) zijn prima.
 
 ### 4.2 Vet-eerst-opsommingen
 
@@ -176,7 +180,7 @@ De Oxford-komma (komma voor "en" in een opsomming) is in het Nederlands niet geb
 AI gebruikt `:` en `;` vaak om twee onafhankelijke zinnen aan elkaar te lijmen, waarbij de tweede zin de eerste uitlegt of preciseert. Dit leest stroef en maakt zinnen onnodig lang. In stakeholder-rapporten en verzorgde prose is dit zelden de juiste keuze. Begin gewoon een nieuwe zin, of gebruik een komma als de grammatica dat toelaat.
 
 Voorbeelden:
-- "Jouw vraag bleek geen structureel modelprobleem: één enkele overlevende donor-vlucht doordat de meeste juli-2025-kandidaten niet door de kwaliteitseisen kwamen." -> beter: "Jouw vraag bleek geen structureel modelprobleem. Dit kwam doordat er maar één enkele overlevende donor-vlucht was — de meeste juli-2025-kandidaten kwamen niet door de kwaliteitseisen."
+- "Jouw vraag bleek geen structureel modelprobleem: één enkele overlevende donor-vlucht doordat de meeste juli-2025-kandidaten niet door de kwaliteitseisen kwamen." -> beter: "Jouw vraag bleek geen structureel modelprobleem. Dit kwam doordat er maar één enkele overlevende donor-vlucht was. De meeste juli-2025-kandidaten kwamen niet door de kwaliteitseisen."
 - "We hebben de schatting verlaagd; de oorspronkelijke was te hoog." -> beter: "We hebben de schatting verlaagd. De oorspronkelijke was te hoog." of "We hebben de schatting verlaagd, want de oorspronkelijke was te hoog."
 - "De fix werkt: alle 23 routes geven nu plausibele waardes." -> beter: "De fix werkt. Alle 23 routes geven nu plausibele waardes."
 
@@ -185,11 +189,17 @@ Wel toegestaan (geen dwang om weg te schrijven):
 - Na een label of kop: "Periode: 1 mei – 5 mei", "Status: in productie".
 - In tijd-aanduidingen, paden, en code: "om 14:30", `path/to/file:42`.
 
-De test: als de tekst voor en na de `:` of `;` zelfstandig leesbaar is als losse zin, gebruik dan een punt en begin een nieuwe zin. Puntkomma's hebben in moderne Nederlandse zakelijke prose vrijwel nooit een plek — schrap ze standaard.
+De test: als de tekst voor en na de `:` of `;` zelfstandig leesbaar is als losse zin, gebruik dan een punt en begin een nieuwe zin. Puntkomma's hebben in moderne Nederlandse zakelijke prose vrijwel nooit een plek. Schrap ze standaard.
 
----
+### 4.7 Vet en cursief midden in een zin
 
-## 5. Toonpatronen om te vermijden
+Maak losse woorden binnen een zin niet vet of cursief voor nadruk ("hun **eigen** schermen", "dit is *niet* optioneel"). AI leunt op inline-nadruk om drama toe te voegen dat de zin zelf zou moeten dragen. Laat woordkeus en zinsbouw het werk doen. Bewaar vet voor echte labels of koppen, en vermijd cursief voor nadruk helemaal in verzorgde, stakeholder-gerichte prose.
+
+### 4.8 Accenttekens op klinkers voor nadruk
+
+AI zet acute accenten op klinkers om een woord te benadrukken ("dit is écht belangrijk", "in élk scenario", "de laag ónder de schermen", "AI maakt het platform méér waard"). Dit is bijna altijd overbodige nadruk, net als vet of cursief midden in een zin (zie 4.7). Verwijder het accent en laat het gewone woord staan.
+
+De enige uitzondering is "één" (het telwoord), waar de accenten "één" onderscheiden van het lidwoord "een". Die accenten blijven staan. Alle andere nadrukaccenten (á, é, í, ó, ú) schrap je.
 
 ### 5.1 Het eeuwige evenwicht
 
@@ -203,7 +213,7 @@ Niet alles "verandert fundamenteel hoe we denken over X." Niet alles is "van cru
 
 ### 5.3 Onechte kwetsbaarheid
 
-Voeg geen nep-eerlijkheid toe voor authenticiteits-punten. ("Eerlijk gezegd..." / "Laten we eerlijk zijn..." gevolgd door iets dat helemaal niet ongemakkelijk is.) Echte eerlijkheid is specifiek en soms ongemakkelijk. Neppe eerlijkheid is gepolijst en risicovrij.
+Voeg geen nep-eerlijkheid toe voor authenticiteits-punten. ("Eerlijk gezegd..." / "Laten we eerlijk zijn..." gevolgd door iets dat helemaal niet ongemakkelijk is.) Echte eerlijkheid is specifiek en soms ongemakkelijk. Neppe eerlijkheid is gepolijst en risicovrij. Het woord "eerlijk" (en het Engelse "honest"/"honestly") is hier de concrete tell: het aankondigen van openhartigheid gaat bijna altijd vooraf aan iets dat noch ongemakkelijk noch risicovol is. Schrap de aankondiging en laat het punt op zichzelf staan.
 
 ### 5.4 Vage bronverwijzingen
 
@@ -247,7 +257,7 @@ AI maakt van alles een lijstje. Soms is een opsomming het juiste middel, maar al
 
 ### 6.5 Verkapte zinnen: zinsfragmenten en streepjes-stapelnomen
 
-AI comprimeert informatie graag in één zin op twee manieren: (a) door een toelichting als zinsfragment achter een komma te plakken zonder hoofdwerkwoord, en (b) door meerdere concepten op te stapelen tot één lang samengesteld zelfstandig naamwoord met streepjes. Beide maken de tekst dichter en abstracter dan nodig. Pak los — schrijf een echte zin met een werkwoord, of gebruik een bijzin die expliciet maakt wat in het stapelnomen verstopt zit.
+AI comprimeert informatie graag in één zin op twee manieren: (a) door een toelichting als zinsfragment achter een komma te plakken zonder hoofdwerkwoord, en (b) door meerdere concepten op te stapelen tot één lang samengesteld zelfstandig naamwoord met streepjes. Beide maken de tekst dichter en abstracter dan nodig. Pak los: schrijf een echte zin met een werkwoord, of gebruik een bijzin die expliciet maakt wat in het stapelnomen verstopt zit.
 
 **Patroon a: zinsfragmenten met "wat", "wanneer", "indien" of een ander voegwoord zonder werkwoord.**
 Een vervolg dat begint met "wat ...", "wanneer ...", "indien ...", "zodra ...", "consistent met ..." enzovoort en geen vervoegd werkwoord meer krijgt, is een fragment. Schrijf het uit als een echte zin met een werkwoord, of begin een nieuwe zin met "Dit ...".
@@ -270,7 +280,7 @@ Twee of meer concepten met streepjes aan een zelfstandig naamwoord vastlijmen ("
 
 Vuistregel: één samengesteld zelfstandig naamwoord ("klantfeedback", "voorraadbeheer", "Wolter-rapport") is normaal Nederlands. Vanaf het tweede streepje is de samenstelling bijna altijd te dicht en moet de schrijver er één of meer onderdelen uithalen en met een voorzetsel of bijzin terugplaatsen.
 
-De test: als een lezer mentaal een werkwoord moet aanvullen of een zelfstandig naamwoord moet uitpakken om de zin te begrijpen, moet de schrijver dat werk doen — niet de lezer.
+De test: als een lezer mentaal een werkwoord moet aanvullen of een zelfstandig naamwoord moet uitpakken om de zin te begrijpen, moet de schrijver dat werk doen, niet de lezer.
 
 ### 6.6 Infinitief-koppen in plaats van zinnen met een vervoegd werkwoord
 
@@ -293,7 +303,7 @@ Voorbeelden:
 - "Het systeem moet, maar er ontbreken nog stappen." -> beter: "Het systeem moet draaien, maar er ontbreken nog stappen."
 - "Ferry zou nog, maar het wachten is op input." -> beter: "Ferry zou de volgende stap zetten, maar het wachten is op input."
 
-Niet elk gebruik is fout: in lange zinnen waar het hoofdwerkwoord eerder is genoemd ("hij wil dat wel, maar mag niet") is dit prima. De valkuil zit in *korte, op zichzelf staande clausules* — vooral aan het einde van een opsomming-bullet — waar het hulpwerkwoord zonder anker blijft staan.
+Niet elk gebruik is fout: in lange zinnen waar het hoofdwerkwoord eerder is genoemd ("hij wil dat wel, maar mag niet") is dit prima. De valkuil zit in *korte, op zichzelf staande clausules* (vooral aan het einde van een opsomming-bullet) waar het hulpwerkwoord zonder anker blijft staan.
 
 ---
 
