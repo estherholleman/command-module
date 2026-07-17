@@ -23,7 +23,13 @@ Compute both with the system clock (`date -v-6d "+%Y-%m-%d"` on macOS). State th
 Read `missioncontrol/projects.yaml` for the cluster → project map and onboarded flags.
 
 For every onboarded project, read in parallel:
-1. `missioncontrol/tracking/{repo}/history.jsonl` — filter entries where `date` is within the window
+1. Window entries from `missioncontrol/tracking/{repo}/history.jsonl` — **never Read these files
+   whole** (the big ones are tens of thousands of tokens). Build the window once and grep all
+   repos in one command:
+   ```bash
+   dates=$(for i in 0 1 2 3 4 5 6; do date -v-${i}d +%Y-%m-%d; done | paste -sd'|' -)
+   grep -HE "\"date\": \"($dates)\"" /Users/esther/prog/missioncontrol/tracking/*/history.jsonl
+   ```
 2. `missioncontrol/tracking/{repo}/tasks/index.json` — for current task state, deadlines, and stuck-in-progress checks
 3. `missioncontrol/tracking/{repo}/tasks/milestones.json` — for milestone snapshots (skip if missing)
 4. `missioncontrol/tracking/{repo}/status.json` — editorial context, current highlights
@@ -73,7 +79,9 @@ Map each repo to its cluster from `projects.yaml`. Aggregate:
 Compare against the schedule in `projects.yaml` (`time_allocation` field). Flag clusters that are way under or over their nominal allocation — but only flag, don't lecture.
 
 ### 3f. Stalled projects (no sessions in 10+ days)
-For every onboarded repo, find the timestamp of the most recent `session` entry in its full history.jsonl (not just the window).
+For every onboarded repo, find the timestamp of the most recent `session` entry (full history, but
+via grep — not a full Read):
+`grep '"type": "session"' missioncontrol/tracking/{repo}/history.jsonl | tail -1`
 
 If `today − last_session_date > 10 days`, flag as stalled with the day count.
 

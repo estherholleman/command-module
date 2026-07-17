@@ -1,7 +1,7 @@
 ---
 title: "feat: Add tutor learning-companion skill"
 type: feat
-status: active
+status: completed
 date: 2026-07-05
 origin: docs/brainstorms/2026-07-05-tutor-learning-companion-requirements.md
 ---
@@ -79,7 +79,7 @@ Learning a new topic happens mostly through chained questions over a shared refe
 
 ## Implementation Units
 
-- [ ] **Unit 1: Learner profile store + bootstrap**
+- [x] **Unit 1: Learner profile store + bootstrap**
 
 **Goal:** Define the agent-neutral learner profile and the first-run bootstrap that creates it, so every later session (and research prompt) can load a rich picture of how this learner learns.
 
@@ -107,7 +107,7 @@ Learning a new topic happens mostly through chained questions over a shared refe
 **Verification:**
 - The template renders as a clear, fillable scaffold; the bootstrap description unambiguously creates and later loads `~/.claude/tutor/learner-profile.md`.
 
-- [ ] **Unit 2: Tutor SKILL.md core (persona + session flow)**
+- [x] **Unit 2: Tutor SKILL.md core (persona + session flow)**
 
 **Goal:** The heart of the skill — persona, the frame-scaled prime, research handoff, the learning loop, notes checkpointing, the re-research trigger, and the blog-handoff pointer.
 
@@ -136,7 +136,7 @@ Learning a new topic happens mostly through chained questions over a shared refe
 **Verification:**
 - A cold read of `SKILL.md` reproduces the EBM-transcript feel (naming, analogy, honest complications, steering menus, visuals) and never auto-spends on research.
 
-- [ ] **Unit 3: Teaching-moves playbook reference**
+- [x] **Unit 3: Teaching-moves playbook reference**
 
 **Goal:** Codify the craft that made the EBM conversation great, in depth, loaded on demand.
 
@@ -160,7 +160,7 @@ Learning a new topic happens mostly through chained questions over a shared refe
 **Verification:**
 - `SKILL.md`'s inline essence-summary and this playbook agree and do not contradict; no second-person voice.
 
-- [ ] **Unit 4: Plugin integration (docs + validation)**
+- [x] **Unit 4: Plugin integration (docs + validation)**
 
 **Goal:** Register the skill in the plugin surface without hand-bumping release-owned metadata.
 

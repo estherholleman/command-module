@@ -1,23 +1,28 @@
 #!/usr/bin/env python3
 """
-SessionStart hook — per-session auto-clock-in.
+SessionStart hook — ARM a per-session clock (honest-clock rewrite 2026-07-07).
 
-Replaces auto-clock-in.py (UserPromptSubmit, single-slot). Fires once per
-SessionStart event with stdin JSON: {session_id, transcript_path, cwd,
+Fires once per SessionStart with stdin JSON: {session_id, transcript_path, cwd,
 hook_event_name, source, model}.
 
-Behavior:
-1. Append CLAUDE_SESSION_ID=<id> to $CLAUDE_ENV_FILE (deduped) so subsequent
-   Bash tool calls in this session see the env var.
-2. Lazy-migrate legacy ~/prog/missioncontrol/tracking/.active-clock.json:
-   log payload to stderr, then unlink. No CSV row written (D4).
-3. If a per-session clock file already exists for this session_id, no-op
-   (covers source=resume|clear|compact — D7 deferred-impl: preserve start).
-4. Otherwise resolve repo/cluster from cwd (fall back to basename + "unassigned"
-   when cwd is outside ~/prog) and write the clock file.
-5. Emit hookSpecificOutput.additionalContext UX message.
+Old behavior (ghost-clock era): stamped `start` = tab-open time immediately, so
+a tab merely *opened* began accruing time and produced a phantom timesheet row.
 
-See plan: docs/plans/2026-04-24-001-feat-per-session-clocks-reliability-plan.md
+New behavior: only ARM the clock. Resolve repo/cluster from cwd (cwd is reliable
+at open time) and write the clock with `opened_at` set and `start: null`. The
+clock does not START until the first substantive tool fires (work-heartbeat.py
+sets `start`). An armed-but-never-started clock writes NO timesheet row — that is
+what eliminates ghost entries for tabs that never did work.
+
+Steps:
+1. Append CLAUDE_SESSION_ID=<id> to $CLAUDE_ENV_FILE (deduped) so subsequent Bash
+   tool calls and skills (/co, /wrap-up) can identify this conversation's clock.
+2. Discard any legacy single-file ~/prog/missioncontrol/tracking/.active-clock.json.
+3. If a clock file already exists for this session_id, no-op (resume/clear/compact).
+4. Otherwise write an ARMED clock (opened_at set, start=null).
+5. Emit a UX message.
+
+See docs/tracking-protocol.md ("The honest clock").
 """
 
 import json
@@ -99,17 +104,17 @@ def main() -> None:
     shared.CLOCKS_DIR.mkdir(parents=True, exist_ok=True)
 
     if clock_path.exists():
-        # Idempotent re-fire (resume / clear / compact). Preserve start timestamp.
+        # Idempotent re-fire (resume / clear / compact). Preserve existing state
+        # (whether armed or already started — do not reset the work span).
         try:
             existing = json.loads(clock_path.read_text())
             repo = existing.get("repo", "?")
             cluster = existing.get("cluster", "?")
-            start = existing.get("start", "?")
         except Exception:
-            repo = cluster = start = "?"
+            repo = cluster = "?"
         _emit(
-            f"Clock already running for this session: {repo} ({cluster}) since {start}. "
-            f"Run /co when done."
+            f"Clock present for this session: {repo} ({cluster}). "
+            f"Timing runs from your first action to your last; it wraps automatically."
         )
         return
 
@@ -119,18 +124,26 @@ def main() -> None:
         "session_id": session_id,
         "repo": repo,
         "cluster": cluster,
-        "start": now.strftime("%Y-%m-%dT%H:%M:%S"),
+        "opened_at": now.strftime("%Y-%m-%dT%H:%M:%S"),
+        "start": None,           # set by first substantive tool OR the 2nd turn
+        "work_start": None,      # window start = first sub-span since last wrap
+        "last_activity": None,   # bumped by work-heartbeat + auto-wrap-gate
+        "accrued_seconds": 0,    # closed sub-spans since last wrap (idle-split)
         "date": now.strftime("%Y-%m-%d"),
         "cwd": cwd,
         "source_at_start": source,
+        "tool_count": 0,
+        "turn_count": 0,         # engaged turns (drives the turn-based clock-in)
+        "first_turn_at": None,   # backdate anchor for the turn-based start
+        "transcript_path": data.get("transcript_path"),  # finalizer backstop
+        "wrapped_at": None,      # set by /wrap-up after it writes an entry
+        "last_nudge_at": None,   # auto-wrap-gate cooldown
     }
-    tmp_path = clock_path.with_suffix(".json.tmp")
-    tmp_path.write_text(json.dumps(clock, indent=2) + "\n")
-    os.replace(tmp_path, clock_path)
+    shared.write_clock_atomic(clock_path, clock)
 
     _emit(
-        f"Auto clocked in: {repo} ({cluster}) at {now.strftime('%H:%M')}. "
-        f"Run /co when done."
+        f"Clock armed: {repo} ({cluster}). Timing starts at your first action and "
+        f"stops at task completion — the session wraps to tracking automatically."
     )
 
 
