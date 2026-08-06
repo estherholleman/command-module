@@ -45,7 +45,7 @@ If `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_I
     write the CSV row (`source=clock`, `session_id` populated), append to `history.jsonl`, and
     delete only this session's clock file.
   - **If no**: proceed without clocking out.
-- **Automatic mode** (invoked by the Stop-hook auto-wrap gate — see the section below): do NOT ask;
+- **Automatic mode** (invoked by the idle wrap-on-return gate — see the section below): do NOT ask;
   finalize the honest span, write the entry with `source=auto-wrap`, then RESET the clock instead of
   deleting it.
 
@@ -80,16 +80,19 @@ Show a brief summary of what was updated.
 
 ## Automatic mode (hook-triggered)
 
-The **Stop-hook auto-wrap gate** (`~/.claude/hooks/auto-wrap-gate.py`) injects an instruction that
-brings you here **without the user asking**, at a natural completion point (real tracked work +
-uncommitted artifacts + past the cooldown). When you arrive that way, run wrap-up in **automatic
-mode** — the whole point is that Esther never has to babysit tracking or git:
+The **idle wrap-on-return gate** (`~/.claude/hooks/idle-wrap-on-return.py`, UserPromptSubmit)
+injects an instruction that brings you here **without the user asking** — it fires when the user
+returns to a conversation whose previous work burst ended ≥ 30 min ago (`IDLE_WRAP_MINUTES`,
+env-overridable). A session boundary is real silence, never a turn-end guess, so wraps no longer
+fire mid-conversation. When you arrive that way, run wrap-up in **automatic mode** — the whole
+point is that Esther never has to babysit tracking or git:
 
-1. **Self-assess first.** Only proceed if your last response *completed a coherent piece of work*
-   and the user's request is fully satisfied. If you are mid-task, or you just asked the user a
-   question and are awaiting their answer, do **not** wrap — reply exactly
-   `(auto-wrap deferred — work in progress)` and stop. The gate will nudge again later; it will not
-   loop (the `stop_hook_active` guard and a cooldown prevent nagging).
+1. **Wrap first, then answer.** You arrive at the START of a turn: the user's new message is
+   waiting behind the wrap. Read the clock file **before any Bash/Edit call this turn** (Read does
+   not advance the heartbeat) so `last_activity` still marks the true burst end. Wrap the ended
+   burst even if its task is unfinished — a wrap records a **time segment**, not task completion
+   (statuses simply stay `in_progress`). Only skip when `start` is `null` (nothing to wrap). After
+   the one-line wrap confirmation, address the user's message normally in the same turn.
 
 2. **Finalize the honest clock.** Read `.active-clocks/${CLAUDE_SESSION_ID}.json`. Honest engaged
    minutes = `accrued_seconds/60 + (last_activity − start)` (closed sub-spans + the open one; idle
@@ -117,7 +120,7 @@ mode** — the whole point is that Esther never has to babysit tracking or git:
    (If you forget a field, the clock self-heals: the next clock-in resets `work_start`/`accrued_seconds`.)
 
 7. **Confirm in one line**, e.g. `🔄 auto-wrapped: 42 min on portbase (execution) — "…"; committed + pushed.`
-   Then stop.
+   Then continue with the user's new message.
 
 Automatic mode is unattended: never block on a question. If something is ambiguous (e.g. cluster is
 `unassigned`), make the safest choice, note it in the details, and continue.
