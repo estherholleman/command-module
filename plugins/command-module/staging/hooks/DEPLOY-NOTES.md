@@ -11,8 +11,9 @@ top. When redeploying, ensure all of the following are in place.
 | `_clock_shared.py` | (shared lib) | Honest-span helpers, repo/cluster resolution, CSV/history writers |
 | `session-start-clock.py` | SessionStart | **Arm** the clock (`start: null`, `opened_at` set) |
 | `work-heartbeat.py` | PostToolUse `Edit\|Write\|Bash\|NotebookEdit` | **Start** the clock on first action; bump `last_activity`; idle-gap reset |
-| `auto-wrap-gate.py` | Stop | Record turn engagement (turn-based start, tail advance, transcript_path refresh) |
-| `idle-wrap-on-return.py` | UserPromptSubmit | Nudge the agent to auto-wrap the ENDED burst when the user returns after ≥ 30 min idle |
+| `auto-wrap-gate.py` | Stop | Record turn engagement; on "task likely done" self-assessment, nudge the agent to ARM a delayed wrap |
+| `idle-wrap-watcher.py` | (agent-launched background task) | Stamps `wrap_armed_at`; completes with WRAP-NOW after ≥ 30 quiet min, or ABORT if cancelled/superseded |
+| `idle-wrap-on-return.py` | UserPromptSubmit | Cancel the arm when the user continues in time; wrap-on-return fallback when the watcher died; never wraps unarmed clocks |
 | `session-end-clock.py` | SessionEnd | Honest fallback row / drain armed+legacy |
 | `auto-close-clock.py` | launchd (`com.esther.auto-close-clock`) | Honest sweep backstop / drain |
 
@@ -95,3 +96,31 @@ boundary aligned with the clock's own sub-span seal. Override via `IDLE_WRAP_MIN
 env override, Stop hook records turns silently); `test_engagement.py` still 16/16 (shared lib
 untouched). **Deploy:** both scripts live in `~/.claude/hooks/` + `UserPromptSubmit` entry added
 to settings.json.
+
+### Same-day v2 — arm-don't-wrap (Esther's refinement)
+
+Pure wrap-on-return lost two things: the turn-end *done-assessment* (which was good), and it
+wrapped ANY long-gap return — but a conversation left mid-task for an hour and then continued must
+never wrap. v2 splits the mechanism:
+
+- `auto-wrap-gate.py` (Stop) got its gates + nudge back, but the "done" outcome now ARMS instead
+  of wrapping: the agent launches `idle-wrap-watcher.py <sid>` (Bash, `run_in_background: true`),
+  says *"✅ task likely done — will wrap after ~30 quiet minutes; keep going if you're not done."*,
+  and stops. New gate: skip when `wrap_armed_at` is already set. Mid-task defer line unchanged.
+- NEW `idle-wrap-watcher.py`: stamps `wrap_armed_at` (the arm IS the watcher — failed launch = no
+  arm), polls the clock (≤ 5-min sleeps), completes with **WRAP-NOW** (full Automatic-mode
+  instruction on stdout — the harness re-invokes the agent with it) after `IDLE_WRAP_MINUTES` of
+  no engagement, or **ABORT** (output nothing) when the stamp is cleared/superseded or the burst
+  already wrapped. Cancellation is detected on the next poll — it only needs to beat the wrap.
+- `idle-wrap-on-return.py` (UserPromptSubmit) is now the arm's guardian: every prompt on an armed
+  clock consumes the arm — early return (< threshold) cancels silently; late return injects the
+  wrap (watcher-died fallback, e.g. laptop sleep froze the timer). **Unarmed clocks are never
+  wrapped on return.**
+- settings.json: allowlist entry `Bash(/usr/bin/python3 …/idle-wrap-watcher.py *)` so arming never
+  prompts. New clock field: `wrap_armed_at` (cleared by every wrap reset).
+- `skills/wrap-up/SKILL.md` Automatic mode rewritten around the two-stage flow (WRAP-NOW → confirm
+  and stop; return fallback → wrap first, then answer).
+
+**Tests:** 11/11 (gate arms/skips-when-armed/defers-on-continuation/respects floor+artifacts;
+watcher stamps+WRAP-NOW, aborts on cancel/wrapped; return hook: unarmed long gap silent, early
+return cancels, late return wraps, /wrap-up skip). `test_engagement.py` still 16/16.

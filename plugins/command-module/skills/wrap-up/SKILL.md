@@ -45,9 +45,9 @@ If `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_I
     write the CSV row (`source=clock`, `session_id` populated), append to `history.jsonl`, and
     delete only this session's clock file.
   - **If no**: proceed without clocking out.
-- **Automatic mode** (invoked by the idle wrap-on-return gate — see the section below): do NOT ask;
-  finalize the honest span, write the entry with `source=auto-wrap`, then RESET the clock instead of
-  deleting it.
+- **Automatic mode** (invoked by the armed-wrap flow: watcher WRAP-NOW or the return fallback —
+  see the section below): do NOT ask; finalize the honest span, write the entry with
+  `source=auto-wrap`, then RESET the clock instead of deleting it.
 
 If the file does not exist, no other conversation's clock is shown and no prompt is issued — wrap-up proceeds.
 
@@ -80,19 +80,29 @@ Show a brief summary of what was updated.
 
 ## Automatic mode (hook-triggered)
 
-The **idle wrap-on-return gate** (`~/.claude/hooks/idle-wrap-on-return.py`, UserPromptSubmit)
-injects an instruction that brings you here **without the user asking** — it fires when the user
-returns to a conversation whose previous work burst ended ≥ 30 min ago (`IDLE_WRAP_MINUTES`,
-env-overridable). A session boundary is real silence, never a turn-end guess, so wraps no longer
-fire mid-conversation. When you arrive that way, run wrap-up in **automatic mode** — the whole
-point is that Esther never has to babysit tracking or git:
+Auto-wrap is a **two-stage armed flow** — completion is assessed at turn-end, but the wrap itself
+waits for real silence so Esther always has a window to keep the conversation going:
 
-1. **Wrap first, then answer.** You arrive at the START of a turn: the user's new message is
-   waiting behind the wrap. Read the clock file **before any Bash/Edit call this turn** (Read does
-   not advance the heartbeat) so `last_activity` still marks the true burst end. Wrap the ended
-   burst even if its task is unfinished — a wrap records a **time segment**, not task completion
-   (statuses simply stay `in_progress`). Only skip when `start` is `null` (nothing to wrap). After
-   the one-line wrap confirmation, address the user's message normally in the same turn.
+- **Stage 1 — assess & arm** (`~/.claude/hooks/auto-wrap-gate.py`, Stop): at a qualifying turn-end
+  you self-assess. Mid-task / awaiting an answer → reply `(auto-wrap deferred — work in progress)`
+  and stop. Task likely done → do **NOT** wrap; launch
+  `/usr/bin/python3 ~/.claude/hooks/idle-wrap-watcher.py <session_id>` via Bash with
+  `run_in_background: true`, reply one line — `"✅ task likely done — will wrap after ~30 quiet
+  minutes; keep going if you're not done."` — and stop.
+- **Stage 2 — the arm resolves.** Any new user prompt cancels the arm (the UserPromptSubmit hook
+  clears it; the next turn-end re-assesses). After `IDLE_WRAP_MINUTES` (default 30) of true
+  silence the watcher completes and its output brings you here with **WRAP-NOW** (on **ABORT**:
+  output nothing and stop). If the watcher died (laptop slept), the return hook
+  (`idle-wrap-on-return.py`) injects the same wrap when Esther next returns past the window —
+  wrap first, then answer her new message in the same turn. An **unarmed** clock is never wrapped
+  on return, however long the gap — stepping away mid-task for hours must not close the session.
+
+When you arrive in **automatic mode** (WRAP-NOW or the return fallback) — the whole point is that
+Esther never has to babysit tracking or git:
+
+1. **Read the clock first.** Read the clock file **before any Bash/Edit call this turn** (Read
+   does not advance the heartbeat) so `last_activity` still marks the true burst end. Only skip
+   the wrap when `start` is `null` (nothing to wrap — already wrapped).
 
 2. **Finalize the honest clock.** Read `.active-clocks/${CLAUDE_SESSION_ID}.json`. Honest engaged
    minutes = `accrued_seconds/60 + (last_activity − start)` (closed sub-spans + the open one; idle
@@ -115,12 +125,14 @@ point is that Esther never has to babysit tracking or git:
 6. **RESET the clock, don't delete it** — so continued work in the same session opens a *fresh*
    honest span rather than re-billing what was just wrapped. Write back the same file with:
    `start = null`, `work_start = null`, `last_activity = null`, `accrued_seconds = 0`,
-   `first_turn_at = null`, `turn_count = 0`, `wrapped_at = <now ISO>`, and keep `opened_at` / `repo` /
-   `cluster` / `cwd` / `transcript_path`. The next substantive tool or the 2nd turn re-starts the clock.
+   `first_turn_at = null`, `turn_count = 0`, `wrap_armed_at = null`, `wrapped_at = <now ISO>`, and
+   keep `opened_at` / `repo` / `cluster` / `cwd` / `transcript_path`. The next substantive tool or
+   the 2nd turn re-starts the clock.
    (If you forget a field, the clock self-heals: the next clock-in resets `work_start`/`accrued_seconds`.)
 
 7. **Confirm in one line**, e.g. `🔄 auto-wrapped: 42 min on portbase (execution) — "…"; committed + pushed.`
-   Then continue with the user's new message.
+   Arrived via WRAP-NOW: stop there. Arrived via the return fallback: continue with the user's
+   new message in the same turn.
 
 Automatic mode is unattended: never block on a question. If something is ambiguous (e.g. cluster is
 `unassigned`), make the safest choice, note it in the details, and continue.
