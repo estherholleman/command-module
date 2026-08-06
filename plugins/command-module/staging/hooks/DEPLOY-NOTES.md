@@ -42,7 +42,10 @@ Beyond the Phase-2 SessionStart/SessionEnd entries, add:
 
 - `IDLE_GAP_SECONDS` (`_clock_shared.py`) = 1800 — gap that resets a span.
 - `FLOOR_MINUTES` (4) in `idle-wrap-on-return.py` — minimum burst worth a wrap row.
-- `IDLE_WRAP_MINUTES` (env, default 30) — silence that ends a session; the wrap-on-return trigger.
+- `IDLE_WRAP_MINUTES` (env, code default 30; **set to 60** in settings.json `env` since 2026-08-06) —
+  quiet minutes before an armed wrap executes. Esther's rotation between parallel conversations
+  often exceeds 30 min, so 30 wrapped sessions she still meant to come back to with questions.
+  Must stay ≥ 30 (`IDLE_GAP_SECONDS`), or pauses get billed into wrapped rows.
 
 Rollback: `missioncontrol/reports/architect/2026-07-07-honest-clock-rollback.md`.
 
