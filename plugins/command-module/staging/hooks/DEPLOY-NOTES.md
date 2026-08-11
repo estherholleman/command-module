@@ -127,3 +127,12 @@ never wrap. v2 splits the mechanism:
 **Tests:** 11/11 (gate arms/skips-when-armed/defers-on-continuation/respects floor+artifacts;
 watcher stamps+WRAP-NOW, aborts on cancel/wrapped; return hook: unarmed long gap silent, early
 return cancels, late return wraps, /wrap-up skip). `test_engagement.py` still 16/16.
+
+## 2026-08-11 — reconciliation watermark for re-created clocks
+
+`finalize_row` reconciled the transcript's unwrapped tail with `since = wrapped_at`, which is
+`None` on a FRESH clock — including clocks re-created for a *continued* conversation (wrap resets
+the file, the nightly sweep drains it, SessionStart/heartbeat re-arm it next day). A fallback
+finalize could then reconcile the whole transcript and re-count already-wrapped bursts.
+Fix: `since = wrapped_at or opened_at` — a clock never reconciles engagement that predates its
+own creation. One line in `_clock_shared.py`; `test_engagement.py` 16/16.

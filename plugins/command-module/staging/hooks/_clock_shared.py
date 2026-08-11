@@ -288,8 +288,12 @@ def finalize_row(clock: dict, now: Optional[datetime] = None):
     if now is None:
         now = datetime.now()
     span = honest_span(clock, now=now)
+    # Reconciliation watermark: wrapped_at when a wrap stamped one, else the
+    # clock's own opened_at — a re-created clock (sweep drained the reset file,
+    # heartbeat/SessionStart re-armed it) must never re-count transcript
+    # engagement that predates it: those bursts were already wrapped/finalized.
     since = None
-    wa = clock.get("wrapped_at")
+    wa = clock.get("wrapped_at") or clock.get("opened_at")
     if wa:
         try:
             since = datetime.fromisoformat(wa)
