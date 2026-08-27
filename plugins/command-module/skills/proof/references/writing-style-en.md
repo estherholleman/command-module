@@ -2,6 +2,14 @@
 
 These rules describe writing habits that signal AI-generated text. Follow them to produce writing that reads as natural, human prose. The goal is to write *well* by avoiding the lazy defaults that language models fall into.
 
+## Start here: three tests that catch most of it
+
+Word choice is rarely the problem. A proof pass over six earlier documents returned zero hits against the word list in section 1 and dozens against the patterns below. Run these three tests over any text first, and use the rest of this document for the specific cases.
+
+1. **The completion test (elliptical constructions, section 2.8).** Turn the sentence into a yes/no question. If you cannot, because there is no finite verb or no subject to move to the front, it is a fragment. Supply what the reader would otherwise have to guess.
+2. **The subtraction test (empty evaluative tails, section 2.9).** Delete the closing clause and reread. If nothing was lost, that clause was a tail. Replace it with the consequence, or cut it.
+3. **The reader test (wrong addressee, section 5.9).** Ask of every sentence: could someone who was not present while this document was made understand it? If not, the sentence is addressed to the wrong reader.
+
 ---
 
 ## 1. Banned Words and Phrases
@@ -42,6 +50,8 @@ The single most recognizable AI writing pattern. AI uses it to create false prof
 - "Not because X, but because Y."
 
 One instance per entire piece might be acceptable if the reframe is genuinely surprising. More than one is a pattern. The causal variant ("not because X, but because Y") and the cross-sentence variant ("The question isn't X. The question is Y.") are equally flagged. Avoid all of them by default.
+
+**The appended-correction variant belongs here too**, where the negation is tacked on the end to correct a misreading the reader never had: "There are three kinds of presentation, not two." Write "There are three kinds of presentation." The negation earns its place only when the text really did say two earlier, and then the correction deserves a sentence of its own.
 
 **Instead:** state both sides plainly. "A is common, but B works better." "Most teams focus on speed. Accuracy matters more here." The contrast does the work on its own without the negation-then-reveal structure.
 
@@ -111,6 +121,8 @@ AI compresses by leaving something out that the reader has to put back: a finite
 - "Working out where the source of truth for the strategy data belongs, and who owns which layer. That's the question." -> better: "The question is where the source of truth for the strategy data belongs, and who owns which layer."
 - Not: "We will work out where the source of truth belongs." That conjugates the verb but turns an open question into a plan of action.
 
+Note that the example stacks two defects: a fragment plus an evaluative tail (see 2.9). The completion test catches the first half and the subtraction test catches the second. Run both, because each one clears the other half.
+
 **Surface forms, all the same defect:**
 
 - **Gerund litany.** "Fixing small bugs. Writing straightforward features. Implementing well-defined tickets." -> better: "The easy work is fixing small bugs, writing straightforward features, and implementing well-defined tickets."
@@ -120,6 +132,23 @@ AI compresses by leaving something out that the reader has to put back: a finite
 - **Hyphen noun stacks.** "last-year data" -> "data from last year"; "the broken-carriage incident period" -> "the period when a carriage was broken"; "pre-deploy test checklist" -> "the checklist we run before shipping to production". One compound is normal English; from the second hyphen on, take a part out and put it back with a preposition or a relative clause.
 - **Bare label as a heading.** A heading or line ending in a colon with no sentence after it ("All or almost all:", "Completion status:"), or one that names only a category. Start at the substance.
 
+### 2.9 Empty Evaluative Tails
+
+A clause or standalone sentence that points back at what was just said and tells the reader how to feel about it, without adding information. These sentences are grammatically complete, so the completion test in 2.8 clears them. They fail on rhetoric: if the previous sentence already showed the problem, the tail is redundant, and if it did not, the tail asserts instead of showing.
+
+**Do not write:**
+- "Who owns the strategy data is unknown, and that's the problem."
+- "The judgement layer is missing entirely, and that's the most serious."
+- "That's the point." / "That's the question." / "That's what matters." (as a standalone sentence after the sentence that already said it)
+- "..., which is exactly the issue." / "..., and therein lies the difficulty." / "..., and that's the one that hurts most."
+
+**The subtraction test:** delete the tail and reread. "Who owns the strategy data is unknown." Nothing was lost, so the tail did nothing.
+
+**The repair is the consequence, not the verdict.** Say what goes wrong because of it: "Who owns the strategy data is unknown, so nobody can decide which version is authoritative." If you do not know the consequence, cut the tail without replacing it.
+
+**The ranking variant fails twice over.** "And that's the most serious" also drops the head noun and implies a comparison set the reader has to reconstruct. Write both out: "Of the four gaps, the missing judgement layer is the one that makes the tool unusable."
+
+**Where the line is.** A closing clause that points back is legitimate when it adds a real consequence ("..., so the whole count shifts"), draws a genuine contrast, or lands a long passage that has earned the landing. One earned landing per piece is fine. Two or more is the pattern, and it is almost always the second and later ones that should go.
 
 ---
 
@@ -172,6 +201,8 @@ Do not use the em dash (the `—` character). It is the single most recognizable
 **Instead:** use commas for soft asides, colons for explanations, periods for hard pivots, and parentheses for genuine tangents. Each has a different rhythm. Pick the one that matches the weight of what is being said.
 
 This rule is about the em dash (`—`) specifically. The hyphen (`-`) in compound words and the en dash (`–`) in number ranges are fine.
+
+**Where the replacement goes wrong.** An em dash usually joins two halves that genuinely belong together. Swap it for a full stop without rebuilding the sentence and a fragment is left behind ("... who owns which layer. That's the question."); swap it for a colon and rule 4.2 is broken instead. Rebuild the sentence: lead with the finite verb and make one whole sentence, or two whole sentences. Run the completion test from 2.8 after every removal.
 
 ### 4.2 Colon as Dramatic Pause
 
@@ -240,9 +271,45 @@ Do not default to teacher mode. Do not assume the reader needs hand-holding, met
 
 Do not describe people, companies, or initiatives in promotional language ("demonstrated excellence in..." / "commitment to sustainability, customer focus, and prosperity"). Describe what happened; let the reader decide if it was excellent.
 
+### 5.8 Over-Formal Register and Impersonal Reportage
+
+AI writes more formally than the situation calls for, and reaches for a nameless observer where a person or a plain statement belongs. A memo does not have to read like a policy paper, and a write-up of an interview should sound like the person speaking.
+
+**The test:** would you say this sentence out loud to the reader? If not, rewrite it until you would.
+
+**Impersonal reportage is the commonest form.** "It was noted that...", "one observes...", "is deemed to...", "it should be remarked that..." put an anonymous witness between the reader and the fact. Name the speaker, or just say it.
+
+- "A lost revenue figure of roughly one to two hundred thousand was mentioned." -> better: "Ron mentioned a lost revenue figure of a hundred or two hundred thousand." or simply: "A hundred or two hundred thousand in lost revenue."
+- "Terminal capacity is being significantly increased." -> better: "Terminal capacity is getting a lot bigger."
+- "This is intended to reduce the lead time." -> better: "This makes the lead time shorter."
+
+**Nominalisation is the second form.** Too many nouns where a conjugated verb would do, usually visible as words ending in *-tion*, *-ment* and *-ance* and as chains of prepositions. "The pursuit of an improvement of customer service remains a priority." -> better: "We want to keep improving customer service." Put the verb back and name who does it.
+
+**Length is not the problem, obscurity is.** A sentence may get longer if that makes it clear. Do not compress to look terse.
+
+### 5.9 Written for the Wrong Reader
+
+The costliest failure in this document, and the one least likely to be recognised as a style tic. The writer addresses sentences to the person the document was made with, while the document is meant for somebody else. A text with this fault is not clumsy, it is unusable: the recipient trips over references to conversations, documents, and abbreviations they have never seen.
+
+**The reader test:** could someone who was not present while this was made understand the sentence without looking anything up? If not, write it out here or cut it.
+
+**Do not write:**
+- "First, something to clear up that makes this conversation easier: the fields already exist." -> better: "The service strategy and audience strategy templates already contain the questions and fields that are needed." (The clearing-up was addressed to the person who commissioned the document, not to its reader.)
+- "As we discussed earlier..." / "Decision of 2 August" / "In the previous version this said..." / "merged into a single category" -- process history the reader does not know and does not need.
+- "See follow-up point 27." / "As explained in the building-block document." -> better: explain it here, even in two sentences. For this reader, a pointer to another document is a closed door.
+- "T154 is done." / "Question C: how often should this run?" / "Axis 1", "Axis 2" / column headings "G" and "A" -> better: the description is the name, and the number may follow in brackets at most. A heading called "Question C" should become the question: "How often should this run, and who runs it?"
+- Contrastive question-pair headings: "why yes" / "why no" -> better: plain nouns, "advantages" and "drawbacks".
+- In-group jargon nobody outside the team knows: "deck" (write presentations or PowerPoints), and any internal coinage for a concept the reader has never met. For every specialist word, ask whether it appears in the source document the reader does know. If not, use the word that appears there.
+
+**Where this does not apply.** Do not simplify away a technical term that says exactly what you mean. Replacing "capabilities" with "skills" makes the term vaguer, and vague is worse than unfamiliar. The rule is: pick the word that says most precisely what you mean, and explain it once if the reader will not know it. Internal model names and code keys are outside this rule, where precision wins.
+
 ---
 
 ## 6. General Principles
+
+**Compression is not the goal; being understood is.** The rules above cut a great deal, which tempts overcorrection. Two failures sit equally close: saying too little in too few words, so the reader has to guess, and writing three lines that all say the same thing. Be specific without being long-winded. If a sentence has to be longer to be right, let it be longer.
+
+**Never replace a punctuation mark with a hole.** When an em dash, colon, or semicolon has to go (sections 4.1, 4.2, 4.6), put a real sentence in its place, not a full stop with a fragment after it. Banning one mark pushes the impulse to the next one: to colons, to loose sentence pieces, and to the evaluative tail in 2.9. After every removal, check that what is left is still a whole sentence.
 
 **Vary sentence length deliberately.** A monotone rhythm is as much a giveaway as any word choice. Mix short and long. Let some sentences breathe. Cut others to the bone.
 
