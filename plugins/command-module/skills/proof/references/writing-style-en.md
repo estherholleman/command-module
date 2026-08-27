@@ -130,7 +130,7 @@ Note that the example stacks two defects: a fragment plus an evaluative tail (se
 - **Bare auxiliary at the end.** "... before activation can." -> better: "... before we can switch it on." In longer sentences where the main verb has already appeared ("he wants to, but can't"), this is fine; the trap is short standalone clauses, especially at the end of a bullet.
 - **Elided head noun.** "and that's the most serious" -> the most serious what? Write the head noun out and name what you are comparing against.
 - **Hyphen noun stacks.** "last-year data" -> "data from last year"; "the broken-carriage incident period" -> "the period when a carriage was broken"; "pre-deploy test checklist" -> "the checklist we run before shipping to production". One compound is normal English; from the second hyphen on, take a part out and put it back with a preposition or a relative clause.
-- **Bare label as a heading.** A heading or line ending in a colon with no sentence after it ("All or almost all:", "Completion status:"), or one that names only a category. Start at the substance.
+- **Bare label as a heading.** A heading or line ending in a colon with no sentence after it ("Completion status:", "The core:"), or one that names only a category. Start at the substance.
 
 ### 2.9 Empty Evaluative Tails
 
@@ -283,9 +283,8 @@ AI writes more formally than the situation calls for, and reaches for a nameless
 
 **Impersonal reportage is the commonest form.** "It was noted that...", "one observes...", "is deemed to...", "it should be remarked that..." put an anonymous witness between the reader and the fact. Name the speaker, or just say it.
 
-- "A lost revenue figure of roughly one to two hundred thousand was mentioned." -> better: "Ron mentioned a lost revenue figure of a hundred or two hundred thousand." or simply: "A hundred or two hundred thousand in lost revenue."
-- "Terminal capacity is being significantly increased." -> better: "Terminal capacity is getting a lot bigger."
-- "This is intended to reduce the lead time." -> better: "This makes the lead time shorter."
+- "It was noted that the lead time is climbing." -> better: "Marije said the lead time is climbing." or simply: "The lead time is climbing."
+- "This is intended to substantially reduce the waiting time." -> better: "This makes the waiting time a lot shorter."
 
 **Nominalisation is the second form.** Too many nouns where a conjugated verb would do, usually visible as words ending in *-tion*, *-ment* and *-ance* and as chains of prepositions. "The pursuit of an improvement of customer service remains a priority." -> better: "We want to keep improving customer service." Put the verb back and name who does it.
 
@@ -300,7 +299,7 @@ The costliest failure in this document, and the one least likely to be recognise
 **Do not write:**
 - "First, something to clear up that makes this conversation easier: the fields already exist." -> better: "The service strategy and audience strategy templates already contain the questions and fields that are needed." (The clearing-up was addressed to the person who commissioned the document, not to its reader.)
 - "As we discussed earlier..." / "Decision of 2 August" / "In the previous version this said..." / "merged into a single category" -- process history the reader does not know and does not need.
-- "See follow-up point 27." / "As explained in the building-block document." -> better: explain it here, even in two sentences. For this reader, a pointer to another document is a closed door.
+- "As explained in the building-block document." / "See the appendix." -> better: explain it here, even in two sentences. For this reader, a pointer to another document is a closed door.
 - "T154 is done." / "Question C: how often should this run?" / "Axis 1", "Axis 2" / column headings "G" and "A" -> better: the description is the name, and the number may follow in brackets at most. A heading called "Question C" should become the question: "How often should this run, and who runs it?"
 - Contrastive question-pair headings: "why yes" / "why no" -> better: plain nouns, "advantages" and "drawbacks".
 - In-group jargon nobody outside the team knows: "deck" (write presentations or PowerPoints), and any internal coinage for a concept the reader has never met. For every specialist word, ask whether it appears in the source document the reader does know. If not, use the word that appears there.

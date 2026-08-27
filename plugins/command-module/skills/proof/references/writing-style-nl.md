@@ -147,7 +147,7 @@ Let op dat het voorbeeld hierboven twee fouten stapelt: een fragment plus een oo
 - **Kaal hulpwerkwoord aan het eind.** "... voordat activatie kan." -> beter: "... voordat we deze kunnen aanzetten." In lange zinnen waar het hoofdwerkwoord al genoemd is ("hij wil dat wel, maar mag niet") is dit prima; de valkuil zit in korte, op zichzelf staande clausules, vooral aan het eind van een opsommingsbullet.
 - **Weggelaten kernwoord.** "en dat is de ernstigste" -> de ernstigste wát? Bij het Nederlands verschuift ook nog het geslacht mee (de ernstigste tekortkoming tegenover het ernstigste probleem), zodat de zin niet alleen kort maar onbeslisbaar wordt. Schrijf het kernwoord uit.
 - **Streepjes-stapelnomen.** "vorig-jaar-data" -> "data van vorig jaar"; "de defecte-rijtuig-incidentperiode" -> "de periode waarin er een defect rijtuig was"; "pre-deploy-test-checklist" -> "de checklist die we doorlopen voordat we naar productie gaan". Eén samenstelling ("klantfeedback", "voorraadbeheer") is normaal Nederlands. Vanaf het tweede streepje moet er een onderdeel uit en met een voorzetsel of bijzin terug.
-- **Kaal label als kop.** Een kop of regel die op een dubbele punt eindigt zonder dat er een zin volgt ("Alles of bijna alles:", "Uitwerkstatus:"), of die alleen een categorie noemt. Begin bij de inhoud.
+- **Kaal label als kop.** Een kop of regel die op een dubbele punt eindigt zonder dat er een zin volgt ("Uitwerkstatus:", "Kern:"), of die alleen een categorie noemt. Begin bij de inhoud.
 
 
 ### 2.9 De lege oordeelstaart
@@ -327,9 +327,8 @@ AI schrijft Nederlands vaak formeler dan de context rechtvaardigt. Een blogpost 
 
 **Afstandelijke rapportageconstructies zijn de meest voorkomende vorm.** "Er werd ...", "men ziet ...", "wordt geacht ...", "het dient te worden opgemerkt dat ..." zetten een naamloze waarnemer tussen de lezer en het feit. Noem de spreker, of zeg het gewoon.
 
-- "Er werd een misgelopen omzet genoemd van ongeveer één à twee ton." -> beter: "Ron noemde een misgelopen omzet van een ton of twee." of gewoon: "Een ton of twee aan misgelopen omzet."
-- "De capaciteit van terminals wordt sterk vergroot." -> beter: "De capaciteit van de terminals wordt fors groter."
-- "Hiermee wordt beoogd de doorlooptijd te verkorten." -> beter: "Zo wordt de doorlooptijd korter."
+- "Er werd opgemerkt dat de doorlooptijd oploopt." -> beter: "Marije zei dat de doorlooptijd oploopt." of gewoon: "De doorlooptijd loopt op."
+- "Hiermee wordt beoogd de wachttijd aanzienlijk te verkorten." -> beter: "Zo wordt de wachttijd een stuk korter."
 
 **Naamwoordstijl is de tweede vorm.** Te veel zelfstandige naamwoorden op plaatsen waar een vervoegd werkwoord kan staan, meestal herkenbaar aan woorden op *-ing* en *-atie* en aan ketens van voorzetsels (Onze Taal, taalloket "naamwoordstijl"). "Het streven naar een verbetering van de klantenservice blijft een speerpunt." -> beter: "We willen de klantenservice blijven verbeteren." Zet het werkwoord terug en noem wie het doet.
 
@@ -344,10 +343,10 @@ Dit is de duurste fout in dit document, en de minst herkenbare als stijltic. De 
 **Schrijf niet:**
 - "Eerst iets rechtzetten dat het gesprek makkelijker maakt: de velden bestaan al." -> beter: "De service strategie en doelgroep strategie templates bevatten de vragen en velden die nodig zijn." (Het rechtzetten ging over het gesprek met de opdrachtgever, niet over het onderwerp van de lezer.)
 - "Zoals we eerder bespraken..." / "Besluit 2 augustus" / "In de vorige versie stond hier..." / "samengevoegd tot één categorie" -- procesgeschiedenis die de lezer niet kent en niet hoeft te kennen.
-- "Zie navraagpunt 27." / "Zoals uitgelegd in het bouwsteendocument." -> beter: leg het ter plekke uit, al is het maar in twee zinnen. Een verwijzing naar een ander document is voor deze lezer een dichte deur.
+- "Zoals uitgelegd in het bouwsteendocument." / "Zie de bijlage." -> beter: leg het ter plekke uit, al is het maar in twee zinnen. Een verwijzing naar een ander document is voor deze lezer een dichte deur.
 - "T154 is klaar." / "Vraag C: hoe vaak moet dit draaien?" / "As 1", "As 2" / kolomkoppen "G" en "A" -> beter: de omschrijving is de naam, het nummer mag hooguit tussen haakjes erachter. Een kop die "Vraag C" heet moet de vraag zelf worden: "Hoe vaak en wie moet dit draaien?"
 - Contrastieve vraagparen als kopjes: "waarom wel" / "waarom niet" -> beter: gewone zelfstandige naamwoorden, "voordelen" en "nadelen".
-- Intern jargon dat buiten het eigen groepje niemand kent: "deck" (schrijf presentaties of PowerPoints), "klep", "vloer-actie", "witte vlek", "steno". Vraag bij elk vakwoord of het in de bronpresentatie of het brondocument staat dat de lezer wél kent. Zo niet, gebruik het woord dat daar staat.
+- Intern jargon dat buiten het eigen groepje niemand kent: "deck" (schrijf presentaties of PowerPoints), "klep", "witte vlek". Vraag bij elk vakwoord of het in de bronpresentatie of het brondocument staat dat de lezer wél kent. Zo niet, gebruik het woord dat daar staat.
 
 **Waar dit niet geldt.** Vereenvoudig geen vakterm weg die precies zegt wat je bedoelt. "Capabilities" vervangen door "vaardigheden" maakt de term vager, en vaag is erger dan onbekend. De regel is: kies het woord dat het scherpst zegt wat je bedoelt, en leg het één keer uit als de lezer het niet kent. Interne modelnamen en code-sleutels vallen buiten deze regel; daar wint precisie.
 
