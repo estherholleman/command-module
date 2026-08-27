@@ -71,7 +71,13 @@ This is where the refresh earns its keep.
 2. **Apply the same treatment wherever else enumeration has fragmented one idea.** Audit for it; do not assume the fragment family is the only case.
 3. **EN/NL parity check.** The two references have drifted — some rules exist on one side only, sometimes for good reason (Oxford comma, tangconstructies) and sometimes by accident. Produce a parity table and resolve each asymmetry deliberately.
 4. **Three-way drift check.** `proof/references/*`, `writing-foundations/references/antipatterns_*`, and the `writing-style-editor` agent checklist overlap and have drifted apart. Decide whether the generative side should reference the proof side rather than duplicating it, and say why.
-5. **Distribution question.** The anchor sentence was produced by an agent in a *different repo* that was not running `proof` at all. Post-hoc editing cannot fix what generation keeps producing. Investigate how the Dutch guidance could reach agents writing Dutch prose outside the proof workflow — global CLAUDE.md, an output-style, a hook, a slim always-on rule set — and recommend one option with its tradeoffs. Recommend; do not implement without approval.
+5. **Distribution: make good writing the default, not a post-hoc pass.** The anchor sentence was produced by an agent in a *different repo* that was not running `proof` at all. Post-hoc editing cannot fix what generation keeps producing, and this is not a Dutch-only problem — it applies equally to English prose.
+
+   Investigate and write up a recommendation for how the `writing-foundations` skill (and the relevant antipattern rules) could apply **automatically to every agent that writes prose**, across languages and across repos, without the user having to invoke anything. Consider at minimum: the global `~/.claude/CLAUDE.md`, a Claude Code output-style, a `UserPromptSubmit` or `PreToolUse` hook, a slim always-on rule set distilled from the full references, skill auto-invocation via description tuning, and any mechanism the plugin itself could ship. For each option assess: does it actually fire reliably, what does it cost in context on every turn, does it apply to agents in repos that do not have the plugin installed, and how does it degrade on other platforms the converter targets (OpenCode, Codex, Gemini).
+
+   Note the real tension: `writing-foundations` is ~60KB across two reference files. An always-on mechanism cannot carry that. Part of the recommendation must be *what the distilled always-on subset contains* — the smallest rule set that would have prevented the anchor case and the most common defects Leg A surfaces — and how it hands off to the full references when a prose task warrants them.
+
+   Recommend one option with its tradeoffs and sketch the distilled rule set concretely enough to evaluate. Do not implement any of it.
 
 ### Leg D — Validate
 
@@ -87,7 +93,7 @@ Produce:
 2. `docs/brainstorms/writing-style-refresh-2026.md` — the proposal: which rules to add, merge, rewrite, or delete, and why. Each proposed change carries evidence from Leg A or Leg B. Flag anything you are unsure about rather than deciding it silently.
 3. **The revised reference files themselves**, committed on the branch, so the morning review is a diff and not a reading assignment. Keep the commits granular and separated by concern (consolidation, additions, parity fixes) so individual pieces can be reverted.
 
-Do not implement the Leg C.5 distribution recommendation — write it up and stop there.
+Do not implement the Leg C.5 distribution recommendation — write it up, sketch the distilled always-on rule set, and stop there. That change would affect how every agent in every repo writes, and the user reviews it before it ships.
 
 ## Constraints
 
