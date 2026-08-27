@@ -14,9 +14,9 @@ Writing craft knowledge base covering clarity, structure, voice and tone, senten
 When producing any prose, read both knowledge bases and apply them throughout the writing:
 
 - `references/writing-principles.md` -- what good writing looks like (craft principles)
-- `skills/proof/references/writing-style-en.md` -- what AI-generated writing looks like (antipatterns to avoid)
+- `skills/proof/references/writing-style-en.md` for English prose, or `skills/proof/references/writing-style-nl.md` for Dutch -- what AI-generated writing looks like (antipatterns to avoid). Load both when the text mixes languages.
 
-For Dutch prose, also read `skills/proof/references/writing-style-nl.md`.
+The proof references are the single source for antipattern rules; writing-foundations does not keep its own copy. Start with the three tests at the top of whichever reference applies (the completion test, the subtraction test, and the reader test) -- they catch more than the word lists do.
 
 Do not dump the principles as a checklist -- internalize them and let them guide decisions naturally as they arise. The antipatterns are not a review step; they are patterns to simply never produce in the first place.
 
