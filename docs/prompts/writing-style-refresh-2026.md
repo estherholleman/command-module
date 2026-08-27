@@ -12,9 +12,9 @@ Three surfaces share one body of writing guidance, and all three are in scope:
 
 **This is equally an English and a Dutch task.** Most of what follows is language-independent — sentence fragments, compression tics, rhythm, stub sentences, over-listing — and only a minority is genuinely NL-specific (tangconstructies, anglicisms, Dutch heading capitalisation, literal idiom translation). Do not treat this as a Dutch job with an English footnote. Where a rule holds in both languages it belongs in both references, in the same shape, with native examples in each.
 
-### Two anchor cases
+### Three anchor cases
 
-These are the two constructions the user keeps receiving from agents. Both must be caught by the revised rules, and they are **not the same defect** — mistaking them for one is the trap this whole task exists to avoid.
+These are constructions the user received from agents over a single day, and they are the calibration set: the revised rules must catch all three. They are **not all the same defect** — mistaking them for one is the trap this whole task exists to avoid.
 
 **Anchor 1 — elliptical fragment plus resumptive stub.** An agent produced this in a Dutch strategy document:
 
@@ -34,7 +34,15 @@ This one is **grammatically complete**. `zit` is a finite verb, `het probleem` i
 
 The usual repair is to replace the evaluation with the consequence — "Wie de data beheert is onbekend, waardoor niemand kan bepalen welke versie leidend is" — or to delete the tail outright.
 
-**Why the pair matters.** Anchor 1 contains an instance of each family: the fragment is elliptical, "Dat is de vraag." is an evaluative tail. A single rule cannot cover both, because the diagnostic that catches one returns a clean bill of health for the other. See Leg C.1.
+**Anchor 3 — evaluative tail with an elided head noun.** From the same day:
+
+> "De oordelenlaag ontbreekt volledig, en dat is de ernstigste."
+
+The tail is family 2 again, but this one additionally elides the head noun: most serious *what*? The reader must supply "tekortkoming" or "probleem", and Dutch gender agreement shifts with the choice (`de ernstigste tekortkoming` versus `het ernstigste probleem`), so the ellipsis leaves the sentence not merely terse but undecidable. Note the sub-form: this tail *ranks* rather than merely evaluating — "en dat is de ernstigste", "en dat weegt het zwaarst", "and that's the biggest one" — which implies a comparison set that the reader has to reconstruct.
+
+**What the three cases together tell you.** The evaluative tail appears in all three; the elliptical defect appears in two, both times stacked on top of a tail. So family 2 is the dominant tic and family 1 is often its passenger, which is the opposite of the emphasis the existing references carry — five commits hardening family 1, nothing at all on family 2. Anchor 1 contains one instance of each, and anchor 3 stacks them inside a single clause. A merged rule cannot handle this, because the diagnostic that catches one family returns a clean bill of health for the other. See Leg C.1.
+
+Weight the refresh accordingly, but verify the ratio against Leg A rather than trusting three samples.
 
 ### Why enumeration is failing
 
@@ -69,6 +77,8 @@ The English reference has received only the 2026-07-13 pass. **None of the May f
 | `plugins/command-module/skills/writing-foundations/references/antipatterns_to_avoid_bad_writing.md` | Generative-side antipatterns; partly duplicates the proof references | ~28KB | 2 |
 | `plugins/command-module/skills/writing-foundations/references/writing-principles.md` | Positive craft guidance | ~31KB | — |
 | `plugins/command-module/agents/docs/writing-style-editor.md` | Subagent dispatched by proof; own condensed checklist | 70 lines | — |
+
+An interim stopgap was added to the user's global `~/.claude/CLAUDE.md` on 2026-08-27 under a `## Prose Style` heading: two bullets covering these families with their diagnostic tests, applying to every agent in every repo. It was written from three samples, not from evidence. Read it, treat it as a hypothesis to be tested by Leg A rather than as settled guidance, and include a revised replacement for it in the Leg C.5 recommendation.
 
 Read all six before proposing anything. The Oxford-comma rule was deliberately removed from the Dutch material on 2026-08-27 (the user writes Dutch with Oxford commas by choice) — do not reintroduce it anywhere.
 
