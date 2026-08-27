@@ -53,11 +53,25 @@ Look for external evidence either way. If it holds, it changes what the referenc
 
 ## Leg 4 (optional, run it if legs 1-3 leave room)
 
-The user has roughly 200,000 words of dated Claude output in `~/.claude/projects/-Users-esther-prog-portfoliostrategyframework/` plus her own hand-written prose in that repo's git history. That makes several of the Leg 1 features directly measurable rather than merely described.
+The user has roughly 200,000 words of dated Claude output in `~/.claude/projects/-Users-esther-prog-portfoliostrategyframework/`, plus the documents that output became in that repo's git history. That makes several of the Leg 1 features directly measurable rather than merely described. The obvious candidate is sentence-length variance, bucketed by month, so the trend has the same shape as the em-dash and evaluative-tail measurements in the prior research.
 
-Worth computing: sentence-length variance (burstiness) over agent-written documents versus her own hand-edited prose, bucketed by month, so the metric has a personal baseline rather than a literature one. A first attempt during the prior work produced unusable numbers because line-joining artefacts in the diff extraction inflated one period's mean sentence length to 61 words; the extraction needs to strip tables, code blocks, bullets and headings properly before splitting sentences. The extraction scripts from the prior run are described in the research doc under "Extraction method".
+**A measurement needs a baseline, and choosing it badly makes the whole leg worthless.** Three things it must match: language, register, and human authorship.
 
-If this works it gives a number a draft can be checked against, which is worth more than another qualitative rule. If the extraction proves unreliable again, say so and drop it rather than reporting noisy figures.
+**Do not use the user's chat messages as the baseline.** They are transcribed thinking rather than prose: fast, run-on, often ungrammatical, written to get a thought out. Their sentence-length variance would come out very high, which is what human writing looks like statistically, so the number would not be obviously wrong while measuring entirely the wrong thing. The disqualifier is register, not correctness.
+
+**Primary baseline: publicly available human prose from before 2020**, matched on language and register. GPT-3 was released in mid-2020, so anything published before then is safely free of model output. Genre matching matters as much as the date, because burstiness differs sharply between literary essays and policy memos; comparing Dutch strategy documents against English journalism produces a meaningless figure. Candidates to check for bulk accessibility, in rough order of fit:
+
+- Rijksoverheid publications and Kamerstukken from before 2020. Free, bulk-downloadable, and close to the register of the documents being measured.
+- Dutch annual reports from before 2020, ideally from port, logistics or infrastructure companies, which is nearly the exact domain.
+- SoNaR, the 500-million-word Dutch reference corpus held by the Instituut voor de Nederlandse Taal. A proper linguistic corpus, though it may require a licence; check before planning around it.
+
+For English, prefer the burstiness figures already published in the detection literature over building a corpus, since English is the language where the metric is already characterised. Report which figures you used and on what genre they were computed.
+
+**Secondary baseline: the user's own written prose**, which is scarcer but exactly matched on voice. Two known seams: the manual edits to the framework document between v0.50 and v0.51, which `user_writing_voice.md` in the orphaned `-Users-esther-prog-porfoliostrategyframework` memory directory was derived from, and a document she rewrote herself and pasted back in session `d059affc` on 2026-07-23 with the words "dit is wat ik tot nu toe heb herschreven". There may be more; look for passages she authored rather than edited.
+
+The two baselines answer different questions. The public corpus answers "does this read as human writing in this genre", which is what the references need, since they serve agents writing for many audiences. Her own documents answer "does this read like Esther", which is a narrower and secondary check. Report them separately and do not average them.
+
+**A prior attempt at this failed** and the reason is worth avoiding: line-joining artefacts in the git diff extraction inflated one period's mean sentence length to 61 words. Strip tables, code blocks, bullets, headings and front matter before splitting sentences, and sanity-check the distribution before reporting anything. If the extraction proves unreliable again, say so and drop the leg rather than reporting noisy figures.
 
 ## Standing research preferences
 
