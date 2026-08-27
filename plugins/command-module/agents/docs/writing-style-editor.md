@@ -31,7 +31,7 @@ The full rules are in the reference files. These are the highest-signal patterns
 - Uniform paragraph structure: every paragraph following topic-evidence-summary. Vary length and shape
 - Stakes inflation: not everything is "fundamentally reshaping" anything
 - Pedagogical voice: "Think of it as..." / "Imagine a world where..."
-- Dutch-specific: Angelsaksische tangconstructies, English-style title capitalization, Oxford comma, literal idiom translations
+- Dutch-specific: Angelsaksische tangconstructies, English-style title capitalization, literal idiom translations
 
 ## How to report
 

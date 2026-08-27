@@ -52,7 +52,6 @@ Every finding gets assigned to one of two tiers:
 **Tier 1 -- Auto-fix:** Mechanical substitutions where the replacement is clear and unambiguous. Apply these without asking. Examples:
 - Banned verbs/adjectives with a single obvious everyday replacement ("benutten" -> "gebruiken", "cruciaal" -> "belangrijk", "utilize" -> "use")
 - Filler phrases that should simply be deleted ("Het is belangrijk om te benadrukken dat...", "It's worth noting that...")
-- Oxford comma removal in Dutch text
 - English-style title capitalization in Dutch headings
 
 **Tier 2 -- User decision:** Anything that requires judgment. Present these as multiple-choice in a findings document. Examples:
@@ -79,11 +78,10 @@ For shorter documents, all passes can run in a single review.
 Apply all tier 1 fixes directly to the document. Before applying, show a brief summary of what will change:
 
 ```
-Auto-fixing 14 items:
+Auto-fixing 10 items:
 - 5x banned verbs (benutten -> gebruiken, optimaliseren -> verbeteren, ...)
 - 3x filler phrases removed
-- 4x Oxford comma removed
-- 2x heading capitalization fixed
+- 2x English-style heading capitalization fixed
 ```
 
 Ask for a quick confirmation before applying. After applying, report what changed.
