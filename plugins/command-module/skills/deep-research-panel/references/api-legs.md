@@ -8,9 +8,9 @@ stdout (redirect it to the engine's `.md` file). Both need `curl` and `jq`.
 
 - Endpoint: `POST https://api.openai.com/v1/responses` (the Responses API).
 - Auth: `Authorization: Bearer $OPENAI_API_KEY`.
-- Models: `o4-mini-deep-research-2025-06-26` (default; cheap, fast) or
-  `o3-deep-research-2025-06-26` (higher-quality synthesis, more expensive).
-  Override with `DR_OPENAI_MODEL`.
+- Models: `o3-deep-research-2025-06-26` (default; best-quality synthesis) or
+  `o4-mini-deep-research-2025-06-26` (cheaper, faster). Override with
+  `DR_OPENAI_MODEL`. Both require a VERIFIED OpenAI org.
 - The `web_search_preview` tool is mandatory for deep-research models; the script
   includes it. `code_interpreter` is optional and omitted by default.
 - Async: submit with `background: true`, then `GET /v1/responses/{id}` until
@@ -23,9 +23,9 @@ stdout (redirect it to the engine's `.md` file). Both need `curl` and `jq`.
 
 - Endpoint: `POST https://generativelanguage.googleapis.com/v1beta/interactions`.
 - Auth header: `x-goog-api-key: $GEMINI_API_KEY` (or `GOOGLE_API_KEY`).
-- Agent id: `deep-research-preview-04-2026` (default) or
-  `deep-research-max-preview-04-2026` (maximum comprehensiveness). Override with
-  `DR_GEMINI_AGENT`.
+- Agent id: `deep-research-max-preview-04-2026` (default; maximum
+  comprehensiveness) or `deep-research-preview-04-2026` (lighter, cheaper).
+  Override with `DR_GEMINI_AGENT`.
 - Async: submit with `background: true`, then `GET /v1beta/interactions/{id}`
   until `status == "completed"`. Report text is the last step's text content.
 - Cost: no flat per-run price. Billed as underlying Gemini model inference plus
@@ -38,6 +38,10 @@ stdout (redirect it to the engine's `.md` file). Both need `curl` and `jq`.
 - `DR_POLL_INTERVAL` (default 20s) -- seconds between status checks.
 - `DR_MAX_WAIT` (default 3600s) -- give up after this long. Deep research usually
   finishes in 5-45 minutes; raise this for very large queries.
+- `DR_MAX_RETRIES` (OpenAI script, default 3) -- re-attempts on a transient
+  failure: a per-minute rate-limit spike, or org verification still propagating
+  just after verifying.
+- `DR_RETRY_WAIT` (OpenAI script, default 60s) -- wait between those retries.
 
 ## Getting keys (no credit card surprises)
 
@@ -52,6 +56,13 @@ stdout (redirect it to the engine's `.md` file). Both need `curl` and `jq`.
   mechanism for that engine.
 - Exit code 1 with the raw JSON echoed usually means an auth, quota, or
   model-name error; read the `error` field in the `.log` file.
+- `rate_limit_exceeded` means one job briefly exceeded the org's tokens-per-minute
+  ceiling during synthesis. It cannot be throttled client-side, so the OpenAI
+  script auto-retries (`DR_MAX_RETRIES`). Persistent limits need a higher OpenAI
+  tier (platform.openai.com/account/limits).
+- `model_not_found` / "organization must be verified" means the deep-research
+  model needs a verified OpenAI org; right after verifying, access can take ~15 min
+  to propagate. The OpenAI script auto-retries this too.
 - If a report file contains raw JSON instead of prose, the response schema shifted;
   the report text field moved. Inspect the JSON, update the extraction `jq` filter
   at the end of the relevant script, and re-run.

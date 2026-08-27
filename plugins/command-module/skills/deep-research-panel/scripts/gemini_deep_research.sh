@@ -8,8 +8,9 @@
 #
 # Env:
 #   GEMINI_API_KEY / GOOGLE_API_KEY  required (GEMINI_API_KEY wins)
-#   DR_GEMINI_AGENT   default: deep-research-preview-04-2026 (use
-#                     deep-research-max-preview-04-2026 for maximum comprehensiveness)
+#   DR_GEMINI_AGENT   default: deep-research-max-preview-04-2026 (maximum
+#                     comprehensiveness). Set to deep-research-preview-04-2026 for
+#                     a lighter, cheaper run.
 #   DR_POLL_INTERVAL  seconds between status checks (default 20)
 #   DR_MAX_WAIT       max seconds to wait before giving up (default 3600)
 #
@@ -17,7 +18,7 @@
 set -euo pipefail
 
 key="${GEMINI_API_KEY:-${GOOGLE_API_KEY:-}}"
-agent="${DR_GEMINI_AGENT:-deep-research-preview-04-2026}"
+agent="${DR_GEMINI_AGENT:-deep-research-max-preview-04-2026}"
 poll="${DR_POLL_INTERVAL:-20}"
 max_wait="${DR_MAX_WAIT:-3600}"
 base="https://generativelanguage.googleapis.com/v1beta/interactions"

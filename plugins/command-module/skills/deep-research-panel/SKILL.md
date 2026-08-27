@@ -24,6 +24,8 @@ Per engine, prefer the API and fall back to the browser:
 
 API legs are unlimited, robust, and cost roughly $1-4 per engine per run. Browser legs are free but rate-limited on free tiers and periodically fragile. Details: `references/api-legs.md` and `references/browser-automation.md`.
 
+The API legs default to the **best** available deep-research models (`o3-deep-research` for OpenAI, `deep-research-max` for Gemini). The OpenAI script self-retries transient failures -- a per-minute rate-limit spike, or org verification still propagating right after verifying; a single job's token rate cannot be throttled from the client, so retry is the only remedy. Set `DR_OPENAI_MODEL` / `DR_GEMINI_AGENT` to override for a cheaper run.
+
 ## Steps
 
 ### 1. Refine the question and build one shared prompt
@@ -58,7 +60,7 @@ Run a full deep-research pass on the shared prompt using the platform's native c
 - In Claude Code, invoke the `deep-research` skill with the shared prompt.
 - On any platform without it, perform an equivalent pass -- fan out web searches, fetch and read primary sources, verify key claims, and synthesize a cited Markdown report.
 
-Save the result to `claude.md`.
+Save the result to `claude-report.md`. (Do not use the bare name `claude.md`: on case-insensitive filesystems such as macOS it collides with `CLAUDE.md`, so the harness loads the report as project instructions.)
 
 ### 6. Harvest the remote legs
 
