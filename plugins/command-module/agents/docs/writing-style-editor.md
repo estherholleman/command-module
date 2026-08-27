@@ -20,18 +20,22 @@ Detect the document language from its content. If mixed, load both.
 
 ## What to hunt for
 
-The full rules are in the reference files. These are the highest-signal patterns to prioritize:
+The full rules are in the reference files. Run these three tests over the whole text first -- they catch more than the word lists do -- then work through the specific patterns.
 
-- Banned vocabulary: words like "delve," "leverage," "pivotal," "robust," "seamless," "load-bearing" (as metaphor), "tapestry," "landscape" (as metaphor). In Dutch: "benutten," "cruciaal," "baanbrekend," "landschap" (as metaphor), "ecosysteem" (outside biology)
-- The "not X -- it's Y" construction: the single most recognizable AI pattern. Flag every instance
-- Participial phrase tacking: sentences ending with "-ing" phrases that add no information ("Revenue grew 40%, highlighting the company's strong market position.")
-- Tricolon abuse: groups of three used mechanically. One per piece is fine; more is a pattern
-- Em dash overuse: more than 2-3 per 1,000 words signals AI
-- Bold-first bullets: every list item starting with **Bold keyword**: explanation
-- Uniform paragraph structure: every paragraph following topic-evidence-summary. Vary length and shape
-- Stakes inflation: not everything is "fundamentally reshaping" anything
-- Pedagogical voice: "Think of it as..." / "Imagine a world where..."
-- Dutch-specific: Angelsaksische tangconstructies, English-style title capitalization, literal idiom translations
+1. **The completion test (EN 2.8 / NL 2.8, elliptical constructions).** Turn the sentence into a yes/no question. If there is no finite verb or no subject to move to the front, it is a fragment. The repair is to lead with the finite verb of the actual claim, not to conjugate the existing head verb. Same test for compound nouns the reader has to unpack ("vorig-jaar-data", "pre-deploy test checklist").
+2. **The subtraction test (EN 2.9 / NL 2.9, empty evaluative tails).** Delete the closing clause and reread. If nothing was lost, it was a tail: "onbekend, en daar zit het probleem", "and that's the problem", "Dat is de vraag.", "which is exactly the issue". Replace the verdict with the consequence, or cut. One earned landing per piece is fine; two or more is the pattern. These are grammatically complete, so test 1 will clear them -- run both.
+3. **The reader test (EN 5.9 / NL 5.9, wrong addressee).** Could someone who was not present while the document was made understand this sentence? Flag meta-commentary about the drafting conversation, process history, pointers to other documents, bare identifiers where a description belongs ("T154", "Vraag C", column heading "G"), and in-group jargon ("deck", "klep", "vloer"). Do not flag a precise technical term just because it is technical.
+
+After the three tests, prioritise these:
+
+- The "not X -- it's Y" construction, including the appended-correction variant ("Er staan drie soorten presentatie, niet twee"). Flag every instance
+- Em dashes: the `—` character is never allowed, in headings included. Check that each removal left a whole sentence behind rather than a fragment or a colon
+- Colons and semicolons welding two independent clauses together; inline bold or italic for emphasis; nadruk-accents on vowels in Dutch (except "één")
+- Impersonal reportage and over-formal register: "Er werd genoemd dat", "It was noted that", "wordt sterk vergroot" where "wordt fors groter" would do
+- Participial phrase tacking: sentences ending in "-ing" / "-end" phrases that add no information
+- Tricolon abuse, anaphora, and lists in every paragraph
+- Banned vocabulary: "delve", "leverage", "pivotal", "robust", "seamless", "load-bearing" (as metaphor), "tapestry", "landscape" (as metaphor); in Dutch "benutten", "cruciaal", "baanbrekend", "landschap" (as metaphor), "ecosysteem" (outside biology), "dun" for a small amount of data. Expect few hits: on this user's own prose a banned-word grep returns close to zero, while the structural patterns above return dozens
+- Dutch-specific: anglicised word order, tangconstructies (paired words too far apart), English-style title capitalisation, literal idiom translations
 
 ## How to report
 
@@ -61,7 +65,9 @@ Flag with **high confidence** when the text matches a specific banned pattern fr
 
 Flag with **moderate confidence** when the text shows a structural pattern (uniform paragraphs, stakes inflation) that requires judgment about whether the content justifies the style.
 
-Do **not** flag cases where the "AI pattern" is genuinely the best way to express the idea. The reference files explicitly note exceptions (e.g., one tricolon per piece is fine). Note the hard bans that have no exception: em dashes (the `—` character) are never allowed, and semicolons as sentence glue, inline bold/italic for emphasis, and nadruk-accents on vowels (except "één") should always be flagged.
+Do **not** flag cases where the "AI pattern" is genuinely the best way to express the idea. The reference files explicitly note exceptions (one tricolon per piece is fine, one earned evaluative landing is fine, and bold-first bullets sometimes genuinely aid scanning -- always offer keep-as-is for those). Note the hard bans that have no exception: em dashes (the `—` character) are never allowed, and semicolons as sentence glue, inline bold/italic for emphasis, and nadruk-accents on vowels (except "één") should always be flagged.
+
+Do not push toward compression. Two failures sit equally close: saying too little in too few words so the reader has to guess, and writing three lines that all say the same thing. A sentence that has to be longer to be right should be longer.
 
 ## What not to flag
 
