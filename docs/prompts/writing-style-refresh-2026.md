@@ -44,6 +44,33 @@ The tail is family 2 again, but this one additionally elides the head noun: most
 
 Weight the refresh accordingly, but verify the ratio against Leg A rather than trusting three samples.
 
+### A worked correction batch
+
+The three anchors above arrived as isolated complaints. This is what a *typical* correction from the user actually looks like — one message, eight distinct rules, sent to an agent about a document intended for an external reader named Costiaan:
+
+> "zou je dit graag met de proof skill kunnen checken en alle zinsfragmenten en formuleringen zoals "onbekend, en daar zit het probleem" en "De oordelenlaag ontbreekt volledig, en dat is de ernstigste." eruit kunnen halen en herschrijven als normale zinnen in spreektaal? ook 'waarom wel' en 'waarom niet' vervangen met voordelen en nadelen. en "Er staan drie soorten deck, niet twee." — again not these fragments, en vermijd de 'it's this not that' constructies graag, en het woord 'deck' ook — het zijn service strategieeen en doelgroep strategieeen, niemand kent het woord deck, of als je naar het ding zelf wil refereren zeg dan powerpoints. zou dit ook in memory bewaard kunnen worden? Haal ook graag 'Vraag C' of 'Vraag B' etc weg, gewoon de zin daarna als heading "Hoe vaak en wie moet dit draaien?" "Wie bouwt en beheert de tools?" En dingen zoals dit "Eerst iets rechtzetten dat het gesprek makkelijker maakt: de velden bestaan al." gaan over ons gesprek niet die met costiaan, graag weglaten. Schrijf dan eerder zoiets als: "De service strategie en doelgroep strategie templates bevatten de vragen/velden die nodig zijn." — dat ze in de excel bestanden zitten is alleen omdat ze overgenomen zijn uit de strategie powerpoints, dus hier niet relevant lijkt me."
+
+Decomposed, that is eight separate corrections:
+
+| # | Correction | Covered today? |
+| --- | --- | --- |
+| 1 | Remove sentence fragments | Yes — family 1 |
+| 2 | Remove evaluative tails (both anchor sentences quoted) | No — family 2, zero coverage |
+| 3 | Rewrite in **spreektaal** (spoken register) | Partly — NL §6.3 mentions register but prescribes nothing |
+| 4 | Replace contrastive question-pair labels ("waarom wel"/"waarom niet") with plain nouns ("voordelen"/"nadelen") | No |
+| 5 | Avoid the "it's this not that" construction, including the corrective-negation tail form ("Er staan drie soorten deck, niet twee") | Partly — §2.1 covers "not X but Y", not the appended-correction variant |
+| 6 | Drop in-group jargon ("deck") for reader-facing terms | Only as one abstract line in `writing-principles.md` |
+| 7 | Remove enumerated placeholder headings ("Vraag C:") and promote the actual question to the heading | No |
+| 8 | Remove meta-commentary about *our* conversation from a document written for *someone else* ("Eerst iets rechtzetten dat het gesprek makkelijker maakt…"), and drop provenance the reader does not need | No |
+
+Item 8 is the most damaging of the eight and the least like a style tic. The agent wrote sentences addressed to the person who commissioned the document rather than the person who will read it. That is an audience error, and it makes a deliverable unusable rather than merely clumsy. Treat "who is this sentence addressed to" as a first-class category, not a subheading under tone.
+
+Three design consequences for Leg A, all of which matter more than any individual rule above:
+
+- **A single message contains many corrections.** An extractor that treats one user message as one data point will capture item 1 and lose the other seven. Decompose every correction message into its individual rules before counting anything.
+- **Corrections often carry their own target rewrite.** "Schrijf dan eerder zoiets als: …" hands you the exact preferred output. Those pairs are the highest-value rows in the corpus and the natural held-out set for Leg D, because they permit comparison against the user's literal words rather than a judgement call.
+- **The user works in English as often as in Dutch.** This batch happens to be Dutch. Do not let the Dutch samples dominate the corpus simply because they are easier to spot; search English correction markers with equal effort and report the EN/NL split you actually found.
+
 ### Why enumeration is failing
 
 The Dutch reference was created on 2026-03-28 and has been amended eight times since. What those commits did:
@@ -86,23 +113,36 @@ Read all six before proposing anything. The Oxford-comma rule was deliberately r
 
 ### Leg A — Mine the user's own corpus (do this first, and spend real effort here)
 
-The user's own corrections are a labelled dataset of her actual preferences and they beat any generic web research. Critically: **they live in conversations with agents, not in committed files.** She corrects prose in chat, the agent applies the fix, and the commit shows only the result. Transcripts are therefore the primary seam and git history is a weak secondary one. Budget your effort accordingly.
+The user's own corrections are a labelled dataset of her actual preferences and they beat any generic web research. Critically: **they live in conversations with agents, not in committed files.** She corrects prose in chat, the agent applies the fix, and the commit shows only the result. Three seams, in descending order of precision.
+
+**A0. The memory corpus — start here; highest precision, lowest cost.**
+
+`/Users/esther/.claude/projects/*/memory/` holds **125 memory files across 12 projects, 71 of them `type: feedback`**. These are corrections that previous agents already extracted, distilled, and wrote up with a stated rationale. They are not raw material — they are a prior pass at this exact task, done incrementally and never consolidated.
+
+Read every `feedback_*.md` across all projects. Extract the ones that concern prose, wording, register, labelling, or audience. Expect substantial yield: `feedback_framework_lay_vocabulary.md`, `feedback_doelgroepen_dossier_stijl.md` (gewone taal, geen em-dashes, directe labels boven metaforen), `feedback_meeneem_docs_zelfstandig.md`, `feedback_bevindingen_altijd_uitleggen.md`, `feedback_task_references.md`, `feedback_clean_slate_toolteksten.md` and `feedback_standalone_tools_viewport.md` are all wholly or partly writing rules, in the `portfoliostrategyframework` project alone.
+
+Two things to look for beyond the rules themselves:
+
+- **Cross-project duplication.** The same preference recorded separately in three projects is one rule that belongs in the shared references. Finding those is a large part of the value here.
+- **Rules already documented in one surface form and recurring in another.** `feedback_task_references.md` says never to use a bare `T`-number without its description. Correction item 7 in the batch above — strip "Vraag C", promote the question — is *the same defect*: a bare identifier standing where a description belongs. Recorded, corrected twice, and still recurring in a new form. That is the enumeration failure reproducing itself inside the memory system, and it is evidence for the family-level approach, not just an anecdote.
+
+Note in passing: `/Users/esther/.claude/projects/-Users-esther-prog-porfoliostrategyframework/` (note the misspelling — "porfolio") holds 4 orphaned memories that will never be recalled, since the path does not match the real project directory. Report this; do not fix it as part of this task.
 
 **A1. Transcripts — `portfoliostrategyframework` above all.**
 
-`/Users/esther/.claude/projects/-Users-esther-prog-portfoliostrategyframework/` — 41 session files, ~629MB. Nearly all of the user's externally-facing written work happened here, and this is where the corrections were given. Go deep on it.
+`/Users/esther/.claude/projects/-Users-esther-prog-portfoliostrategyframework/` — 41 session files, ~629MB. Nearly all of the user's externally-facing written work happened here, and this is where the corrections were given. Go deep on it. A0 gives you the rules that were captured; A1 gives you the ones that were not, which is the point of running it.
 
 Practical constraint: 629MB of JSONL cannot be read into context. Grep for candidate lines, then extract a window around each hit and pull the user message plus the preceding assistant text with `jq`. Report your extraction method so a later pass can repeat it.
 
-Search user-role messages for correction markers. Dutch: `graag niet`, `liever`, `schrijf niet`, `niet zo`, `opgebroken`, `klinkt als`, `dit is geen`, `herschrijf`, `te formeel`, `gewoon "`, `mag weg`, `dit leest`, `Nederlands`. English: `don't write`, `rewrite`, `reads like`, `too formal`, `sounds like AI`, `that's not how`, `simpler`, `plainer`. Then look for the *shape* as well as the keyword: a short user message immediately following a block of agent-written prose and containing a quoted alternative is a correction even when it uses no marker word at all. The anchor case above has exactly that shape.
+Search user-role messages for correction markers. Dutch: `graag niet`, `graag weg`, `liever`, `schrijf niet`, `niet zo`, `opgebroken`, `klinkt als`, `dit is geen`, `herschrijf`, `vermijd`, `te formeel`, `gewoon "`, `mag weg`, `haal ... weg`, `niemand kent`, `spreektaal`. English: `don't write`, `avoid`, `rewrite`, `reads like`, `too formal`, `sounds like AI`, `that's not how`, `simpler`, `plainer`, `nobody says`, `drop the`. Then look for the *shape* as well as the keyword: a short user message immediately following a block of agent-written prose and containing a quoted alternative is a correction even when it uses no marker word at all. Anchor 1 has exactly that shape, and the worked batch above contains marker words for only about half of its eight items.
 
-Secondary transcript sources, lighter pass: `-Users-esther-prog-portbase` (corrections to deck and presentation wording) and `-Users-esther-prog-revintel` (explainer documents written for two specific external readers, Norbert and Wolter). Skip `missioncontrol`, `systems-blog`, and `emotional-coasters` — the user confirms there is nothing useful in those.
+Secondary transcript sources, lighter pass: `-Users-esther-prog-portbase` (corrections to deck and presentation wording) and `-Users-esther-prog-revintel` (explainer documents written for two specific external readers, Norbert and Wolter). Skip `missioncontrol`, `systems-blog`, and `emotional-coasters` for *prose* corrections — though note missioncontrol holds the largest memory set (45 files), so it still matters for A0.
 
 **A2. Git history — secondary, low expected yield.**
 
-Check `/Users/esther/prog/portfoliostrategyframework/docs`, the portbase decks, and the revintel explainers for commits where prose was *reworded without changing what it says*. Confound: agents commit under the user's name, so authorship cannot separate human edits from agent edits — rely on the reword-without-rescope heuristic and say so. Do not spend long here. If A1 is yielding well, go deeper on A1 instead.
+Check `/Users/esther/prog/portfoliostrategyframework/docs`, the portbase decks, and the revintel explainers for commits where prose was *reworded without changing what it says*. Confound: agents commit under the user's name, so authorship cannot separate human edits from agent edits — rely on the reword-without-rescope heuristic and say so. Do not spend long here. If A0 and A1 are yielding well, go deeper on those instead.
 
-**Output of Leg A:** a table of before/after pairs, grouped by the defect each one corrects, each tagged EN or NL and assigned to a family (elliptical, evaluative tail, or a new family you name). For every pair, record which existing rule would have caught it, in which file, and whether that rule's *prescribed fix* matches what the user actually did. A rule that flags the right sentence but prescribes the wrong rewrite (as §6.6 does for the anchor case) counts as a miss, not a hit. Uncaught and mis-prescribed cases are your priority list. Report how many candidates you reviewed and how many were usable.
+**Output of Leg A:** a table of before/after pairs and extracted rules, grouped by the defect each one corrects, each tagged EN or NL, assigned to a family (elliptical, evaluative tail, audience, labelling, register, vocabulary, or a new family you name), and sourced (A0/A1/A2). For every item, record which existing rule would have caught it, in which file, and whether that rule's *prescribed fix* matches what the user actually did. A rule that flags the right sentence but prescribes the wrong rewrite (as §6.6 does for anchor 1) counts as a miss, not a hit. Report how many candidates you reviewed, how many were usable, and the EN/NL split.
 
 ### Leg B — External research, corroborating and extending Leg A
 
