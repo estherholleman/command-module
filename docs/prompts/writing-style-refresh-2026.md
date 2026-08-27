@@ -12,15 +12,29 @@ Three surfaces share one body of writing guidance, and all three are in scope:
 
 **This is equally an English and a Dutch task.** Most of what follows is language-independent — sentence fragments, compression tics, rhythm, stub sentences, over-listing — and only a minority is genuinely NL-specific (tangconstructies, anglicisms, Dutch heading capitalisation, literal idiom translation). Do not treat this as a Dutch job with an English footnote. Where a rule holds in both languages it belongs in both references, in the same shape, with native examples in each.
 
-### The anchor case
+### Two anchor cases
 
-An agent produced this Dutch sentence in a strategy document:
+These are the two constructions the user keeps receiving from agents. Both must be caught by the revised rules, and they are **not the same defect** — mistaking them for one is the trap this whole task exists to avoid.
+
+**Anchor 1 — elliptical fragment plus resumptive stub.** An agent produced this in a Dutch strategy document:
 
 > "Bepalen waar de bron van waarheid voor de strategiedata hoort te liggen en wie welke laag beheert. Dat is de vraag."
 
 The user's correction: *"graag niet (erg opgebroken), gewoon 'de vraag is waar de bron van waarheid voor de strategiedata hoort te liggen, en wie welke laag beheert.' bijvoorbeeld."*
 
-Diagnosis: the first half is a **zinsfragment** — an infinitive phrase with no finite verb and no subject. The second is a **resumptive pointer sentence**. Together they form a left dislocation (linksdislocatie) mis-punctuated as two sentences; grammatical Dutch would join them with a comma. The user's preferred fix avoids the dislocation entirely by fronting the finite verb. The English form of the same defect — "Working out where the source of truth belongs, and who owns which layer. That's the question." — is equally common and equally unwanted.
+The first half is a **zinsfragment** — an infinitive phrase with no finite verb and no subject. The second is a **resumptive pointer sentence**. Together they form a left dislocation (linksdislocatie) mis-punctuated as two sentences; grammatical Dutch would join them with a comma. The user's preferred fix avoids the dislocation entirely by fronting the finite verb. English produces the identical thing: "Working out where the source of truth belongs, and who owns which layer. That's the question."
+
+**Anchor 2 — deictic evaluative tail.** From a later session:
+
+> "onbekend, en daar zit het probleem"
+
+The shape is `[proposition], en [daar/dat] + [evaluative noun]`: "en daar zit het probleem", "en dat is het punt", "en daar wringt het", "en dat is precies de kwestie". English: "…, and that's the problem", "…, which is exactly the issue", "…, and therein lies the difficulty".
+
+This one is **grammatically complete**. `zit` is a finite verb, `het probleem` is a subject, nothing is elided. It fails on rhetoric, not grammar: the clause points back at what was just said and tells the reader how to feel about it while adding no information. If the preceding clause established a problem, the tail is redundant; if it did not, the tail asserts rather than shows.
+
+The usual repair is to replace the evaluation with the consequence — "Wie de data beheert is onbekend, waardoor niemand kan bepalen welke versie leidend is" — or to delete the tail outright.
+
+**Why the pair matters.** Anchor 1 contains an instance of each family: the fragment is elliptical, "Dat is de vraag." is an evaluative tail. A single rule cannot cover both, because the diagnostic that catches one returns a clean bill of health for the other. See Leg C.1.
 
 ### Why enumeration is failing
 
@@ -40,6 +54,8 @@ Five of those patch **the same underlying defect**: a clause that asks the reade
 That is the central finding, and the refresh must be built around it. These references are not stale — they are actively maintained. They enumerate by **surface form**, so every new surface form needs a new patch, and the patching is not converging. Adding a sixth fragment rule will simply be followed by a seventh.
 
 Three rules currently sit next to the anchor case without catching it. `writing-style-nl.md` §6.5 covers fragments but only ones following a comma and beginning with *wat / wanneer / indien*. §6.6 covers infinitive heads but prescribes "conjugate the verb, give it a subject", which yields "We bepalen waar…" — not the rewrite the user wanted, so even a hit here would have produced the wrong fix. §6.7 covers bare auxiliaries, a neighbouring defect. The English side has §2.8 (Gerund Fragment Litanies), the same family scoped differently again.
+
+Anchor 2 exposes a second, different kind of gap. Grepping all four reference files for the deictic-tail family — `daar zit`, `dat is het punt`, `that's the point`, `therein lies`, `which is exactly`, and neighbouring forms — returns **zero hits**. This is not a rule that nearly fired; it is a family nobody has described. Section 3.3 in both references bans the signposted conclusion ("Concluderend,", "Samenvattend"), which is a cousin at paragraph scale, but nothing addresses the sentence-level evaluative tail. Expect Leg A to surface more families with no coverage at all, and treat those as more valuable than refinements to rules that already exist.
 
 The English reference has received only the 2026-07-13 pass. **None of the May fragment work was mirrored into it**, so English has almost no coverage of a defect family that is not Dutch-specific at all. That asymmetry is itself a finding, and probably not the only one of its kind.
 
@@ -76,7 +92,7 @@ Secondary transcript sources, lighter pass: `-Users-esther-prog-portbase` (corre
 
 Check `/Users/esther/prog/portfoliostrategyframework/docs`, the portbase decks, and the revintel explainers for commits where prose was *reworded without changing what it says*. Confound: agents commit under the user's name, so authorship cannot separate human edits from agent edits — rely on the reword-without-rescope heuristic and say so. Do not spend long here. If A1 is yielding well, go deeper on A1 instead.
 
-**Output of Leg A:** a table of before/after pairs, grouped by the defect each one corrects, each tagged EN or NL. For every pair, record which existing rule would have caught it, in which file, and whether that rule's *prescribed fix* matches what the user actually did. A rule that flags the right sentence but prescribes the wrong rewrite (as §6.6 does for the anchor case) counts as a miss, not a hit. Uncaught and mis-prescribed cases are your priority list. Report how many candidates you reviewed and how many were usable.
+**Output of Leg A:** a table of before/after pairs, grouped by the defect each one corrects, each tagged EN or NL and assigned to a family (elliptical, evaluative tail, or a new family you name). For every pair, record which existing rule would have caught it, in which file, and whether that rule's *prescribed fix* matches what the user actually did. A rule that flags the right sentence but prescribes the wrong rewrite (as §6.6 does for the anchor case) counts as a miss, not a hit. Uncaught and mis-prescribed cases are your priority list. Report how many candidates you reviewed and how many were usable.
 
 ### Leg B — External research, corroborating and extending Leg A
 
@@ -92,7 +108,14 @@ Cite sources. The user's standing research preferences (see the `research` skill
 
 This is where the refresh earns its keep.
 
-1. **Collapse the fragment family into one rule with a diagnostic test.** NL §6.5 / §6.6 / §6.7 and EN §2.8 all describe one defect: a clause that asks the reader to supply a verb, a subject, or an unpacked noun. Write a single rule whose *test* catches the family — something along the lines of "does the reader have to mentally supply a word to make this a sentence? then supply it" — then list the surface forms beneath it as examples: infinitive head, resumptive stub, bare auxiliary, gerund litany, hyphen-stacked noun, left dislocation split by a full stop. The anchor case must be caught by the test itself, not by matching an example. Give the rule a worked rewrite that reaches the user's preferred form (front the finite verb), since §6.6 shows that catching the sentence is not sufficient if the prescription is wrong.
+1. **Separate the two defect families, and give each its own diagnostic test.** Do not merge them; the whole point is that one test cannot do both jobs.
+
+   **Family 1 — elliptical constructions.** The reader is asked to supply a verb, a subject, or an unpacked noun. NL §6.5 (verbless connector fragments, hyphen noun-stacks), §6.6 (infinitive heads), §6.7 (bare auxiliaries) and EN §2.8 (gerund litanies) are all instances. Collapse them into one rule whose test catches the family — along the lines of "does the reader have to mentally supply a word to make this a sentence? then supply it yourself" — with the surface forms listed beneath as examples, not as separate rules. Include a worked rewrite reaching the user's preferred form (front the finite verb), because §6.6 demonstrates that flagging the right sentence is worthless if the prescription is wrong.
+
+   **Family 2 — empty evaluative tails.** Grammatically complete clauses that point back at the preceding proposition and editorialise without adding information. This family currently has no rule anywhere. Its test is subtraction: delete the clause and ask whether the sentence lost any content. If it did not, the clause was a tail. Cover the comma-attached form ("…, en daar zit het probleem"), the standalone-sentence form ("Dat is de vraag." / "That's the point."), and the relative form ("…, which is exactly the issue"). Prescribe the repair explicitly: replace the evaluation with its consequence, or cut it.
+
+   Be careful at the boundary. Some deictic tails are legitimate — genuine contrast, a real consequence, a deliberate rhetorical landing that has been earned. The rule must distinguish "adds a consequence" from "restates and evaluates", and should say plainly that an occasional earned one is fine while a text containing several is not. Ask Leg A how often the user actually deleted these versus rewrote them.
+
 2. **Apply the same treatment wherever else enumeration has fragmented one idea.** Audit for it. The fragment family is the clearest case, not necessarily the only one.
 3. **EN/NL parity.** Produce a parity table of every rule against both references. Resolve each asymmetry deliberately: mirror it, or record why it is legitimately language-specific. Expect the English side to need substantial additions given that it missed the May work.
 4. **Three-way drift.** `proof/references/*`, `writing-foundations/references/antipatterns_*`, and the `writing-style-editor` checklist overlap and have diverged. Decide whether the generative side should *reference* the proof side rather than duplicating it, and justify the choice. Three copies of one rule set is three places for the next patch to be forgotten.
