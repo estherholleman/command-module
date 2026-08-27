@@ -154,37 +154,35 @@ A clause or standalone sentence that points back at what was just said and tells
 
 ## 3. Paragraph and Composition Patterns to Avoid
 
-### 3.1 Uniform Paragraph Structure
+### 3.1 Uniform Paragraph Shape
 
-Every paragraph following the same template: topic sentence -> supporting evidence -> summary sentence. Vary paragraph length and structure. Some paragraphs should be two sentences. Some should be six. Let the content dictate the shape, not a template.
+Every paragraph running the same template at the same length: topic sentence -> supporting evidence -> summary sentence, each one wrapping up neatly. Humans are messier; they rant, digress, and circle back. Let the content dictate the shape. Some paragraphs should start with the conclusion and work backward, some should build toward a point, and some should be a single observation that stops. Occasionally start with an example and let the reader work out the principle. Break the rhythm with a one-sentence paragraph or a longer, denser one.
 
-**Instead:** some paragraphs should start with the conclusion and work backward. Some should build toward a point. Some should just be a single observation that stops. Occasionally start with an example and let the reader figure out the principle, rather than always stating the principle first.
-
-### 3.2 Uniform Paragraph Length
-
-Paragraphs of nearly identical length, each wrapping up neatly. Humans are messier -- they rant, digress, circle back. Break the pattern with an occasional one-sentence paragraph or a longer, denser one.
-
-### 3.3 The Signposted Conclusion
+### 3.2 The Signposted Conclusion
 
 Do not announce that the text is concluding. No "In conclusion," no "To sum up," no "In summary," no "And so we return to where we began." The reader can feel when a piece is ending. Just end it.
 
-### 3.4 Fractal Summaries
+### 3.3 Fractal Summaries
 
 Do not preview what is about to be said, say it, then summarize what was just said -- at every level of the document. Say things once.
 
-### 3.5 The Dead Metaphor
+### 3.4 The Dead Metaphor
 
 If a metaphor is introduced, use it once or twice and move on. Do not return to the same metaphor in every subsequent paragraph. Do not build the entire piece around one metaphor.
 
-### 3.6 One-Point Dilution
+### 3.5 One-Point Dilution
 
 If the argument has one main point, make it in 500 words, not 3,000. Do not pad a single thesis by restating it with different metaphors and examples across many sections.
 
-### 3.7 "Despite Its Challenges..."
+### 3.6 "Despite Its Challenges..."
 
 The rigid formula: acknowledge problems -> immediately dismiss them -> optimistic ending. If discussing challenges, actually engage with them. Do not use them as a rhetorical trampoline to bounce back to optimism.
 
 **Instead:** if something has real problems, sit with them. Explain why they are hard. It is fine to end a section on an unresolved tension. Readers trust writing that acknowledges difficulty more than writing that always finds a silver lining.
+
+### 3.7 Too Many Lists
+
+AI turns everything into a bulleted list. Sometimes a list is the right shape, but when every paragraph contains one the effect disappears and the argument stops connecting. Use lists sparingly and write the rest as running prose.
 
 ### 3.8 Historical Analogy Stacking
 
@@ -204,9 +202,19 @@ This rule is about the em dash (`—`) specifically. The hyphen (`-`) in compoun
 
 **Where the replacement goes wrong.** An em dash usually joins two halves that genuinely belong together. Swap it for a full stop without rebuilding the sentence and a fragment is left behind ("... who owns which layer. That's the question."); swap it for a colon and rule 4.2 is broken instead. Rebuild the sentence: lead with the finite verb and make one whole sentence, or two whole sentences. Run the completion test from 2.8 after every removal.
 
-### 4.2 Colon as Dramatic Pause
+### 4.2 Colons and Semicolons as Sentence Glue
 
-AI has started using colons for rhetorical emphasis ("Here's the thing:" / "There's a catch:" / "Think about it:"). Use colons for their normal purposes (introducing lists, explanations, quotations). Do not use them as stage directions.
+AI uses `:` and `;` to weld two independent clauses together, with the second explaining or refining the first, and it uses colons for rhetorical emphasis ("Here's the thing:" / "There's a catch:" / "Think about it:"). Both read stiff and make sentences longer than they need to be. Start a new sentence, or use a comma if the grammar allows.
+
+- "The fix works: all 23 routes now return plausible values." -> better: "The fix works. All 23 routes now return plausible values."
+- "We lowered the estimate; the original was too high." -> better: "We lowered the estimate because the original was too high."
+
+Still fine, with no obligation to rewrite:
+- A real list: "We did three things: A, B, and C."
+- After a label or heading: "Period: 1-5 May", "Status: in production".
+- Times, paths, and code: "at 14:30", `path/to/file:42`.
+
+**The test:** if the text on both sides of the `:` or `;` reads as a standalone sentence, use a full stop and start a new one. Semicolons have almost no place in modern business prose; cut them by default.
 
 ### 4.3 Bold-First Bullets
 
@@ -227,11 +235,7 @@ Do not use bold emphasis on every key term. Do not use headers for every sub-poi
 
 Be consistent with quotation marks throughout. Do not mix curly and straight quotes in the same document.
 
-### 4.6 Semicolons as Sentence Glue
-
-AI uses the semicolon to glue two independent clauses together, where the second explains or refines the first. It reads stiff and makes sentences needlessly long. In most prose, start a new sentence instead, or use a comma if the grammar allows. Semicolons are acceptable only for separating items in a genuinely complex list. Everywhere else, default to a period and cut them.
-
-### 4.7 Inline Bold and Italic for Emphasis
+### 4.6 Inline Bold and Italic for Emphasis
 
 Do not bold or italicize individual words inside a sentence for emphasis ("their **own** screens," "this is *not* optional"). AI leans on inline emphasis to inject drama the sentence should carry on its own. Let word choice and sentence structure do the work. Reserve bold for genuine labels or headings, and avoid italics for emphasis entirely in stakeholder-facing prose.
 
@@ -309,7 +313,7 @@ The costliest failure in this document, and the one least likely to be recognise
 
 **Compression is not the goal; being understood is.** The rules above cut a great deal, which tempts overcorrection. Two failures sit equally close: saying too little in too few words, so the reader has to guess, and writing three lines that all say the same thing. Be specific without being long-winded. If a sentence has to be longer to be right, let it be longer.
 
-**Never replace a punctuation mark with a hole.** When an em dash, colon, or semicolon has to go (sections 4.1, 4.2, 4.6), put a real sentence in its place, not a full stop with a fragment after it. Banning one mark pushes the impulse to the next one: to colons, to loose sentence pieces, and to the evaluative tail in 2.9. After every removal, check that what is left is still a whole sentence.
+**Never replace a punctuation mark with a hole.** When an em dash, colon, or semicolon has to go (sections 4.1 and 4.2), put a real sentence in its place, not a full stop with a fragment after it. Banning one mark pushes the impulse to the next one: to colons, to loose sentence pieces, and to the evaluative tail in 2.9. After every removal, check that what is left is still a whole sentence.
 
 **Vary sentence length deliberately.** A monotone rhythm is as much a giveaway as any word choice. Mix short and long. Let some sentences breathe. Cut others to the bone.
 

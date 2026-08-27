@@ -8,9 +8,9 @@ Deze regels beschrijven schrijfgewoontes die verraden dat een tekst door AI is g
 
 Woordkeus is zelden het probleem. Een proefronde over zes eerdere teksten leverde nul treffers op de woordenlijst in sectie 1 en tientallen treffers op de patronen hieronder. Loop bij elke tekst eerst deze drie tests af, en gebruik de rest van dit document voor de specifieke gevallen.
 
-1. **De aanvultest (elliptische zinnen, sectie 6.5).** Maak van de zin een ja/nee-vraag. Lukt dat niet, omdat er geen persoonsvorm of geen onderwerp is om naar voren te halen, dan is het een zinsfragment. Vul zelf aan wat de lezer anders moet raden.
-2. **De weglaattest (lege oordeelstaarten, sectie 2.7).** Schrap de laatste bijzin en lees de zin opnieuw. Is er geen informatie verdwenen, dan was die bijzin een oordeelstaart. Vervang hem door het gevolg, of laat hem weg.
-3. **De lezerstest (verkeerde geadresseerde, sectie 5.7).** Vraag bij elke zin: kan iemand dit begrijpen die niet bij het maken van dit document aanwezig was? Zo niet, dan is de zin aan de verkeerde lezer gericht.
+1. **De aanvultest (elliptische zinnen, sectie 2.8).** Maak van de zin een ja/nee-vraag. Lukt dat niet, omdat er geen persoonsvorm of geen onderwerp is om naar voren te halen, dan is het een zinsfragment. Vul zelf aan wat de lezer anders moet raden.
+2. **De weglaattest (lege oordeelstaarten, sectie 2.9).** Schrap de laatste bijzin en lees de zin opnieuw. Is er geen informatie verdwenen, dan was die bijzin een oordeelstaart. Vervang hem door het gevolg, of laat hem weg.
+3. **De lezerstest (verkeerde geadresseerde, sectie 5.9).** Vraag bij elke zin: kan iemand dit begrijpen die niet bij het maken van dit document aanwezig was? Zo niet, dan is de zin aan de verkeerde lezer gericht.
 
 ---
 
@@ -118,7 +118,39 @@ Als je twee dingen hebt, zeg twee. Als je vier hebt, zeg vier. Duw niet alles in
 - "Van innovatie tot culturele transformatie."
 - "Van kleine start-ups tot multinationals." (tenzij je echt een spectrum beschrijft)
 
-### 2.7 De lege oordeelstaart
+### 2.7 De dramatische aftelling
+
+Twee of meer dingen ontkennen voordat het echte punt komt.
+
+**Schrijf niet:**
+- "Geen bug. Geen feature. Een fundamentele ontwerpfout."
+- "Niet tien. Niet vijftig. Vijfhonderd."
+
+
+### 2.8 Elliptische zinnen: de lezer mag niets aanvullen
+
+AI comprimeert graag door iets weg te laten dat de lezer er zelf bij moet denken: een persoonsvorm, een onderwerp, of een zelfstandig naamwoord dat is samengeperst tot een stapel. Elke keer dat er een nieuwe verschijningsvorm opduikt, is het dezelfde fout. Behandel ze dus met één test in plaats van met een regel per vorm.
+
+**De aanvultest.** Maak van de zin een ja/nee-vraag door de persoonsvorm naar voren te halen. Lukt dat niet, omdat er geen persoonsvorm is of geen onderwerp om over te vragen, dan is het een zinsfragment. Moet je eerst een samengesteld zelfstandig naamwoord uitpakken voordat de zin klopt, dan is het een naamwoordstapel. In beide gevallen doet de schrijver dat werk, niet de lezer.
+
+**De reparatie: zet de persoonsvorm van de echte bewering vooraan.** Dit is de stap die het vaakst misgaat. Het is niet genoeg om het bestaande werkwoord te vervoegen, want dat verandert de bewering. De vraag "waar hoort de bron van waarheid te liggen" is geen voornemen om dat te gaan bepalen.
+
+- "Bepalen waar de bron van waarheid voor de strategiedata hoort te liggen en wie welke laag beheert. Dat is de vraag." -> beter: "De vraag is waar de bron van waarheid voor de strategiedata hoort te liggen, en wie welke laag beheert."
+- Niet: "We bepalen waar de bron van waarheid hoort te liggen." Dat vervoegt het werkwoord wel, maar maakt van een open vraag een actie.
+
+Let op dat het voorbeeld hierboven twee fouten stapelt: een fragment plus een oordeelstaart (zie 2.9). De aanvultest vangt de eerste helft, de weglaattest de tweede. Draai beide tests, want de ene verklaart de andere helft schoon.
+
+**Verschijningsvormen, allemaal dezelfde fout:**
+
+- **Infinitief-kop.** "Voorspellingen verbeteren door de blend te herzien." -> beter: "We hebben de voorspellingen verbeterd door de blend te herzien."
+- **Voegwoordfragment zonder werkwoord**, beginnend met *wat*, *wanneer*, *indien*, *zodra*, *consistent met*, *in lijn met*. "..., wat consistent met de eerdere observaties." -> beter: "Dit ligt in lijn met wat we eerder zagen." / "... wanneer beschikbaar." -> beter: "... wanneer deze beschikbaar is."
+- **Kaal hulpwerkwoord aan het eind.** "... voordat activatie kan." -> beter: "... voordat we deze kunnen aanzetten." In lange zinnen waar het hoofdwerkwoord al genoemd is ("hij wil dat wel, maar mag niet") is dit prima; de valkuil zit in korte, op zichzelf staande clausules, vooral aan het eind van een opsommingsbullet.
+- **Weggelaten kernwoord.** "en dat is de ernstigste" -> de ernstigste wát? Bij het Nederlands verschuift ook nog het geslacht mee (de ernstigste tekortkoming tegenover het ernstigste probleem), zodat de zin niet alleen kort maar onbeslisbaar wordt. Schrijf het kernwoord uit.
+- **Streepjes-stapelnomen.** "vorig-jaar-data" -> "data van vorig jaar"; "de defecte-rijtuig-incidentperiode" -> "de periode waarin er een defect rijtuig was"; "pre-deploy-test-checklist" -> "de checklist die we doorlopen voordat we naar productie gaan". Eén samenstelling ("klantfeedback", "voorraadbeheer") is normaal Nederlands. Vanaf het tweede streepje moet er een onderdeel uit en met een voorzetsel of bijzin terug.
+- **Kaal label als kop.** Een kop of regel die op een dubbele punt eindigt zonder dat er een zin volgt ("Alles of bijna alles:", "Uitwerkstatus:"), of die alleen een categorie noemt. Begin bij de inhoud.
+
+
+### 2.9 De lege oordeelstaart
 
 Een bijzin of losse zin die terugwijst naar wat er net stond en de lezer vertelt hoe hij het moet vinden, zonder er informatie aan toe te voegen. Deze zinnen zijn grammaticaal compleet, dus de aanvultest in 6.5 verklaart ze schoon. Ze falen op retoriek: als de vorige zin het probleem al liet zien is de taart overbodig, en als hij dat niet deed dan beweert de taart iets in plaats van het te tonen.
 
@@ -136,33 +168,53 @@ Een bijzin of losse zin die terugwijst naar wat er net stond en de lezer vertelt
 
 **Waar de grens ligt.** Een terugwijzende slotzin is legitiem wanneer hij een echt gevolg toevoegt ("..., waardoor de hele telling verschuift"), een echte tegenstelling maakt, of een lange passage afsluit waarin de landing verdiend is. Eén verdiende landing per tekst is prima. Twee of meer is het patroon, en dan is het bijna altijd de tweede en verder die geschrapt moet worden.
 
+### 2.10 Anafoor-misbruik
+
+Drie of meer zinnen achter elkaar die identiek beginnen.
+
+**Schrijf niet:**
+- "Ze kunnen data ontsluiten... Ze kunnen inzicht bieden... Ze kunnen sturen..."
+- "Het betekent betere X. Het betekent betere Y. Het betekent betere Z."
+
+
 ---
 
 ## 3. Alinea- en compositiepatronen om te vermijden
 
-### 3.1 Uniforme alineasstructuur
+### 3.1 Uniforme alineavorm
 
-Niet elke alinea hoeft hetzelfde stramien te volgen: topiczin -> onderbouwing -> samenvatting. Varieer in lengte en opbouw. Sommige alinea's mogen twee zinnen zijn. Andere zes.
+Elke alinea volgens hetzelfde stramien en op dezelfde lengte: topiczin -> onderbouwing -> samenvatting, elk netjes afgerond. Mensen schrijven rommeliger; ze dwalen af, komen terug, maken een zijsprong. Laat de inhoud de vorm bepalen. Begin soms met de conclusie en werk terug, bouw soms naar een punt toe, en laat een alinea soms één observatie zijn die daarna stopt. Begin af en toe met een voorbeeld en laat de lezer zelf de conclusie trekken. Doorbreek het ritme met een alinea van één zin of juist met een langere, dichtere passage.
 
-**Schrijf in plaats daarvan:** begin soms met een voorbeeld en laat de lezer zelf de conclusie trekken. Begin soms met de conclusie en werk terug. Laat de inhoud de vorm bepalen.
-
-### 3.2 Uniforme alinealengte
-
-Alinea's van vrijwel dezelfde lengte, elk netjes afgerond. Mensen schrijven rommeliger -- ze dwalen af, komen terug, maken een zijsprong. Doorbreek het patroon met een korte alinea van een zin of een langere, dichtere passage.
-
-### 3.3 De aangekondigde conclusie
+### 3.2 De aangekondigde conclusie
 
 Kondig niet aan dat de tekst gaat afsluiten. Geen "Concluderend," geen "Samengevat," geen "Samenvattend kunnen we stellen dat." De lezer voelt wanneer een tekst eindigt. Eindig gewoon.
 
-### 3.4 De dode metafoor
+### 3.3 De dode metafoor
 
 Als een metafoor wordt geintroduceerd, gebruik hem een of twee keer en ga verder. Keer niet in elke volgende alinea terug naar dezelfde metafoor. Bouw niet het hele stuk rond een metafoor.
 
-### 3.5 "Ondanks de uitdagingen..."
+### 3.4 "Ondanks de uitdagingen..."
 
 De starre formule: problemen erkennen -> meteen wegwuiven -> optimistische afsluiting. Als uitdagingen worden besproken, ga er dan echt op in. Gebruik ze niet als springplank naar optimisme.
 
 **Schrijf in plaats daarvan:** als iets echte problemen heeft, sta daar dan bij stil. Leg uit waarom ze lastig zijn. Het is prima om een sectie af te sluiten met een onopgeloste spanning. Lezers vertrouwen schrijven dat moeilijkheden erkent meer dan schrijven dat altijd een positieve draai vindt.
+
+### 3.5 Te veel opsommingen
+
+AI maakt van alles een lijstje. Soms is een opsomming het juiste middel, maar als elke alinea een opsomming bevat, verdwijnt het effect. Gebruik opsommingen spaarzaam, en schrijf de rest als lopende tekst.
+
+### 3.6 Fractale samenvattingen
+
+Kondig niet aan wat er komt, zeg het, en vat daarna samen wat er net stond, op elk niveau van het document. Zeg dingen één keer.
+
+### 3.7 Eén punt uitgesmeerd
+
+Als het betoog één hoofdpunt heeft, maak dat punt dan in vijfhonderd woorden en niet in drieduizend. Herhaal één stelling niet met steeds andere metaforen en voorbeelden over meerdere secties.
+
+### 3.8 Historische analogieën stapelen
+
+Vuur geen rijtje bedrijven of technologieën af om gezag te suggereren ("Apple bouwde Uber niet. Facebook bouwde Spotify niet..."). Eén goedgekozen voorbeeld is sterker dan vijf oppervlakkige.
+
 
 ---
 
@@ -176,7 +228,7 @@ Gebruik het gedachtestreepje (het teken `—`) niet. Het is het meest herkenbare
 
 Deze regel gaat specifiek over het gedachtestreepje (`—`). Het koppelteken (`-`) in samenstellingen en het half-kastje (`–`) in getalbereiken (1–5) zijn prima.
 
-**Waar het bij het vervangen misgaat.** Het gedachtestreepje verbinden vaak twee delen die inhoudelijk aan elkaar vastzitten. Wie het streepje door een punt vervangt zonder de zin te herbouwen, houdt een fragment over ("... beheert. Dat is de vraag."), en wie het door een dubbele punt vervangt overtreedt 4.5. Herbouw de zin: zet de persoonsvorm vooraan en maak er één hele zin van, of twee hele zinnen. Loop na het schrappen de aanvultest uit 6.5 na.
+**Waar het bij het vervangen misgaat.** Het gedachtestreepje verbindt vaak twee delen die inhoudelijk aan elkaar vastzitten. Wie het streepje door een punt vervangt zonder de zin te herbouwen, houdt een fragment over ("... beheert. Dat is de vraag."), en wie het door een dubbele punt vervangt overtreedt 4.5. Herbouw de zin: zet de persoonsvorm vooraan en maak er één hele zin van, of twee hele zinnen. Loop na het schrappen de aanvultest uit 2.8 na.
 
 ### 4.2 Vet-eerst-opsommingen
 
@@ -216,13 +268,17 @@ Wel toegestaan (geen dwang om weg te schrijven):
 
 De test: als de tekst voor en na de `:` of `;` zelfstandig leesbaar is als losse zin, gebruik dan een punt en begin een nieuwe zin. Puntkomma's hebben in moderne Nederlandse zakelijke prose vrijwel nooit een plek. Schrap ze standaard.
 
-### 4.6 Vet en cursief midden in een zin
+### 4.6 Inconsistente aanhalingstekens
+
+Wees consequent in aanhalingstekens door het hele document. Meng geen rechte en gekrulde aanhalingstekens door elkaar, en meng geen Nederlandse ("...") en Engelse ('...') conventies.
+
+### 4.7 Vet en cursief midden in een zin
 
 Maak losse woorden binnen een zin niet vet of cursief voor nadruk ("hun **eigen** schermen", "dit is *niet* optioneel"). AI leunt op inline-nadruk om drama toe te voegen dat de zin zelf zou moeten dragen. Laat woordkeus en zinsbouw het werk doen. Bewaar vet voor echte labels of koppen, en vermijd cursief voor nadruk helemaal in verzorgde, stakeholder-gerichte prose.
 
-### 4.7 Accenttekens op klinkers voor nadruk
+### 4.8 Accenttekens op klinkers voor nadruk
 
-AI zet acute accenten op klinkers om een woord te benadrukken ("dit is écht belangrijk", "in élk scenario", "de laag ónder de schermen", "AI maakt het platform méér waard"). Dit is bijna altijd overbodige nadruk, net als vet of cursief midden in een zin (zie 4.6). Verwijder het accent en laat het gewone woord staan.
+AI zet acute accenten op klinkers om een woord te benadrukken ("dit is écht belangrijk", "in élk scenario", "de laag ónder de schermen", "AI maakt het platform méér waard"). Dit is bijna altijd overbodige nadruk, net als vet of cursief midden in een zin (zie 4.7). Verwijder het accent en laat het gewone woord staan.
 
 De enige uitzondering is "één" (het telwoord), waar de accenten "één" onderscheiden van het lidwoord "een". Die accenten blijven staan. Alle andere nadrukaccenten (á, é, í, ó, ú) schrap je.
 
@@ -258,7 +314,28 @@ Ga niet standaard in uitleg-modus. Ga er niet van uit dat de lezer bij de hand g
 
 Beschrijf mensen, bedrijven of initiatieven niet in promotietaal ("heeft blijk gegeven van excellentie in..." / "inzet voor duurzaamheid, klantgerichtheid en welvaart"). Beschrijf wat er gebeurd is. Laat de lezer bepalen of het excellent was.
 
-### 5.7 Aan de verkeerde lezer geschreven
+### 5.7 Verzonnen begripslabels
+
+Verzin geen samengestelde labels die analytisch klinken maar geen ingeburgerde term zijn ("de toezichtparadox", "de versnellingsval", "werkdrukkruip"). Als een begrip een naam nodig heeft, verdien die naam dan door hem te definiëren en te beargumenteren. Gebruik hem niet als retorische kortere weg.
+
+
+### 5.8 Overmatig formeel: schrijf spreektaal
+
+AI schrijft Nederlands vaak formeler dan de context rechtvaardigt. Een blogpost hoeft niet te lezen als een beleidsdocument, en een verslag van een interview hoort te klinken alsof de geïnterviewde het zelf zegt.
+
+**De test:** zou je deze zin hardop tegen de lezer zeggen? Zo niet, herschrijf hem tot je dat wel zou doen.
+
+**Afstandelijke rapportageconstructies zijn de meest voorkomende vorm.** "Er werd ...", "men ziet ...", "wordt geacht ...", "het dient te worden opgemerkt dat ..." zetten een naamloze waarnemer tussen de lezer en het feit. Noem de spreker, of zeg het gewoon.
+
+- "Er werd een misgelopen omzet genoemd van ongeveer één à twee ton." -> beter: "Ron noemde een misgelopen omzet van een ton of twee." of gewoon: "Een ton of twee aan misgelopen omzet."
+- "De capaciteit van terminals wordt sterk vergroot." -> beter: "De capaciteit van de terminals wordt fors groter."
+- "Hiermee wordt beoogd de doorlooptijd te verkorten." -> beter: "Zo wordt de doorlooptijd korter."
+
+**Naamwoordstijl is de tweede vorm.** Te veel zelfstandige naamwoorden op plaatsen waar een vervoegd werkwoord kan staan, meestal herkenbaar aan woorden op *-ing* en *-atie* en aan ketens van voorzetsels (Onze Taal, taalloket "naamwoordstijl"). "Het streven naar een verbetering van de klantenservice blijft een speerpunt." -> beter: "We willen de klantenservice blijven verbeteren." Zet het werkwoord terug en noem wie het doet.
+
+**Lengte is geen probleem, onduidelijkheid wel.** Een zin mag langer worden als hij daardoor begrijpelijk wordt. Comprimeer niet om compact te lijken.
+
+### 5.9 Aan de verkeerde lezer geschreven
 
 Dit is de duurste fout in dit document, en de minst herkenbare als stijltic. De schrijver richt zinnen aan de persoon met wie hij het stuk maakte, terwijl het stuk voor iemand anders bestemd is. Een stuk met deze fout is niet slordig maar onbruikbaar: de ontvanger struikelt over verwijzingen naar gesprekken, documenten en afkortingen die hij niet kent.
 
@@ -292,56 +369,13 @@ Voorbeelden:
 
 Menselijke Nederlandse teksten bevatten kleine onvolkomenheden -- een iets onhandige zin, een informele woordkeus, een zijsprong. AI-tekst is vaak verdacht vlekkeloos. Schrijf niet alsof elke zin door een eindredacteur is gepolijst.
 
-### 6.3 Overmatig formeel: schrijf spreektaal
-
-AI schrijft Nederlands vaak formeler dan de context rechtvaardigt. Een blogpost hoeft niet te lezen als een beleidsdocument, en een verslag van een interview hoort te klinken alsof de geïnterviewde het zelf zegt.
-
-**De test:** zou je deze zin hardop tegen de lezer zeggen? Zo niet, herschrijf hem tot je dat wel zou doen.
-
-**Afstandelijke rapportageconstructies zijn de meest voorkomende vorm.** "Er werd ...", "men ziet ...", "wordt geacht ...", "het dient te worden opgemerkt dat ..." zetten een naamloze waarnemer tussen de lezer en het feit. Noem de spreker, of zeg het gewoon.
-
-- "Er werd een misgelopen omzet genoemd van ongeveer één à twee ton." -> beter: "Ron noemde een misgelopen omzet van een ton of twee." of gewoon: "Een ton of twee aan misgelopen omzet."
-- "De capaciteit van terminals wordt sterk vergroot." -> beter: "De capaciteit van de terminals wordt fors groter."
-- "Hiermee wordt beoogd de doorlooptijd te verkorten." -> beter: "Zo wordt de doorlooptijd korter."
-
-**Naamwoordstijl is de tweede vorm.** Te veel zelfstandige naamwoorden op plaatsen waar een vervoegd werkwoord kan staan, meestal herkenbaar aan woorden op *-ing* en *-atie* en aan ketens van voorzetsels (Onze Taal, taalloket "naamwoordstijl"). "Het streven naar een verbetering van de klantenservice blijft een speerpunt." -> beter: "We willen de klantenservice blijven verbeteren." Zet het werkwoord terug en noem wie het doet.
-
-**Lengte is geen probleem, onduidelijkheid wel.** Een zin mag langer worden als hij daardoor begrijpelijk wordt. Comprimeer niet om compact te lijken.
-
-### 6.4 Te veel opsommingen
-
-AI maakt van alles een lijstje. Soms is een opsomming het juiste middel, maar als elke alinea een opsomming bevat, verdwijnt het effect. Gebruik opsommingen spaarzaam, en schrijf de rest als lopende tekst.
-
-### 6.5 Elliptische zinnen: de lezer mag niets aanvullen
-
-AI comprimeert graag door iets weg te laten dat de lezer er zelf bij moet denken: een persoonsvorm, een onderwerp, of een zelfstandig naamwoord dat is samengeperst tot een stapel. Elke keer dat er een nieuwe verschijningsvorm opduikt, is het dezelfde fout. Behandel ze dus met één test in plaats van met een regel per vorm.
-
-**De aanvultest.** Maak van de zin een ja/nee-vraag door de persoonsvorm naar voren te halen. Lukt dat niet, omdat er geen persoonsvorm is of geen onderwerp om over te vragen, dan is het een zinsfragment. Moet je eerst een samengesteld zelfstandig naamwoord uitpakken voordat de zin klopt, dan is het een naamwoordstapel. In beide gevallen doet de schrijver dat werk, niet de lezer.
-
-**De reparatie: zet de persoonsvorm van de echte bewering vooraan.** Dit is de stap die het vaakst misgaat. Het is niet genoeg om het bestaande werkwoord te vervoegen, want dat verandert de bewering. De vraag "waar hoort de bron van waarheid te liggen" is geen voornemen om dat te gaan bepalen.
-
-- "Bepalen waar de bron van waarheid voor de strategiedata hoort te liggen en wie welke laag beheert. Dat is de vraag." -> beter: "De vraag is waar de bron van waarheid voor de strategiedata hoort te liggen, en wie welke laag beheert."
-- Niet: "We bepalen waar de bron van waarheid hoort te liggen." Dat vervoegt het werkwoord wel, maar maakt van een open vraag een actie.
-
-Let op dat het voorbeeld hierboven twee fouten stapelt: een fragment plus een oordeelstaart (zie 2.7). De aanvultest vangt de eerste helft, de weglaattest de tweede. Draai beide tests, want de ene verklaart de andere helft schoon.
-
-**Verschijningsvormen, allemaal dezelfde fout:**
-
-- **Infinitief-kop.** "Voorspellingen verbeteren door de blend te herzien." -> beter: "We hebben de voorspellingen verbeterd door de blend te herzien."
-- **Voegwoordfragment zonder werkwoord**, beginnend met *wat*, *wanneer*, *indien*, *zodra*, *consistent met*, *in lijn met*. "..., wat consistent met de eerdere observaties." -> beter: "Dit ligt in lijn met wat we eerder zagen." / "... wanneer beschikbaar." -> beter: "... wanneer deze beschikbaar is."
-- **Kaal hulpwerkwoord aan het eind.** "... voordat activatie kan." -> beter: "... voordat we deze kunnen aanzetten." In lange zinnen waar het hoofdwerkwoord al genoemd is ("hij wil dat wel, maar mag niet") is dit prima; de valkuil zit in korte, op zichzelf staande clausules, vooral aan het eind van een opsommingsbullet.
-- **Weggelaten kernwoord.** "en dat is de ernstigste" -> de ernstigste wát? Bij het Nederlands verschuift ook nog het geslacht mee (de ernstigste tekortkoming tegenover het ernstigste probleem), zodat de zin niet alleen kort maar onbeslisbaar wordt. Schrijf het kernwoord uit.
-- **Streepjes-stapelnomen.** "vorig-jaar-data" -> "data van vorig jaar"; "de defecte-rijtuig-incidentperiode" -> "de periode waarin er een defect rijtuig was"; "pre-deploy-test-checklist" -> "de checklist die we doorlopen voordat we naar productie gaan". Eén samenstelling ("klantfeedback", "voorraadbeheer") is normaal Nederlands. Vanaf het tweede streepje moet er een onderdeel uit en met een voorzetsel of bijzin terug.
-- **Kaal label als kop.** Een kop of regel die op een dubbele punt eindigt zonder dat er een zin volgt ("Alles of bijna alles:", "Uitwerkstatus:"), of die alleen een categorie noemt. Begin bij de inhoud.
-
-
 ---
 
 ## 7. Algemene principes
 
 **Comprimeren is niet het doel, begrepen worden wel.** De regels hierboven schrappen veel, en dat verleidt tot te ver doorschieten. Twee fouten liggen even dicht bij elkaar: met te weinig woorden te weinig zeggen, zodat de lezer moet raden wat er bedoeld wordt, en drie regels schrijven die alle drie hetzelfde zeggen. Wees specifiek zonder langdradig te worden. Als een zin langer moet zijn om te kloppen, laat hem dan langer zijn.
 
-**Vervang een leesteken nooit door een gat.** Wanneer een gedachtestreepje, dubbele punt of puntkomma weg moet (sectie 4.1 en 4.5), zet er dan een echte zin voor in de plaats, niet een punt met een fragment erachter. Het verbod op één leesteken verplaatst de neiging naar het volgende: naar dubbele punten, naar losse stukjes zin, en naar de oordeelstaart uit 2.7. Controleer na elke schrapping of wat er staat nog een hele zin is.
+**Vervang een leesteken nooit door een gat.** Wanneer een gedachtestreepje, dubbele punt of puntkomma weg moet (sectie 4.1 en 4.5), zet er dan een echte zin voor in de plaats, niet een punt met een fragment erachter. Het verbod op één leesteken verplaatst de neiging naar het volgende: naar dubbele punten, naar losse stukjes zin, en naar de oordeelstaart uit 2.9. Controleer na elke schrapping of wat er staat nog een hele zin is.
 
 **Varieer bewust in zinslengte.** Een monotoon ritme -- lang, lang, lang of kort, kort, kort -- is net zo verradelijk als woordkeus. Wissel af. Laat sommige zinnen ademen. Hak andere kort.
 
