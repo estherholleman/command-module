@@ -131,6 +131,7 @@ Note that the example stacks two defects: a fragment plus an evaluative tail (se
 - **Elided head noun.** "and that's the most serious" -> the most serious what? Write the head noun out and name what you are comparing against.
 - **Hyphen noun stacks.** "last-year data" -> "data from last year"; "the broken-carriage incident period" -> "the period when a carriage was broken"; "pre-deploy test checklist" -> "the checklist we run before shipping to production". One compound is normal English; from the second hyphen on, take a part out and put it back with a preposition or a relative clause.
 - **Bare label as a heading.** A heading or line ending in a colon with no sentence after it ("Completion status:", "The core:"), or one that names only a category. Start at the substance.
+- **Empty run-up before a colon.** A lead-in phrase that introduces the sentence without asserting anything, and is not a sentence itself: "All or almost all: the investment only pays back if nearly everyone joins." -> better: start at "The investment...". Same test: if the run-up is not a sentence and says nothing the main clause does not already say, cut it.
 
 ### 2.9 Empty Evaluative Tails
 
@@ -302,6 +303,7 @@ The costliest failure in this document, and the one least likely to be recognise
 - "As explained in the building-block document." / "See the appendix." -> better: explain it here, even in two sentences. For this reader, a pointer to another document is a closed door.
 - "T154 is done." / "Question C: how often should this run?" / "Axis 1", "Axis 2" / column headings "G" and "A" -> better: the description is the name, and the number may follow in brackets at most. A heading called "Question C" should become the question: "How often should this run, and who runs it?"
 - Contrastive question-pair headings: "why yes" / "why no" -> better: plain nouns, "advantages" and "drawbacks".
+- A category word bolted onto something that is already the name: "IAMconnected Service provider" -> better: "IAMconnected". It is the same move as writing "MCA Service" where everyone says MCA. Use the name the reader knows, with no added classifier.
 - In-group jargon nobody outside the team knows: "deck" (write presentations or PowerPoints), and any internal coinage for a concept the reader has never met. For every specialist word, ask whether it appears in the source document the reader does know. If not, use the word that appears there.
 
 **Where this does not apply.** Do not simplify away a technical term that says exactly what you mean. Replacing "capabilities" with "skills" makes the term vaguer, and vague is worse than unfamiliar. The rule is: pick the word that says most precisely what you mean, and explain it once if the reader will not know it. Internal model names and code keys are outside this rule, where precision wins.

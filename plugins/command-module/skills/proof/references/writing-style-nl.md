@@ -148,6 +148,7 @@ Let op dat het voorbeeld hierboven twee fouten stapelt: een fragment plus een oo
 - **Weggelaten kernwoord.** "en dat is de ernstigste" -> de ernstigste wát? Bij het Nederlands verschuift ook nog het geslacht mee (de ernstigste tekortkoming tegenover het ernstigste probleem), zodat de zin niet alleen kort maar onbeslisbaar wordt. Schrijf het kernwoord uit.
 - **Streepjes-stapelnomen.** "vorig-jaar-data" -> "data van vorig jaar"; "de defecte-rijtuig-incidentperiode" -> "de periode waarin er een defect rijtuig was"; "pre-deploy-test-checklist" -> "de checklist die we doorlopen voordat we naar productie gaan". Eén samenstelling ("klantfeedback", "voorraadbeheer") is normaal Nederlands. Vanaf het tweede streepje moet er een onderdeel uit en met een voorzetsel of bijzin terug.
 - **Kaal label als kop.** Een kop of regel die op een dubbele punt eindigt zonder dat er een zin volgt ("Uitwerkstatus:", "Kern:"), of die alleen een categorie noemt. Begin bij de inhoud.
+- **Lege aanloop voor een dubbele punt.** Een aanloopfrase die de zin inleidt zonder zelf iets te beweren, en die geen hele zin is: "Alles of bijna alles: de investering verdient zich alleen terug als vrijwel iedereen aansluit." -> beter: begin bij "De investering ...". De test is dezelfde: is de aanloop geen zin en zegt hij niets wat de hoofdzin niet al zegt, schrap hem dan.
 
 
 ### 2.9 De lege oordeelstaart
@@ -346,6 +347,7 @@ Dit is de duurste fout in dit document, en de minst herkenbare als stijltic. De 
 - "Zoals uitgelegd in het bouwsteendocument." / "Zie de bijlage." -> beter: leg het ter plekke uit, al is het maar in twee zinnen. Een verwijzing naar een ander document is voor deze lezer een dichte deur.
 - "T154 is klaar." / "Vraag C: hoe vaak moet dit draaien?" / "As 1", "As 2" / kolomkoppen "G" en "A" -> beter: de omschrijving is de naam, het nummer mag hooguit tussen haakjes erachter. Een kop die "Vraag C" heet moet de vraag zelf worden: "Hoe vaak en wie moet dit draaien?"
 - Contrastieve vraagparen als kopjes: "waarom wel" / "waarom niet" -> beter: gewone zelfstandige naamwoorden, "voordelen" en "nadelen".
+- Een categoriewoord plakken achter iets dat de naam al is: "IAMconnected Service provider" -> beter: "IAMconnected". Dat is hetzelfde als "MCA Service" schrijven waar iedereen MCA zegt. Gebruik de naam die de lezer kent, zonder toegevoegde soortaanduiding.
 - Intern jargon dat buiten het eigen groepje niemand kent: "deck" (schrijf presentaties of PowerPoints), "klep", "witte vlek". Vraag bij elk vakwoord of het in de bronpresentatie of het brondocument staat dat de lezer wél kent. Zo niet, gebruik het woord dat daar staat.
 
 **Waar dit niet geldt.** Vereenvoudig geen vakterm weg die precies zegt wat je bedoelt. "Capabilities" vervangen door "vaardigheden" maakt de term vager, en vaag is erger dan onbekend. De regel is: kies het woord dat het scherpst zegt wat je bedoelt, en leg het één keer uit als de lezer het niet kent. Interne modelnamen en code-sleutels vallen buiten deze regel; daar wint precisie.
