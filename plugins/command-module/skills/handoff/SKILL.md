@@ -77,7 +77,7 @@ Skip this phase if `$ARGUMENTS` was provided.
 
 Show the user a single-line preview via the platform's blocking question tool:
 
-> Writing `docs/prompts/<topic>-<next-action>.md` for `/<next-skill>` -- proceed? [Y / n / edit / keep going here]
+> Writing `docs/prompts/YYYY-MM-DD-<topic>-<next-action>.md` for `/<next-skill>` -- proceed? [Y / n / edit / keep going here]
 
 Resolution:
 - **Y** -- proceed to Phase 2.
@@ -90,10 +90,10 @@ This single-keystroke confirmation closes the gap between "user invoked /handoff
 
 **Resolve target directory:**
 
-Run a single bash command to find the repo root:
+Run a single bash command to find the repo root and today's date:
 
 ```bash
-git rev-parse --show-toplevel
+git rev-parse --show-toplevel && date +%F
 ```
 
 - On success: target directory is `<repo-root>/docs/prompts/`.
@@ -101,7 +101,7 @@ git rev-parse --show-toplevel
 
 **Create directory if missing.** Use the native file-write tool (e.g. Write in Claude Code) -- it will create parent directories as needed.
 
-**Derive filename.** Format: `<topic>-<next-action>.md`, kebab-case. If the file already exists, append a numeric suffix: `<topic>-<next-action>-2.md`, `-3.md`, and so on, until a free name is found. Use the native file-search/glob tool (e.g. Glob in Claude Code) to detect existing collisions -- do not shell out for this.
+**Derive filename.** Format: `YYYY-MM-DD-<topic>-<next-action>.md`, kebab-case, where the date is today's date from the `date +%F` call above -- never a date recalled from context or guessed. The date prefix comes first so that a listing of `docs/prompts/` sorts oldest to newest and the most recent prompt is always at the bottom. Do not add a `prompt-` prefix; the directory already says it. If the file already exists, append a numeric suffix: `YYYY-MM-DD-<topic>-<next-action>-2.md`, `-3.md`, and so on, until a free name is found. Use the native file-search/glob tool (e.g. Glob in Claude Code) to detect existing collisions -- do not shell out for this.
 
 **Write the file.** On write failure (permission denied, disk full, read-only filesystem), surface the error verbatim and the resolved target path so the user can act. Do not silently swallow.
 
