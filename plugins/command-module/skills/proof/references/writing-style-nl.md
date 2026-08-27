@@ -9,7 +9,7 @@ Deze regels beschrijven schrijfgewoontes die verraden dat een tekst door AI is g
 Woordkeus is zelden het probleem. Een proefronde over zes eerdere teksten leverde nul treffers op de woordenlijst in sectie 1 en tientallen treffers op de patronen hieronder. Loop bij elke tekst eerst deze drie tests af, en gebruik de rest van dit document voor de specifieke gevallen.
 
 1. **De aanvultest (elliptische zinnen, sectie 2.8).** Maak van de zin een ja/nee-vraag. Lukt dat niet, omdat er geen persoonsvorm of geen onderwerp is om naar voren te halen, dan is het een zinsfragment. Vul zelf aan wat de lezer anders moet raden.
-2. **De weglaattest (lege oordeelstaarten, sectie 2.9).** Schrap de laatste bijzin en lees de zin opnieuw. Is er geen informatie verdwenen, dan was die bijzin een oordeelstaart. Vervang hem door het gevolg, of laat hem weg.
+2. **De weglaattest (lege oordeelstaarten, sectie 2.9).** Schrap de laatste bijzin en lees de zin opnieuw. Is er geen informatie verdwenen, dan was die bijzin een lege oordeelstaart. Vervang hem door het gevolg, of laat hem weg.
 3. **De lezerstest (verkeerde geadresseerde, sectie 5.9).** Vraag bij elke zin: kan iemand dit begrijpen die niet bij het maken van dit document aanwezig was? Zo niet, dan is de zin aan de verkeerde lezer gericht.
 
 ---
@@ -126,7 +126,6 @@ Twee of meer dingen ontkennen voordat het echte punt komt.
 - "Geen bug. Geen feature. Een fundamentele ontwerpfout."
 - "Niet tien. Niet vijftig. Vijfhonderd."
 
-
 ### 2.8 Elliptische zinnen: de lezer mag niets aanvullen
 
 AI comprimeert graag door iets weg te laten dat de lezer er zelf bij moet denken: een persoonsvorm, een onderwerp, of een zelfstandig naamwoord dat is samengeperst tot een stapel. Elke keer dat er een nieuwe verschijningsvorm opduikt, is het dezelfde fout. Behandel ze dus met één test in plaats van met een regel per vorm.
@@ -145,15 +144,14 @@ Let op dat het voorbeeld hierboven twee fouten stapelt: een fragment plus een oo
 - **Infinitief-kop.** "Voorspellingen verbeteren door de blend te herzien." -> beter: "We hebben de voorspellingen verbeterd door de blend te herzien."
 - **Voegwoordfragment zonder werkwoord**, beginnend met *wat*, *wanneer*, *indien*, *zodra*, *consistent met*, *in lijn met*. "..., wat consistent met de eerdere observaties." -> beter: "Dit ligt in lijn met wat we eerder zagen." / "... wanneer beschikbaar." -> beter: "... wanneer deze beschikbaar is."
 - **Kaal hulpwerkwoord aan het eind.** "... voordat activatie kan." -> beter: "... voordat we deze kunnen aanzetten." In lange zinnen waar het hoofdwerkwoord al genoemd is ("hij wil dat wel, maar mag niet") is dit prima; de valkuil zit in korte, op zichzelf staande clausules, vooral aan het eind van een opsommingsbullet.
-- **Weggelaten kernwoord.** "en dat is de ernstigste" -> de ernstigste wát? Bij het Nederlands verschuift ook nog het geslacht mee (de ernstigste tekortkoming tegenover het ernstigste probleem), zodat de zin niet alleen kort maar onbeslisbaar wordt. Schrijf het kernwoord uit.
+- **Weggelaten kernwoord.** "en dat is de ernstigste" -> de ernstigste wát? In het Nederlands verschuift bovendien het geslacht mee (de ernstigste tekortkoming tegenover het ernstigste probleem), zodat de zin niet alleen kort maar onbeslisbaar wordt. Schrijf het kernwoord uit.
 - **Streepjes-stapelnomen.** "vorig-jaar-data" -> "data van vorig jaar"; "de defecte-rijtuig-incidentperiode" -> "de periode waarin er een defect rijtuig was"; "pre-deploy-test-checklist" -> "de checklist die we doorlopen voordat we naar productie gaan". Eén samenstelling ("klantfeedback", "voorraadbeheer") is normaal Nederlands. Vanaf het tweede streepje moet er een onderdeel uit en met een voorzetsel of bijzin terug.
 - **Kaal label als kop.** Een kop of regel die op een dubbele punt eindigt zonder dat er een zin volgt ("Uitwerkstatus:", "Kern:"), of die alleen een categorie noemt. Begin bij de inhoud.
 - **Lege aanloop voor een dubbele punt.** Een aanloopfrase die de zin inleidt zonder zelf iets te beweren, en die geen hele zin is: "Alles of bijna alles: de investering verdient zich alleen terug als vrijwel iedereen aansluit." -> beter: begin bij "De investering ...". De test is dezelfde: is de aanloop geen zin en zegt hij niets wat de hoofdzin niet al zegt, schrap hem dan.
 
-
 ### 2.9 De lege oordeelstaart
 
-Een bijzin of losse zin die terugwijst naar wat er net stond en de lezer vertelt hoe hij het moet vinden, zonder er informatie aan toe te voegen. Deze zinnen zijn grammaticaal compleet, dus de aanvultest in 6.5 verklaart ze schoon. Ze falen op retoriek: als de vorige zin het probleem al liet zien is de taart overbodig, en als hij dat niet deed dan beweert de taart iets in plaats van het te tonen.
+Een bijzin of losse zin die terugwijst naar wat er net stond en de lezer vertelt hoe hij het moet vinden, zonder er informatie aan toe te voegen. Deze zinnen zijn grammaticaal compleet, dus de aanvultest in 2.8 verklaart ze schoon. Ze falen op retoriek: als de vorige zin het probleem al liet zien is de staart overbodig, en als hij dat niet deed dan beweert de staart iets in plaats van het te tonen.
 
 **Schrijf niet:**
 - "Wie de strategiedata beheert is onbekend, en daar zit het probleem."
@@ -161,9 +159,9 @@ Een bijzin of losse zin die terugwijst naar wat er net stond en de lezer vertelt
 - "Dat is de vraag." / "Dat is het punt." / "Dat is de kern." (als losse zin achter de zin die het al zei)
 - "..., en dat is precies de kwestie." / "..., en daar wringt het." / "..., en dat weegt het zwaarst."
 
-**De weglaattest:** schrap de taart en lees de zin opnieuw. "Wie de strategiedata beheert is onbekend." Er is niets verdwenen, dus de taart deed niets.
+**De weglaattest:** schrap de staart en lees de zin opnieuw. "Wie de strategiedata beheert is onbekend." Er is niets verdwenen, dus de staart deed niets.
 
-**De reparatie is het gevolg, niet het oordeel.** Zeg wat er misgaat doordat het zo is: "Wie de strategiedata beheert is onbekend, waardoor niemand kan bepalen welke versie leidend is." Weet je het gevolg niet, schrap de taart dan zonder vervanging.
+**De reparatie is het gevolg, niet het oordeel.** Zeg wat er misgaat doordat het zo is: "Wie de strategiedata beheert is onbekend, waardoor niemand kan bepalen welke versie leidend is." Weet je het gevolg niet, schrap de staart dan zonder vervanging.
 
 **De rangschikkende variant is dubbel fout.** "En dat is de ernstigste" laat ook het kernwoord weg (de ernstigste wát?) en impliceert een vergelijking met een verzameling die de lezer zelf moet reconstrueren. Schrijf het kernwoord uit en noem waarmee je vergelijkt: "Van de vier gaten is het ontbreken van de oordelenlaag het gat dat de tool onbruikbaar maakt."
 
@@ -176,7 +174,6 @@ Drie of meer zinnen achter elkaar die identiek beginnen.
 **Schrijf niet:**
 - "Ze kunnen data ontsluiten... Ze kunnen inzicht bieden... Ze kunnen sturen..."
 - "Het betekent betere X. Het betekent betere Y. Het betekent betere Z."
-
 
 ---
 
@@ -215,7 +212,6 @@ Als het betoog één hoofdpunt heeft, maak dat punt dan in vijfhonderd woorden e
 ### 3.8 Historische analogieën stapelen
 
 Vuur geen rijtje bedrijven of technologieën af om gezag te suggereren ("Apple bouwde Uber niet. Facebook bouwde Spotify niet..."). Eén goedgekozen voorbeeld is sterker dan vijf oppervlakkige.
-
 
 ---
 
@@ -318,7 +314,6 @@ Beschrijf mensen, bedrijven of initiatieven niet in promotietaal ("heeft blijk g
 ### 5.7 Verzonnen begripslabels
 
 Verzin geen samengestelde labels die analytisch klinken maar geen ingeburgerde term zijn ("de toezichtparadox", "de versnellingsval", "werkdrukkruip"). Als een begrip een naam nodig heeft, verdien die naam dan door hem te definiëren en te beargumenteren. Gebruik hem niet als retorische kortere weg.
-
 
 ### 5.8 Overmatig formeel: schrijf spreektaal
 
