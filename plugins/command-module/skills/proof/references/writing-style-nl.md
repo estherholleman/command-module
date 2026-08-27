@@ -248,55 +248,26 @@ AI schrijft Nederlands vaak formeler dan de context rechtvaardigt. Een blogpost 
 
 AI maakt van alles een lijstje. Soms is een opsomming het juiste middel, maar als elke alinea een opsomming bevat, verdwijnt het effect. Gebruik opsommingen spaarzaam, en schrijf de rest als lopende tekst.
 
-### 6.5 Verkapte zinnen: zinsfragmenten en streepjes-stapelnomen
+### 6.5 Elliptische zinnen: de lezer mag niets aanvullen
 
-AI comprimeert informatie graag in één zin op twee manieren: (a) door een toelichting als zinsfragment achter een komma te plakken zonder hoofdwerkwoord, en (b) door meerdere concepten op te stapelen tot één lang samengesteld zelfstandig naamwoord met streepjes. Beide maken de tekst dichter en abstracter dan nodig. Pak los: schrijf een echte zin met een werkwoord, of gebruik een bijzin die expliciet maakt wat in het stapelnomen verstopt zit.
+AI comprimeert graag door iets weg te laten dat de lezer er zelf bij moet denken: een persoonsvorm, een onderwerp, of een zelfstandig naamwoord dat is samengeperst tot een stapel. Elke keer dat er een nieuwe verschijningsvorm opduikt, is het dezelfde fout. Behandel ze dus met één test in plaats van met een regel per vorm.
 
-**Patroon a: zinsfragmenten met "wat", "wanneer", "indien" of een ander voegwoord zonder werkwoord.**
-Een vervolg dat begint met "wat ...", "wanneer ...", "indien ...", "zodra ...", "consistent met ..." enzovoort en geen vervoegd werkwoord meer krijgt, is een fragment. Schrijf het uit als een echte zin met een werkwoord, of begin een nieuwe zin met "Dit ...".
+**De aanvultest.** Maak van de zin een ja/nee-vraag door de persoonsvorm naar voren te halen. Lukt dat niet, omdat er geen persoonsvorm is of geen onderwerp om over te vragen, dan is het een zinsfragment. Moet je eerst een samengesteld zelfstandig naamwoord uitpakken voordat de zin klopt, dan is het een naamwoordstapel. In beide gevallen doet de schrijver dat werk, niet de lezer.
 
-- "..., wat consistent met de defecte-rijtuig-incidentperiode." -> beter: "Dit kwam overeen met de periode waarin er een defect rijtuig was en de cabin gecancelled was."
-- "..., wat in lijn met de eerdere observaties." -> beter: "Dit ligt in lijn met wat we eerder zagen."
-- "..., consistent met onze verwachting." -> beter: "Dit komt overeen met onze verwachting."
-- "... wanneer beschikbaar." -> beter: "... wanneer deze beschikbaar is."
-- "... indien nodig." (in lopende prose) -> beter: "... als dat nodig is." of "... indien dat nodig is."
-- "... zodra klaar." -> beter: "... zodra dit af is."
+**De reparatie: zet de persoonsvorm van de echte bewering vooraan.** Dit is de stap die het vaakst misgaat. Het is niet genoeg om het bestaande werkwoord te vervoegen, want dat verandert de bewering. De vraag "waar hoort de bron van waarheid te liggen" is geen voornemen om dat te gaan bepalen.
 
-**Patroon b: streepjes-stapelnomen.**
-Twee of meer concepten met streepjes aan een zelfstandig naamwoord vastlijmen ("vorig-jaar-data", "defecte-rijtuig-incidentperiode", "post-implementatie-evaluatie-bespreking", "pre-deploy-test-checklist") perst betekenis in één onleesbare bouw. Het Nederlands gebruikt hier doorgaans een voorzetsel (van, voor, in, tijdens, na) of een bijzin. Pak het uit.
+- "Bepalen waar de bron van waarheid voor de strategiedata hoort te liggen en wie welke laag beheert. Dat is de vraag." -> beter: "De vraag is waar de bron van waarheid voor de strategiedata hoort te liggen, en wie welke laag beheert."
+- Niet: "We bepalen waar de bron van waarheid hoort te liggen." Dat vervoegt het werkwoord wel, maar maakt van een open vraag een actie.
 
-- "vorig-jaar-data" -> beter: "data van vorig jaar"
-- "de defecte-rijtuig-incidentperiode" -> beter: "de periode waarin er een defect rijtuig was"
-- "post-implementatie-evaluatie-bespreking" -> beter: "het overleg na oplevering om te evalueren"
-- "pre-deploy-test-checklist" -> beter: "de checklist die we doorlopen voordat we naar productie gaan"
-- "klant-feedback-overzicht" -> beter: "het overzicht van klantfeedback" (één samengesteld zelfstandig naamwoord is prima; de stapel wordt fout vanaf het tweede streepje)
+**Verschijningsvormen, allemaal dezelfde fout:**
 
-Vuistregel: één samengesteld zelfstandig naamwoord ("klantfeedback", "voorraadbeheer", "Wolter-rapport") is normaal Nederlands. Vanaf het tweede streepje is de samenstelling bijna altijd te dicht en moet de schrijver er één of meer onderdelen uithalen en met een voorzetsel of bijzin terugplaatsen.
+- **Infinitief-kop.** "Voorspellingen verbeteren door de blend te herzien." -> beter: "We hebben de voorspellingen verbeterd door de blend te herzien."
+- **Voegwoordfragment zonder werkwoord**, beginnend met *wat*, *wanneer*, *indien*, *zodra*, *consistent met*, *in lijn met*. "..., wat consistent met de eerdere observaties." -> beter: "Dit ligt in lijn met wat we eerder zagen." / "... wanneer beschikbaar." -> beter: "... wanneer deze beschikbaar is."
+- **Kaal hulpwerkwoord aan het eind.** "... voordat activatie kan." -> beter: "... voordat we deze kunnen aanzetten." In lange zinnen waar het hoofdwerkwoord al genoemd is ("hij wil dat wel, maar mag niet") is dit prima; de valkuil zit in korte, op zichzelf staande clausules, vooral aan het eind van een opsommingsbullet.
+- **Weggelaten kernwoord.** "en dat is de ernstigste" -> de ernstigste wát? Bij het Nederlands verschuift ook nog het geslacht mee (de ernstigste tekortkoming tegenover het ernstigste probleem), zodat de zin niet alleen kort maar onbeslisbaar wordt. Schrijf het kernwoord uit.
+- **Streepjes-stapelnomen.** "vorig-jaar-data" -> "data van vorig jaar"; "de defecte-rijtuig-incidentperiode" -> "de periode waarin er een defect rijtuig was"; "pre-deploy-test-checklist" -> "de checklist die we doorlopen voordat we naar productie gaan". Eén samenstelling ("klantfeedback", "voorraadbeheer") is normaal Nederlands. Vanaf het tweede streepje moet er een onderdeel uit en met een voorzetsel of bijzin terug.
+- **Kaal label als kop.** Een kop of regel die op een dubbele punt eindigt zonder dat er een zin volgt ("Alles of bijna alles:", "Uitwerkstatus:"), of die alleen een categorie noemt. Begin bij de inhoud.
 
-De test: als een lezer mentaal een werkwoord moet aanvullen of een zelfstandig naamwoord moet uitpakken om de zin te begrijpen, moet de schrijver dat werk doen, niet de lezer.
-
-### 6.6 Infinitief-koppen in plaats van zinnen met een vervoegd werkwoord
-
-AI schrijft Nederlandse bullets en zinnen vaak als infinitief-koppen ("X verbeteren", "Y inbouwen", "het algoritme overstappen op Z") in plaats van als volledige zinnen met een vervoegd werkwoord. Dit leest als een takenlijst, niet als een rapport. In stakeholder-rapporten en verzorgde prose moet elke bullet of zin een onderwerp en een vervoegd werkwoord hebben.
-
-Voorbeelden:
-- "Het algoritme overstappen op 2026-data wanneer beschikbaar in plaats van standaard vorig jaar." -> beter: "Het algoritme stapt over op data uit 2026 wanneer deze beschikbaar is, en geeft daar de voorkeur aan boven de data van vorig jaar." (Hier zaten drie tics in één zin: infinitief-kop, streepjes-stapel `2026-data`, en "wanneer beschikbaar" zonder werkwoord.)
-- "Voorspellingen verbeteren door de blend te herzien." -> beter: "We hebben de voorspellingen verbeterd door de blend te herzien." of "De voorspellingen worden beter door de blend te herzien."
-- "Volgende stap: rapport opleveren." -> beter: "Volgende stap: we leveren het rapport op." of in lopende tekst: "De volgende stap is dat we het rapport opleveren."
-
-De test: kan een lezer de zin lezen zonder mentaal "we ...", "het ...", of "wordt ..." aan te vullen om er een echte zin van te maken? Zo niet, vervoeg het werkwoord en geef de zin een onderwerp.
-
-### 6.7 Zinnen die eindigen op een kaal hulpwerkwoord
-
-Een Nederlandse zin die eindigt op een hulpwerkwoord (`kan`, `wil`, `zal`, `mag`, `moet`, `gaat`, `ga`) zonder bijbehorend hoofdwerkwoord voelt grammaticaal afgekapt. AI doet dit vaak in compressed schrijfstijl, vooral in opsommingen en korte zinnen. Vul het hoofdwerkwoord aan, of herstructureer de zin zodat hij op een volwaardige werkwoordsvorm of zelfstandig naamwoord eindigt.
-
-Voorbeelden:
-- "Geautomatiseerde Azure-trigger voor MLTours: nog tussenstappen voordat activatie kan." -> beter: "Geautomatiseerde Azure-trigger voor MLTours: er zijn nog tussenstappen nodig voordat we deze kunnen aanzetten." of "...voordat activatie kan plaatsvinden."
-- "We hebben gekeken of het anders kan." -> in geïsoleerde context vaak beter: "We hebben gekeken of het anders kan worden ingericht." of "...of er een alternatief is."
-- "Het systeem moet, maar er ontbreken nog stappen." -> beter: "Het systeem moet draaien, maar er ontbreken nog stappen."
-- "Ferry zou nog, maar het wachten is op input." -> beter: "Ferry zou de volgende stap zetten, maar het wachten is op input."
-
-Niet elk gebruik is fout: in lange zinnen waar het hoofdwerkwoord eerder is genoemd ("hij wil dat wel, maar mag niet") is dit prima. De valkuil zit in *korte, op zichzelf staande clausules* (vooral aan het einde van een opsomming-bullet) waar het hulpwerkwoord zonder anker blijft staan.
 
 ---
 

@@ -100,14 +100,26 @@ These phrases almost never say anything that isn't already obvious from the main
 - "From innovation to cultural transformation."
 - "From beginners to experts." (unless genuinely describing a spectrum)
 
-### 2.8 Gerund Fragment Litanies
+### 2.8 Elliptical Constructions: The Reader Supplies Nothing
 
-After making a point, illustrating it with a stream of verbless gerund fragments.
+AI compresses by leaving something out that the reader has to put back: a finite verb, a subject, or a noun squeezed into a stack. Every few months a new surface form of this appears, and each one is the same defect. Use one test rather than a rule per form.
 
-**Do not write:**
-- "Fixing small bugs. Writing straightforward features. Implementing well-defined tickets."
+**The completion test.** Turn the sentence into a yes/no question by moving the finite verb to the front. If you cannot, because there is no finite verb or no subject to ask about, it is a fragment. If you have to unpack a compound noun before the sentence parses, it is a noun stack. Either way the writer does that work, not the reader.
 
-These add word count, not meaning.
+**The repair: lead with the finite verb of the actual claim.** This is the step that most often goes wrong. Conjugating the existing head verb is not enough, because it changes the claim. "Working out where the source of truth belongs" is not the same claim as "the question is where the source of truth belongs."
+
+- "Working out where the source of truth for the strategy data belongs, and who owns which layer. That's the question." -> better: "The question is where the source of truth for the strategy data belongs, and who owns which layer."
+- Not: "We will work out where the source of truth belongs." That conjugates the verb but turns an open question into a plan of action.
+
+**Surface forms, all the same defect:**
+
+- **Gerund litany.** "Fixing small bugs. Writing straightforward features. Implementing well-defined tickets." -> better: "The easy work is fixing small bugs, writing straightforward features, and implementing well-defined tickets."
+- **Verbless connector fragment**, opening with *which*, *when*, *if*, *consistent with*, *in line with*. "..., which consistent with the earlier observations." -> better: "This matches what we saw earlier." / "... when available." -> better: "... when it becomes available."
+- **Bare auxiliary at the end.** "... before activation can." -> better: "... before we can switch it on." In longer sentences where the main verb has already appeared ("he wants to, but can't"), this is fine; the trap is short standalone clauses, especially at the end of a bullet.
+- **Elided head noun.** "and that's the most serious" -> the most serious what? Write the head noun out and name what you are comparing against.
+- **Hyphen noun stacks.** "last-year data" -> "data from last year"; "the broken-carriage incident period" -> "the period when a carriage was broken"; "pre-deploy test checklist" -> "the checklist we run before shipping to production". One compound is normal English; from the second hyphen on, take a part out and put it back with a preposition or a relative clause.
+- **Bare label as a heading.** A heading or line ending in a colon with no sentence after it ("All or almost all:", "Completion status:"), or one that names only a category. Start at the substance.
+
 
 ---
 
