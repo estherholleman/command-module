@@ -168,14 +168,7 @@ AI schrijft koppen vaak met een hoofdletter op elk woord, naar Amerikaans gebrui
 
 Gebruik niet op elk belangrijk woord vetgedrukte nadruk. Maak niet van elk subpunt een eigen kopje. Gebruik geen opsommingen waar lopende tekst natuurlijker is.
 
-### 4.5 Oxford-komma en andere anglicismen
-
-De Oxford-komma (komma voor "en" in een opsomming) is in het Nederlands niet gebruikelijk. AI neemt deze Engelse gewoonte vaak over.
-
-**Schrijf niet:** "snelheid, kwaliteit, en betrouwbaarheid"
-**Schrijf wel:** "snelheid, kwaliteit en betrouwbaarheid"
-
-### 4.6 Dubbele punten en puntkomma's als zinslijm
+### 4.5 Dubbele punten en puntkomma's als zinslijm
 
 AI gebruikt `:` en `;` vaak om twee onafhankelijke zinnen aan elkaar te lijmen, waarbij de tweede zin de eerste uitlegt of preciseert. Dit leest stroef en maakt zinnen onnodig lang. In stakeholder-rapporten en verzorgde prose is dit zelden de juiste keuze. Begin gewoon een nieuwe zin, of gebruik een komma als de grammatica dat toelaat.
 
@@ -191,13 +184,13 @@ Wel toegestaan (geen dwang om weg te schrijven):
 
 De test: als de tekst voor en na de `:` of `;` zelfstandig leesbaar is als losse zin, gebruik dan een punt en begin een nieuwe zin. Puntkomma's hebben in moderne Nederlandse zakelijke prose vrijwel nooit een plek. Schrap ze standaard.
 
-### 4.7 Vet en cursief midden in een zin
+### 4.6 Vet en cursief midden in een zin
 
 Maak losse woorden binnen een zin niet vet of cursief voor nadruk ("hun **eigen** schermen", "dit is *niet* optioneel"). AI leunt op inline-nadruk om drama toe te voegen dat de zin zelf zou moeten dragen. Laat woordkeus en zinsbouw het werk doen. Bewaar vet voor echte labels of koppen, en vermijd cursief voor nadruk helemaal in verzorgde, stakeholder-gerichte prose.
 
-### 4.8 Accenttekens op klinkers voor nadruk
+### 4.7 Accenttekens op klinkers voor nadruk
 
-AI zet acute accenten op klinkers om een woord te benadrukken ("dit is écht belangrijk", "in élk scenario", "de laag ónder de schermen", "AI maakt het platform méér waard"). Dit is bijna altijd overbodige nadruk, net als vet of cursief midden in een zin (zie 4.7). Verwijder het accent en laat het gewone woord staan.
+AI zet acute accenten op klinkers om een woord te benadrukken ("dit is écht belangrijk", "in élk scenario", "de laag ónder de schermen", "AI maakt het platform méér waard"). Dit is bijna altijd overbodige nadruk, net als vet of cursief midden in een zin (zie 4.6). Verwijder het accent en laat het gewone woord staan.
 
 De enige uitzondering is "één" (het telwoord), waar de accenten "één" onderscheiden van het lidwoord "een". Die accenten blijven staan. Alle andere nadrukaccenten (á, é, í, ó, ú) schrap je.
 

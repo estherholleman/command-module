@@ -407,13 +407,6 @@ AI schrijft koppen vaak met een hoofdletter op elk woord, naar Amerikaans gebrui
 
 Gebruik niet op elk belangrijk woord vetgedrukte nadruk. Maak niet van elk subpunt een eigen kopje. Gebruik geen opsommingen waar lopende tekst natuurlijker is.
 
-### 4.5 Oxford-komma en andere anglicismen
-
-De Oxford-komma (komma vóór "en" in een opsomming) is in het Nederlands niet gebruikelijk. AI neemt deze Engelse gewoonte vaak over.
-
-**Schrijf niet:** "snelheid, kwaliteit, en betrouwbaarheid"
-**Schrijf wel:** "snelheid, kwaliteit en betrouwbaarheid"
-
 ---
 
 ## 5. Toonpatronen om te vermijden
