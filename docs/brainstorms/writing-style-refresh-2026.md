@@ -16,7 +16,7 @@ The revised reference files are committed on this branch, so the review is a dif
 
 **Evidence.** Five of the eight amendments to the Dutch reference patch this same defect, each written against the surface form that had most recently annoyed the user (Leg A, "why enumeration is failing"). Anchor 1 is the sixth surface form and got through all five. Scribbr's Dutch style guidance treats missing subject, missing verb form and missing article as one category with one test, which is a superset of what the three Dutch rules enumerated.
 
-**The prescription was also wrong, and that mattered more than the coverage gap.** NL 6.6 fired on anchor 1's infinitive head but told the writer to "conjugate the verb, give it a subject", which produces "We bepalen waar de bron van waarheid hoort te liggen" — a plan of action where the user wanted a question. The new rule says to lead with the finite verb of the *actual claim* and shows both the right and the wrong repair. A rule that flags the right sentence and prescribes the wrong rewrite is counted as a miss throughout this work.
+**The prescription was also wrong, and that mattered more than the coverage gap.** NL 6.6 fired on anchor 1's infinitive head but told the writer to "conjugate the verb, give it a subject", which produces "We bepalen waar de bron van waarheid hoort te liggen", a plan of action where the user wanted a question. The new rule says to lead with the finite verb of the *actual claim* and shows both the right and the wrong repair. A rule that flags the right sentence and prescribes the wrong rewrite is counted as a miss throughout this work.
 
 ### Added: empty evaluative tails (EN 2.9 / NL 2.9)
 
@@ -32,7 +32,7 @@ The revised reference files are committed on this branch, so the review is a dif
 
 **Commit `34dab19`.**
 
-**Evidence.** Nineteen corpus items — the largest family — recorded across six memory files in four project directories (`feedback_clean_slate_toolteksten`, `feedback_meeneem_docs_zelfstandig`, `feedback_bevindingen_altijd_uitleggen`, `feedback_task_references`, `feedback_framework_lay_vocabulary`, `feedback_standalone_tools_viewport`) plus item 8 of the anchor batch. Nothing in any of the four reference files covered it; `writing-principles.md` had one abstract line about jargon.
+**Evidence.** Nineteen corpus items, the largest family, recorded across six memory files in four project directories (`feedback_clean_slate_toolteksten`, `feedback_meeneem_docs_zelfstandig`, `feedback_bevindingen_altijd_uitleggen`, `feedback_task_references`, `feedback_framework_lay_vocabulary`, `feedback_standalone_tools_viewport`) plus item 8 of the anchor batch. Nothing in any of the four reference files covered it; `writing-principles.md` had one abstract line about jargon.
 
 **It is a first-class section rather than a note under tone** because it is the only family that makes a deliverable unusable rather than merely clumsy. The agent wrote sentences addressed to the person who commissioned the document instead of the person who would read it.
 
@@ -48,7 +48,7 @@ The revised reference files are committed on this branch, so the review is a dif
 
 **Commit `34dab19`.** A short triage block naming the completion test, the subtraction test and the reader test, with section pointers.
 
-**Evidence.** `feedback_writing_tell_emdash` records a proof pass over six of the user's documents in which a banned-word grep returned **zero hits** while the structural patterns returned dozens. Section 1 is the longest single block in both files and the first thing an agent reads. Rather than deleting it — it is still correct for agent-generated prose, which is the actual target — the block says plainly which tests carry the load.
+**Evidence.** `feedback_writing_tell_emdash` records a proof pass over six of the user's documents in which a banned-word grep returned **zero hits** while the structural patterns returned dozens. Section 1 is the longest single block in both files and the first thing an agent reads. Rather than deleting it, since it is still correct for agent-generated prose and that is the actual target, the block says plainly which tests carry the load.
 
 ### Extended: three existing rules
 
@@ -111,11 +111,11 @@ Every rule now exists in both files. The numbers differ where the two files' his
 | Press-release tone | 5.7 | 5.6 | |
 | **Over-formal register** | **5.8** | **5.8** | deliberately aligned; new in EN, prescription added in NL |
 | **Written for the wrong reader** | **5.9** | **5.9** | deliberately aligned; new in both |
-| Anglicised word order + tangconstructie | — | 2.2 | **legitimately NL-only** |
-| English-style heading capitalisation | — | 4.3 | **legitimately NL-only** |
-| Nadruk-accents on vowels | — | 4.8 | **legitimately NL-only** |
-| Literal translation of English idiom | — | 6.1 | **legitimately NL-only** |
-| Te foutloos (suspiciously flawless) | — | 6.2 | **unresolved, see below** |
+| Anglicised word order + tangconstructie | n/a | 2.2 | **legitimately NL-only** |
+| English-style heading capitalisation | n/a | 4.3 | **legitimately NL-only** |
+| Nadruk-accents on vowels | n/a | 4.8 | **legitimately NL-only** |
+| Literal translation of English idiom | n/a | 6.1 | **legitimately NL-only** |
+| Te foutloos (suspiciously flawless) | n/a | 6.2 | **unresolved, see below** |
 
 **The one asymmetry I am not confident about.** NL 6.2 says human Dutch prose contains small imperfections and AI prose is suspiciously polished. That claim is not Dutch-specific, so parity says mirror it. I did not, because "write deliberately rougher English" is advice I am not sure is right for the stakeholder-facing prose this reference mostly governs, and because the corpus contains no correction asking for it. Flagging rather than deciding: either mirror it into English or delete it from Dutch, and the corpus does not tell me which.
 
@@ -134,7 +134,7 @@ The reasoning is not a judgement call, because the file was already dead:
 
 So it was 28KB of stale text that nobody read and that would have been a third place for the next patch to be forgotten. `SKILL.md` now says explicitly that the proof references are the single source and names the Dutch reference on equal footing with English rather than as an afterthought, and points at the three tests as the entry point.
 
-The `writing-style-editor` agent keeps its condensed checklist (commit `6cc00d9`) — a subagent needs a short prioritised list, not a 30KB file — but the checklist now carries section numbers into both references so it stays a pointer rather than a fork. It had drifted badly: it still capped em dashes at "2-3 per 1,000 words" six weeks after the hard zero, had no entry for any fragment rule, and led with banned vocabulary.
+The `writing-style-editor` agent keeps its condensed checklist (commit `6cc00d9`), because a subagent needs a short prioritised list rather than a 30KB file, but the checklist now carries section numbers into both references so it stays a pointer rather than a fork. It had drifted badly: it still capped em dashes at "2-3 per 1,000 words" six weeks after the hard zero, had no entry for any fragment rule, and led with banned vocabulary.
 
 ---
 
@@ -144,7 +144,7 @@ The full measurement is in the research document. In short:
 
 **The rule worked.** Em-dash density in newly written prose fell 58% at the 2026-07-13 hardening (21.97 to 9.27 per 1,000 added words) and stayed there.
 
-**Displacement is visible.** Over the following six weeks the Dutch evaluative tail rose five to eightfold, the fragment proxy quadrupled, and colon density rose 27% while semicolons fell — the pressure moving to the one glue mark still permitted. Freeburg's *The Last Fingerprint* (arXiv:2603.27006) gives the mechanism: em-dash use is markdown structure leaking into prose, and suppressing one device redirects the impulse rather than removing it.
+**Displacement is visible.** Over the following six weeks the Dutch evaluative tail rose five to eightfold, the fragment proxy quadrupled, and colon density rose 27% while semicolons fell, which is the pressure moving to the one glue mark still permitted. Freeburg's *The Last Fingerprint* (arXiv:2603.27006) gives the mechanism: em-dash use is markdown structure leaking into prose, and suppressing one device redirects the impulse rather than removing it.
 
 **But the timing is not clean and the em-dash rule is not the thing to loosen.** The tail rise lagged by about three weeks, the August work shifted toward argumentative Dutch prose that independently invites evaluative endings, and the same rise shows up in agent chat where no em-dash suppression applies. More decisively, the hard zero is the single most-confirmed preference in the whole corpus: five separate memories across four projects, one of them stating "for this user it is a hard zero", stronger than the generic style-guide cap.
 
@@ -190,7 +190,7 @@ Applies to all prose you write, English and Dutch alike, in documents and in cha
 
 - **Every sentence needs a subject and a finite verb.** If the reader has to supply a word before the sentence parses, supply it yourself. Repair by leading with the finite verb of the actual claim. Not "Bepalen waar de bron van waarheid hoort te liggen. Dat is de vraag." but "De vraag is waar de bron van waarheid hoort te liggen." Not "We bepalen waar..." — that changes the claim.
 - **Never append a clause that points back at what you just said and rates it.** "…, en daar zit het probleem", "…, and that's the point", "…, en dat is de ernstigste", "Dat is de vraag." Test by subtraction: delete it and reread. If nothing was lost, it was filler. Write the consequence instead ("…, waardoor niemand kan bepalen welke versie leidend is"), or cut it.
-- **Write for the person who will read it, not the person you are talking to.** No commentary about this conversation, no process or version history, no pointers to documents they have not seen, no bare identifiers where a description belongs ("T154", "Vraag C", column "G"), no in-group jargon. Explain each point where it appears. Do not simplify away a term that is precise — vague is worse than unfamiliar.
+- **Write for the person who will read it, not the person you are talking to.** No commentary about this conversation, no process or version history, no pointers to documents they have not seen, no bare identifiers where a description belongs ("T154", "Vraag C", column "G"), no in-group jargon. Explain each point where it appears. Do not simplify away a term that is precise, because vague is worse than unfamiliar.
 - **No em dashes.** When you remove one, rebuild the sentence. Do not leave a full stop with a fragment after it, and do not swap in a colon.
 - **Say it the way you would say it aloud.** Not "Er werd genoemd dat…" or "It was noted that…", but who said it, or just the fact.
 - **Being understood beats being brief.** A sentence may be longer if that makes it right.
@@ -198,7 +198,7 @@ Applies to all prose you write, English and Dutch alike, in documents and in cha
 For a document that will be read by someone else, load the `writing-foundations` skill and the matching `proof` reference before drafting.
 ```
 
-The current stopgap in `~/.claude/CLAUDE.md` covers families 1 and 2 with their tests, written from three samples. This replaces it: same two families, plus the audience family (nineteen corpus items, the largest), plus the register and displacement rules, plus the counterweight against overcorrecting toward compression. **It is a proposal, not a change — nothing outside this repo has been touched.**
+The current stopgap in `~/.claude/CLAUDE.md` covers families 1 and 2 with their tests, written from three samples. This replaces it: same two families, plus the audience family (nineteen corpus items, the largest), plus the register and displacement rules, plus the counterweight against overcorrecting toward compression. **It is a proposal, not a change. Nothing outside this repo has been touched.**
 
 ---
 
@@ -224,8 +224,8 @@ Net shrinkage, but only because of the deletion. The two proof references grew b
 
 ## 7. Open questions
 
-1. **NL 6.2 "Te foutloos"** — mirror it into English or delete it from Dutch. See §2. No corpus evidence either way.
+1. **NL 6.2 "Te foutloos".** Mirror it into English or delete it from Dutch. See §2. No corpus evidence either way.
 2. **The English rules are untested against held-out English corrections.** One hit out of two is two data points, not a measurement, and the reason there are only two is that the revintel and europeansleeper project directories now contain memory files and no transcripts at all. If those can be recovered from a backup, re-running the A1 extraction over them is the single highest-value follow-up to this work.
 3. **Four orphaned memories** sit in `~/.claude/projects/-Users-esther-prog-porfoliostrategyframework/` (note the misspelling), including `user_writing_voice.md`, the richest voice-preference document in the corpus. The directory name matches no real project path, so none of them will ever be recalled. Reported, not fixed.
 4. **Candidate rules from tropes.fyi not added**, because no corpus item supports them yet: "never-ending conclusion" (stacking clauses instead of landing one point), "premise stacking" (repeating a point before stating it), "belaboring the unnecessary" (defending minor points against objections nobody raised), "self-echo" (reusing your own earlier phrases as if paying them off). Worth watching for in the next batch of corrections.
-5. **The holdout leaked during drafting** and had to be de-contaminated (commit `609d221`) before validation could mean anything. If this process runs again, the holdout sentences should be moved out of reach — a separate file the rule-writing pass does not read — rather than merely recorded.
+5. **The holdout leaked during drafting** and had to be de-contaminated (commit `609d221`) before validation could mean anything. If this process runs again, the holdout sentences should be moved out of reach, into a separate file the rule-writing pass does not read, rather than merely recorded.

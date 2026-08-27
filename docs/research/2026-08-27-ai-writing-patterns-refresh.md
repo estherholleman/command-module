@@ -49,17 +49,17 @@ Report the 6/40 split as an archive artefact. Do not read it as evidence that th
 
 Families are named here for the first time; nothing in the references used these groupings before.
 
-#### Family 1 — elliptical (reader must supply a word)
+#### Family 1: elliptical (reader must supply a word)
 
 | # | lang | source | correction | caught by an existing rule? |
 |---|------|--------|-----------|------------------------------|
-| 1 | NL | anchor 1, A1 b951d942 2026-08-27 | "Bepalen waar de bron van waarheid ... hoort te liggen ... Dat is de vraag." -> "de vraag is waar ..." | **Miss.** NL 6.5 required a comma plus `wat`/`wanneer`/`indien`. NL 6.6 fired on the infinitive head but prescribed "conjugate the verb, give it a subject", which yields "We bepalen waar..." — the wrong claim. A rule that flags the right sentence and prescribes the wrong rewrite is a miss. |
+| 1 | NL | anchor 1, A1 b951d942 2026-08-27 | "Bepalen waar de bron van waarheid ... hoort te liggen ... Dat is de vraag." -> "de vraag is waar ..." | **Miss.** NL 6.5 required a comma plus `wat`/`wanneer`/`indien`. NL 6.6 fired on the infinitive head but prescribed "conjugate the verb, give it a subject", which yields "We bepalen waar...", the wrong claim. A rule that flags the right sentence and prescribes the wrong rewrite is a miss. |
 | 2 | NL | anchor 3, same session | "en dat is de ernstigste" (elided head noun) | **Miss.** No rule covered ellipsis of a head noun. |
 | 3 | NL | A1 40469bc6 2026-07-31 | "uitwerkstatus (zonder streepje graag)" | Hit, NL 6.5 pattern b. |
-| 4 | NL | A1 f4f38aad 2026-07-21 | "Alles of bijna alles:" — empty run-up, "dat zegt niks" | **Miss.** Covered on the generative side only (`writing-principles.md`, "introductory clause + colon + bare label"), never in the proof references. |
-| 5 | EN | A1 b951d942 2026-08-27 | "Er staan drie soorten deck, niet twee" — appended-correction negation | Partial. EN 2.1 covered "not X but Y", not the tail form. |
+| 4 | NL | A1 f4f38aad 2026-07-21 | "Alles of bijna alles:", an empty run-up, "dat zegt niks" | **Miss.** Covered on the generative side only (`writing-principles.md`, "introductory clause + colon + bare label"), never in the proof references. |
+| 5 | EN | A1 b951d942 2026-08-27 | "Er staan drie soorten deck, niet twee" (appended-correction negation) | Partial. EN 2.1 covered "not X but Y", not the tail form. |
 
-#### Family 2 — empty evaluative tail
+#### Family 2: empty evaluative tail
 
 | # | lang | source | correction | caught? |
 |---|------|--------|-----------|---------|
@@ -67,7 +67,7 @@ Families are named here for the first time; nothing in the references used these
 | 7 | NL | anchor 3 | "en dat is de ernstigste" (ranking sub-form) | Miss, same. |
 | 8 | NL | anchor 1 | "Dat is de vraag." (standalone stub form) | Miss, same. |
 
-#### Family 3 — audience: who is this sentence addressed to
+#### Family 3: audience, who is this sentence addressed to
 
 The largest family by source count, and the one with no prior representation anywhere in the references.
 
@@ -93,7 +93,7 @@ The largest family by source count, and the one with no prior representation any
 | 26 | EN | A1 8300ef2c 2026-08-18 | "I'm not sure we should call the IAMconnected Service provider, that's like saying 'MCA Service' instead of just MCA" | Miss. |
 | 27 | NL | A0 `feedback_clickable_file_links` 2026-08-02 | a deliverable's link text must be the full path, never a short label | Miss (out of scope for prose rules; noted, not added). |
 
-#### Family 4 — register
+#### Family 4: register
 
 | # | lang | source | correction | caught? |
 |---|------|--------|-----------|---------|
@@ -103,16 +103,16 @@ The largest family by source count, and the one with no prior representation any
 | 31 | NL | A1 5c0c3967 2026-08-12 + A0 `feedback_doelgroepen_dossier_stijl` | "alles voluit uitgeschreven in makkelijk te begrijpen taal ... het mag daardoor best langer worden (zo lang als nodig) als het maar makkelijk leesbaar is" | Partial, same. |
 | 32 | NL | anchor batch item 3 | "herschrijven als normale zinnen in spreektaal" | Partial, same. |
 
-#### Family 5 — punctuation, already covered, confirmed by the corpus
+#### Family 5: punctuation, already covered, confirmed by the corpus
 
 | # | lang | source | correction | caught? |
 |---|------|--------|-----------|---------|
-| 33 | NL/EN | A0 `feedback_no_em_dashes` (revintel), `feedback_avoid_em_dashes` (europeansleeper), `feedback_writing_tell_emdash` (missioncontrol), `feedback_doelgroepen_dossier_stijl` + `feedback_standalone_tools_viewport` (psf) | never an em dash, headings included | Hit. **Recorded independently in five memories across four projects** — the clearest cross-project duplication in the corpus, and the strongest evidence that a hard zero is correct. |
+| 33 | NL/EN | A0 `feedback_no_em_dashes` (revintel), `feedback_avoid_em_dashes` (europeansleeper), `feedback_writing_tell_emdash` (missioncontrol), `feedback_doelgroepen_dossier_stijl` + `feedback_standalone_tools_viewport` (psf) | never an em dash, headings included | Hit. **Recorded independently in five memories across four projects.** That is the clearest cross-project duplication in the corpus, and the strongest evidence that a hard zero is correct. |
 | 34 | NL | A1 2c4ca391 2026-08-06 | "geen ; gebruiken, gewoon normale zinnen met punten en komma's" | Hit, NL 4.5. |
 | 35 | NL/EN | A1 d059affc 2026-07-19, A1 9c420241 2026-07-26 (EN) | no "eerlijk"/"honest" | Hit. |
 | 36 | EN | A1 9c420241 2026-07-26 | no "load bearing", no "it's this not that" | Hit. |
 
-#### Family 6 — preferences, not AI tics
+#### Family 6: preferences, not AI tics
 
 These generalise to this user only. Both belong in the references, labelled as preferences.
 
@@ -140,7 +140,7 @@ These generalise to this user only. Both belong in the references, labelled as p
 
 **2. Family 3 is the largest family and had no rule at all.** Nineteen corpus items, recorded across six memory files in four project directories, plus the most damaging item in the anchor batch. It is also the family that makes a deliverable unusable rather than merely clumsy, which is why it went in as a first-class section rather than a note under tone.
 
-**3. The memory system reproduced the same enumeration failure.** `feedback_task_references` says never to use a bare T-number without its description. It was given on 2026-08-12, corrected again on 08-14 because the rule "te zacht was geformuleerd", and item 15 above — strip "Vraag C", promote the question — is the same defect in a new surface form on 08-27. `feedback_framework_lay_vocabulary` records the word "deck" being corrected three times, the third time escalating to a repo `CLAUDE.md` because "deze memory alleen bleek niet genoeg". Per-instance recording does not converge any better than per-instance rule-writing. That is the argument for family-level rules with a test, stated as evidence rather than as analogy.
+**3. The memory system reproduced the same enumeration failure.** `feedback_task_references` says never to use a bare T-number without its description. It was given on 2026-08-12, corrected again on 08-14 because the rule "te zacht was geformuleerd", and item 15 above, which is stripping "Vraag C" and promoting the question, is the same defect in a new surface form on 08-27. `feedback_framework_lay_vocabulary` records the word "deck" being corrected three times, the third time escalating to a repo `CLAUDE.md` because "deze memory alleen bleek niet genoeg". Per-instance recording does not converge any better than per-instance rule-writing. That is the argument for family-level rules with a test, stated as evidence rather than as analogy.
 
 ---
 
@@ -150,10 +150,10 @@ These generalise to this user only. Both belong in the references, labelled as p
 
 The 2023-24 tells (banned vocabulary, "delve", "tapestry") have largely been trained out, and the failure has moved toward over-compression. The tropes.fyi pattern directory names several of the constructions this corpus produced, independently of it:
 
-- **"Comma-clipped trailing phrase"** — "short tail hung off a comma instead of landing the point directly". This is family 2's comma form, named by an outside observer.
-- **"Short punchy fragments"** — "excessive standalone short sentences for manufactured emphasis", example "He published this. Openly. In a book." This is the standalone stub form.
-- **"Reasoning leak"** — "narrating the text's own moves instead of just delivering content". This is family 3's meta-commentary form. The independent naming is worth noting: the audience error was the one the task flagged as "least like a style tic", and it turns out to be a catalogued AI pattern.
-- **"Superficial analyses"**, **"never-ending conclusion"**, **"premise stacking"**, **"belaboring the unnecessary"**, **"self-echo"** — the first is already covered as participial tacking; the rest are candidates flagged in the proposal but not added.
+- **"Comma-clipped trailing phrase"**, defined as "short tail hung off a comma instead of landing the point directly". This is family 2's comma form, named by an outside observer.
+- **"Short punchy fragments"**, defined as "excessive standalone short sentences for manufactured emphasis", example "He published this. Openly. In a book." This is the standalone stub form.
+- **"Reasoning leak"**, defined as "narrating the text's own moves instead of just delivering content". This is family 3's meta-commentary form. The independent naming is worth noting: the audience error was the one the task flagged as "least like a style tic", and it turns out to be a catalogued AI pattern.
+- **"Superficial analyses"**, **"never-ending conclusion"**, **"premise stacking"**, **"belaboring the unnecessary"**, **"self-echo"**. The first is already covered as participial tacking; the rest are candidates flagged in the proposal but not added.
 
 Proofed's AI editing checklist and the AI-slop pattern guides converge on the same diagnostic the refresh adopted: "for each problematic sentence structure, ask what the sentence is actually saying and say that instead. These phrases are filler that creates the illusion of insight while restating the obvious."
 
@@ -167,7 +167,7 @@ Two of the existing Dutch rules were using the wrong terms.
 
 **Zinsfragment.** Scribbr's Dutch academic style guidance supplies the test the refresh adopted for family 1: turn the sentence into a question, and if the required verb or subject cannot be identified, it is a fragment. Its three categories (missing subject, missing verb form, missing article) are a superset of what NL 6.5-6.7 enumerated, which is a second argument for one test over N surface rules.
 
-**Linksdislocatie** is the correct name for anchor 1's construction: the subject placed to the left with a resumptive `dat` in the actual sentence ("Een groot deel van de medewerkers, dat zijn senioren"). Grammatical Dutch joins the two halves with a comma; the anchor mis-punctuates them as two sentences. The term is not used in the reference — it would not help an agent apply the rule — but it confirms that the user's preferred fix (front the finite verb, avoid the dislocation entirely) is the better repair rather than merely a stylistic preference.
+**Linksdislocatie** is the correct name for anchor 1's construction: the subject placed to the left with a resumptive `dat` in the actual sentence ("Een groot deel van de medewerkers, dat zijn senioren"). Grammatical Dutch joins the two halves with a comma; the anchor mis-punctuates them as two sentences. The term is not used in the reference, since it would not help an agent apply the rule, but it confirms that the user's preferred fix (front the finite verb, avoid the dislocation entirely) is the better repair rather than merely a stylistic preference.
 
 ### Verdict on the em-dash hypothesis: partly supported, and it does not mean loosening the rule
 
@@ -186,7 +186,7 @@ The hypothesis was that hardening em dashes to "never" on 2026-07-13 without sup
 
 **What holds.** The em-dash rule worked, and worked immediately: density in newly written prose fell 58% at the hardening date and stayed at 9-12 per 1,000 words. Over the following six weeks the Dutch evaluative tail rose from a stable 0.015-0.065 baseline to 0.346, a factor of five to eight, and the fragment proxy roughly quadrupled. Colon density over the same window rose 27% (27.66 to 35.71 per 1,000 words) while semicolons fell from 14.49 to 4.78, which is the July semicolon ban working and the pressure moving to the one glue mark still permitted.
 
-**What does not hold.** The tail rise is not a step at 2026-07-13. It lagged by roughly three weeks: the fortnight straight after the hardening had a *lower* tail rate (0.040) than the fortnight before it (0.065). The August work also shifted toward argumentative Dutch prose (the organisation-model rebuild, the AI dossiers), which independently invites evaluative endings. And an equivalent measurement over agent chat turns, which the reference files do not govern, shows em-dash density essentially flat (18.81 to 16.92 per 1,000 words) while the same tail rise appears — so the tail rose in a surface where no em-dash suppression was in force.
+**What does not hold.** The tail rise is not a step at 2026-07-13. It lagged by roughly three weeks: the fortnight straight after the hardening had a *lower* tail rate (0.040) than the fortnight before it (0.065). The August work also shifted toward argumentative Dutch prose (the organisation-model rebuild, the AI dossiers), which independently invites evaluative endings. And an equivalent measurement over agent chat turns, which the reference files do not govern, shows em-dash density essentially flat (18.81 to 16.92 per 1,000 words) while the same tail rise appears, so the tail rose in a surface where no em-dash suppression was in force.
 
 **The mechanism has independent support.** Freeburg, *The Last Fingerprint: How Markdown Training Shapes LLM Prose* (arXiv:2603.27006, 2026) argues that em-dash use is markdown structure leaking into prose, and reports that suppressing a specific markdown device does not remove the underlying structural impulse but redirects it: "suppression instruction causes the model to redirect the formatting tendency to alternative syntactic locations", specifically naming em-dash suppression surfacing as "alternative dash usage or syntactic restructuring".
 
@@ -218,7 +218,7 @@ No mis-prescriptions: wherever a rule fired, its prescribed fix matched what the
 
 **On the English number.** One hit out of two is not a measurement. It is two data points, and the reason there are only two is the archive gap described in Leg A. The honest statement is that the English rules are untested against held-out English corrections, and the refresh's English coverage rests on mirroring rules validated in Dutch plus the external sources in Leg B. If revintel or europeansleeper transcripts can be recovered from a backup, re-running A1 over them would be the single highest-value follow-up.
 
-**Both misses were closed** in commit `8a8178b`, kept separate so the validation-driven part can be reverted on its own. H3 became a new surface form of the elliptical family ("empty run-up before a colon"), H8 a new bullet under the wrong-reader rule. Neither was a calibration problem; both were genuine holes. The post-fix rate would be 9 of 9, which is not a meaningful number and is not claimed as one — a rule written to catch a specific held-out sentence will catch it.
+**Both misses were closed** in commit `8a8178b`, kept separate so the validation-driven part can be reverted on its own. H3 became a new surface form of the elliptical family ("empty run-up before a colon"), H8 a new bullet under the wrong-reader rule. Neither was a calibration problem; both were genuine holes. The post-fix rate would be 9 of 9, which is not a meaningful number and is not claimed as one. A rule written to catch a specific held-out sentence will catch it.
 
 **On overfitting.** The 78% first-pass rate is the number that means something, and it came from rules built on a 37-item training set drawn from the same user, the same period, and largely the same project. The rules should be expected to degrade on a different writer or a different domain. What partially protects against that is that the two core rules are tests rather than string lists, and both tests are corroborated by outside sources (Scribbr for the fragment test, the AI-editing literature for the subtraction test) rather than derived only from this corpus.
 
@@ -226,4 +226,4 @@ No mis-prescriptions: wherever a rule fired, its prescribed fix matched what the
 
 ## Incidental finding, reported not fixed
 
-`/Users/esther/.claude/projects/-Users-esther-prog-porfoliostrategyframework/` — note the misspelling, "porfolio" — holds 5 files, 4 of them memories, including `user_writing_voice.md`, which is the single richest voice-preference document in the whole corpus (perspective, phrasing, terminology, structure, condensing and enrichment patterns, derived from comparing her manual edits to Claude drafts of the framework). Because the directory name does not match any real project path, none of these will ever be recalled by a session. They were read manually for this research. Merging them into `-Users-esther-prog-portfoliostrategyframework/memory/` would make them live again; that is out of scope here.
+`/Users/esther/.claude/projects/-Users-esther-prog-porfoliostrategyframework/` (note the misspelling, "porfolio") holds 5 files, 4 of them memories, including `user_writing_voice.md`, which is the single richest voice-preference document in the whole corpus (perspective, phrasing, terminology, structure, condensing and enrichment patterns, derived from comparing her manual edits to Claude drafts of the framework). Because the directory name does not match any real project path, none of these will ever be recalled by a session. They were read manually for this research. Merging them into `-Users-esther-prog-portfoliostrategyframework/memory/` would make them live again; that is out of scope here.
