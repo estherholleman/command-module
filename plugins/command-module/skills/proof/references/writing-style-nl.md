@@ -9,7 +9,7 @@ Deze regels beschrijven schrijfgewoontes die verraden dat een tekst door AI is g
 Woordkeus is zelden het probleem. Een proefronde over zes eerdere teksten leverde nul treffers op de woordenlijst in sectie 1 en tientallen treffers op de patronen hieronder. Loop bij elke tekst eerst deze drie tests af, en gebruik de rest van dit document voor de specifieke gevallen.
 
 1. **De aanvultest (elliptische zinnen, sectie 2.8).** Maak van de zin een ja/nee-vraag. Lukt dat niet, omdat er geen persoonsvorm of geen onderwerp is om naar voren te halen, dan is het een zinsfragment. Vul zelf aan wat de lezer anders moet raden.
-2. **De weglaattest (lege oordeelstaarten, sectie 2.9).** Schrap de laatste bijzin en lees de zin opnieuw. Is er geen informatie verdwenen, dan was die bijzin een lege oordeelstaart. Vervang hem door het gevolg, of laat hem weg.
+2. **De weglaattest (lege oordeelstaarten, sectie 2.9).** Schrap de laatste bijzin en lees zowel de zin ervoor als de zin erna. Is er in beide richtingen niets verdwenen, dan was die bijzin een lege oordeelstaart. Vervang hem door het gevolg, promoveer hem tot hoofdgezegde, of laat hem weg.
 3. **De lezerstest (verkeerde geadresseerde, sectie 5.9).** Vraag bij elke zin: kan iemand dit begrijpen die niet bij het maken van dit document aanwezig was? Zo niet, dan is de zin aan de verkeerde lezer gericht.
 
 ---
@@ -151,17 +151,27 @@ Let op dat het voorbeeld hierboven twee fouten stapelt: een fragment plus een oo
 
 ### 2.9 De lege oordeelstaart
 
-Een bijzin of losse zin die terugwijst naar wat er net stond en de lezer vertelt hoe hij het moet vinden, zonder er informatie aan toe te voegen. Deze zinnen zijn grammaticaal compleet, dus de aanvultest in 2.8 verklaart ze schoon. Ze falen op retoriek: als de vorige zin het probleem al liet zien is de staart overbodig, en als hij dat niet deed dan beweert de staart iets in plaats van het te tonen.
+Een tweede gezegde dat met een komma en een voegwoord aan de zin wordt geplakt, met een terugwijzend voornaamwoord als onderwerp, en dat alleen commentaar levert op wat er net stond. De vorm is `[bewering], en [die/dat/deze/ze/het] [gezegde]`. Deze zinnen zijn grammaticaal compleet, dus de aanvultest in 2.8 verklaart ze schoon. Ze falen op retoriek: als de vorige zin het al liet zien is de staart overbodig, en als hij dat niet deed dan beweert de staart iets in plaats van het te tonen.
+
+Let niet alleen op `daar zit` en `dat is`. Elk gezegde kan hier staan, en de meeste gevallen in de praktijk gebruiken een ander werkwoord.
 
 **Schrijf niet:**
 - "Wie de strategiedata beheert is onbekend, en daar zit het probleem."
 - "De oordelenlaag ontbreekt volledig, en dat is de ernstigste."
 - "Dat is de vraag." / "Dat is het punt." / "Dat is de kern." (als losse zin achter de zin die het al zei)
 - "..., en dat is precies de kwestie." / "..., en daar wringt het." / "..., en dat weegt het zwaarst."
+- "..., en dat maakt de vondst sterker." / "..., en die is groter dan hij lijkt." / "..., en dat is geen tekenprobleem maar de vondst zelf." / "..., en dat is dan de vondst."
 
-**De weglaattest:** schrap de staart en lees de zin opnieuw. "Wie de strategiedata beheert is onbekend." Er is niets verdwenen, dus de staart deed niets.
+**De weglaattest, in twee richtingen.** Schrap de staart en lees zowel de zin ervoor als de zin erna. "Wie de strategiedata beheert is onbekend." Er is niets verdwenen, dus de staart deed niets. De tweede richting is nodig omdat een staart ook vooruit kan wijzen: hij kondigt aan wat de volgende zin bewijst, en dan is de redundantie pas zichtbaar als je doorleest.
 
 **De reparatie is het gevolg, niet het oordeel.** Zeg wat er misgaat doordat het zo is: "Wie de strategiedata beheert is onbekend, waardoor niemand kan bepalen welke versie leidend is." Weet je het gevolg niet, schrap de staart dan zonder vervanging.
+
+**De aankondigende variant: eerst twee dingen neerzetten, dan met "en die ..." de relatie erbij.** De vorm is `[X] is/zijn [A] en [B], en die [relatie]`, meestal gevolgd door een dubbele punt met de onderbouwing. Het middenstuk zegt vooraf wat de onderbouwing daarna aantoont, dus het loopt de zin voor de voeten. Het leest bovendien gehakt: twee stellige gezegdes waar er één hoort te staan.
+
+- Niet: "De tegenzetten zijn wederkerigheid en structuralisering, en die horen samen: toestemming afdwingen zonder wederkerigheid ondergraaft precies de neutraliteit die de toestemming rechtvaardigt."
+- Wel: "De tegenzetten, wederkerigheid en structuralisering, vullen elkaar aan. Toestemming afdwingen zonder wederkerigheid ondergraaft de neutraliteit die de toestemming rechtvaardigt."
+
+**De reparatie is hier promoveren, niet schrappen.** De relatie is de echte bewering; het opsommen van A en B was aanloop. Zet de relatie in het hoofdgezegde en maak van de opsomming een bijstelling tussen komma's. Of laat het eerste deel helemaal weg en begin bij de onderbouwing. Kies aan de hand van wat de lezer nog niet weet: kent hij A en B al, schrap de aankondiging dan.
 
 **De rangschikkende variant is dubbel fout.** "En dat is de ernstigste" laat ook het kernwoord weg (de ernstigste wát?) en impliceert een vergelijking met een verzameling die de lezer zelf moet reconstrueren. Schrijf het kernwoord uit en noem waarmee je vergelijkt: "Van de vier gaten is het ontbreken van de oordelenlaag het gat dat de tool onbruikbaar maakt."
 

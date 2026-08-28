@@ -7,7 +7,7 @@ These rules describe writing habits that signal AI-generated text. Follow them t
 Word choice is rarely the problem. A proof pass over six earlier documents returned zero hits against the word list in section 1 and dozens against the patterns below. Run these three tests over any text first, and use the rest of this document for the specific cases.
 
 1. **The completion test (elliptical constructions, section 2.8).** Turn the sentence into a yes/no question. If you cannot, because there is no finite verb or no subject to move to the front, it is a fragment. Supply what the reader would otherwise have to guess.
-2. **The subtraction test (empty evaluative tails, section 2.9).** Delete the closing clause and reread. If nothing was lost, that clause was a tail. Replace it with the consequence, or cut it.
+2. **The subtraction test (empty evaluative tails, section 2.9).** Delete the closing clause and reread both the sentence before it and the one after it. If nothing was lost either way, that clause was a tail. Replace it with the consequence, promote it to the main predicate, or cut it.
 3. **The reader test (wrong addressee, section 5.9).** Ask of every sentence: could someone who was not present while this document was made understand it? If not, the sentence is addressed to the wrong reader.
 
 ---
@@ -135,17 +135,27 @@ Note that the example stacks two defects: a fragment plus an evaluative tail (se
 
 ### 2.9 Empty Evaluative Tails
 
-A clause or standalone sentence that points back at what was just said and tells the reader how to feel about it, without adding information. These sentences are grammatically complete, so the completion test in 2.8 clears them. They fail on rhetoric: if the previous sentence already showed the problem, the tail is redundant, and if it did not, the tail asserts instead of showing.
+A second predicate bolted on with a comma and a conjunction, taking a backward-pointing pronoun as its subject, that only comments on what was just said. The shape is `[claim], and [that/this/those/it] [predicate]`. These sentences are grammatically complete, so the completion test in 2.8 clears them. They fail on rhetoric: if the previous sentence already showed it, the tail is redundant, and if it did not, the tail asserts instead of showing.
+
+Do not watch only for "that's the problem" and "which is the point". Any predicate can sit here, and most real cases use some other verb.
 
 **Do not write:**
 - "Who owns the strategy data is unknown, and that's the problem."
 - "The judgement layer is missing entirely, and that's the most serious."
 - "That's the point." / "That's the question." / "That's what matters." (as a standalone sentence after the sentence that already said it)
 - "..., which is exactly the issue." / "..., and therein lies the difficulty." / "..., and that's the one that hurts most."
+- "..., and that makes the finding stronger." / "..., and it's bigger than it looks." / "..., and that's not a drafting problem but the finding itself."
 
-**The subtraction test:** delete the tail and reread. "Who owns the strategy data is unknown." Nothing was lost, so the tail did nothing.
+**The subtraction test, run in both directions.** Delete the tail and reread both the sentence before it and the sentence after it. "Who owns the strategy data is unknown." Nothing was lost, so the tail did nothing. The second direction is needed because a tail can also point forward: it announces what the next sentence proves, and the redundancy only shows once you read on.
 
 **The repair is the consequence, not the verdict.** Say what goes wrong because of it: "Who owns the strategy data is unknown, so nobody can decide which version is authoritative." If you do not know the consequence, cut the tail without replacing it.
+
+**The announcing variant: set out two things, then attach the relation with "and they ...".** The shape is `[X] is/are [A] and [B], and they [relation]`, usually followed by a colon carrying the justification. The middle piece says in advance what the justification then demonstrates, so it gets in the sentence's way. It also reads chopped: two flat assertions where one belongs.
+
+- Not: "The counter-moves are reciprocity and structuralisation, and the two go together: forcing consent without reciprocity undermines the very neutrality that justifies the consent."
+- Better: "The counter-moves, reciprocity and structuralisation, depend on each other. Forcing consent without reciprocity undermines the neutrality that justifies the consent."
+
+**Here the repair is promotion, not deletion.** The relation is the real claim; listing A and B was the run-up. Put the relation in the main predicate and turn the list into an appositive between commas. Or drop the first half entirely and start at the justification. Choose on what the reader does not yet know: if A and B are already familiar, cut the announcement.
 
 **The ranking variant fails twice over.** "And that's the most serious" also drops the head noun and implies a comparison set the reader has to reconstruct. Write both out: "Of the four gaps, the missing judgement layer is the one that makes the tool unusable."
 
