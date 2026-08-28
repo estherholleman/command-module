@@ -136,7 +136,7 @@ Note that the example stacks two defects: a fragment plus an evaluative tail (se
 
 ### 2.9 Empty Evaluative Tails
 
-A second predicate bolted on with a comma and a conjunction, taking a backward-pointing pronoun as its subject, that only comments on what was just said. The shape is `[claim], and [that/this/those/it] [predicate]`. These sentences are grammatically complete, so the completion test in 2.8 clears them. They fail on rhetoric: if the previous sentence already showed it, the tail is redundant, and if it did not, the tail asserts instead of showing.
+A second predicate bolted on with a comma and a conjunction, taking a backward-pointing pronoun as its subject, that only comments on what was just said. The shape is `[claim], and [that/this/those/it/there] [predicate]`, the locative form ('there lies', 'therein') included. These sentences are grammatically complete, so the completion test in 2.8 clears them. They fail on rhetoric: if the previous sentence already showed it, the tail is redundant, and if it did not, the tail asserts instead of showing.
 
 Do not watch only for "that's the problem" and "which is the point". Any predicate can sit here, and most real cases use some other verb.
 

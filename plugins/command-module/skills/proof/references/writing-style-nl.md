@@ -152,7 +152,7 @@ Let op dat het voorbeeld hierboven twee fouten stapelt: een fragment plus een oo
 
 ### 2.9 De lege oordeelstaart
 
-Een tweede gezegde dat met een komma en een voegwoord aan de zin wordt geplakt, met een terugwijzend voornaamwoord als onderwerp, en dat alleen commentaar levert op wat er net stond. De vorm is `[bewering], en [die/dat/deze/ze/het] [gezegde]`. Deze zinnen zijn grammaticaal compleet, dus de aanvultest in 2.8 verklaart ze schoon. Ze falen op retoriek: als de vorige zin het al liet zien is de staart overbodig, en als hij dat niet deed dan beweert de staart iets in plaats van het te tonen.
+Een tweede gezegde dat met een komma en een voegwoord aan de zin wordt geplakt, met een terugwijzend voornaamwoord als onderwerp, en dat alleen commentaar levert op wat er net stond. De vorm is `[bewering], en [die/dat/daar/hier/deze/ze/het] [gezegde]`. Ook de plaatsaanduidende vorm (`daar`, `hier`) hoort erbij. Deze zinnen zijn grammaticaal compleet, dus de aanvultest in 2.8 verklaart ze schoon. Ze falen op retoriek: als de vorige zin het al liet zien is de staart overbodig, en als hij dat niet deed dan beweert de staart iets in plaats van het te tonen.
 
 Let niet alleen op `daar zit` en `dat is`. Elk gezegde kan hier staan, en de meeste gevallen in de praktijk gebruiken een ander werkwoord.
 
