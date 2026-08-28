@@ -14,6 +14,17 @@ Targets **long-form prose**: articles, blog posts, guides, tutorials, documentat
 
 Does **not** apply to: implementation plans, brainstorm documents, commit messages, PR descriptions, code comments, changelogs, structured skill outputs, or internal working documents.
 
+## Measuring drift over time
+
+The reference rules are maintained by hand, and the 2026-08 refresh established that new defect families arrive faster than anyone spots them by reading: three were found only because they were measured. `scripts/measure-drift.py` re-runs those measurements over a repo's committed prose, per 1,000 added words, and compares against a recorded baseline.
+
+```bash
+python3 scripts/measure-drift.py
+python3 scripts/measure-drift.py --repo ~/prog/other --path docs --periods 10
+```
+
+Run it when prose from a repo starts feeling wrong and it is not obvious why, or to check whether a newly added rule is reaching generation. A defect family whose density keeps climbing after a rule was added is a rule that is not being applied, which is a distribution problem rather than a wording problem.
+
 ## Language Support
 
 Two reference files contain the full antipattern rules, one per language:
