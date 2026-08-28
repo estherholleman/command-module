@@ -2,13 +2,14 @@
 
 These rules describe writing habits that signal AI-generated text. Follow them to produce writing that reads as natural, human prose. The goal is to write *well* by avoiding the lazy defaults that language models fall into.
 
-## Start here: three tests that catch most of it
+## Start here: four tests that catch most of it
 
-Word choice is rarely the problem. A proof pass over six earlier documents returned zero hits against the word list in section 1 and dozens against the patterns below. Run these three tests over any text first, and use the rest of this document for the specific cases.
+Word choice is rarely the problem. A proof pass over six earlier documents returned zero hits against the word list in section 1 and dozens against the patterns below. Run these four tests over any text first, and use the rest of this document for the specific cases.
 
 1. **The completion test (elliptical constructions, section 2.8).** Turn the sentence into a yes/no question. If you cannot, because there is no finite verb or no subject to move to the front, it is a fragment. Supply what the reader would otherwise have to guess.
 2. **The subtraction test (empty evaluative tails, section 2.9).** Delete the closing clause and reread both the sentence before it and the one after it. If nothing was lost either way, that clause was a tail. Replace it with the consequence, promote it to the main predicate, or cut it.
-3. **The reader test (wrong addressee, section 5.9).** Ask of every sentence: could someone who was not present while this document was made understand it? If not, the sentence is addressed to the wrong reader.
+3. **The relation test (coordination, section 2.10).** Wherever a comma plus "and" is followed by a full sentence, name the relation between the halves. If you can name it, use the word for it. If you cannot, it belongs in its own sentence.
+4. **The reader test (wrong addressee, section 5.9).** Ask of every sentence: could someone who was not present while this document was made understand it? If not, the sentence is addressed to the wrong reader.
 
 ---
 
@@ -160,6 +161,25 @@ Do not watch only for "that's the problem" and "which is the point". Any predica
 **The ranking variant fails twice over.** "And that's the most serious" also drops the head noun and implies a comparison set the reader has to reconstruct. Write both out: "Of the four gaps, the missing judgement layer is the one that makes the tool unusable."
 
 **Where the line is.** A closing clause that points back is legitimate when it adds a real consequence ("..., so the whole count shifts"), draws a genuine contrast, or lands a long passage that has earned the landing. One earned landing per piece is fine. Two or more is the pattern, and it is almost always the second and later ones that should go.
+
+### 2.10 Coordination Where Subordination Belongs
+
+Two full sentences welded together with a comma and "and", with the relation between the halves left unstated. Each half is an equally flat assertion, nothing is subordinated, so the reader has to work out why the second half is there at all. A run of these reads chopped: no hierarchy, just accumulation.
+
+**Do not write:**
+- "The authorisation is a fifth hold, and the internal data layers already knew it."
+- "The count no longer adds up, and the source was replaced last month."
+- "The model has one binding mechanism, and the June note names three."
+
+**The relation test.** Name the relation between the two halves. Is it cause, consequence, contrast, condition, time, or elaboration? If you can name it, use the word for it (*because*, *so that*, *while*, *although*, *which*). If you cannot name it, the second half belongs in its own sentence, or does not belong at all.
+
+- "The authorisation is a fifth hold, and the internal data layers already knew it." -> better: "The authorisation is a fifth hold, one the internal data layers already recorded." (elaboration, so an appositive)
+- "The count no longer adds up, and the source was replaced last month." -> better: "The count no longer adds up because the source was replaced last month." (cause)
+- "The model has one binding mechanism, and the June note names three." -> better: "The model has one binding mechanism, while the June note names three." (contrast)
+
+**When "and" is right.** Where the halves genuinely are parallel and equal: "He called the client and she sent the quote." There is no relation to name because the two sit side by side, which is what "and" is for. It goes wrong the moment the second half explains, contradicts, or supports the first.
+
+**A whole-document check:** count the coordinating joins (`, and`, `, but`) against the subordinating ones (*because*, *so that*, *while*, *although*, *since*). If the ratio leans heavily toward coordination, the prose has flattened and some of those relations need naming.
 
 ---
 

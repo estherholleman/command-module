@@ -4,13 +4,14 @@ Deze regels beschrijven schrijfgewoontes die verraden dat een tekst door AI is g
 
 **Let op:** veel van deze patronen ontstaan doordat LLMs zwaar getraind zijn op Engelse tekst en hun gewoontes letterlijk vertalen naar het Nederlands. Het resultaat klinkt grammaticaal correct maar stilistisch Engels. Dat is vaak het eerste dat een Nederlandse lezer opvalt.
 
-## Begin hier: drie tests die de meeste fouten vangen
+## Begin hier: vier tests die de meeste fouten vangen
 
-Woordkeus is zelden het probleem. Een proefronde over zes eerdere teksten leverde nul treffers op de woordenlijst in sectie 1 en tientallen treffers op de patronen hieronder. Loop bij elke tekst eerst deze drie tests af, en gebruik de rest van dit document voor de specifieke gevallen.
+Woordkeus is zelden het probleem. Een proefronde over zes eerdere teksten leverde nul treffers op de woordenlijst in sectie 1 en tientallen treffers op de patronen hieronder. Loop bij elke tekst eerst deze vier tests af, en gebruik de rest van dit document voor de specifieke gevallen.
 
 1. **De aanvultest (elliptische zinnen, sectie 2.8).** Maak van de zin een ja/nee-vraag. Lukt dat niet, omdat er geen persoonsvorm of geen onderwerp is om naar voren te halen, dan is het een zinsfragment. Vul zelf aan wat de lezer anders moet raden.
 2. **De weglaattest (lege oordeelstaarten, sectie 2.9).** Schrap de laatste bijzin en lees zowel de zin ervoor als de zin erna. Is er in beide richtingen niets verdwenen, dan was die bijzin een lege oordeelstaart. Vervang hem door het gevolg, promoveer hem tot hoofdgezegde, of laat hem weg.
-3. **De lezerstest (verkeerde geadresseerde, sectie 5.9).** Vraag bij elke zin: kan iemand dit begrijpen die niet bij het maken van dit document aanwezig was? Zo niet, dan is de zin aan de verkeerde lezer gericht.
+3. **De verbandtest (nevenschikking, sectie 2.11).** Kom je een komma plus "en" tegen met een hele zin erachter, benoem dan het verband tussen de twee helften. Kun je het benoemen, gebruik dan het woord ervoor. Kun je het niet benoemen, dan hoort het een eigen zin te zijn.
+4. **De lezerstest (verkeerde geadresseerde, sectie 5.9).** Vraag bij elke zin: kan iemand dit begrijpen die niet bij het maken van dit document aanwezig was? Zo niet, dan is de zin aan de verkeerde lezer gericht.
 
 ---
 
@@ -184,6 +185,25 @@ Drie of meer zinnen achter elkaar die identiek beginnen.
 **Schrijf niet:**
 - "Ze kunnen data ontsluiten... Ze kunnen inzicht bieden... Ze kunnen sturen..."
 - "Het betekent betere X. Het betekent betere Y. Het betekent betere Z."
+
+### 2.11 Nevenschikking waar onderschikking hoort
+
+Twee volwaardige zinnen aan elkaar gelast met een komma en "en", waarbij het verband tussen de twee helften niet wordt genoemd. Elke helft is een even stellige bewering, niets is ondergeschikt gemaakt, dus de lezer moet zelf raden waarom de tweede helft erbij staat. Een reeks van zulke zinnen leest gehakt: er is geen rangorde, alleen een aaneenschakeling.
+
+**Schrijf niet:**
+- "De machtiging is een vijfde greep, en de eigen datalagen kenden hem al."
+- "De telling klopt niet meer, en de bron is vorige maand vervangen."
+- "Het model heeft één bindingsmechanisme, en de juni-notitie noemt er drie."
+
+**De verbandtest.** Benoem het verband tussen de twee helften. Is het oorzaak, gevolg, tegenstelling, voorwaarde, tijd, of toelichting? Kun je het benoemen, gebruik dan het woord ervoor (*waardoor*, *omdat*, *zodat*, *terwijl*, *hoewel*, *doordat*) of een betrekkelijke bijzin. Kun je het niet benoemen, dan hoort de tweede helft een eigen zin te zijn, of hij hoort er helemaal niet.
+
+- "De machtiging is een vijfde greep, en de eigen datalagen kenden hem al." -> beter: "De machtiging is een vijfde greep, die in de eigen datalagen al terug te vinden was." (het verband is toelichting, dus een betrekkelijke bijzin)
+- "De telling klopt niet meer, en de bron is vorige maand vervangen." -> beter: "De telling klopt niet meer, doordat de bron vorige maand is vervangen." (oorzaak)
+- "Het model heeft één bindingsmechanisme, en de juni-notitie noemt er drie." -> beter: "Het model heeft één bindingsmechanisme, terwijl de juni-notitie er drie noemt." (tegenstelling)
+
+**Wanneer "en" wel klopt.** Bij echt gelijkwaardige, parallelle helften: "Hij belde de klant en zij stuurde de offerte." Daar is geen verband te benoemen omdat de twee naast elkaar staan, en dat is precies wat "en" hoort te betekenen. Het gaat mis zodra de tweede helft de eerste verklaart, weerspreekt, of onderbouwt.
+
+**Vuistregel voor een hele tekst:** tel de nevenschikkende verbindingen (`, en`, `, maar`) tegen de onderschikkende (*waardoor*, *omdat*, *zodat*, *terwijl*, *hoewel*, *doordat*). Slaat de verhouding ver door naar nevenschikking, dan is de tekst plat geworden en moet een deel van de verbanden expliciet worden gemaakt.
 
 ---
 
