@@ -15,6 +15,13 @@ The first job of writing is to be understood. Everything else — style, voice, 
 - **Concrete over abstract.** "Revenue increased 40%" is clearer than "significant financial improvement was achieved." Whenever a sentence can point to a specific thing instead of a category, it should.
 - **Name things directly.** "The tool" is vague. "The parser" is specific. "It" three sentences away from its referent is a guessing game. Repeat the noun rather than force the reader to track a pronoun chain.
 
+### Say Exactly What You Mean: Who, What, Where, When, How, Why
+
+- **Every sentence should let the reader recover as much as possible of who did what, where, since when, how, and why it matters.** Not as a checklist, but as a test: if a sentence answers none of those, it is a placeholder. "Access to the port shifts to the vendor's package" says nothing. "The channel of software vendors is consolidating from about eighty separate vendors to a handful of groups, so one decision by such a group reaches a large share of our customers at once" says what happened, to whom, and why it matters.
+- **No empty pointers.** Phrases like "the third route," "the building blocks," "the layer," "the gap," "partners," "parties outside the chain," "adjacent domains," "elsewhere," "increasingly" almost always mark a hole where a name, a number, a date, or a mechanism belongs. Replace them with the specific thing, even when the sentence gets longer. Headings are subject to the same rule: a heading must be understandable on its own.
+- **Define every term where it first appears, in plain words, as you would to a colleague over coffee.** First what is needed independent of the technology, then how that works in practice today, then what it means for the reader, with an honest caveat where something is uncertain. Length is not the problem; vagueness is. A term left undefined forces the reader to click away or guess, and both are failures of the text.
+- **No meta about your own process.** Nothing about "our research of [date]," "the negative finding was established on," "corrected after review," phases, versions, or the conversation in which the text was made. What a check found stays, but as a finding about the world ("none of the eight systems mentions assistant access on its own site"), and a "when" refers to the subject (the press release, the measurement, the date a rule took effect), never to the writer's work.
+
 ### Cut What Doesn't Earn Its Place
 
 - **Every word should do work.** If removing a word doesn't change the meaning, remove it. "In order to" is "to." "At this point in time" is "now." "Due to the fact that" is "because."

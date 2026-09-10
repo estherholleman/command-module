@@ -4,14 +4,15 @@ Deze regels beschrijven schrijfgewoontes die verraden dat een tekst door AI is g
 
 **Let op:** veel van deze patronen ontstaan doordat LLMs zwaar getraind zijn op Engelse tekst en hun gewoontes letterlijk vertalen naar het Nederlands. Het resultaat klinkt grammaticaal correct maar stilistisch Engels. Dat is vaak het eerste dat een Nederlandse lezer opvalt.
 
-## Begin hier: vier tests die de meeste fouten vangen
+## Begin hier: vijf tests die de meeste fouten vangen
 
-Woordkeus is zelden het probleem. Een proefronde over zes eerdere teksten leverde nul treffers op de woordenlijst in sectie 1 en tientallen treffers op de patronen hieronder. Loop bij elke tekst eerst deze vier tests af, en gebruik de rest van dit document voor de specifieke gevallen.
+Woordkeus is zelden het probleem. Een proefronde over zes eerdere teksten leverde nul treffers op de woordenlijst in sectie 1 en tientallen treffers op de patronen hieronder. Loop bij elke tekst eerst deze vijf tests af, en gebruik de rest van dit document voor de specifieke gevallen.
 
 1. **De aanvultest (elliptische zinnen, sectie 2.8).** Maak van de zin een ja/nee-vraag. Lukt dat niet, omdat er geen persoonsvorm of geen onderwerp is om naar voren te halen, dan is het een zinsfragment. Vul zelf aan wat de lezer anders moet raden.
 2. **De weglaattest (lege oordeelstaarten, sectie 2.9).** Schrap de laatste bijzin en lees zowel de zin ervoor als de zin erna. Is er in beide richtingen niets verdwenen, dan was die bijzin een lege oordeelstaart. Vervang hem door het gevolg, promoveer hem tot hoofdgezegde, of laat hem weg.
 3. **De verbandtest (nevenschikking, sectie 2.11).** Kom je een komma plus "en" tegen met een hele zin erachter, benoem dan het verband tussen de twee helften. Kun je het benoemen, gebruik dan het woord ervoor. Kun je het niet benoemen, dan hoort het een eigen zin te zijn.
 4. **De lezerstest (verkeerde geadresseerde, sectie 5.9).** Vraag bij elke zin: kan iemand dit begrijpen die niet bij het maken van dit document aanwezig was? Zo niet, dan is de zin aan de verkeerde lezer gericht.
+5. **De precisietest (lege verwijswoorden en onuitgelegde termen, sectie 5.10).** Vraag bij elke zin: kan de lezer hieruit halen wie, wat, waar, wanneer, hoe en waarom? Staat er "de derde weg", "de bouwstenen", "partners", "elders" of een vakterm die pas verderop wordt uitgelegd, dan is de zin een plaatshouder. Schrijf de naam, het aantal, de datum of het mechanisme uit, en leg de term ter plekke uit.
 
 ---
 
@@ -376,6 +377,20 @@ Dit is de duurste fout in dit document, en de minst herkenbare als stijltic. De 
 - Intern jargon dat buiten het eigen groepje niemand kent: "deck" (schrijf presentaties of PowerPoints), "klep", "witte vlek". Vraag bij elk vakwoord of het in de bronpresentatie of het brondocument staat dat de lezer wél kent. Zo niet, gebruik het woord dat daar staat.
 
 **Waar dit niet geldt.** Vereenvoudig geen vakterm weg die precies zegt wat je bedoelt. "Capabilities" vervangen door "vaardigheden" maakt de term vager, en vaag is erger dan onbekend. De regel is: kies het woord dat het scherpst zegt wat je bedoelt, en leg het één keer uit als de lezer het niet kent. Interne modelnamen en code-sleutels vallen buiten deze regel; daar wint precisie.
+
+### 5.10 Lege verwijswoorden, onuitgelegde termen en meta over het eigen proces
+
+Een zin die wel loopt maar niets zegt. De schrijver weet wat hij bedoelt en zet er een verwijzing of een categorie neer in plaats van de zaak zelf. De lezer kan de zin niet controleren en niet navertellen.
+
+**De precisietest:** kan de lezer uit deze zin halen wie het deed, wat er gebeurde, waar, sinds wanneer, hoe, en waarom het ertoe doet? Niet elk element hoeft er letterlijk in, maar zoveel mogelijk moet eruit te halen zijn. Haalt de zin de test niet, vervang dan het vage woord door de naam, het aantal, de datum of het mechanisme, ook als de zin daardoor langer wordt.
+
+**Drie soorten plaatshouders:**
+
+- *Lege verwijswoorden en categorieën.* "De derde weg bestaat in de haven nog nergens." -> beter: "Een koppelvlak waarmee een AI-assistent zelf bij havendata kan, bestaat bij geen enkel port community systeem, terwijl softwareleveranciers om de haven heen het al hebben." Verdachte woorden: de derde weg, de bouwstenen, de plek, de route, de laag, het gat, die verdeling, de beweging, partners, partijen, buiten de haven, aangrenzende domeinen, elders, anderen, sommige, steeds vaker, een deel van, verschuift (zonder van wat naar wat), raakt (zonder langs welke weg), versnelt (zonder wat en hoe gemeten).
+- *Onuitgelegde termen.* "Een proef is nu goedkoop omdat de documentatie en het machtigingsmodel er al liggen." -> beter: "Een proef, een MCP-server op de leesvragen uit Cargo Controller en de Vessel Visit API, is nu goedkoop omdat onze vier API's al OpenAPI-beschrijvingen hebben, bestanden die opsommen welke vragen een API beantwoordt, en omdat het autorisatieregister onder MyData al vastlegt wie welke gegevens van wie mag ontvangen." Leg elke term uit waar die voor het eerst staat, in gewone woorden, zoals je het een collega over de koffie zou uitleggen: eerst wat er nodig is los van de techniek, dan hoe het vandaag in de praktijk werkt, dan wat het voor de lezer betekent, met een eerlijke kanttekening waar het onzeker is. Ook koppen moeten op zichzelf te begrijpen zijn: "In de aangrenzende domeinen bestaan al koppelvlakken voor assistenten" wordt de zin hierboven.
+- *Meta over het eigen proces.* "Eigen onderzoek van 7 september voor de negatieve bevinding over de acht systemen." -> beter: "Voor de acht port community systemen was op de eigen sites en de developer portals niets te vinden over toegang voor AI-assistenten." Schrijf niets over de datum waarop jij iets nakeek, over controles, correcties, fasen, versies of het gesprek. Wat een controle opleverde blijft, als bevinding over de wereld. Een "wanneer" gaat over de inhoud (het persbericht, de meting, de inwerkingtreding), niet over het werk van de schrijver.
+
+**Waar dit niet geldt.** Een zin die bewust samenvat wat daarna wordt uitgewerkt mag kort zijn, mits de uitwerking op dezelfde pagina staat. En vermijd het omgekeerde: een zin die zes elementen letterlijk opsomt als een formulier. De test is of de lezer het kan navertellen, niet of alle zes woorden erin staan.
 
 ---
 

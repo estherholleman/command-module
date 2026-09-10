@@ -2,14 +2,15 @@
 
 These rules describe writing habits that signal AI-generated text. Follow them to produce writing that reads as natural, human prose. The goal is to write *well* by avoiding the lazy defaults that language models fall into.
 
-## Start here: four tests that catch most of it
+## Start here: five tests that catch most of it
 
-Word choice is rarely the problem. A proof pass over six earlier documents returned zero hits against the word list in section 1 and dozens against the patterns below. Run these four tests over any text first, and use the rest of this document for the specific cases.
+Word choice is rarely the problem. A proof pass over six earlier documents returned zero hits against the word list in section 1 and dozens against the patterns below. Run these five tests over any text first, and use the rest of this document for the specific cases.
 
 1. **The completion test (elliptical constructions, section 2.8).** Turn the sentence into a yes/no question. If you cannot, because there is no finite verb or no subject to move to the front, it is a fragment. Supply what the reader would otherwise have to guess.
 2. **The subtraction test (empty evaluative tails, section 2.9).** Delete the closing clause and reread both the sentence before it and the one after it. If nothing was lost either way, that clause was a tail. Replace it with the consequence, promote it to the main predicate, or cut it.
 3. **The relation test (coordination, section 2.10).** Wherever a comma plus "and" is followed by a full sentence, name the relation between the halves. If you can name it, use the word for it. If you cannot, it belongs in its own sentence.
 4. **The reader test (wrong addressee, section 5.9).** Ask of every sentence: could someone who was not present while this document was made understand it? If not, the sentence is addressed to the wrong reader.
+5. **The precision test (empty pointers and undefined terms, section 5.10).** Ask of every sentence: can the reader recover who, what, where, when, how, and why from it? If it says "the third route," "the building blocks," "partners," "elsewhere," or uses a term that is only explained later, it is a placeholder. Write out the name, the number, the date, or the mechanism, and define the term where it stands.
 
 ---
 
@@ -337,6 +338,20 @@ The costliest failure in this document, and the one least likely to be recognise
 - In-group jargon nobody outside the team knows: "deck" (write presentations or PowerPoints), and any internal coinage for a concept the reader has never met. For every specialist word, ask whether it appears in the source document the reader does know. If not, use the word that appears there.
 
 **Where this does not apply.** Do not simplify away a technical term that says exactly what you mean. Replacing "capabilities" with "skills" makes the term vaguer, and vague is worse than unfamiliar. The rule is: pick the word that says most precisely what you mean, and explain it once if the reader will not know it. Internal model names and code keys are outside this rule, where precision wins.
+
+### 5.10 Empty Pointers, Undefined Terms, and Meta About Your Own Process
+
+A sentence that reads fine and says nothing. The writer knows what is meant and puts down a pointer or a category instead of the thing itself. The reader can neither check the sentence nor retell it.
+
+**The precision test:** can the reader recover from this sentence who did it, what happened, where, since when, how, and why it matters? Not every element has to appear literally, but as much as possible should be recoverable. If the sentence fails, replace the vague word with the name, the number, the date, or the mechanism, even if the sentence gets longer.
+
+**Three kinds of placeholder:**
+
+- *Empty pointers and categories.* "The third route does not exist in the port yet." -> better: "An interface that lets an AI assistant reach port data on its own exists at none of the port community systems, while the software vendors around the port already have one." Suspect words: the third route, the building blocks, the layer, the gap, the shift, partners, parties outside the chain, adjacent domains, elsewhere, others, some, increasingly, part of, shifts (without from what to what), affects (without along which path), accelerates (without what and how measured).
+- *Undefined terms.* "A pilot is cheap now because the documentation and the authorization model are already in place." -> better: "A pilot, an MCP server on the read queries of Cargo Controller and the Vessel Visit API, is cheap now because our four APIs already have OpenAPI descriptions, files that list which questions an API answers, and because the authorization register under MyData already records who may receive which data from whom." Define every term where it first appears, in plain words, the way you would explain it to a colleague over coffee: first what is needed independent of the technology, then how it works in practice today, then what it means for the reader, with an honest caveat where something is uncertain. Headings follow the same rule: a heading must be understandable on its own.
+- *Meta about your own process.* "Our research of 7 September for the negative finding on the eight systems." -> better: "For the eight port community systems, nothing about assistant access could be found on their own sites or developer portals." Write nothing about the date on which you checked something, about reviews, corrections, phases, versions, or the conversation in which the text was made. What a check found stays, as a finding about the world. A "when" refers to the subject (the press release, the measurement, the date a rule took effect), never to the writer's work.
+
+**Where this does not apply.** A sentence that deliberately summarizes what is worked out right after it may be short, as long as the elaboration is on the same page. And avoid the opposite failure: a sentence that lists all six elements like a form. The test is whether the reader can retell it, not whether all six words appear.
 
 ---
 
