@@ -20,6 +20,7 @@ The first job of writing is to be understood. Everything else — style, voice, 
 - **Every sentence should let the reader recover as much as possible of who did what, where, since when, how, and why it matters.** Not as a checklist, but as a test: if a sentence answers none of those, it is a placeholder. "Access to the port shifts to the vendor's package" says nothing. "The channel of software vendors is consolidating from about eighty separate vendors to a handful of groups, so one decision by such a group reaches a large share of our customers at once" says what happened, to whom, and why it matters.
 - **No empty pointers.** Phrases like "the third route," "the building blocks," "the layer," "the gap," "partners," "parties outside the chain," "adjacent domains," "elsewhere," "increasingly" almost always mark a hole where a name, a number, a date, or a mechanism belongs. Replace them with the specific thing, even when the sentence gets longer. Headings are subject to the same rule: a heading must be understandable on its own.
 - **Define every term where it first appears, in plain words, as you would to a colleague over coffee.** First what is needed independent of the technology, then how that works in practice today, then what it means for the reader, with an honest caveat where something is uncertain. Length is not the problem; vagueness is. A term left undefined forces the reader to click away or guess, and both are failures of the text.
+- **No caveats about your own research.** "What this costs has not been estimated." "Whether they are considering the same step has not been established." "How large the gap is, we do not know." These describe the boundary of your work, not the subject, and they get tacked onto the end of a paragraph where they weaken the claim before them for nothing. Write what you do know. Uncertainty about the world belongs in the text ("probably", "presumably"); uncertainty about your own measurement does not. If the reader needs to know a figure is still open, name who decides it.
 - **No meta about your own process.** Nothing about "our research of [date]," "the negative finding was established on," "corrected after review," phases, versions, or the conversation in which the text was made. What a check found stays, but as a finding about the world ("none of the eight systems mentions assistant access on its own site"), and a "when" refers to the subject (the press release, the measurement, the date a rule took effect), never to the writer's work.
 
 ### Cut What Doesn't Earn Its Place
@@ -27,6 +28,7 @@ The first job of writing is to be understood. Everything else — style, voice, 
 - **Every word should do work.** If removing a word doesn't change the meaning, remove it. "In order to" is "to." "At this point in time" is "now." "Due to the fact that" is "because."
 - **Qualifiers weaken.** "Quite," "rather," "somewhat," "relatively," "fairly" — these hedge without adding information. Either the thing is true or it needs a specific qualifier ("30% faster" instead of "somewhat faster").
 - **Adverbs often signal a weak verb.** "Ran quickly" is "sprinted." "Said loudly" is "shouted." If the verb needs an adverb to do its job, pick a better verb.
+- **Verbs of change must name the direction.** "Changes," "affects," "impacts," "shifts" say that something happens without saying which way. The scaffolding that usually comes with them ("changes one thing, namely...", "affects it in two ways") costs words and returns nothing. Ask: up or down, faster or slower, more or less, and for whom? Put that answer in the verb. "AI changes one thing, namely the cost of building it yourself" is "AI lowers the cost of building it yourself", which is shorter and says more. If there is no answer, that absence is the real uncertainty and belongs in the sentence.
 
 ### Common Clarity Failures
 
@@ -226,6 +228,12 @@ The grammar-strict "ze/zij" feels personifying for non-human de-words and rarely
 "Leiderschap" is a literal translation that often reads as too abstract or too soft for the working register inside Dutch organizations. In most company contexts, the actual referent is a specific group with a name: the directie (board / executive team), het LT (leadership team / management team), het MT (management team), het bestuur, or the CEO specifically. Pick the group the sentence actually means and use that name.
 
 Reserve "leiderschap" for genuinely abstract usages where the noun refers to the *quality* or *practice* of leading rather than to a body of people ("zijn stijl van leiderschap", "leiderschap als vaardigheid"). When the sentence means "the people at the top who receive this output and decide", write directie, LT, MT, or bestuur.
+
+### Don't detour around your own subject
+
+A sentence that opens with "What ..." and withholds its subject until after "is" or "are" puts a detour in front of the claim: "What's missing is the third step." "What follows from the table is that three of the eight have a model running." The reader waits for the verb before learning who or what is doing anything. Recast as subject-verb-rest: "The third step is missing." "The table shows that three of the eight have a model running."
+
+Two things make this worth its own rule. The construction is grammatical, so it survives revision untouched. And it multiplies: once it becomes a paragraph opener, it repeats across every section until the document reads as a template. Keep it only where a contrast genuinely carries the emphasis, and then once.
 
 ### Sentence Patterns
 

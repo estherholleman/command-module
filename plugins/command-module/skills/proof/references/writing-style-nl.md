@@ -4,15 +4,16 @@ Deze regels beschrijven schrijfgewoontes die verraden dat een tekst door AI is g
 
 **Let op:** veel van deze patronen ontstaan doordat LLMs zwaar getraind zijn op Engelse tekst en hun gewoontes letterlijk vertalen naar het Nederlands. Het resultaat klinkt grammaticaal correct maar stilistisch Engels. Dat is vaak het eerste dat een Nederlandse lezer opvalt.
 
-## Begin hier: vijf tests die de meeste fouten vangen
+## Begin hier: zes tests die de meeste fouten vangen
 
-Woordkeus is zelden het probleem. Een proefronde over zes eerdere teksten leverde nul treffers op de woordenlijst in sectie 1 en tientallen treffers op de patronen hieronder. Loop bij elke tekst eerst deze vijf tests af, en gebruik de rest van dit document voor de specifieke gevallen.
+Woordkeus is zelden het probleem. Een proefronde over zes eerdere teksten leverde nul treffers op de woordenlijst in sectie 1 en tientallen treffers op de patronen hieronder. Loop bij elke tekst eerst deze zes tests af, en gebruik de rest van dit document voor de specifieke gevallen.
 
 1. **De aanvultest (elliptische zinnen, sectie 2.8).** Maak van de zin een ja/nee-vraag. Lukt dat niet, omdat er geen persoonsvorm of geen onderwerp is om naar voren te halen, dan is het een zinsfragment. Vul zelf aan wat de lezer anders moet raden.
 2. **De weglaattest (lege oordeelstaarten, sectie 2.9).** Schrap de laatste bijzin en lees zowel de zin ervoor als de zin erna. Is er in beide richtingen niets verdwenen, dan was die bijzin een lege oordeelstaart. Vervang hem door het gevolg, promoveer hem tot hoofdgezegde, of laat hem weg.
 3. **De verbandtest (nevenschikking, sectie 2.11).** Kom je een komma plus "en" tegen met een hele zin erachter, benoem dan het verband tussen de twee helften. Kun je het benoemen, gebruik dan het woord ervoor. Kun je het niet benoemen, dan hoort het een eigen zin te zijn.
 4. **De lezerstest (verkeerde geadresseerde, sectie 5.9).** Vraag bij elke zin: kan iemand dit begrijpen die niet bij het maken van dit document aanwezig was? Zo niet, dan is de zin aan de verkeerde lezer gericht.
-5. **De precisietest (lege verwijswoorden en onuitgelegde termen, sectie 5.10).** Vraag bij elke zin: kan de lezer hieruit halen wie, wat, waar, wanneer, hoe en waarom? Staat er "de derde weg", "de bouwstenen", "partners", "elders" of een vakterm die pas verderop wordt uitgelegd, dan is de zin een plaatshouder. Schrijf de naam, het aantal, de datum of het mechanisme uit, en leg de term ter plekke uit.
+5. **De directheidstest (secties 2.12 en 2.13).** Begint de zin met *Wat ...* en komt het onderwerp pas na *is* of *zijn*, zet hem dan om naar onderwerp-werkwoord-rest. Staat er een werkwoord van verandering (*verandert*, *raakt*, *verschuift*), vraag dan welke kant het op gaat en zet dat antwoord in het werkwoord. Dit was in de praktijk de talrijkste fout: in één stuk stond de omweg vijfenzeventig keer.
+6. **De precisietest (lege verwijswoorden en onuitgelegde termen, sectie 5.10).** Vraag bij elke zin: kan de lezer hieruit halen wie, wat, waar, wanneer, hoe en waarom? Staat er "de derde weg", "de bouwstenen", "partners", "elders" of een vakterm die pas verderop wordt uitgelegd, dan is de zin een plaatshouder. Schrijf de naam, het aantal, de datum of het mechanisme uit, en leg de term ter plekke uit.
 
 ---
 
@@ -206,6 +207,35 @@ Twee volwaardige zinnen aan elkaar gelast met een komma en "en", waarbij het ver
 
 **Vuistregel voor een hele tekst:** tel de nevenschikkende verbindingen (`, en`, `, maar`) tegen de onderschikkende (*waardoor*, *omdat*, *zodat*, *terwijl*, *hoewel*, *doordat*). Slaat de verhouding ver door naar nevenschikking, dan is de tekst plat geworden en moet een deel van de verbanden expliciet worden gemaakt.
 
+### 2.12 Zinnen die om hun eigen onderwerp heen beginnen
+
+Een zin die begint met *Wat ...* en pas halverwege bij *is* of *zijn* verklapt waar hij over gaat, zet een omweg voor de bewering. De lezer wacht tot het werkwoord komt voordat hij weet wie of wat er iets doet. In het Engels is dit een gewone constructie ("What's missing is ..."), en in het Nederlands leest het als vertaald.
+
+**Schrijf niet:**
+- "Wat ontbreekt is de derde stap."
+- "Wat eruit volgt is dat drie van de acht een model hebben draaien."
+- "Wat AI wel verandert is hoe goedkoop het is om eromheen te bouwen."
+- "Wat er niet ligt is de vraag." (hier komt er een tweede fout bij: de zin zegt ook niet welke vraag, van wie, en waarom dat telt)
+
+**Schrijf in plaats daarvan** de gewone volgorde, met het onderwerp vooraan: "De derde stap ontbreekt." "Uit de tabel volgt dat drie van de acht een model hebben draaien." "AI verlaagt wel de kosten om eromheen te bouwen."
+
+**De omwegtest.** Zet de zin om naar onderwerp, werkwoord, rest. Blijft de bewering hetzelfde, dan was de omweg overbodig. Verandert de bewering, dan deed de constructie werk en mag hij blijven.
+
+**Waar de constructie wel klopt.** Bij een contrast dat de nadruk werkelijk draagt: "Wat verdwijnt zijn de mensen in Rotterdam, terwijl de meldplicht blijft." De valkuil zit in de herhaling. In een stuk met een vaste alinea-opening ("Wat eruit volgt is dat ...") staat de constructie tientallen keren zonder dat de schrijver het merkt, en dan leest hij als een sjabloon. Zie ook 2.10 over anafoor.
+
+### 2.13 Het werkwoord dat de richting niet noemt
+
+*Veranderen*, *raken*, *verschuiven*, *beïnvloeden* en *tellen* zeggen dat er iets gebeurt en niet welke kant het op gaat. Meestal weet de schrijver de richting wel en zet hij er een aankondiging omheen: *één ding*, *namelijk*, *op twee manieren*, *is tweeledig*. Die aankondiging kost woorden en levert de lezer niets op.
+
+**Schrijf niet:**
+- "AI verandert één ding, namelijk de kosten om zelf te bouwen."
+- "Dit raakt onze positie."
+- "De nieuwe regel beïnvloedt de aanlevering op twee manieren."
+
+**Schrijf in plaats daarvan** het werkwoord dat de richting draagt, waardoor de zin korter wordt en meer zegt: "AI verlaagt de kosten om zelf te bouwen."
+
+**De richtingstest.** Vraag bij elk werkwoord van verandering: omhoog of omlaag, sneller of langzamer, meer of minder, en voor wie? Komt daar een antwoord op, zet dat antwoord in het werkwoord. Komt er geen antwoord, dan is dat de eigenlijke onzekerheid en hoort die in de zin te staan: "Of de regel de aanlevering verbetert of verslechtert hangt af van wie het veld invult."
+
 ---
 
 ## 3. Alinea- en compositiepatronen om te vermijden
@@ -294,6 +324,8 @@ Wel toegestaan (geen dwang om weg te schrijven):
 - Na een label of kop: "Periode: 1 mei – 5 mei", "Status: in productie".
 - In tijd-aanduidingen, paden, en code: "om 14:30", `path/to/file:42`.
 
+**De reparatie is meestal het verband, niet de punt.** Een dubbele punt tussen twee hele zinnen verbergt bijna altijd een verband dat je kunt noemen: *want*, *doordat*, *waardoor*, *terwijl*. "De aansprakelijkheid schuift daarbij niet mee: de verzekeraar schrijft dat de expediteur aansprakelijk blijft" wordt "De aansprakelijkheid schuift daarbij niet mee, want de verzekeraar schrijft dat de expediteur aansprakelijk blijft." Dat is dezelfde verbandtest als in 2.11, en hij geldt hier net zo goed. Kun je het verband niet benoemen, pas dan een punt.
+
 De test: als de tekst voor en na de `:` of `;` zelfstandig leesbaar is als losse zin, gebruik dan een punt en begin een nieuwe zin. Puntkomma's hebben in moderne Nederlandse zakelijke prose vrijwel nooit een plek. Schrap ze standaard.
 
 ### 4.6 Inconsistente aanhalingstekens
@@ -319,6 +351,8 @@ De enige uitzondering is "één" (het telwoord), waar de accenten "één" onders
 Presenteer niet elk onderwerp als perfect gebalanceerd wanneer een kant duidelijk sterker is. Neem positie in wanneer het bewijs dat ondersteunt.
 
 **Schrijf in plaats daarvan:** wees direct wanneer het bewijs sterk is. "Deze aanpak werkte niet" is beter dan "deze aanpak heeft mogelijk niet de gewenste resultaten opgeleverd." Bewaar voorzichtige formuleringen voor situaties waarin het bewijs dat rechtvaardigt.
+
+**Een bewering over de toekomst repareer je met een bron, niet met slagen om de arm.** Wanneer een zin te stellig voelt is de neiging om er *vooral*, *niet per se* en *wellicht* bij te zetten, en dan staat er niets meer. Zeg in plaats daarvan wie het beweert en waarop het rust: niet "AI hoeft niet per se een eigen strategie" maar "De AI-visie van dit bedrijf zegt dat AI om een versnelling van de huidige strategie vraagt", gevolgd door de gevallen waarop dat berust. Drie voorbehouden in twee zinnen is zelf een tell.
 
 ### 5.2 Gewichtsinflatie
 
@@ -388,6 +422,8 @@ Een zin die wel loopt maar niets zegt. De schrijver weet wat hij bedoelt en zet 
 
 - *Lege verwijswoorden en categorieën.* "De derde weg bestaat in de haven nog nergens." -> beter: "Een koppelvlak waarmee een AI-assistent zelf bij havendata kan, bestaat bij geen enkel port community systeem, terwijl softwareleveranciers om de haven heen het al hebben." Verdachte woorden: de derde weg, de bouwstenen, de plek, de route, de laag, het gat, die verdeling, de beweging, partners, partijen, buiten de haven, aangrenzende domeinen, elders, anderen, sommige, steeds vaker, een deel van, verschuift (zonder van wat naar wat), raakt (zonder langs welke weg), versnelt (zonder wat en hoe gemeten).
 - *Onuitgelegde termen.* "Een proef is nu goedkoop omdat de documentatie en het machtigingsmodel er al liggen." -> beter: "Een proef, een MCP-server op de leesvragen uit Cargo Controller en de Vessel Visit API, is nu goedkoop omdat onze vier API's al OpenAPI-beschrijvingen hebben, bestanden die opsommen welke vragen een API beantwoordt, en omdat het autorisatieregister onder MyData al vastlegt wie welke gegevens van wie mag ontvangen." Leg elke term uit waar die voor het eerst staat, in gewone woorden, zoals je het een collega over de koffie zou uitleggen: eerst wat er nodig is los van de techniek, dan hoe het vandaag in de praktijk werkt, dan wat het voor de lezer betekent, met een eerlijke kanttekening waar het onzeker is. Ook koppen moeten op zichzelf te begrijpen zijn: "In de aangrenzende domeinen bestaan al koppelvlakken voor assistenten" wordt de zin hierboven.
+- *Voorbehouden over je eigen onderzoek.* "Wat dit kost is niet geraamd." "Of de terminals dezelfde stap overwegen is niet vastgesteld." "Hoe groot dat gat is weten wij niet." Deze zinnen gaan niet over het onderwerp maar over de grens van het werk van de schrijver, en ze worden bijna altijd achteraan een alinea geplakt, waar ze de bewering ervoor verzwakken zonder er iets voor terug te geven. Schrijf wat je wel weet. Het onderscheid dat telt: onzekerheid over de wereld hoort er wel in (*waarschijnlijk*, *vermoedelijk*, *naar verwachting*), onzekerheid over je eigen meting niet. Moet de lezer weten dat een bedrag nog bepaald wordt, noem dan wie dat doet: "Het bestuur beslist wat de bouw mag kosten." Let ook op wat er na zo'n schrapping overblijft: de verwijswoorden in de volgende zin wezen soms juist naar het geschrapte deel (zie sectie 7).
+- *Eén woord dat meerdere dingen dekt.* In één stuk stond "AI" voor het gereedschap waarmee software wordt gebouwd, voor het model dat velden van een formulier invult, en voor het programma dat namens een bedrijf zelf gegevens ophaalt. Drie dingen die elk iets anders doen en die door één woord onzichtbaar werden. Noem de soorten waar het woord voor het eerst valt, geef ze elk een eigen naam, en houd die daarna uit elkaar.
 - *Meta over het eigen proces.* "Eigen onderzoek van 7 september voor de negatieve bevinding over de acht systemen." -> beter: "Voor de acht port community systemen was op de eigen sites en de developer portals niets te vinden over toegang voor AI-assistenten." Schrijf niets over de datum waarop jij iets nakeek, over controles, correcties, fasen, versies of het gesprek. Wat een controle opleverde blijft, als bevinding over de wereld. Een "wanneer" gaat over de inhoud (het persbericht, de meting, de inwerkingtreding), niet over het werk van de schrijver.
 
 **Waar dit niet geldt.** Een zin die bewust samenvat wat daarna wordt uitgewerkt mag kort zijn, mits de uitwerking op dezelfde pagina staat. En vermijd het omgekeerde: een zin die zes elementen letterlijk opsomt als een formulier. De test is of de lezer het kan navertellen, niet of alle zes woorden erin staan.
@@ -417,6 +453,8 @@ Menselijke Nederlandse teksten bevatten kleine onvolkomenheden -- een iets onhan
 **Comprimeren is niet het doel, begrepen worden wel.** De regels hierboven schrappen veel, en dat verleidt tot te ver doorschieten. Twee fouten liggen even dicht bij elkaar: met te weinig woorden te weinig zeggen, zodat de lezer moet raden wat er bedoeld wordt, en drie regels schrijven die alle drie hetzelfde zeggen. Wees specifiek zonder langdradig te worden. Als een zin langer moet zijn om te kloppen, laat hem dan langer zijn.
 
 **Vervang een leesteken nooit door een gat.** Wanneer een gedachtestreepje, dubbele punt of puntkomma weg moet (sectie 4.1 en 4.5), zet er dan een echte zin voor in de plaats, niet een punt met een fragment erachter. Het verbod op één leesteken verplaatst de neiging naar het volgende: naar dubbele punten, naar losse stukjes zin, en naar de oordeelstaart uit 2.9. Controleer na elke schrapping of wat er staat nog een hele zin is.
+
+**Controleer na elke schrapping of de verwijzingen nog ergens op slaan.** Schrappen laat vaker een gat achter dan schrijven. Een *dat*, *die*, *hen*, *daarmee* of *hun* in de volgende zin wees naar iets dat er nu niet meer staat, terwijl de zin grammaticaal nog loopt en de fout dus nergens opvalt. Een echt voorbeeld: nadat de zin "Van de drie resterende platformen is niet vastgesteld welke bronnen zij noemen" was geschrapt, bleef staan "Hun ontwikkelaarsdocumentatie is openbaar, dus dat kost ongeveer een dag", waarin *hun* en *dat* geen antwoord meer hadden. Lees na elke schrapping de twee zinnen eromheen opnieuw en vervang elk verwijswoord dat zijn antwoord kwijt is door het woord zelf.
 
 **Varieer bewust in zinslengte.** Een monotoon ritme -- lang, lang, lang of kort, kort, kort -- is net zo verradelijk als woordkeus. Wissel af. Laat sommige zinnen ademen. Hak andere kort.
 

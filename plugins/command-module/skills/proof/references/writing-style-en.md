@@ -2,15 +2,16 @@
 
 These rules describe writing habits that signal AI-generated text. Follow them to produce writing that reads as natural, human prose. The goal is to write *well* by avoiding the lazy defaults that language models fall into.
 
-## Start here: five tests that catch most of it
+## Start here: six tests that catch most of it
 
-Word choice is rarely the problem. A proof pass over six earlier documents returned zero hits against the word list in section 1 and dozens against the patterns below. Run these five tests over any text first, and use the rest of this document for the specific cases.
+Word choice is rarely the problem. A proof pass over six earlier documents returned zero hits against the word list in section 1 and dozens against the patterns below. Run these six tests over any text first, and use the rest of this document for the specific cases.
 
 1. **The completion test (elliptical constructions, section 2.8).** Turn the sentence into a yes/no question. If you cannot, because there is no finite verb or no subject to move to the front, it is a fragment. Supply what the reader would otherwise have to guess.
 2. **The subtraction test (empty evaluative tails, section 2.9).** Delete the closing clause and reread both the sentence before it and the one after it. If nothing was lost either way, that clause was a tail. Replace it with the consequence, promote it to the main predicate, or cut it.
 3. **The relation test (coordination, section 2.10).** Wherever a comma plus "and" is followed by a full sentence, name the relation between the halves. If you can name it, use the word for it. If you cannot, it belongs in its own sentence.
 4. **The reader test (wrong addressee, section 5.9).** Ask of every sentence: could someone who was not present while this document was made understand it? If not, the sentence is addressed to the wrong reader.
-5. **The precision test (empty pointers and undefined terms, section 5.10).** Ask of every sentence: can the reader recover who, what, where, when, how, and why from it? If it says "the third route," "the building blocks," "partners," "elsewhere," or uses a term that is only explained later, it is a placeholder. Write out the name, the number, the date, or the mechanism, and define the term where it stands.
+5. **The directness test (sections 2.11 and 2.12).** If a sentence opens with *What ...* and withholds its subject until after *is* or *are*, recast it as subject-verb-rest. If it uses a verb of change (*changes*, *affects*, *shifts*), ask which way it goes and put that answer in the verb. In practice this was the most common fault of all: one document carried the detour seventy-five times.
+6. **The precision test (empty pointers and undefined terms, section 5.10).** Ask of every sentence: can the reader recover who, what, where, when, how, and why from it? If it says "the third route," "the building blocks," "partners," "elsewhere," or uses a term that is only explained later, it is a placeholder. Write out the name, the number, the date, or the mechanism, and define the term where it stands.
 
 ---
 
@@ -184,6 +185,37 @@ Two full sentences welded together with a comma and "and", with the relation bet
 
 ---
 
+### 2.11 Sentences That Detour Around Their Own Subject
+
+A sentence that opens with *What ...* and only reaches its subject after *is* or *are* puts a detour in front of the claim. The reader waits for the verb before learning who or what is doing anything. The construction is grammatical, which is why it survives revision, and it multiplies: writers who reach for it once reach for it in every paragraph.
+
+**Don't write:**
+- "What's missing is the third step."
+- "What follows from the table is that three of the eight have a model running."
+- "What AI does change is how cheap it is to build around us."
+- "What isn't there is the demand." (a second fault stacks here: the sentence never says whose demand, for what, or why it matters)
+
+**Write instead** in ordinary order, subject first: "The third step is missing." "The table shows that three of the eight have a model running." "AI does lower the cost of building around us."
+
+**The detour test.** Recast the sentence as subject, verb, rest. If the claim survives unchanged, the detour was doing nothing. If the claim shifts, the construction was doing real work and can stay.
+
+**Where the construction is right.** For a contrast that genuinely carries the emphasis: "What disappears is the people, while the reporting obligation stays." The trap is repetition. In a document with a fixed paragraph opener ("What follows from the table is that ..."), the construction appears dozens of times without the writer noticing, and then it reads as a template. See also 2.4 on anaphora.
+
+### 2.12 The Verb That Doesn't Name the Direction
+
+*Change*, *affect*, *impact*, *shift* and *matter* say that something happens without saying which way it goes. Usually the writer knows the direction and wraps scaffolding around it instead: *one thing*, *namely*, *in two ways*, *is twofold*. The scaffolding costs words and returns nothing to the reader.
+
+**Don't write:**
+- "AI changes one thing, namely the cost of building it yourself."
+- "This affects our position."
+- "The new rule impacts submissions in two ways."
+
+**Write instead** the verb that carries the direction, which makes the sentence shorter and says more: "AI lowers the cost of building it yourself."
+
+**The direction test.** Ask of every verb of change: up or down, faster or slower, more or less, and for whom? If there is an answer, put it in the verb. If there is none, that absence is the real uncertainty and it belongs in the sentence: "Whether the rule improves or degrades submissions depends on who fills in the field."
+
+---
+
 ## 3. Paragraph and Composition Patterns to Avoid
 
 ### 3.1 Uniform Paragraph Shape
@@ -246,6 +278,8 @@ Still fine, with no obligation to rewrite:
 - After a label or heading: "Period: 1-5 May", "Status: in production".
 - Times, paths, and code: "at 14:30", `path/to/file:42`.
 
+**The repair is usually the relation, not the full stop.** A colon between two whole sentences almost always hides a relation you can name: *because*, *since*, *so that*, *while*. "Liability does not move with it: the insurer writes that the forwarder stays liable" becomes "Liability does not move with it, because the insurer writes that the forwarder stays liable." That is the same relation test as in 2.10, and it applies here too. If you cannot name the relation, then use the full stop.
+
 **The test:** if the text on both sides of the `:` or `;` reads as a standalone sentence, use a full stop and start a new one. Semicolons have almost no place in modern business prose; cut them by default.
 
 ### 4.3 Bold-First Bullets
@@ -280,6 +314,8 @@ Do not bold or italicize individual words inside a sentence for emphasis ("their
 Do not present every topic as having perfectly balanced perspectives when one side is clearly stronger. Take positions when the evidence supports them. Vary the level of certainty based on the actual strength of the evidence.
 
 **Instead:** be direct when the evidence is strong. "This approach failed" is better than "this approach may not have achieved optimal outcomes." Save hedging language for situations where the evidence genuinely warrants it.
+
+**A claim about the future is repaired with a source, not with hedges.** When a sentence feels too assertive, the impulse is to add *mostly*, *not necessarily* and *perhaps*, after which it says nothing at all. Say who makes the claim and what it rests on instead: not "AI doesn't necessarily need a strategy of its own" but "The company's own AI vision says AI calls for an acceleration of the current strategy," followed by the cases that support it. Three hedges in two sentences is itself a tell.
 
 ### 5.2 Stakes Inflation
 
@@ -349,6 +385,8 @@ A sentence that reads fine and says nothing. The writer knows what is meant and 
 
 - *Empty pointers and categories.* "The third route does not exist in the port yet." -> better: "An interface that lets an AI assistant reach port data on its own exists at none of the port community systems, while the software vendors around the port already have one." Suspect words: the third route, the building blocks, the layer, the gap, the shift, partners, parties outside the chain, adjacent domains, elsewhere, others, some, increasingly, part of, shifts (without from what to what), affects (without along which path), accelerates (without what and how measured).
 - *Undefined terms.* "A pilot is cheap now because the documentation and the authorization model are already in place." -> better: "A pilot, an MCP server on the read queries of Cargo Controller and the Vessel Visit API, is cheap now because our four APIs already have OpenAPI descriptions, files that list which questions an API answers, and because the authorization register under MyData already records who may receive which data from whom." Define every term where it first appears, in plain words, the way you would explain it to a colleague over coffee: first what is needed independent of the technology, then how it works in practice today, then what it means for the reader, with an honest caveat where something is uncertain. Headings follow the same rule: a heading must be understandable on its own.
+- *Caveats about your own research.* "What this costs has not been estimated." "Whether the terminals are considering the same step has not been established." "How large the gap is, we do not know." These sentences are not about the subject but about the boundary of the writer's work, and they are almost always tacked onto the end of a paragraph, where they weaken the claim before them and give nothing back. Write what you do know. The distinction that matters: uncertainty about the world belongs in the text (*probably*, *presumably*, *expected*), uncertainty about your own measurement does not. If the reader needs to know that a figure is still to be set, name who sets it: "The board decides what the build may cost." Watch what survives such a cut, too: pronouns in the next sentence may have been pointing at the part you removed (see section 6).
+- *One word covering several different things.* In one document "AI" stood for the tool that writes software, for the model that fills in form fields, and for the program that fetches data on a company's behalf. Three things doing three different jobs, made invisible by one word. Name the kinds where the word first appears, give each its own name, and keep them apart from there on.
 - *Meta about your own process.* "Our research of 7 September for the negative finding on the eight systems." -> better: "For the eight port community systems, nothing about assistant access could be found on their own sites or developer portals." Write nothing about the date on which you checked something, about reviews, corrections, phases, versions, or the conversation in which the text was made. What a check found stays, as a finding about the world. A "when" refers to the subject (the press release, the measurement, the date a rule took effect), never to the writer's work.
 
 **Where this does not apply.** A sentence that deliberately summarizes what is worked out right after it may be short, as long as the elaboration is on the same page. And avoid the opposite failure: a sentence that lists all six elements like a form. The test is whether the reader can retell it, not whether all six words appear.
@@ -360,6 +398,8 @@ A sentence that reads fine and says nothing. The writer knows what is meant and 
 **Compression is not the goal; being understood is.** The rules above cut a great deal, which tempts overcorrection. Two failures sit equally close: saying too little in too few words, so the reader has to guess, and writing three lines that all say the same thing. Be specific without being long-winded. If a sentence has to be longer to be right, let it be longer.
 
 **Never replace a punctuation mark with a hole.** When an em dash, colon, or semicolon has to go (sections 4.1 and 4.2), put a real sentence in its place, not a full stop with a fragment after it. Banning one mark pushes the impulse to the next one: to colons, to loose sentence pieces, and to the evaluative tail in 2.9. After every removal, check that what is left is still a whole sentence.
+
+**After every cut, check that the references still point at something.** Deleting leaves holes more often than writing does. A *that*, *those*, *their* or *it* in the following sentence was pointing at something that is no longer there, while the sentence still parses, so nothing flags the error. A real example: after "For the three remaining platforms it has not been established which sources they name" was cut, what remained was "Their developer documentation is public, so that costs about a day," in which *their* and *that* no longer had an answer. After every cut, reread the two sentences around it and replace any pronoun that has lost its referent with the word itself.
 
 **Vary sentence length deliberately.** A monotone rhythm is as much a giveaway as any word choice. Mix short and long. Let some sentences breathe. Cut others to the bone.
 
