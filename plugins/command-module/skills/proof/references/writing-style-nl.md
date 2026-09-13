@@ -15,6 +15,13 @@ Woordkeus is zelden het probleem. Een proefronde over zes eerdere teksten leverd
 5. **De directheidstest (secties 2.12 en 2.13).** Begint de zin met *Wat ...* en komt het onderwerp pas na *is* of *zijn*, zet hem dan om naar onderwerp-werkwoord-rest. Staat er een werkwoord van verandering (*verandert*, *raakt*, *verschuift*), vraag dan welke kant het op gaat en zet dat antwoord in het werkwoord. Dit was in de praktijk de talrijkste fout: in één stuk stond de omweg vijfenzeventig keer.
 6. **De precisietest (lege verwijswoorden en onuitgelegde termen, sectie 5.10).** Vraag bij elke zin: kan de lezer hieruit halen wie, wat, waar, wanneer, hoe en waarom? Staat er "de derde weg", "de bouwstenen", "partners", "elders" of een vakterm die pas verderop wordt uitgelegd, dan is de zin een plaatshouder. Schrijf de naam, het aantal, de datum of het mechanisme uit, en leg de term ter plekke uit.
 
+**En één test over het hele document: tel de herhalingen.** De zes tests hierboven werken per zin, en juist daardoor missen ze de fout die het meest zegt. Een formulering die je twintig keer hebt gelezen registreer je niet meer. Tel daarom de woordreeksen die terugkeren, met een teller over alle reeksen van vier en vijf woorden. Komt een formulering vaker dan een handvol keren voor, dan is dat op zichzelf een bevinding, en er zijn precies twee oorzaken.
+
+De eerste is dat het stuk zichzelf herhaalt. Dan is de reparatie structureel en niet een kwestie van woorden: er staat op meerdere plekken hetzelfde, en dat hoort één keer te staan.
+
+De tweede is dat de formulering zo algemeen is dat hij overal past, en daarmee nergens iets zegt. Een constructie die op vijfenzeventig verschillende zinnen past beschrijft er geen enkele. Dat is de gevaarlijkste van de twee, want de zinnen zijn stuk voor stuk goed leesbaar en het probleem zit in wat ze niet zeggen.
+
+Vraag dus eerst welke van de twee het is, want de reparaties verschillen. Bewuste herhaling is uitgezonderd waar die werk doet: de veldnamen van een naslagwerk ("Wie:", "Wat:", "Bron:") horen identiek te zijn, en een refrein dat met opzet terugkeert ook. De grens ligt bij wat er na zo'n label komt. Staat daar telkens dezelfde zinsopening, dan is het label bewust en de zin erachter een sjabloon.
 ---
 
 ## 1. Vermijd deze woorden en uitdrukkingen

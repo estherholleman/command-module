@@ -13,6 +13,13 @@ Word choice is rarely the problem. A proof pass over six earlier documents retur
 5. **The directness test (sections 2.11 and 2.12).** If a sentence opens with *What ...* and withholds its subject until after *is* or *are*, recast it as subject-verb-rest. If it uses a verb of change (*changes*, *affects*, *shifts*), ask which way it goes and put that answer in the verb. In practice this was the most common fault of all: one document carried the detour seventy-five times.
 6. **The precision test (empty pointers and undefined terms, section 5.10).** Ask of every sentence: can the reader recover who, what, where, when, how, and why from it? If it says "the third route," "the building blocks," "partners," "elsewhere," or uses a term that is only explained later, it is a placeholder. Write out the name, the number, the date, or the mechanism, and define the term where it stands.
 
+**And one test over the whole document: count the repetitions.** The six tests above work sentence by sentence, which is exactly why they miss the fault that says the most. A phrase you have read twenty times stops registering. So count the word sequences that recur, with a counter over every four- and five-word sequence. If a phrase appears more than a handful of times, that is a finding in itself, and it has exactly two causes.
+
+The first is that the document repeats itself. Then the repair is structural rather than verbal: the same thing is stated in several places when it belongs in one.
+
+The second is that the phrase is so generic it fits anywhere, and therefore says nothing. A construction that fits seventy-five different sentences describes none of them. That is the more dangerous of the two, because each sentence reads perfectly well on its own and the problem lies in what they fail to say.
+
+So ask which of the two it is first, because the repairs differ. Deliberate repetition is exempt where it does work: the field names of a reference work ("Who:", "What:", "Source:") should be identical, and so should a refrain used on purpose. The line falls at what comes after such a label. If the same sentence opening follows it every time, the label is deliberate and the sentence behind it is a template.
 ---
 
 ## 1. Banned Words and Phrases

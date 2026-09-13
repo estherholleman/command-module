@@ -53,8 +53,23 @@ Before diving into sections, do a full-document scan using the native content-se
 3. Count em dash occurrences
 4. Count bold-first bullet patterns (`- **...**:`)
 5. Scan for "not X -- it's Y" constructions
+6. **Count repeated phrases.** This is the one measurement that catches what reading cannot, because a phrase you have read twenty times stops registering. Count every word sequence that recurs, and treat anything above a handful of hits as a finding in its own right:
 
-Report the scale to the user: "Found approximately N banned words, M em dashes, K structural patterns across L lines. Here's how I recommend we approach this."
+```bash
+python3 - "$FILE" <<'EOF'
+import re, sys, collections
+words = re.findall(r"[a-zA-Z'À-ſ]+", open(sys.argv[1]).read())
+for n in (4, 5):
+    c = collections.Counter(' '.join(words[i:i+n]).lower() for i in range(len(words)-n))
+    for phrase, hits in c.most_common(12):
+        if hits > 3:
+            print(f'{hits:4}x  {phrase}')
+EOF
+```
+
+Report the scale to the user: "Found approximately N banned words, M em dashes, K structural patterns across L lines, and one phrase repeated 75 times. Here's how I recommend we approach this."
+
+**A phrase that recurs many times in one document is always a finding.** It has exactly two causes, and both are worth reporting. Either the document repeats itself, in which case the fix is structural and not a matter of wording. Or the phrase is so generic that it fits anywhere, which means it carries no meaning of its own: a construction that fits seventy-five different sentences describes none of them. Ask which of the two it is before proposing a rewrite, because the rewrites differ. Deliberate repetition is exempt where it is load-bearing, such as the field labels of a reference work ("Who:", "What:", "Source:") or a refrain used on purpose.
 
 ### Classify findings into tiers
 
