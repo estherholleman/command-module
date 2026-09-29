@@ -54,6 +54,10 @@ Write these in parallel:
 - Append to `history.jsonl`: session entry + `status_change` entries + `task_created` entries
 - Write `status.json`: curated briefing with summary, highlights, active/blocked/upcoming tasks
 
+### Step 3.5: Repo-specific wrap-up steps
+
+If the repo's `CLAUDE.md` or `AGENTS.md` has a section `## Bij wrap-up` or `## At wrap-up`, carry out those steps now, before the commit. They hold work that only that repo needs at the end of a session, such as keeping a project index up to date. Repos without such a section skip this step.
+
 ### Step 4: Commit
 
 If there are uncommitted changes in the current repo, stage and commit with a clear message. Commit tracking file changes in missioncontrol separately if needed.
