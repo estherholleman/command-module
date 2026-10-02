@@ -11,7 +11,18 @@ Finalize the current session by updating tracking files and committing changes.
 
 Tracking data lives in `/Users/esther/prog/missioncontrol/tracking/{repo-name}/` -- determine the repo name from the current working directory.
 
-This session's clock (if any) lives at `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json`. Other conversations have their own clocks in the same directory; do not touch them.
+This session's clock (if any) lives at `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json`. Other conversations have their own clocks in the same directory; do not touch them.
+
+### Optional session ID
+
+- If the user requests `--no-clock` (or says to wrap up without checking a clock), skip all clock operations even if a session ID is available.
+- Otherwise resolve `clock_session_id` once: use an explicit `--session-id <id>` or the ID the user supplies for this conversation, then a nonempty `$CODEX_THREAD_ID`, then a nonempty `$CLAUDE_SESSION_ID`.
+- Use the same resolved ID throughout wrap-up and pass it explicitly to `/co` if clocking out. Do not reselect an ID during the flow.
+- In each shell call that uses `${clock_session_id}`, bind the resolved value with proper shell quoting; assignments from earlier tool calls may not persist.
+- Before using an ID in a file path, require it to match `^[A-Za-z0-9][A-Za-z0-9._-]*$`. If it is invalid, report that clock checking was skipped and continue wrap-up.
+- If no ID is available, say: "No session ID is available; skipping the clock check. Tracking updates and commits will continue." Do not ask for an ID unless the user specifically wants clock handling.
+
+Never infer an ID from the repo name, recent transcripts, or other clock files. Without an ID, do not read, create, or delete any clock file, including `.active-clocks/.json`. Do not claim there is no running clock when the check was skipped.
 
 ## Workflow
 
@@ -21,20 +32,18 @@ Read these in parallel:
 
 - `/Users/esther/prog/missioncontrol/tracking/{repo}/tasks/index.json` -- current task state
 - `/Users/esther/prog/missioncontrol/tracking/{repo}/status.json` -- current briefing
-- `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json` -- this session's clock (if any)
+- `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json` -- only when clock checking is enabled and a valid ID was resolved
 - Run `git status` -- check for uncommitted changes
-
-If `$CLAUDE_SESSION_ID` is empty, surface a specific error and stop:
-
-> ERROR: `CLAUDE_SESSION_ID` is empty. SessionStart hook did not set it (CLAUDE_ENV_FILE mechanism). Cannot identify this conversation's clock. Aborting.
 
 ### Step 1.5: Clock check (this session only)
 
-If `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json` exists:
+Skip this step when clock checking is disabled or no valid ID was resolved.
+
+If `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json` exists:
 
 - Calculate elapsed minutes from the start timestamp to now
 - Tell the user: "You have a clock running on **{repo}** since {start_time} ({X} minutes). Want to clock out?"
-- **If yes**: run the `/co` flow — derive session_type from conversation context, propose title and details, write the CSV row (with `session_id` populated), append to `history.jsonl`, and delete only this session's clock file
+- **If yes**: run the `/co --session-id <resolved-id>` flow — derive session_type from conversation context, propose title and details, write the CSV row (with `session_id` set to the resolved ID), append to `history.jsonl`, and delete only this session's clock file
 - **If no**: proceed with the rest of wrap-up without clocking out (the user may keep working after wrap-up)
 
 Do NOT auto-close the clock. Always ask first.
@@ -64,9 +73,9 @@ If there are uncommitted changes in the current repo, stage and commit with a cl
 
 ### Step 5: Report
 
-Show a brief summary of what was updated.
+Show a brief summary of what was updated. If the clock check was skipped, include that fact and the reason.
 
 ## Rules
 
 - **Only this conversation's clock is in scope.** Sibling sessions' clock files in `.active-clocks/` are owned by their conversations.
-- **Fail loud on missing `$CLAUDE_SESSION_ID`.** Do not silently treat the absence as "no clock" — that was the silent-miss bug.
+- **Session IDs are optional for wrap-up.** A skipped clock check must be reported, but it does not block tracking updates, repo-specific steps, or commits.

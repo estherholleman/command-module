@@ -56,6 +56,16 @@ The primary entry points for engineering work, invoked as slash commands:
 | `/export-docx` | Convert markdown to DOCX with proofing reminder, discovers repo-specific conversion scripts |
 | `todo-create` | File-based todo tracking system |
 
+### Session Tracking
+
+`/wrap-up` updates missioncontrol tracking and commits changes in Claude Code, Codex, or ChatGPT. Clock handling uses an explicit `--session-id <id>` first, then `CODEX_THREAD_ID`, then `CLAUDE_SESSION_ID`, when available. `/ci` and `/co` use the same ID selection.
+
+- `/wrap-up --session-id my-chat-123` checks that conversation's clock.
+- `/wrap-up --no-clock` skips clock handling and completes the remaining wrap-up steps.
+- With no session ID, `/wrap-up` reports that it skipped the clock check and continues. `/ci` and `/co` require an ID for session clocks; manual time entries do not.
+
+Use the same ID when clocking in and out. Hosts without the Claude SessionStart clock hook can start a clock with `/ci --session-id my-chat-123`. Only the resolved conversation's clock is accessed; clocks are never selected by scanning other sessions.
+
 ### Development Frameworks
 
 | Skill | Description |

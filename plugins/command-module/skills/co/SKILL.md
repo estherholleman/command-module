@@ -9,30 +9,30 @@ Stop this conversation's time clock, derive session metadata from conversation c
 
 ## Context
 
-- Per-session clock state: `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json`
+- Per-session clock state: `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json`
 - Timesheet CSV: `/Users/esther/prog/missioncontrol/reports/timesheet.csv`
 - Repo-cluster mapping: `/Users/esther/prog/missioncontrol/projects.yaml`
 
-## Preamble: assert session id
+## Preamble: resolve session ID
 
-Before any clock operation, run a single Bash check to fail loud if `$CLAUDE_SESSION_ID` is missing:
+Resolve `clock_session_id` once: use an explicit `--session-id <id>` or the ID the user supplies for this conversation, then a nonempty `$CODEX_THREAD_ID`, then a nonempty `$CLAUDE_SESSION_ID`. Remove `--session-id` and its value before interpreting remaining arguments. When called from wrap-up, use the ID it passes without reselecting it.
 
-```bash
-test -n "$CLAUDE_SESSION_ID" && echo "ok: $CLAUDE_SESSION_ID" || { echo "ERROR: CLAUDE_SESSION_ID is empty. SessionStart hook did not set it (CLAUDE_ENV_FILE mechanism). Cannot identify this conversation's clock. Aborting."; exit 1; }
-```
+Before any clock operation, require a nonempty ID matching `^[A-Za-z0-9][A-Za-z0-9._-]*$`. If no valid ID is available, stop clock handling and report: "Cannot identify this conversation's clock. Supply --session-id <id> or a valid CODEX_THREAD_ID / CLAUDE_SESSION_ID. Wrap-up can still run without a clock check."
 
-If this prints the ERROR line, stop. Do not proceed. Surface the message verbatim to the user — this is the silent-miss bug the per-session design is meant to prevent.
+Use the same ID for the clock filename and CSV `session_id`. Never infer it from the repo name, recent transcripts, or other clock files, and never access `.active-clocks/.json`.
+
+In each shell call that uses `${clock_session_id}`, bind the resolved value with proper shell quoting; assignments from earlier tool calls may not persist.
 
 ## Workflow
 
 ### Step 1: Read this session's clock
 
 ```bash
-cat "/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json"
+cat "/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json"
 ```
 
 - **If the file does not exist**: tell the user verbatim:
-  > No clock file at `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json` for this session. Either it was already closed by `/co`, finalized by SessionEnd, or the SessionStart hook never wrote one. Run `/ci` to start a new clock if you want to log this session.
+  > No clock file at `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json` for this session. It may already have been closed, or this host may not have created one. Run `/ci --session-id <resolved-id>` to start a new clock if you want to log this session.
   
   Then stop.
 - **If it exists**: extract `repo`, `cluster`, `start`, `date`, `session_id`. Calculate elapsed minutes (current time minus start).
@@ -86,7 +86,7 @@ Where:
 - `start_HH:MM` is extracted from the clock's `start` timestamp
 - `end_HH:MM` is the current local time
 - `minutes` is the calculated elapsed time
-- `session_id` is `$CLAUDE_SESSION_ID`
+- `session_id` is the resolved `clock_session_id`
 
 **If the CSV does not exist**, create it with the 11-column header first:
 ```
@@ -104,7 +104,7 @@ Append a session entry to `/Users/esther/prog/missioncontrol/tracking/{repo}/his
 ### Step 6: Delete this session's clock file only
 
 ```bash
-rm "/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json"
+rm "/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json"
 ```
 
 Other sessions' clock files in the same directory must remain untouched.
@@ -123,11 +123,11 @@ Report to the user:
 - **Very long sessions (>8 hours)**: Flag it — "This session is {X} hours. Does that look right, or did you forget to clock out earlier?" If the user provides a corrected end time, use that instead of now.
 - **Clock spans midnight**: The date stays as the clock-in date. Minutes are calculated correctly across midnight.
 - **Conversation has no useful context**: Ask the user directly for title and session_type rather than guessing.
-- **Parallel conversations**: Each conversation's `$CLAUDE_SESSION_ID` keys its own clock file. `/co` here only finalizes this session's clock — sibling sessions are unaffected.
+- **Parallel conversations**: Each conversation's resolved `clock_session_id` keys its own clock file. `/co` here only finalizes this session's clock — sibling sessions are unaffected.
 
 ## Rules
 
-- **Fail loud, never silent.** Empty `$CLAUDE_SESSION_ID` or missing clock file must surface a specific error naming the absolute path and the variable. Never respond with a generic "no active clock" — that was the silent-miss bug.
+- **Fail loud, never silent.** Missing or invalid session IDs must surface the guidance above; a missing clock file must name the resolved absolute path. Never respond with a generic "no active clock" — that was the silent-miss bug.
 - **Always confirm** session_type, title, and details before writing.
 - **Use current local time** for the end timestamp.
 - **Write to both CSV and history.jsonl** — CSV is the primary database, JSONL maintains backward compatibility.

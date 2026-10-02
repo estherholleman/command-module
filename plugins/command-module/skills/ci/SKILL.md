@@ -10,7 +10,7 @@ Start tracking time for a work session, or log a manual time entry for off-compu
 
 ## Context
 
-- Per-session clock state: `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json`
+- Per-session clock state: `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json`
 - Timesheet CSV: `/Users/esther/prog/missioncontrol/reports/timesheet.csv`
 - Repo-cluster mapping: `/Users/esther/prog/missioncontrol/projects.yaml`
 
@@ -21,32 +21,34 @@ Check `$ARGUMENTS`:
 - **If arguments contain a time range** (pattern like `HH:MM-HH:MM` or `H:MM-H:MM`): → **Manual Entry mode**
 - **Otherwise**: → **Normal Clock-In mode**
 
-Manual Entry mode never reads or writes the per-session clock file — it logs straight to CSV. It does not require `$CLAUDE_SESSION_ID`.
+Manual Entry mode never reads or writes the per-session clock file — it logs straight to CSV. It does not require a session ID.
 
 ---
 
 ## Normal Clock-In
 
-The SessionStart hook auto-creates a per-session clock at the beginning of every conversation. Bare `/ci` with no arguments is therefore an informational no-op in nearly all cases. The exceptions: SessionStart didn't fire, the user explicitly cleared the clock file, or the user wants to reset (`/ci --force`).
+In Claude Code with the SessionStart clock hook installed, the hook creates a per-session clock at the beginning of a conversation, so bare `/ci` usually reports the existing clock. In Codex/ChatGPT or another host without that hook, `/ci` creates a clock when a valid session ID is available and no clock exists.
 
-### Preamble: assert session id
+### Preamble: resolve session ID
 
-```bash
-test -n "$CLAUDE_SESSION_ID" && echo "ok: $CLAUDE_SESSION_ID" || { echo "ERROR: CLAUDE_SESSION_ID is empty. SessionStart hook did not set it (CLAUDE_ENV_FILE mechanism). Cannot identify this conversation's clock. Aborting."; exit 1; }
-```
+Resolve `clock_session_id` once: use an explicit `--session-id <id>` or the ID the user supplies for this conversation, then a nonempty `$CODEX_THREAD_ID`, then a nonempty `$CLAUDE_SESSION_ID`. Remove `--session-id` and its value before interpreting remaining arguments. When called from wrap-up, use the ID it passes without reselecting it.
 
-If this prints the ERROR line, stop and surface the message verbatim. Do not silently proceed.
+Before any clock operation, require a nonempty ID matching `^[A-Za-z0-9][A-Za-z0-9._-]*$`. If no valid ID is available, stop clock handling and report: "Cannot identify this conversation's clock. Supply --session-id <id> or a valid CODEX_THREAD_ID / CLAUDE_SESSION_ID. Wrap-up can still run without a clock check."
+
+Use the same ID for the clock filename and CSV `session_id`. Never infer it from the repo name, recent transcripts, or other clock files, and never access `.active-clocks/.json`.
+
+In each shell call that uses `${clock_session_id}`, bind the resolved value with proper shell quoting; assignments from earlier tool calls may not persist.
 
 ### Step 1: Check this session's clock
 
 ```bash
-cat "/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json"
+cat "/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json"
 ```
 
 - **If it exists** and `--force` is NOT in `$ARGUMENTS`: print informationally and stop.
   > Clock running for this session since {start_HH:MM} ({repo}, {cluster}). Use `/ci --force` to reset, or `/ci <repo> HH:MM-HH:MM "title"` for manual entry.
-- **If it exists** and `--force` IS in `$ARGUMENTS`: close the existing clock by writing a CSV row (use end=now, session_type="auto-closed", title="Auto-closed by /ci --force", source="clock", session_id=$CLAUDE_SESSION_ID), delete the file, then continue to Step 2.
-- **If it does not exist** (rare — SessionStart didn't fire or was manually cleared): continue to Step 2.
+- **If it exists** and `--force` IS in `$ARGUMENTS`: close the existing clock by writing a CSV row (use end=now, session_type="auto-closed", title="Auto-closed by /ci --force", source="clock", session_id=$clock_session_id), delete the file, then continue to Step 2.
+- **If it does not exist** (for example, the host has no SessionStart clock hook or the clock was manually cleared): continue to Step 2.
 
 ### Step 2: Identify repo
 
@@ -64,11 +66,11 @@ From the matched entry in `projects.yaml`, resolve the cluster name. If unmatche
 
 ### Step 4: Write per-session clock
 
-Get the current local time. Write `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${CLAUDE_SESSION_ID}.json`:
+Get the current local time. Write `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json`:
 
 ```json
 {
-  "session_id": "${CLAUDE_SESSION_ID}",
+  "session_id": "${clock_session_id}",
   "repo": "{repo_name}",
   "cluster": "{cluster_name}",
   "start": "{ISO 8601 local datetime}",
@@ -84,13 +86,13 @@ Create the parent directory `.active-clocks/` if it does not exist.
 
 Report to the user:
 
-> Clocked in: **{repo}** ({cluster}) at {HH:MM} (session `${CLAUDE_SESSION_ID:0:8}`)
+> Clocked in: **{repo}** ({cluster}) at {HH:MM} (session `${clock_session_id:0:8}`)
 
 ---
 
 ## Manual Entry
 
-For logging off-computer work or work done outside Claude Code.
+For logging off-computer work or work done without a session clock.
 
 Example: `/ci portbase 09:00-12:00 "Steering committee meeting"`
 
@@ -132,7 +134,7 @@ Append an 11-column row to `/Users/esther/prog/missioncontrol/reports/timesheet.
 {date},{start},{end},{repo},{cluster},{session_type},{minutes},{title},{details},manual,
 ```
 
-The trailing comma is the empty `session_id` field — manual entries are not tied to a Claude session. Use today's date unless the time range implies otherwise. Ask for optional details (semicolon-separated specifics); leave the column empty if none provided.
+The trailing comma is the empty `session_id` field — manual entries are not tied to a conversation. Use today's date unless the time range implies otherwise. Ask for optional details (semicolon-separated specifics); leave the column empty if none provided.
 
 ### Step 6: Write history.jsonl entry
 
@@ -153,6 +155,6 @@ Append a session entry to `/Users/esther/prog/missioncontrol/tracking/{repo}/his
 - **No state file for manual entries.** They write directly to the CSV and history — no per-session clock file involved.
 - **Always read `projects.yaml` for repo/cluster resolution.** Don't hardcode mappings.
 - **Use current local time** for clock-in timestamp (not UTC).
-- **Bare `/ci` is informational, not creative.** SessionStart already opened a clock — bare `/ci` should rarely write anything.
+- **Check before creating.** Bare `/ci` reports an existing clock; it creates one only when this session has no clock file.
 - **CSV header has 11 columns** (10th = `source`, 11th = `session_id`). Manual entries leave `session_id` empty.
-- **Fail loud, never silent.** Empty `$CLAUDE_SESSION_ID` in Normal mode must surface a specific error.
+- **Require an ID for Normal mode.** Missing or invalid IDs stop clock handling with the specific guidance above. Manual entries remain available without an ID.
