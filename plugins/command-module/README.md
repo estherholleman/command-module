@@ -66,6 +66,8 @@ The primary entry points for engineering work, invoked as slash commands:
 
 Use the same ID when clocking in and out. Hosts without the Claude SessionStart clock hook can start a clock with `/ci --session-id my-chat-123`. Only the resolved conversation's clock is accessed; clocks are never selected by scanning other sessions.
 
+For existing v2/v3 automatic wrap-up hooks, install the manual-wrap guard with `python3 plugins/command-module/scripts/install-auto-wrap-guard.py --hooks-dir <installed-hooks-directory>`. Repeat `--hooks-dir` to patch both Claude and Codex installations. The guard cancels pending automatic wraps for manual wrap commands, ignores background-task notifications, and measures new work using tool counts so the hook's own timestamp update cannot bypass its cooldown. A manual wrap stays quiet until new tool work or more than one further conversation turn; a single acknowledgement does not re-arm it. It preserves the clock's time fields and the user's clock-out choice.
+
 ### Development Frameworks
 
 | Skill | Description |
