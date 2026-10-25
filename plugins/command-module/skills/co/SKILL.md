@@ -17,6 +17,15 @@ Stop this conversation's time clock, derive session metadata from conversation c
 
 Resolve `clock_session_id` once: use an explicit `--session-id <id>` or the ID the user supplies for this conversation, then a nonempty `$CODEX_THREAD_ID`, then a nonempty `$CLAUDE_SESSION_ID`. Remove `--session-id` and its value before interpreting remaining arguments. When called from wrap-up, use the ID it passes without reselecting it.
 
+## Quick mode (`--minutes <n>`)
+
+Wrap-up passes `--minutes <n>` after the user has confirmed the time. In quick mode:
+
+- Use `<n>` as `minutes` instead of computing elapsed time.
+- Use the clock's `work_start` (falling back to `start`) for `start_HH:MM`, and the current local time for `end_HH:MM`.
+- Derive session type, title and details from the conversation and write them without asking. Skip the confirmations in Steps 2 and 3 and the long-session check.
+- Still resolve an `unassigned` cluster in Step 1.5, because the row cannot be filed without one.
+
 Before any clock operation, require a nonempty ID matching `^[A-Za-z0-9][A-Za-z0-9._-]*$`. If no valid ID is available, stop clock handling and report: "Cannot identify this conversation's clock. Supply --session-id <id> or a valid CODEX_THREAD_ID / CLAUDE_SESSION_ID. Wrap-up can still run without a clock check."
 
 Use the same ID for the clock filename and CSV `session_id`. Never infer it from the repo name, recent transcripts, or other clock files, and never access `.active-clocks/.json`.
@@ -128,7 +137,7 @@ Report to the user:
 ## Rules
 
 - **Fail loud, never silent.** Missing or invalid session IDs must surface the guidance above; a missing clock file must name the resolved absolute path. Never respond with a generic "no active clock" — that was the silent-miss bug.
-- **Always confirm** session_type, title, and details before writing.
+- **Always confirm** session_type, title, and details before writing, except in quick mode, where wrap-up has already confirmed the time and nothing else is asked.
 - **Use current local time** for the end timestamp.
 - **Write to both CSV and history.jsonl** — CSV is the primary database, JSONL maintains backward compatibility.
 - **Delete this session's clock file only after successfully writing** the CSV row.
