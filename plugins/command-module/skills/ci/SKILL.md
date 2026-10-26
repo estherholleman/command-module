@@ -12,7 +12,7 @@ Start tracking time for a work session, or log a manual time entry for off-compu
 
 - Per-session clock state: `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json`
 - Timesheet CSV: `/Users/esther/prog/missioncontrol/reports/timesheet.csv`
-- Repo-cluster mapping: `/Users/esther/prog/missioncontrol/projects.yaml`
+- Attribution resolver (repo, project, group): `python3 /Users/esther/prog/missioncontrol/scripts/attribution.py resolve` (falls back to the `projects.yaml` cluster when the Finder tree has no answer)
 
 ## Detect Mode
 
@@ -52,17 +52,13 @@ cat "/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_i
 
 ### Step 2: Identify repo
 
-If `$ARGUMENTS` includes a repo name (and is not just `--force`), use it. Otherwise detect from the current working directory:
+If `$ARGUMENTS` includes a repo name (and is not just `--force`), run `python3 /Users/esther/prog/missioncontrol/scripts/attribution.py resolve --repo <name>`. Otherwise run it with `--cwd "$PWD"`. Take `repo`, `cluster`, `project`, `group` and `source` from its JSON output.
 
-1. Read `/Users/esther/prog/missioncontrol/projects.yaml` to get `base_path` and all project entries
-2. Determine the current working directory
-3. Strip `base_path` prefix to get the repo directory name
-4. Match against project entries (check `repo` field in all projects and clients)
-5. If no match: use `repo = basename(cwd)`, `cluster = "unassigned"` — the same fallback as the SessionStart hook. `/co` will prompt to pick the real cluster at close time.
+The resolver is the same one the SessionStart hook uses: code repos such as `/Users/esther/prog/music` go to their tracking repo (`musical-ideas`), worktrees to their main repo, and the home folder and chat folders to `repo = "unassigned"`, which `/co` asks about at close time. If the command fails, fall back to `projects.yaml`: the first folder under `base_path` as `repo` and its cluster, else `repo = basename(cwd)` and `cluster = "unassigned"`.
 
 ### Step 3: Resolve cluster
 
-From the matched entry in `projects.yaml`, resolve the cluster name. If unmatched, use `"unassigned"`.
+The resolver output already holds the cluster (`unassigned` when the repo is not in `projects.yaml`).
 
 ### Step 4: Write per-session clock
 
@@ -73,6 +69,9 @@ Get the current local time. Write `/Users/esther/prog/missioncontrol/tracking/.a
   "session_id": "${clock_session_id}",
   "repo": "{repo_name}",
   "cluster": "{cluster_name}",
+  "project": "{project from the resolver, or empty}",
+  "group": "{group from the resolver, or empty}",
+  "attribution": "{source from the resolver}",
   "start": "{ISO 8601 local datetime}",
   "date": "{YYYY-MM-DD}",
   "cwd": "{current working directory}",
@@ -105,9 +104,9 @@ Extract from `$ARGUMENTS`:
 
 If any part is missing, ask the user to provide it.
 
-### Step 2: Resolve cluster
+### Step 2: Resolve cluster, project and group
 
-Look up the repo in `/Users/esther/prog/missioncontrol/projects.yaml` to get the cluster name.
+Run `python3 /Users/esther/prog/missioncontrol/scripts/attribution.py resolve --repo <repo>` and take `cluster`, `project` and `group` from its output.
 
 ### Step 3: Calculate duration
 
@@ -128,15 +127,17 @@ Present the suggestion and let the user confirm or override.
 
 ### Step 5: Write CSV row
 
-Append an 11-column row to `/Users/esther/prog/missioncontrol/reports/timesheet.csv`:
+Append a 13-column row to `/Users/esther/prog/missioncontrol/reports/timesheet.csv` (make sure the file ends with a newline first):
 
 ```
-{date},{start},{end},{repo},{cluster},{session_type},{minutes},{title},{details},manual,
+{date},{start},{end},{repo},{cluster},{session_type},{minutes},{title},{details},manual,,{project},{group}
 ```
 
-The trailing comma is the empty `session_id` field — manual entries are not tied to a conversation. Use today's date unless the time range implies otherwise. Ask for optional details (semicolon-separated specifics); leave the column empty if none provided.
+The empty 11th field is `session_id`: manual entries are not tied to a conversation. Use today's date unless the time range implies otherwise. Ask for optional details (semicolon-separated specifics); leave the column empty if none provided.
 
 ### Step 6: Write history.jsonl entry
+
+Skip this step when `/Users/esther/prog/missioncontrol/tracking/{repo}/` does not exist; never create a tracking directory from a manual entry.
 
 Append a session entry to `/Users/esther/prog/missioncontrol/tracking/{repo}/history.jsonl`:
 
@@ -153,8 +154,8 @@ Append a session entry to `/Users/esther/prog/missioncontrol/tracking/{repo}/his
 ## Rules
 
 - **No state file for manual entries.** They write directly to the CSV and history — no per-session clock file involved.
-- **Always read `projects.yaml` for repo/cluster resolution.** Don't hardcode mappings.
+- **Always resolve the repo, cluster, project and group with `attribution.py resolve`.** Don't hardcode mappings.
 - **Use current local time** for clock-in timestamp (not UTC).
 - **Check before creating.** Bare `/ci` reports an existing clock; it creates one only when this session has no clock file.
-- **CSV header has 11 columns** (10th = `source`, 11th = `session_id`). Manual entries leave `session_id` empty.
+- **New rows have 13 columns** (10th = `source`, 11th = `session_id`, 12th = `project`, 13th = `group`). Manual entries leave `session_id` empty. Older 11-column rows stay as they are.
 - **Require an ID for Normal mode.** Missing or invalid IDs stop clock handling with the specific guidance above. Manual entries remain available without an ID.

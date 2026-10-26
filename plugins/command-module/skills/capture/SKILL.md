@@ -15,7 +15,7 @@ Tracking data lives in `missioncontrol/tracking/{repo-name}/` -- determine the r
 
 ### Step 1: Read current task state
 
-Read `missioncontrol/tracking/{repo}/tasks/index.json` to find the next available task ID.
+Read `missioncontrol/tracking/{repo}/tasks/index.json` for the current tasks. The next ID is allocated in Step 4, just before writing.
 
 ### Step 2: Draft the task
 
@@ -40,8 +40,19 @@ If `origin` is missing or generic, ask for it explicitly: "What surfaced this ta
 
 ### Step 4: Write task files
 
-On confirmation, write the following in parallel:
+On confirmation, read `missioncontrol/tracking/{repo}/tasks/index.json` fresh and list the `tasks/T*.md` files on disk. The new ID is one more than the highest ID found in either, because another session may have written a task file before its index entry. Then write:
 
 - Create `missioncontrol/tracking/{repo}/tasks/T00N.md` with YAML frontmatter (including `origin`) and notes body
-- Add the entry to `missioncontrol/tracking/{repo}/tasks/index.json` (including `origin`)
-- Append a `task_created` entry to `missioncontrol/tracking/{repo}/history.jsonl`
+- Add the entry to `missioncontrol/tracking/{repo}/tasks/index.json` (including `origin`), merged into the fresh copy, keeping the file's encoding and indent
+- Append a `task_created` entry to `missioncontrol/tracking/{repo}/history.jsonl` (ensure a trailing newline first), with `placed_in` when Step 5 places the task
+
+### Step 5: Place the task in the tree
+
+Place the new task in the portfolio tree, following "Placing tasks in the tree" in `/Users/esther/prog/missioncontrol/docs/tracking-protocol.md`. This step asks nothing, and nothing depends on `/capture` running, because `/wrap-up` places the tasks it creates and the Finder inbox catches the rest.
+
+1. Run `python3 /Users/esther/prog/missioncontrol/scripts/tree_outline.py --folders-only --repo {repo}` (or `--project "<title>"`). If it reports no portfolio tree yet, skip this step.
+2. Choose the deepest folder that fits inside the right project (or the project folder itself, or a folder marked `ongoing`), or a same-repo parent task when the new task is a step of it. Never the root, a group or kind folder, or an archived or trashed folder.
+3. Read the folder's file in `missioncontrol/tracking/portfolio/tasks/` fresh, append `"{repo}:T0NN"` to its `subtasks` (or add the list after `tags`) and set `updated`; give its entry in `missioncontrol/tracking/portfolio/tasks/index.json` the same list and date with an exact text edit; append a `node_moved` line to `missioncontrol/tracking/portfolio/history.jsonl` as the protocol shows.
+4. When no folder fits with confidence, leave the task unplaced and say in one line that it waits in the Finder inbox. Never create a folder without asking.
+
+Report the task's ID and where it was placed.

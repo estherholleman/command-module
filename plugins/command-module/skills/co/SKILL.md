@@ -11,7 +11,7 @@ Stop this conversation's time clock, derive session metadata from conversation c
 
 - Per-session clock state: `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json`
 - Timesheet CSV: `/Users/esther/prog/missioncontrol/reports/timesheet.csv`
-- Repo-cluster mapping: `/Users/esther/prog/missioncontrol/projects.yaml`
+- Attribution resolver (repo, project, group): `python3 /Users/esther/prog/missioncontrol/scripts/attribution.py resolve` (falls back to the `projects.yaml` cluster when the Finder tree has no answer)
 
 ## Preamble: resolve session ID
 
@@ -24,7 +24,8 @@ Wrap-up passes `--minutes <n>` after the user has confirmed the time. In quick m
 - Use `<n>` as `minutes` instead of computing elapsed time.
 - Use the clock's `work_start` (falling back to `start`) for `start_HH:MM`, and the current local time for `end_HH:MM`.
 - Derive session type, title and details from the conversation and write them without asking. Skip the confirmations in Steps 2 and 3 and the long-session check.
-- Still resolve an `unassigned` cluster in Step 1.5, because the row cannot be filed without one.
+- Still resolve an `unassigned` repo in Step 1.5, because the row cannot be filed without one.
+- Use the `--project <ref>` that wrap-up passes (the project of the tasks it touched) for the row's `project` and `group`; see Step 1.
 
 Before any clock operation, require a nonempty ID matching `^[A-Za-z0-9][A-Za-z0-9._-]*$`. If no valid ID is available, stop clock handling and report: "Cannot identify this conversation's clock. Supply --session-id <id> or a valid CODEX_THREAD_ID / CLAUDE_SESSION_ID. Wrap-up can still run without a clock check."
 
@@ -44,15 +45,22 @@ cat "/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_i
   > No clock file at `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json` for this session. It may already have been closed, or this host may not have created one. Run `/ci --session-id <resolved-id>` to start a new clock if you want to log this session.
   
   Then stop.
-- **If it exists**: extract `repo`, `cluster`, `start`, `date`, `session_id`. Calculate elapsed minutes (current time minus start).
+- **If it exists**: extract `repo`, `cluster`, `project`, `group`, `start`, `date`, `session_id`. Calculate elapsed minutes (current time minus start).
+- **Attribution.** If the clock has no `attribution` field (it was armed before 26 Oct 2026), or wrap-up passed `--project <ref>`, resolve it again and use the result's `repo`, `cluster`, `project` and `group`:
 
-### Step 1.5: Resolve cluster if "unassigned"
+  ```bash
+  python3 /Users/esther/prog/missioncontrol/scripts/attribution.py resolve --cwd "<clock cwd>" [--project <ref>]
+  ```
 
-If `cluster == "unassigned"` (the SessionStart hook ran in a cwd not mapped in `projects.yaml`), prompt the user to pick a cluster before writing the row.
+  The resolver routes code repos such as `/Users/esther/prog/music` to `musical-ideas`, worktrees to their main repo, and chat folders and the home folder to `unassigned`. If the command fails, keep the clock's values.
 
-Read `projects.yaml` to enumerate available clusters. Use the platform's blocking question tool (Claude Code: `AskUserQuestion`; Codex: `request_user_input`; Gemini: `ask_user`). Fallback: present numbered options and wait for the user's reply.
+### Step 1.5: Resolve the repo if "unassigned"
 
-Update `cluster` to the user's choice. If no question tool is available and the user does not respond, write the row with `cluster="unassigned"` and warn the user to correct manually later.
+If `repo == "unassigned"` (the session ran in the home folder, a chat folder or another folder outside `~/prog`), ask the user which repo the work belongs to before writing the row, then run `attribution.py resolve --repo <answer>` for its cluster, project and group.
+
+Offer the onboarded repos from `projects.yaml`. Use the platform's blocking question tool (Claude Code: `AskUserQuestion`; Codex: `request_user_input`; Gemini: `ask_user`). Fallback: present numbered options and wait for the user's reply.
+
+If no question tool is available or the user does not respond, write the row with `repo="unassigned"`, `group="unassigned"`, skip the history entry in Step 5, and tell the user to correct it in the evening reconcile.
 
 ### Step 2: Derive session type
 
@@ -84,10 +92,10 @@ Present both for the user to confirm or edit:
 
 ### Step 4: Write CSV row
 
-Append an 11-column row to `/Users/esther/prog/missioncontrol/reports/timesheet.csv`:
+Append a 13-column row to `/Users/esther/prog/missioncontrol/reports/timesheet.csv` (quote any field that holds a comma, and make sure the file ends with a newline before appending):
 
 ```
-{date},{start_HH:MM},{end_HH:MM},{repo},{cluster},{session_type},{minutes},{title},{details},clock,{session_id}
+{date},{start_HH:MM},{end_HH:MM},{repo},{cluster},{session_type},{minutes},{title},{details},clock,{session_id},{project},{group}
 ```
 
 Where:
@@ -96,13 +104,18 @@ Where:
 - `end_HH:MM` is the current local time
 - `minutes` is the calculated elapsed time
 - `session_id` is the resolved `clock_session_id`
+- `project` is the qualified project folder ref (for example `portfolio:T020`), empty when unknown; `group` is the group key (for example `idea-greenhouse`), empty when only the cluster is known
 
-**If the CSV does not exist**, create it with the 11-column header first:
+The file's header line still lists 11 columns; older rows stay as they are, and readers pad them and map them at read time.
+
+**If the CSV does not exist**, create it with the 13-column header first:
 ```
-date,start,end,repo,cluster,session_type,minutes,title,details,source,session_id
+date,start,end,repo,cluster,session_type,minutes,title,details,source,session_id,project,group
 ```
 
 ### Step 5: Write history.jsonl entry
+
+Skip this step when `repo` is `unassigned` or `/Users/esther/prog/missioncontrol/tracking/{repo}/` does not exist: never create a new tracking directory from a clock-out.
 
 Append a session entry to `/Users/esther/prog/missioncontrol/tracking/{repo}/history.jsonl`:
 

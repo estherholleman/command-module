@@ -20,7 +20,18 @@ Compute both with the system clock (`date -v-6d "+%Y-%m-%d"` on macOS). State th
 
 ## Step 2: Scan all repos
 
-Read `missioncontrol/projects.yaml` for the cluster → project map and onboarded flags.
+Read `missioncontrol/projects.yaml` for the onboarded repos. Groups (Idea greenhouse, Portbase, Revenue management, Coaching, Personal life, System) come from the Finder tree in `missioncontrol/tracking/portfolio/`; the shared resolver maps every repo, project and old timesheet row to its group, and falls back to the `projects.yaml` cluster where the tree has no answer yet:
+
+```bash
+cd /Users/esther/prog/missioncontrol
+python3 scripts/attribution.py hours --from {start_date} --to {end_date}      # hours per group, tree project and repo
+python3 scripts/attribution.py activity --from {start_date} --to {end_date}   # activity lines per group and repo
+python3 scripts/attribution.py schedule                                       # each group's weekday rule
+```
+
+Use these outputs for hours, attention and schedule; do not rebuild the mapping by hand. A label ending in "(cluster)" is a repo the tree has not placed yet: report it under that label rather than guessing a group.
+
+**Activity** means `session`, `status_change`, `task_created` and `milestone_completed` lines only. A `status_change` that only renames a status (`done` to `completed`, `in-progress` to `in_progress`, or the same status twice) is not activity and is not a completion; `activity` already leaves these out and reports how many it skipped.
 
 For every onboarded project, read in parallel:
 1. `missioncontrol/tracking/{repo}/history.jsonl` — filter entries where `date` is within the window
@@ -35,7 +46,7 @@ For each task that completed inside the window, optionally open `tracking/{repo}
 ## Step 3: Aggregate
 
 ### 3a. Tasks completed this week
-For every `status_change` entry in the window with `to: "completed"`:
+For every `status_change` entry in the window with `to: "completed"` (skip renames such as `from: "done"`, which re-record an earlier completion):
 - Look up the task in index.json — capture `task` description, `created`, `priority`, `tags`
 - Compute **time-to-completion** = days from `created` to the entry's `date`. If `created` is missing or older than 90 days, just note "(long-running)".
 - Group by repo. Keep the highest-priority items at the top within each repo.
@@ -51,12 +62,15 @@ Build a per-day table for the 7 days. Show 0h for days with no entry.
 
 **Weekly total** = sum of `hours_worked` across the window.
 
-### 3c. Per-project hours
-For each `day_end` in the window, sum the `project_hours` map across all 7 days into a single `weekly_project_hours` map.
+### 3c. Hours per group and project
+Take the hours from `attribution.py hours --from {start_date} --to {end_date}` (the timesheet is the primary time database):
+- `group_hours` with `group_labels`: hours per group, the main table;
+- `tree_project_hours` with `project_titles`: hours per project folder, once projects exist in the tree (empty until the migration places them);
+- `project_hours`: hours per repo, for the per-repo detail and older reviews.
 
-If `project_hours` is missing on some day_end entries (older format), fall back to summing `duration_hours` from `session` entries in each repo's history.jsonl for that date.
+Old rows are mapped at read time (stray repos such as `music` count toward `musical-ideas`), so nothing is rewritten. If the timesheet has no rows for a day, fall back to the `day_end` entries (`group_hours` when present, else `project_hours`) and then to `duration_hours` from `session` entries.
 
-Also note the share of the week each project consumed (`hours / weekly_total`).
+Also note the share of the week each group consumed (`hours / weekly_total`).
 
 ### 3d. Session type distribution
 Across all repos, count `session` entries by `session_type`:
@@ -64,13 +78,13 @@ Across all repos, count `session` entries by `session_type`:
 
 Compute totals overall **and** per-project (for the projects with ≥3 sessions this week — fewer than that is noise).
 
-### 3e. Cluster attention
-Map each repo to its cluster from `projects.yaml`. Aggregate:
-- Total sessions per cluster
-- Total hours per cluster (from 3c)
+### 3e. Group attention
+Per group, from 3c and `attribution.py activity`:
+- Total hours (3c) and sessions (`group_sessions`)
+- Activity lines (`group_activity`)
 - % of weekly hours
 
-Compare against the schedule in `projects.yaml` (`time_allocation` field). Flag clusters that are way under or over their nominal allocation — but only flag, don't lecture.
+Compare against each group's `schedule` from `attribution.py schedule`: the group folder's `schedule` field when set (`source: "group folder"`), else the `projects.yaml` `time_allocation` of the clusters that map to it (`source: "projects.yaml"`). `days` lists the weekdays it claims. Flag groups that are way under or over their nominal allocation, but only flag, don't lecture.
 
 ### 3f. Stalled projects (no sessions in 10+ days)
 For every onboarded repo, find the timestamp of the most recent `session` entry in its full history.jsonl (not just the window).
@@ -132,12 +146,17 @@ Use this structure. Keep it scannable in 60 seconds. Tables and bullets, minimal
 | ... | ... | ... |
 | **Total** | | **{weekly_total}** |
 
-### By Project
-| Project | Hours | % of Week |
-|---------|------:|----------:|
-| {project} | {h} | {pct}% |
+### By Group
+| Group | Hours | % of Week |
+|-------|------:|----------:|
+| {group label} | {h} | {pct}% |
 | ... |
 | **Total** | **{weekly_total}** | **100%** |
+
+### By Repo
+| Repo | Hours |
+|------|------:|
+| {repo} | {h} |
 
 ### By Session Type
 | Type | Sessions | % |
@@ -155,15 +174,18 @@ Use this structure. Keep it scannable in 60 seconds. Tables and bullets, minimal
 
 ---
 
-## 📊 Cluster Attention
+## 📊 Group Attention
 
-| Cluster | Hours | Sessions | vs. allocation |
-|---------|------:|---------:|----------------|
-| revenuemanagement | 8.0 | 5 | on track / under / over |
-| portbase | 6.0 | 4 | ... |
+| Group | Hours | Sessions | Schedule | vs. schedule |
+|-------|------:|---------:|----------|--------------|
+| Idea greenhouse | 8.0 | 5 | Tue, Fri gaps, weekends | on track / under / over |
+| Portbase | 6.0 | 4 | Mon, Wed | ... |
 | ... |
 
-[Flag mismatches honestly. If Tue/Fri were RM days but only 2h logged, name it. One sentence, no lecture.]
+[Flag mismatches honestly. If Tue/Fri were Revenue management days but only 2h logged, name it. One sentence, no lecture. Repos the tree has not placed yet appear under their "(cluster)" label.]
+
+### By Project
+[Only when `tree_project_hours` is non-empty: one row per project folder with its hours.]
 
 ---
 
@@ -194,7 +216,7 @@ Use this structure. Keep it scannable in 60 seconds. Tables and bullets, minimal
 
 ## 🔮 Next Week
 
-[Opinionated. Use the cluster schedule (Mon/Wed = Portbase, Tue/Fri = RM, Thu = flex, weekends = personal) as a frame, then layer in what the data is telling you.]
+[Opinionated. Use the group schedules from `attribution.py schedule` (today: Mon/Wed = Portbase, Tue/Fri = Revenue management with Idea greenhouse and Coaching in the gaps, Thu = flexible, weekends = Idea greenhouse and Personal life) as a frame, then layer in what the data is telling you.]
 
 **Top priorities:**
 1. **{project}** — {task or direction}
@@ -226,7 +248,7 @@ After writing the file:
 
 - **Lead with wins.** Even a hard week probably had progress. Surface it.
 - **Be opinionated about focus.** Don't list every backlog item — pick what matters most for next week.
-- **Mismatched allocation is information.** If the schedule says RM on Tue/Fri but the hours don't show it, name it without lecturing.
+- **Mismatched allocation is information.** If a group's schedule says Tue/Fri but the hours don't show it, name it without lecturing.
 - **Stalled is a signal, not a verdict.** A project might be deliberately paused. Flag it without judgment.
 - **Be honest about light weeks.** If little shipped, say so plainly. No filler, no padding.
 - **Save the file.** This is a permanent record, not just a chat message. Path: `missioncontrol/reports/weekly-{end_date}.md`.
