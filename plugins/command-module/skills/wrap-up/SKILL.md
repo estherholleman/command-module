@@ -73,6 +73,10 @@ Run the `co` skill flow with `--session-id <resolved-id> --minutes <confirmed-mi
 
 Scan the conversation for tasks worked on, status changes, and any uncaptured work. If there are uncaptured items, note them in the summary rather than blocking for confirmation.
 
+### Step 3.5: Check for an existing task before creating one
+
+Before creating any task, look through the repo's open tasks and its tasks updated in the last 30 days (from the index read in Step 2), and the tasks in the folder where the new task would go (`python3 /Users/esther/prog/missioncontrol/scripts/tree_outline.py --project "<title>"` lists them). When the new item is an update of an existing task, update that task instead of creating a duplicate: change its title, description or status where needed and append a dated note to its file, then say in the report which task was updated and why. Never ask about this. When it is unclear whether the item duplicates an existing task, create the new task and name the possible duplicate in the report. The rule is "Check for an existing task first" in `/Users/esther/prog/missioncontrol/docs/tracking-protocol.md`.
+
 ### Step 4: Update tracking files
 
 Two rules come first, because other sessions write the same files while this one runs:
@@ -117,11 +121,12 @@ If there are uncommitted changes in the current repo, stage and commit with a cl
 
 ### Step 6: Report
 
-Show a brief summary of what was updated, starting with the logged time entry (minutes, session type, title). If the clock check was skipped, include that fact and the reason. List where each new task was placed (Step 4.1), and give one line for each task left in the Finder inbox.
+Show a brief summary of what was updated, starting with the logged time entry (minutes, session type, title). If the clock check was skipped, include that fact and the reason. List where each new task was placed (Step 4.1), and give one line for each task left in the Finder inbox. Name each existing task that was updated instead of duplicated, and each possible duplicate that was created anyway (Step 3.5).
 
 ## Rules
 
 - **Only this conversation's clock is in scope.** Sibling sessions' clock files in `.active-clocks/` are owned by their conversations.
 - **Ask only about time.** Session type, title and details are derived, not confirmed; the user can correct them afterwards or in the evening reconcile.
+- **Update instead of duplicating, without asking.** A new item that updates an existing task changes that task; when unsure, create the task and mention the possible duplicate.
 - **Placement never asks.** Each new task is placed from its content and the session's context, or left in the Finder inbox when no folder fits with confidence. Folders are never created by the wrap-up.
 - **Session IDs are optional for wrap-up.** A skipped clock check must be reported, but it does not block tracking updates, repo-specific steps, or commits.

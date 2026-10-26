@@ -17,6 +17,10 @@ Tracking data lives in `missioncontrol/tracking/{repo-name}/` -- determine the r
 
 Read `missioncontrol/tracking/{repo}/tasks/index.json` for the current tasks. The next ID is allocated in Step 4, just before writing.
 
+### Step 1.5: Check for an existing task
+
+Look through the repo's open tasks and its tasks updated in the last 30 days, and the tasks in the folder where the new task would go (`python3 /Users/esther/prog/missioncontrol/scripts/tree_outline.py --project "<title>"` lists them). When the item is an update of an existing task, update that task instead of creating a duplicate: change its title, description or status where needed and append a dated note to its file, then report which task was updated and why. Do not ask whether it is a duplicate. When it is unclear, capture the new task and name the possible duplicate in the report. The rule is "Check for an existing task first" in `/Users/esther/prog/missioncontrol/docs/tracking-protocol.md`.
+
 ### Step 2: Draft the task
 
 Based on recent conversation context (or `$ARGUMENTS` if provided), draft a task entry with:
@@ -34,7 +38,7 @@ If the conversation context is too thin to draft a real `origin`, **do not inven
 
 ### Step 3: Confirm with user
 
-Present the proposed task — including the drafted `origin` — and ask for confirmation before writing. Use the platform's blocking question tool (`AskUserQuestion` in Claude Code, `request_user_input` in Codex, `ask_user` in Gemini). If no question tool is available, present the task details and wait for the user's reply before proceeding.
+When Step 1.5 found an existing task that this item updates, the proposal is that update (which task, and what changes), not a new task. Present the proposed task — including the drafted `origin` — and ask for confirmation before writing. Use the platform's blocking question tool (`AskUserQuestion` in Claude Code, `request_user_input` in Codex, `ask_user` in Gemini). If no question tool is available, present the task details and wait for the user's reply before proceeding.
 
 If `origin` is missing or generic, ask for it explicitly: "What surfaced this task — which conversation, observation, or client situation made it necessary?" Do not proceed to Step 4 until the user has supplied (or confirmed) a substantive `origin`.
 
@@ -45,6 +49,8 @@ On confirmation, read `missioncontrol/tracking/{repo}/tasks/index.json` fresh an
 - Create `missioncontrol/tracking/{repo}/tasks/T00N.md` with YAML frontmatter (including `origin`) and notes body
 - Add the entry to `missioncontrol/tracking/{repo}/tasks/index.json` (including `origin`), merged into the fresh copy, keeping the file's encoding and indent
 - Append a `task_created` entry to `missioncontrol/tracking/{repo}/history.jsonl` (ensure a trailing newline first), with `placed_in` when Step 5 places the task
+
+For an update of an existing task, write that task's file and its index entry instead (both read fresh, `updated` set to today), append a `status_change` line when its status changed, and skip Step 5, because the task already has its place.
 
 ### Step 5: Place the task in the tree
 
