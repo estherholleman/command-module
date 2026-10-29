@@ -10,9 +10,11 @@ Prints one JSON object:
   suggested_minutes  max(clock_minutes, transcript_minutes)
   start / end        HH:MM of the suggested window, date = clock date
 
-The honest clock only advances on main-thread tools and turns and treats any gap over
-30 minutes as idle, so long subagent or background runs are dropped. Subagent transcripts
-(<session>/subagents/*.jsonl next to the main transcript) carry timestamps for that work.
+The honest clock only advances on main-thread tools and turns, so long subagent or
+background runs leave it quiet. Subagent transcripts (<session>/subagents/*.jsonl next to
+the main transcript) carry timestamps for that work. Gaps between moments count by the
+clock hooks' gap rule (~/.claude/hooks/_clock_shared.py: up to the wrap window in full,
+longer ones minus the stretches the display was off); without the hooks, by the window alone.
 """
 
 import json
@@ -20,7 +22,15 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-IDLE_GAP_SECONDS = 30 * 60
+IDLE_GAP_SECONDS = 60 * 60
+
+try:
+    sys.path.insert(0, str(Path.home() / ".claude" / "hooks"))
+    from _clock_shared import gap_credit
+except Exception:
+    def gap_credit(a, b):
+        gap = (b - a).total_seconds()
+        return gap if 0 < gap <= IDLE_GAP_SECONDS else 0.0
 
 
 def parse(ts):
@@ -56,17 +66,11 @@ def transcript_times(path, since, now):
 
 
 def engaged(times):
-    """Sum of cluster spans, splitting on gaps longer than IDLE_GAP_SECONDS."""
+    """Sum of the gaps between consecutive moments, each counted by gap_credit."""
     if len(times) < 2:
         return 0, None, None
     times = sorted(times)
-    total, cluster_start, prev = 0.0, times[0], times[0]
-    for t in times[1:]:
-        if (t - prev).total_seconds() > IDLE_GAP_SECONDS:
-            total += (prev - cluster_start).total_seconds()
-            cluster_start = t
-        prev = t
-    total += (prev - cluster_start).total_seconds()
+    total = sum(gap_credit(a, b) for a, b in zip(times, times[1:]))
     return int(total / 60), times[0], times[-1]
 
 

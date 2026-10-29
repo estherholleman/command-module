@@ -46,7 +46,7 @@ python3 scripts/suggest-minutes.py "/Users/esther/prog/missioncontrol/tracking/.
 
 If the clock file does not exist, skip to Step 2 and mention the skipped clock-out in the report. If the clock never started (`clock_minutes` and `transcript_minutes` are both 0), skip the time entry the same way.
 
-The script prints `suggested_minutes`, which is the larger of the honest clock (main-thread activity, idle gaps over 30 minutes excluded) and the engaged time in the main transcript plus its subagent transcripts. It also prints `span_minutes`, the whole window from `start` to now including pauses.
+The script prints `suggested_minutes`, which is the larger of the honest clock (main-thread activity, with pauses counted by the clock's gap rule: up to 60 minutes in full, longer ones minus the stretches the display was off) and the engaged time in the main transcript plus its subagent transcripts. It also prints `span_minutes`, the whole window from `start` to now including pauses.
 
 Ask one question with the platform's blocking question tool (`AskUserQuestion` in Claude Code, `request_user_input` in Codex, `ask_user` in Gemini):
 
