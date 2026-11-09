@@ -60,26 +60,30 @@ The resolver is the same one the SessionStart hook uses: code repos such as `/Us
 
 The resolver output already holds the cluster (`unassigned` when the repo is not in `projects.yaml`).
 
-### Step 4: Write per-session clock
+### Step 4: Create the compatible per-session clock
 
-Get the current local time. Write `/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_id}.json`:
+Use the maintained helper rather than hand-writing a partial clock:
 
-```json
-{
-  "session_id": "${clock_session_id}",
-  "repo": "{repo_name}",
-  "cluster": "{cluster_name}",
-  "project": "{project from the resolver, or empty}",
-  "group": "{group from the resolver, or empty}",
-  "attribution": "{source from the resolver}",
-  "start": "{ISO 8601 local datetime}",
-  "date": "{YYYY-MM-DD}",
-  "cwd": "{current working directory}",
-  "source_at_start": "manual-ci"
-}
+```bash
+python3 /Users/esther/prog/command-module/plugins/command-module/scripts/clock-in.py --session-id "$clock_session_id" --cwd "$PWD"
 ```
 
-Create the parent directory `.active-clocks/` if it does not exist.
+Pass `--repo <name>` when the user chose a repo, and the applicable `--project <ref>`
+or `--tasks <ids>` for known project attribution. The helper uses the shared resolver.
+It atomically creates only this session's clock and never overwrites an existing or
+concurrently created clock. A malformed existing clock is a blocker, not permission
+to replace it. Report the helper's `created` result accurately.
+
+The helper writes local-naive ISO timestamps (no UTC offset), matching the installed
+hooks. It initializes `opened_at`, `start`, `work_start` and `last_activity` to the
+actual clock-in time; accrued seconds and counters start at zero; wrap fields are
+neutral. `source_at_start` is `manual-ci`. Do not omit `opened_at`: older cleanup and
+SessionEnd hooks mistake that omission for a legacy clock. Do not invent historical
+activity or backdate without the user's instruction.
+
+If the helper is unavailable, stop and report its path rather than reverting to
+the old partial JSON template. Existing clocks keep their original start and data.
+For legacy clocks, obtain explicit repair scope before altering them.
 
 ### Step 5: Confirm
 
@@ -155,7 +159,7 @@ Append a session entry to `/Users/esther/prog/missioncontrol/tracking/{repo}/his
 
 - **No state file for manual entries.** They write directly to the CSV and history — no per-session clock file involved.
 - **Always resolve the repo, cluster, project and group with `attribution.py resolve`.** Don't hardcode mappings.
-- **Use current local time** for clock-in timestamp (not UTC).
+- **Use current local time** in the helper's local-naive ISO format, not UTC or an offset-bearing string. Convert aware timestamps to local time before removing the offset; never drop an offset without conversion.
 - **Check before creating.** Bare `/ci` reports an existing clock; it creates one only when this session has no clock file.
 - **New rows have 13 columns** (10th = `source`, 11th = `session_id`, 12th = `project`, 13th = `group`). Manual entries leave `session_id` empty. Older 11-column rows stay as they are.
 - **Require an ID for Normal mode.** Missing or invalid IDs stop clock handling with the specific guidance above. Manual entries remain available without an ID.

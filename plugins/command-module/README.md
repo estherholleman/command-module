@@ -269,3 +269,19 @@ See the repo root [CHANGELOG.md](../../CHANGELOG.md) for canonical release histo
 ## License
 
 MIT
+
+### Safe conversation clock checks
+
+The scheduled 20:00 job now reports unresolved clocks without closing or deleting
+them. Late-running, unknown, armed and malformed sessions are preserved. Read
+`missioncontrol/reports/clock-check/latest.md` (JSON beside it) for the latest
+review; it is a report, not a notification or proof that a session finished.
+Continue using `/co` or wrap-up when work actually ends.
+
+`scripts/install-auto-close-launchagent.sh` retains its compatibility name but
+disables the old closure label, installs `com.esther.clock-check`, and backs up
+replaced scripts/plists. Legacy auto-close entry points become report-only too.
+The installer never edits crontab, clocks, time records or other launch jobs.
+A stale/missing last-activity timestamp does not authorize a guessed time entry.
+The original `/ci` partial JSON format is retired: `scripts/clock-in.py` initializes
+the lifecycle fields atomically with consistent local-naive timestamps.

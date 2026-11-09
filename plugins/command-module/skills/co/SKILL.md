@@ -46,6 +46,12 @@ cat "/Users/esther/prog/missioncontrol/tracking/.active-clocks/${clock_session_i
   
   Then stop.
 - **If it exists**: extract `repo`, `cluster`, `project`, `group`, `start`, `date`, `session_id`. Calculate elapsed minutes (current time minus start).
+  Normalize every timestamp to local-naive time before arithmetic: parse ISO
+  (`Z` becomes `+00:00`), convert any aware value with `astimezone()`, then remove
+  `tzinfo`; leave already-naive local values unchanged. Compare with
+  `datetime.now()`. Do not mix offset-aware and naive datetimes, or remove an
+  offset without converting. Parsing failure is a blocker; preserve the clock.
+
 - **Attribution.** If the clock has no `attribution` field (it was armed before 26 Oct 2026), or wrap-up passed `--project <ref>`, resolve it again and use the result's `repo`, `cluster`, `project` and `group`:
 
   ```bash

@@ -1,246 +1,259 @@
+"""Regression tests for report-only checks and compatible manual clocks.
+Run: python3 -m unittest discover -s plugins/command-module/tests/hooks -p test_auto_close_clock.py
 """
-Tests for the Phase 3 auto-close-clock.py (multi-file orphan sweep).
-
-Run from the repo root:
-    python3 -m pytest plugins/command-module/tests/hooks/test_auto_close_clock.py
-"""
-
 import csv
+import hashlib
 import importlib.util
 import json
 import os
+import plistlib
+import subprocess
 import sys
-from datetime import datetime, timedelta
+import tempfile
+import threading
+import time
+import unittest
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
+from unittest.mock import patch
 
-import pytest
+PLUGIN = Path(__file__).resolve().parents[2]
+CHECK = PLUGIN / "staging/hooks/clock-check.py"
+SHIM = PLUGIN / "staging/hooks/auto-close-clock.py"
+CI = PLUGIN / "scripts/clock-in.py"
+INSTALL = PLUGIN / "scripts/install-auto-close-launchagent.sh"
 
+def load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
-HOOK_PATH = (
-    Path(__file__).resolve().parents[2]
-    / "staging" / "hooks" / "auto-close-clock.py"
-)
-SHARED_PATH = HOOK_PATH.parent / "_clock_shared.py"
-
-
-@pytest.fixture
-def fakefs(tmp_path, monkeypatch):
-    fs_root = tmp_path / "fakefs"
-    mc = fs_root / "missioncontrol"
-    (mc / "tracking").mkdir(parents=True)
-    (mc / "reports").mkdir(parents=True)
-    (mc / "projects.yaml").write_text(
-        "clusters:\n  meta:\n    projects:\n      - repo: missioncontrol\n"
-    )
-
-    # Load _clock_shared with rewritten MISSION_CONTROL constant
-    shared_text = SHARED_PATH.read_text().replace(
-        'MISSION_CONTROL = Path("/Users/esther/prog/missioncontrol")',
-        f'MISSION_CONTROL = Path("{mc}")',
-    )
-    shared_module_path = tmp_path / "_clock_shared.py"
-    shared_module_path.write_text(shared_text)
-    spec = importlib.util.spec_from_file_location("_clock_shared", shared_module_path)
-    shared_mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(shared_mod)
-    sys.modules["_clock_shared"] = shared_mod
-
-    # Load the hook with its own _clock_shared dependency resolved to the patched module
-    hook_spec = importlib.util.spec_from_file_location("auto_close_clock", HOOK_PATH)
-    hook_mod = importlib.util.module_from_spec(hook_spec)
-    # Make sure the hook's `import _clock_shared` resolves to our patched copy
-    monkeypatch.syspath_prepend(str(tmp_path))
-    hook_spec.loader.exec_module(hook_mod)
-
-    return {
-        "shared": shared_mod,
-        "hook": hook_mod,
-        "tracking": mc / "tracking",
-        "clocks_dir": mc / "tracking" / ".active-clocks",
-        "timesheet": mc / "reports" / "timesheet.csv",
-    }
+checker = load("clock_check_tested", CHECK)
+ci = load("clock_in_tested", CI)
 
 
-def _write_clock(fakefs, session_id, *, start_dt, repo="missioncontrol",
-                 cluster="meta"):
-    fakefs["clocks_dir"].mkdir(parents=True, exist_ok=True)
-    path = fakefs["clocks_dir"] / f"{session_id}.json"
-    path.write_text(json.dumps({
-        "session_id": session_id,
-        "repo": repo,
-        "cluster": cluster,
-        "start": start_dt.strftime("%Y-%m-%dT%H:%M:%S"),
-        "date": start_dt.strftime("%Y-%m-%d"),
-        "cwd": "/whatever",
-        "source_at_start": "startup",
-    }))
-    return path
+class ClockTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        self.clocks = self.root / "tracking/.active-clocks"
+        self.clocks.mkdir(parents=True)
+        (self.root / "reports").mkdir()
+        (self.root / "reports/timesheet.csv").write_text("date,start,end\n2026-11-08,19:10,21:02\n")
+        (self.root / "tracking/history.jsonl").write_text('{"existing":true}\n')
+
+    def put(self, name, data):
+        p = self.clocks / (name + ".json")
+        p.write_text(json.dumps(data))
+        return p
+
+    def snapshot(self):
+        return {str(p.relative_to(self.root)): p.read_bytes()
+                for p in self.root.rglob("*") if p.is_file()}
+
+    def base(self):
+        return {"session_id": "session-a", "repo": "resources",
+                "opened_at": "2026-11-09T19:00:00", "start": "2026-11-09T19:00:00",
+                "last_activity": "2026-11-09T21:00:00"}
+
+    def test_preserves_every_clock_and_time_record_repeatedly(self):
+        self.put("active-after-20", self.base())
+        self.put("legacy", {"start": "2026-11-08T19:10:43+01:00"})
+        self.put("armed", {"opened_at": "2026-11-09T19:00:00", "start": None})
+        self.put("wrapped", {"opened_at": "2026-11-08T19:00:00", "start": None, "wrapped_at": "2026-11-09T19:00:00"})
+        self.put("stale", {**self.base(), "start": "2026-11-08T19:00:00", "last_activity": "2026-11-08T21:00:00"})
+        (self.clocks / "malformed.json").write_text("{bad json")
+        before = self.snapshot()
+        for _ in range(2):
+            report = checker.build_report(self.root, datetime(2026, 11, 9, 21, 5))
+            self.assertEqual(len(report["clocks"]), 6)
+            self.assertGreaterEqual(report["review_count"], 3)
+            self.assertEqual(before, self.snapshot())
+
+    def test_invalid_order_future_and_accrual_require_review(self):
+        now = datetime(2026, 11, 9, 21, 5)
+        cases = [
+            {**self.base(), "last_activity": "2026-11-09T18:59:00"},
+            {"opened_at": "2026-11-10T19:00:00", "start": None},
+            {"opened_at": "2026-11-09T19:00:00", "start": None, "accrued_seconds": 600},
+            {**self.base(), "accrued_seconds": -1},
+        ]
+        for index, clock in enumerate(cases):
+            self.put("invalid-" + str(index), clock)
+        report = checker.build_report(self.root, now)
+        self.assertEqual(report["review_count"], len(cases))
+
+    def test_report_creation_only_adds_report_files(self):
+        self.put("running", self.base())
+        before = self.snapshot()
+        self.assertEqual(checker.main(["--mission-control", str(self.root)]), 0)
+        after = self.snapshot()
+        for path, data in before.items():
+            self.assertEqual(data, after[path])
+        self.assertEqual(set(after)-set(before),
+                         {"reports/clock-check/latest.json", "reports/clock-check/latest.md"})
+
+    def test_legacy_entrypoint_is_report_only(self):
+        self.put("legacy", {"start": "2026-11-08T19:10:00"})
+        before = self.snapshot()
+        result = subprocess.run([sys.executable, str(SHIM), "--mission-control", str(self.root), "--stdout-only"],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout)["clock_count"], 1)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_missing_directory_and_invalid_siblings(self):
+        missing = checker.build_report(self.root / "absent")
+        self.assertEqual(missing["clocks"], [])
+        self.put("not-object", [])
+        self.put("invalid-time", {"start": "not-a-date"})
+        report = checker.build_report(self.root)
+        self.assertEqual(report["review_count"], 2)
+
+    def test_unreadable_directory_reports_failure_not_clean_empty(self):
+        with patch.object(Path, "iterdir", side_effect=PermissionError("denied clock directory")):
+            report = checker.build_report(self.root)
+        self.assertTrue(report["errors"])
+        self.assertIn("denied clock directory", report["errors"][0])
+
+    def test_read_failure_and_disappearing_file_are_preserved_as_review(self):
+        p = self.clocks / "gone.json"
+        row = checker.inspect_clock(p, datetime.now())
+        self.assertTrue(row["needs_review"])
+        self.assertFalse(p.exists())
+        p.write_text("{}")
+        with patch.object(Path, "read_text", side_effect=PermissionError("unreadable")):
+            row = checker.inspect_clock(p, datetime.now())
+        self.assertIn("unreadable", row["reasons"][0])
+        self.assertTrue(p.exists())
+
+    def test_symlink_clock_not_followed(self):
+        target = self.root / "private"
+        target.write_text("private")
+        (self.clocks / "linked.json").symlink_to(target)
+        report = checker.build_report(self.root)
+        self.assertTrue(report["clocks"][0]["needs_review"])
+        self.assertEqual(target.read_text(), "private")
+
+    def test_new_manual_clock_full_schema(self):
+        now = datetime(2026, 11, 9, 6, 51, 32)
+        data = ci.new_clock("my-session", "/some/repo", {"repo":"resources","source":"tasks-touched"}, now)
+        for key in ["start","opened_at","work_start","last_activity"]:
+            self.assertEqual(data[key], "2026-11-09T06:51:32")
+        for key in ["accrued_seconds","tool_count","turn_count"]:
+            self.assertEqual(data[key], 0)
+        self.assertIsNone(data["wrapped_at"])
+        self.assertIsNone(data["wrap_armed_at"])
+        self.assertEqual(data["source_at_start"], "manual-ci")
+
+    def test_existing_and_concurrent_clocks_are_not_overwritten(self):
+        data = ci.new_clock("my-session", "/some/repo", {"repo":"resources"})
+        results=[]
+        threads=[threading.Thread(target=lambda: results.append(ci.create_clock(self.clocks,data))) for _ in range(8)]
+        for t in threads: t.start()
+        for t in threads: t.join()
+        self.assertEqual(sum(created for created, _ in results),1)
+        before=(self.clocks/"my-session.json").read_bytes()
+        created, saved = ci.create_clock(self.clocks,{**data,"start":"changed"})
+        self.assertFalse(created)
+        self.assertEqual(saved,data)
+        self.assertEqual((self.clocks/"my-session.json").read_bytes(),before)
+        self.assertEqual(list(self.clocks.glob("*.tmp")),[])
+
+    def test_malformed_existing_clock_is_not_repaired(self):
+        p=self.clocks/"my-session.json"
+        p.write_text("bad")
+        with self.assertRaises(ValueError):
+            ci.create_clock(self.clocks,ci.new_clock("my-session","/",{}))
+        self.assertEqual(p.read_text(),"bad")
+
+    def test_invalid_session_ids_refused(self):
+        for sid in ["", "../other", "/absolute", "spaces not allowed", ".hidden"]:
+            with self.assertRaises(ValueError):
+                ci.new_clock(sid,"/",{})
+
+    @unittest.skipUnless(hasattr(time,"tzset"), "Requires Unix timezone test control")
+    def test_offsets_z_midnight_and_dst_convert_to_local(self):
+        old=os.environ.get("TZ")
+        os.environ["TZ"]="Europe/Amsterdam"
+        time.tzset()
+        try:
+            self.assertEqual(checker.local_time("2026-11-09T06:00:00+01:00"),datetime(2026,11,9,6))
+            self.assertEqual(checker.local_time("2026-11-09T05:00:00Z"),datetime(2026,11,9,6))
+            self.assertEqual(checker.local_time("2026-07-09T05:00:00+02:00"),datetime(2026,7,9,5))
+            self.assertEqual(checker.local_time("2026-11-08T23:30:00Z"),datetime(2026,11,9,0,30))
+            d=ci.new_clock("dst","/",{},datetime(2026,10,25,1,30,tzinfo=timezone.utc))
+            self.assertEqual(d["start"],"2026-10-25T02:30:00")
+        finally:
+            if old is None: os.environ.pop("TZ",None)
+            else: os.environ["TZ"]=old
+            time.tzset()
 
 
-def _read_csv_rows(fakefs):
-    if not fakefs["timesheet"].exists():
-        return []
-    with open(fakefs["timesheet"]) as f:
-        return list(csv.DictReader(f))
+class InstallerTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root=Path(self.tmp.name)
+        self.home=self.root/"home"
+        self.bin=self.root/"bin"
+        self.bin.mkdir()
+        self.home.mkdir()
+        self.log=self.root/"launch.log"
+        mock=self.bin/"launchctl"
+        mock.write_text("""#!/bin/sh
+printf '%s\\n' "$*" >> "$LAUNCH_LOG"
+if [ "$1" = print ]; then exit 1; fi
+exit 0
+""")
+        mock.chmod(0o755)
+        self.env={**os.environ,"HOME":str(self.home),"PATH":str(self.bin)+":"+os.environ["PATH"],"LAUNCH_LOG":str(self.log)}
+    def run_install(self,*extra):
+        return subprocess.run(["/bin/bash",str(INSTALL),*extra],env=self.env,capture_output=True,text=True)
+    def test_installer_retires_closure_and_is_repeatably_report_only(self):
+        for _ in range(2):
+            r=self.run_install("--no-cron-prompt")
+            self.assertEqual(r.returncode,0,r.stderr)
+        args=self.log.read_text()
+        self.assertIn("disable gui/",args)
+        self.assertIn("/com.esther.auto-close-clock",args)
+        self.assertNotIn("enable gui/"+str(os.getuid())+"/com.esther.auto-close-clock",args)
+        self.assertNotIn("kickstart",args)
+        plistdir=self.home/"Library/LaunchAgents"
+        for label in ["com.esther.clock-check","com.esther.auto-close-clock"]:
+            p=plistlib.loads((plistdir/(label+".plist")).read_bytes())
+            self.assertTrue(p["ProgramArguments"][1].endswith("/clock-check.py"))
+        for host in [".claude",".codex"]:
+            shim=(self.home/host/"hooks/auto-close-clock.py").read_text()
+            self.assertIn("runpy",shim)
+            self.assertNotIn("unlink",shim)
+    def test_disabled_report_job_is_enabled_before_bootstrap(self):
+        r = self.run_install()
+        self.assertEqual(r.returncode, 0, r.stderr)
+        calls = self.log.read_text().splitlines()
+        enable = next(i for i, v in enumerate(calls) if v.startswith("enable ") and v.endswith("/com.esther.clock-check"))
+        bootstrap = next(i for i, v in enumerate(calls) if v.startswith("bootstrap "))
+        self.assertLess(enable, bootstrap)
+
+    def test_old_override_refused_before_any_state_change(self):
+        source=self.root/"old"
+        source.mkdir()
+        (source/"auto-close-clock.py").write_text("delete everything")
+        r=self.run_install("--hook-source",str(source))
+        self.assertNotEqual(r.returncode,0)
+        self.assertFalse(self.log.exists())
+        self.assertEqual(list(self.home.iterdir()),[])
+    def test_safe_override_never_copies_its_destructive_compatibility_script(self):
+        source=self.root/"override"
+        source.mkdir()
+        (source/"clock-check.py").write_bytes(CHECK.read_bytes())
+        (source/"auto-close-clock.py").write_text("delete everything")
+        r=self.run_install("--hook-source",str(source))
+        self.assertEqual(r.returncode,0,r.stderr)
+        self.assertNotIn("delete everything",(self.home/".claude/hooks/auto-close-clock.py").read_text())
 
 
-def test_empty_directory_is_noop(fakefs, capsys):
-    fakefs["hook"].main()
-    out = capsys.readouterr().out
-    assert "no active clocks" in out
-    assert not fakefs["timesheet"].exists()
-
-
-def test_missing_directory_is_noop(fakefs, capsys):
-    # .active-clocks/ never created
-    fakefs["hook"].main()
-    out = capsys.readouterr().out
-    assert "no active clocks" in out
-
-
-def test_today_clock_before_2000_caps_at_2000(fakefs):
-    today_morning = datetime.now().replace(hour=9, minute=15, second=0, microsecond=0)
-    path = _write_clock(fakefs, "sess-today", start_dt=today_morning)
-
-    fakefs["hook"].main()
-
-    assert not path.exists()
-    rows = _read_csv_rows(fakefs)
-    assert len(rows) == 1
-    r = rows[0]
-    assert r["source"] == "auto-close-20h"
-    assert r["session_id"] == "sess-today"
-    assert r["start"] == "09:15"
-    # End is either 20:00 (sweep ran before 20:00) or "now" (sweep ran after).
-    # Both branches produce a non-empty end string.
-    assert r["end"]
-
-
-def test_stale_clock_yesterday_pre_2000_ends_at_2000(fakefs):
-    yesterday = datetime.now() - timedelta(days=1)
-    yesterday_15 = yesterday.replace(hour=15, minute=30, second=0, microsecond=0)
-    _write_clock(fakefs, "sess-stale", start_dt=yesterday_15)
-
-    fakefs["hook"].main()
-
-    rows = _read_csv_rows(fakefs)
-    assert len(rows) == 1
-    r = rows[0]
-    assert r["source"] == "auto-close-stale"
-    assert r["session_id"] == "sess-stale"
-    assert r["start"] == "15:30"
-    assert r["end"] == "20:00"
-    expected_minutes = (20 - 15) * 60 + (0 - 30)  # 4h30m = 270min
-    assert int(r["minutes"]) == expected_minutes
-
-
-def test_stale_clock_yesterday_post_2000_uses_30min_fallback(fakefs):
-    yesterday = datetime.now() - timedelta(days=1)
-    yesterday_2230 = yesterday.replace(hour=22, minute=30, second=0, microsecond=0)
-    _write_clock(fakefs, "sess-late", start_dt=yesterday_2230)
-
-    fakefs["hook"].main()
-
-    rows = _read_csv_rows(fakefs)
-    assert len(rows) == 1
-    r = rows[0]
-    assert r["source"] == "auto-close-stale"
-    assert r["start"] == "22:30"
-    assert r["end"] == "23:00"
-    assert int(r["minutes"]) == 30
-
-
-def test_multiple_clocks_handled_independently(fakefs):
-    today_morning = datetime.now().replace(hour=10, minute=0, second=0, microsecond=0)
-    yesterday = datetime.now() - timedelta(days=1)
-    yesterday_14 = yesterday.replace(hour=14, minute=0, second=0, microsecond=0)
-
-    _write_clock(fakefs, "sess-A", start_dt=today_morning, repo="missioncontrol")
-    _write_clock(fakefs, "sess-B", start_dt=yesterday_14, repo="missioncontrol")
-
-    fakefs["hook"].main()
-
-    rows = _read_csv_rows(fakefs)
-    assert len(rows) == 2
-    sids = {r["session_id"] for r in rows}
-    assert sids == {"sess-A", "sess-B"}
-    sources = {r["session_id"]: r["source"] for r in rows}
-    assert sources["sess-A"] == "auto-close-20h"
-    assert sources["sess-B"] == "auto-close-stale"
-    assert not list(fakefs["clocks_dir"].glob("*.json"))
-
-
-def test_failure_on_one_clock_does_not_block_others(fakefs):
-    today_morning = datetime.now().replace(hour=10, minute=0, second=0, microsecond=0)
-    good = _write_clock(fakefs, "sess-good", start_dt=today_morning)
-    bad = fakefs["clocks_dir"] / "sess-bad.json"
-    bad.write_text("not valid json")
-
-    fakefs["hook"].main()
-
-    # Good clock finalized
-    rows = _read_csv_rows(fakefs)
-    assert any(r["session_id"] == "sess-good" for r in rows)
-    # Bad clock left in place for next run
-    assert bad.exists()
-    assert not good.exists()
-
-
-def test_csv_row_has_11_columns_with_session_id(fakefs):
-    today_morning = datetime.now().replace(hour=10, minute=0, second=0, microsecond=0)
-    _write_clock(fakefs, "sess-Z", start_dt=today_morning)
-
-    fakefs["hook"].main()
-
-    with open(fakefs["timesheet"]) as f:
-        reader = csv.reader(f)
-        header = next(reader)
-        row = next(reader)
-    assert header[-1] == "session_id"
-    assert len(header) == 11
-    assert len(row) == 11
-    assert row[-1] == "sess-Z"
-
-
-def test_history_entry_written(fakefs):
-    today_morning = datetime.now().replace(hour=10, minute=0, second=0, microsecond=0)
-    _write_clock(fakefs, "sess-H", start_dt=today_morning, repo="missioncontrol")
-
-    fakefs["hook"].main()
-
-    history = fakefs["tracking"] / "missioncontrol" / "history.jsonl"
-    assert history.exists()
-    entries = [json.loads(line) for line in history.read_text().splitlines() if line.strip()]
-    assert len(entries) == 1
-    assert entries[0]["session_type"] == "execution"
-
-
-def test_clock_file_only_deleted_on_successful_writes(fakefs, monkeypatch):
-    """If write_csv_row raises, clock file must remain so the next run can retry."""
-    today_morning = datetime.now().replace(hour=10, minute=0, second=0, microsecond=0)
-    path = _write_clock(fakefs, "sess-fail", start_dt=today_morning)
-
-    def boom(*args, **kwargs):
-        raise IOError("disk full")
-
-    # The hook's _clock_shared was loaded from sys.modules during fixture setup
-    monkeypatch.setattr(fakefs["shared"], "write_csv_row", boom)
-
-    # All-failures path exits with status 1 — caught here.
-    with pytest.raises(SystemExit) as exc_info:
-        fakefs["hook"].main()
-    assert exc_info.value.code == 1
-
-    assert path.exists()  # not deleted on failure
-
-
-def test_sweep_function_returns_lists(fakefs):
-    today_morning = datetime.now().replace(hour=10, minute=0, second=0, microsecond=0)
-    _write_clock(fakefs, "sess-1", start_dt=today_morning)
-    _write_clock(fakefs, "sess-2", start_dt=today_morning)
-
-    closed, failed = fakefs["hook"].sweep()
-
-    assert len(closed) == 2
-    assert len(failed) == 0
-    assert {c["session_id"] for c in closed} == {"sess-1", "sess-2"}
+if __name__ == "__main__":
+    unittest.main()
