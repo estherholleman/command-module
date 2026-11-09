@@ -229,6 +229,7 @@ exit 0
             shim=(self.home/host/"hooks/auto-close-clock.py").read_text()
             self.assertIn("runpy",shim)
             self.assertNotIn("unlink",shim)
+            self.assertEqual((self.home/host/"hooks/clock-in.py").read_bytes(), CI.read_bytes())
     def test_disabled_report_job_is_enabled_before_bootstrap(self):
         r = self.run_install()
         self.assertEqual(r.returncode, 0, r.stderr)

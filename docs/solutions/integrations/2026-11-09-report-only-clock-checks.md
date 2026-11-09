@@ -24,7 +24,8 @@ whether their work had ended, so format repair alone did not support late work.
 - The compatibility installer backs up replaced files, rejects older destructive
   hook-source directories, generates a safe shim, and enables the report service
   before bootstrap so reinstalling a previously disabled job works.
-- /ci uses scripts/clock-in.py: atomic exclusive publication, complete lifecycle
+- /ci uses a stable installed copy of scripts/clock-in.py, independent of the
+  active source checkout branch: atomic exclusive publication, complete lifecycle
   fields, local-naive timestamps, and no overwrite of existing clocks.
 - /co normalizes aware timestamps into local time before arithmetic.
 - Installed Claude and Codex skill copies were explicitly synchronized. The newer

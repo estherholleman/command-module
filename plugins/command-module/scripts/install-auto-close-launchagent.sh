@@ -16,12 +16,15 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 SOURCE="$HOOK_SOURCE/clock-check.py"
+CLOCK_IN_SOURCE="$SCRIPT_DIR/clock-in.py"
 # Fail before touching any installed state if given the old destructive source.
 test -f "$SOURCE" || { echo "Missing report-only clock-check.py" >&2; exit 1; }
 grep -q '^CLOCK_CHECK_REPORT_ONLY = True$' "$SOURCE" || {
   echo "Refusing a source that is not explicitly report-only" >&2; exit 1;
 }
 /usr/bin/python3 -c 'import ast,sys; ast.parse(open(sys.argv[1]).read())' "$SOURCE"
+test -f "$CLOCK_IN_SOURCE" || { echo "Missing clock-in.py helper" >&2; exit 1; }
+/usr/bin/python3 -c 'import ast,sys; ast.parse(open(sys.argv[1]).read())' "$CLOCK_IN_SOURCE"
 DOMAIN="gui/$(id -u)"
 OLD="com.esther.auto-close-clock"
 NEW="com.esther.clock-check"
@@ -36,10 +39,11 @@ fi
 for host in .claude .codex; do
   DEST="$HOME/$host/hooks"
   mkdir -p "$DEST" "$BACKUP/$host"
-  for name in auto-close-clock.py clock-check.py; do
+  for name in auto-close-clock.py clock-check.py clock-in.py; do
     if [[ -f "$DEST/$name" ]]; then cp -p "$DEST/$name" "$BACKUP/$host/$name"; fi
   done
   cp "$SOURCE" "$DEST/clock-check.py"
+  cp "$CLOCK_IN_SOURCE" "$DEST/clock-in.py"
   # Do not copy an override's auto-close script: generate the safe shim ourselves.
   cat >"$DEST/auto-close-clock.py" <<'PY'
 #!/usr/bin/env python3

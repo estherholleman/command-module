@@ -62,10 +62,11 @@ The resolver output already holds the cluster (`unassigned` when the repo is not
 
 ### Step 4: Create the compatible per-session clock
 
-Use the maintained helper rather than hand-writing a partial clock:
+Use the installed maintained helper rather than hand-writing a partial clock.
+Its stable installed path does not depend on the checkout branch:
 
 ```bash
-python3 /Users/esther/prog/command-module/plugins/command-module/scripts/clock-in.py --session-id "$clock_session_id" --cwd "$PWD"
+python3 /Users/esther/.claude/hooks/clock-in.py --session-id "$clock_session_id" --cwd "$PWD"
 ```
 
 Pass `--repo <name>` when the user chose a repo, and the applicable `--project <ref>`
